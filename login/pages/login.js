@@ -4,10 +4,10 @@ import axios from "axios";
 import Image from "next/image";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import Logo from "../src/assets/img/favicon.png";
-import "../src/assets/css/bootstrap.rtl.min.css";
-import "../src/assets/css/font-awesome.min.css";
-import "../src/assets/css/style.css";
+import Logo from "src/assets/img/favicon.png";
+import "src/assets/css/bootstrap.rtl.min.css";
+import "src/assets/css/font-awesome.min.css";
+import "src/assets/css/style.css";
 
 const MySwal = withReactContent(Swal);
 

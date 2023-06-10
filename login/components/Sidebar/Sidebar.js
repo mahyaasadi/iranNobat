@@ -1,9 +1,9 @@
 "use client"; //This is a client component
-import "../../src/assets/css/bootstrap.rtl.min.css";
-import "../../src/assets/css/font-awesome.min.css";
-import "../../src/assets/css/feathericon.min.css";
-import "../../src/assets/plugins/morris/morris.css";
-import "../../src/assets/css/style.css";
+import "src/assets/css/bootstrap.rtl.min.css";
+import "src/assets/css/font-awesome.min.css";
+import "src/assets/css/feathericon.min.css";
+import "src/assets/plugins/morris/morris.css";
+import "src/assets/css/style.css";
 
 const Sidebar = () => {
   return (

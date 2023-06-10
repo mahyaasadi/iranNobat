@@ -1,10 +1,20 @@
 "use client"; // This is a client component
-import DashboardLayout from "../components/DashboardLayout/DashboardLayout";
+import DashboardContent from "components/Content/DashboardContent";
+import Header from "components/Header/Header"
+import Sidebar from "components/Sidebar/Sidebar"
 
 export default function Dashboard() {
   return (
     <div>
-      <DashboardLayout />
+      <DashboardContent />
     </div>
   );
+}
+
+Dashboard.getLayout = function getLayout(content) {
+  return (
+    <div>
+      <Header />{content}<Sidebar />
+    </div>
+  )
 }

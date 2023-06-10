@@ -2,19 +2,18 @@
 import Image from "next/image";
 import axios from "axios";
 import { useEffect } from "react";
-import logo from "../../src/assets/img/logo.png";
-import logoSmall from "../../src/assets/img/logo-small.png";
-import doctorThumb from "../../src/assets/img/doctors/doctor-thumb-01.jpg";
-import patient1 from "../../src/assets/img/patients/patient1.jpg";
-import patient2 from "../../src/assets/img/patients/patient2.jpg";
-import patient3 from "../../src/assets/img/patients/patient3.jpg";
-import avatar from "../../src/assets/img/profiles/avatar-01.jpg";
-import "../../src/assets/css/bootstrap.rtl.min.css";
-import "../../src/assets/css/font-awesome.min.css";
-import "../../src/assets/css/feathericon.min.css";
-import "../../src/assets/plugins/morris/morris.css";
-import "../../src/assets/css/style.css";
-import { json } from "react-router-dom";
+import logo from "src/assets/img/logo.png";
+import logoSmall from "src/assets/img/logo-small.png";
+import doctorThumb from "src/assets/img/doctors/doctor-thumb-01.jpg";
+import patient1 from "src/assets/img/patients/patient1.jpg";
+import patient2 from "src/assets/img/patients/patient2.jpg";
+import patient3 from "src/assets/img/patients/patient3.jpg";
+import avatar from "src/assets/img/profiles/avatar.png";
+import "src/assets/css/bootstrap.rtl.min.css";
+import "src/assets/css/font-awesome.min.css";
+import "src/assets/css/feathericon.min.css";
+import "src/assets/plugins/morris/morris.css";
+import "src/assets/css/style.css";
 
 const Header = () => {
   useEffect(() => {
@@ -212,8 +211,8 @@ const Header = () => {
               <Image
                 className="rounded-circle"
                 src={avatar}
-                width="51"
-                height="50"
+                width="30"
+                height="30"
                 alt="Ryan Taylor"
               />
             </span>
@@ -225,8 +224,8 @@ const Header = () => {
                   src={avatar}
                   alt="User Image"
                   className="avatar-img rounded-circle"
-                  width="50"
-                  height="50"
+                  width="30"
+                  height="30"
                 />
               </div>
               <div className="user-text">

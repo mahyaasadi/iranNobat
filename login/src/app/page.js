@@ -1,5 +1,5 @@
 "use client"; // This is a client component
-import Login from "../../pages/login";
+import Login from "pages/login";
 
 export default function Home() {
   return (
