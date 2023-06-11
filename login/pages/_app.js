@@ -1,17 +1,11 @@
-// export default function MyApp({ Component, pageProps }) {
-//     // Use the layout defined at the page level, if available
-//     const getLayout = Component.getLayout || ((page) => page)
-
-//     return getLayout(<Component {...pageProps} />)
-//   }
-import Dashboard from "pages/dashboard";
+import DashboardLayout from "pages/dashboardLayout";
 
 export default function MyApp({ Component, pageProps }) {
   return (
     <>
-      <Dashboard>
+      <DashboardLayout>
         <Component {...pageProps} />
-      </Dashboard>
+      </DashboardLayout>
     </>
   );
 }

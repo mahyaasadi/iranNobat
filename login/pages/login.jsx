@@ -1,8 +1,10 @@
 "use client"; // This is a client component
+import { useState } from 'react'
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import Image from "next/image";
 import Swal from "sweetalert2";
+import Loading from "components/Loading/Loading"
 import withReactContent from "sweetalert2-react-content";
 import Logo from "src/assets/img/favicon.png";
 import "src/assets/css/bootstrap.rtl.min.css";
@@ -14,8 +16,11 @@ const MySwal = withReactContent(Swal);
 export default function Login() {
   const router = useRouter();
 
+  const [isLoading, setIsLoading] = useState(true)
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(isLoading)
 
     await axios
       .post("https://irannobat.ir:8444/api/AdminUser/Login", {
@@ -24,13 +29,15 @@ export default function Login() {
       })
       .then(function (response) {
         console.log(response.data);
+        setIsLoading(true)
         sessionStorage.setItem(
           "SEID",
           JSON.stringify(response.data.UserSecretKey)
         );
-        router.push("/dashboard");
+        router.push("/dashboardContent");
       })
       .catch(function (error) {
+        setIsLoading(true)
         console.log(error);
         MySwal.fire({
           title: "اطلاعات اشتباه وارد شده است",
@@ -86,9 +93,11 @@ export default function Login() {
                       ></input>
                     </div>
                     <div className="form-group">
-                      <button className="btn btn-primary w-100" type="submit">
+                      {!setIsLoading ? <Loading /> : <button className="btn btn-primary w-100" type="submit">
                         ورود
                       </button>
+                      }
+
                     </div>
                   </form>
 
