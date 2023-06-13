@@ -1,0 +1,40 @@
+{
+  "name": "login",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "autoprefixer": "10.4.14",
+    "axios": "^1.4.0",
+    "eslint": "8.42.0",
+    "eslint-config-next": "13.4.4",
+    "feather-icons": "^4.29.0",
+    "feather-icons-react": "^0.6.2",
+    "jquery": "^3.7.0",
+    "jsonwebtoken": "^9.0.0",
+    "next": "^13.4.4",
+    "next-auth": "^4.22.1",
+    "postcss": "8.4.24",
+    "react": "18.2.0",
+    "react-apexcharts": "^1.4.0",
+    "react-bootstrap": "^2.7.4",
+    "react-data-table-component": "^7.5.3",
+    "react-data-table-component-extensions": "^1.6.0",
+    "react-dom": "18.2.0",
+    "react-hook-form": "^7.44.3",
+    "react-owl-carousel": "^2.3.3",
+    "react-router-dom": "^6.11.2",
+    "react-select": "^5.7.3",
+    "sweetalert2": "^11.7.11",
+    "sweetalert2-react-content": "^5.0.7",
+    "tailwindcss": "3.3.2"
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.5.16"
+  }
+}
