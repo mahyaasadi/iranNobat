@@ -62,6 +62,20 @@ const DoctorsList = () => {
     setShow1(!show1);
   };
 
+  const AddPhysician = () => [
+    axios.post('/', {
+      Name: '',
+      Title: '',
+      Spe: ''
+    })
+    .then((response) => {
+      console.log(response);
+    }, (error) => {
+      console.log(error);
+    });
+  ]
+ 
+
   const [stateValue, setStateValue] = useState();
 
   return (
