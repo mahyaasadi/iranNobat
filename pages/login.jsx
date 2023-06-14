@@ -35,7 +35,7 @@ const Login = () => {
         Password: document.getElementById("Password").value,
       })
       .then(function (response) {
-        console.log(response.data);
+        // console.log(response.data);
         setIsLoading(!isLoading);
         sessionStorage.setItem(
           "SEID",
@@ -76,6 +76,9 @@ const Login = () => {
               <div className="loginbox">
                 <h3>ورود</h3>
                 <p className="account-subtitle">دسترسی به داشبورد</p>
+                {!setIsLoading ? (
+                      <Loading />
+                    ) : (
                 <form onSubmit={handleSubmit}>
                   <div className="form-group form-focus">
                     <Controller
@@ -136,16 +139,15 @@ const Login = () => {
                     </div>
                   </div>
                   <div className="d-grid">
-                    {!setIsLoading ? (
-                      <Loading />
-                    ) : (
+                    
                       <button className="btn btn-primary" type="submit">
                         ورود
                       </button>
-                    )}
+                    
                   </div>
                   <div className="dont-have">حساب ندارید ؟ </div>
                 </form>
+                )}
               </div>
             </div>
           </div>

@@ -7,11 +7,11 @@ import "public/assets/css/feathericon.min.css";
 import "public/assets/css/style.css";
 import SelectField from "components/commonComponents/selectfield";
 import { Modal, Button } from "react-bootstrap";
-import DoctorsListTable from "components/dashboard/doctorsListTable/doctorsListTable";
-// import SidebarNav from "../sidebar";
-
+import Image from "next/image";
 import Loading from "components/loading/Loading";
 import axios from "axios";
+import Cookies from "js-cookie";
+import DoctorsListTable from "components/dashboard/doctorsListTable/doctorsListTable";
 import {
   avatar02,
   product1,
@@ -21,69 +21,51 @@ import {
   sort,
 } from "components/imagepath";
 
-// let user = null;
-
-// const [isLoading, setIsLoading] = useState(true);
-// const [doctorsList, setDoctorsList] = useState([]);
-
-// useEffect(() => {
-//   let data = { Token: sessionStorage.getItem("SEID") };
-//   console.log(data);
-//   axios
-//     .post("https://irannobat.ir:8444/api/AdminUser/getUserByToken", data)
-//     .then(function (response) {
-//       console.log(response.data);
-//       user = response.data;
-//       let CenterID = user.CenterID;
-//     })
-//     .catch(function (error) {
-//       console.log(error);
-//     });
-// }, []);
-
-// //get doctors list
-// const fetchDoctors = async () => {
-//   console.log("hi");
-//   setIsLoading(true);
-//   try {
-//     let response = await axios.get(
-//       "https://irannobat.ir:8444/api/CenterProfile/getCenterPhysician/${CenterID}"
-//     );
-//     console.log("heeyy");
-//     setIsLoading(false);
-//     setDoctorsList(response.data);
-//     console.log(response.data);
-//   } catch (error) {
-//     setIsLoading(true);
-//     console.log(error);
-//   }
-// };
-// useEffect(() => {
-//   fetchDoctors();
-// }, []);
-
 const DoctorsList = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [doctorsListData, setDoctorsList] = useState([]);
+
+  //get doctors list
+  useEffect(() => {
+    let CenterID = Cookies.get("CenterID");
+    console.log(CenterID);
+    setIsLoading(true);
+    try {
+      axios
+        .get(
+          `https://irannobat.ir:8444/api/CenterProfile/getCenterPhysician/${CenterID}`
+        )
+        .then(function (response) {
+          setIsLoading(false);
+          console.log(response.data);
+          setDoctorsList(response.data);
+        });
+    } catch (error) {
+      setIsLoading(true);
+      console.log(error);
+    }
+  }, []);
+
+  // Edit Physician
+  const editPhysician = () => {
+    console.log("Edit");
+  };
+
+  // Delete Physician
+  const deletePhysician = () => {
+    console.log("Delete")
+  }
+
   const [show1, setShow1] = useState(false);
   const toggleFilterMenu1 = () => {
     console.log(show1);
     setShow1(!show1);
   };
-  const [state, setState] = useState([
-    { label: "Select Category", value: "Select Category" },
-    { label: "Pharmacy", value: "Pharmacy" },
-    { label: "Hospital", value: "Hospital" },
-  ]);
-  const [options, setOptions] = useState([
-    { label: "Select", value: "" },
-    { label: "Select Category", value: "Select Category" },
-    { label: "surgical systems", value: "surgical systems" },
-    { label: "Neuromodulation", value: "Neuromodulation" },
-  ]);
+
   const [stateValue, setStateValue] = useState();
 
   return (
     <>
-      {/* <SidebarNav /> */}
       {/* <!-- Page Wrapper --> */}
       <div className="page-wrapper">
         <div className="content container-fluid">
@@ -91,9 +73,6 @@ const DoctorsList = () => {
           <div className="page-header">
             <div className="row align-items-center">
               <div className="col-md-12 d-flex justify-content-end">
-                <div className="doc-badge me-3">
-                  Total Products <span className="ms-1">48</span>
-                </div>
                 <Link
                   href="#"
                   data-bs-toggle="modal"
@@ -103,7 +82,7 @@ const DoctorsList = () => {
                   <i className="me-1">
                     <FeatherIcon icon="plus-square" />
                   </i>{" "}
-                  Add New
+                  اضافه کردن
                 </Link>
               </div>
             </div>
@@ -117,7 +96,7 @@ const DoctorsList = () => {
                 <div className="card-header border-bottom-0">
                   <div className="row align-items-center">
                     <div className="col">
-                      <h5 className="card-title">Product List</h5>
+                      <h5 className="card-title">لیست پزشکان</h5>
                     </div>
                     <div className="col-auto d-flex flex-wrap">
                       <div className="form-custom me-2">
@@ -132,8 +111,8 @@ const DoctorsList = () => {
                             className="mb-0"
                             onClick={(value) => toggleFilterMenu1()}
                           >
-                            <img src={sort} className="me-2" alt="icon" /> Order
-                            by{" "}
+                            <Image src={sort} className="me-2" alt="icon" />
+                            بر اساس
                           </p>
                           <span className="down-icon">
                             <i>
@@ -147,33 +126,33 @@ const DoctorsList = () => {
                           style={{ display: show1 ? "block" : "none" }}
                         >
                           <form action="/admin/product-list">
-                            <p className="lab-title">Order By </p>
+                            <p className="lab-title"> بر اساس </p>
                             <label className="custom_radio w-100">
                               <input type="radio" name="sort" />
-                              <span className="checkmark"></span> ID
+                              <span className="checkmark"></span> شماره شناسه
                             </label>
                             <label className="custom_radio w-100">
                               <input type="radio" name="sort" />
-                              <span className="checkmark"></span> Amount
+                              <span className="checkmark"></span> نام
                             </label>
                             <label className="custom_radio w-100 mb-4">
                               <input type="radio" name="sort" />
-                              <span className="checkmark"></span> Date Created
+                              <span className="checkmark"></span> عنوان
                             </label>
-                            <p className="lab-title">Sort By</p>
+                            <p className="lab-title"> ترتیب بر اساس</p>
                             <label className="custom_radio w-100">
                               <input type="radio" name="sort" />
-                              <span className="checkmark"></span> Ascending
+                              <span className="checkmark"></span> صعودی
                             </label>
                             <label className="custom_radio w-100 mb-4">
                               <input type="radio" name="sort" />
-                              <span className="checkmark"></span> Descending
+                              <span className="checkmark"></span> نزولی
                             </label>
                             <button
                               type="submit"
                               className="btn w-100 btn-primary"
                             >
-                              Apply
+                              ثبت
                             </button>
                           </form>
                         </div>
@@ -181,7 +160,11 @@ const DoctorsList = () => {
                     </div>
                   </div>
                 </div>
-                <DoctorsListTable />
+                <DoctorsListTable
+                  data={doctorsListData}
+                  editDoctor={editPhysician}
+                  deleteDoctor={deletePhysician}
+                />
               </div>
 
               <div id="tablepagination" className="dataTables_wrapper"></div>
@@ -201,7 +184,7 @@ const DoctorsList = () => {
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content doctor-profile">
             <div className="modal-header">
-              <h3 className="mb-0">Add Product</h3>
+              <h3 className="mb-0">اضافه کردن پزشک</h3>
               <button
                 type="button"
                 className="close-btn"
@@ -219,45 +202,26 @@ const DoctorsList = () => {
                   <div className="form-group form-focus">
                     <input type="text" className="form-control floating" />
                     <label className="focus-label">
-                      Product Name <span className="text-danger">*</span>
+                      نام پزشک <span className="text-danger">*</span>
                     </label>
                   </div>
-                  <SelectField
-                    options={state}
-                    errorMessage={""}
-                    error={false}
-                    label={false}
-                    placeholder={"select Category"}
-                    isRequired={true}
-                    onChangeValue={(value) => setStateValue(value?.value)}
-                  />
+                  <div className="form-group form-focus">
+                    <input type="text" className="form-control floating" />
+                    <label className="focus-label">
+                      تخصص <span className="text-danger">*</span>
+                    </label>
+                  </div>
 
                   <div className="form-group form-focus">
                     <input type="text" className="form-control floating" />
                     <label className="focus-label">
-                      Price <span className="text-danger">*</span>
+                      عنوان <span className="text-danger">*</span>
                     </label>
                   </div>
-                  <div className="change-photo-btn">
-                    <div>
-                      <i>
-                        <FeatherIcon icon="upload" />
-                      </i>
 
-                      <p>Upload File</p>
-                    </div>
-                    <input type="file" className="upload" />
-                    <span className="file-upload-text"></span>
-                  </div>
-                  <p className="file-name text-success">
-                    Successfully Product image.jpg uploaded{" "}
-                    <Link href="#" className="text-danger">
-                      <i className="feather-x"></i>
-                    </Link>
-                  </p>
                   <div className="submit-section">
                     <button type="submit" className="btn btn-primary btn-save">
-                      Save Changes
+                      ثبت تغییرات
                     </button>
                   </div>
                 </div>
@@ -277,7 +241,7 @@ const DoctorsList = () => {
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content doctor-profile">
             <div className="modal-header">
-              <h3 className="mb-0">Edit Product</h3>
+              <h3 className="mb-0">ویرایش اطلاعات </h3>
               <button
                 type="button"
                 className="close-btn"
@@ -293,53 +257,26 @@ const DoctorsList = () => {
               <form action="/admin/pharmacy-list">
                 <div className="add-wrap">
                   <div className="form-group form-focus">
-                    <input
-                      type="text"
-                      className="form-control floating"
-                      defaultValue="Safi Natural"
-                    />
+                    <input type="text" className="form-control floating" />
                     <label className="focus-label">
-                      Product Name <span className="text-danger">*</span>
+                      نام پزشک <span className="text-danger">*</span>
                     </label>
                   </div>
-                  <SelectField
-                    options={options}
-                    errorMessage={""}
-                    error={false}
-                    label={false}
-                    placeholder={"Select Category"}
-                    isRequired={true}
-                    onChangeValue={(value) => setStateValue(value?.value)}
-                  />
                   <div className="form-group form-focus">
-                    <input
-                      type="text"
-                      className="form-control floating"
-                      defaultValue="$330.00"
-                    />
+                    <input type="text" className="form-control floating" />
                     <label className="focus-label">
-                      Price <span className="text-danger">*</span>
+                      تخصص <span className="text-danger">*</span>
                     </label>
                   </div>
-                  <div className="change-photo-btn">
-                    <div>
-                      <i>
-                        <FeatherIcon icon="upload" />
-                      </i>
-                      <p>Upload File</p>
-                    </div>
-                    <input type="file" className="upload" />
-                    <span className="file-upload-text"></span>
+                  <div className="form-group form-focus">
+                    <input type="text" className="form-control floating" />
+                    <label className="focus-label">
+                      عنوان <span className="text-danger">*</span>
+                    </label>
                   </div>
-                  <p className="file-name text-success">
-                    Successfully Product image.jpg uploaded{" "}
-                    <Link href="#" className="text-danger">
-                      <i className="feather-x"></i>
-                    </Link>
-                  </p>
                   <div className="submit-section">
                     <button type="submit" className="btn btn-primary btn-save">
-                      Save Changes
+                      ثبت تغییرات
                     </button>
                   </div>
                 </div>
@@ -379,21 +316,20 @@ const DoctorsList = () => {
                     <FeatherIcon icon="x-circle" />
                   </i>
                 </div>
-                <h2>Sure you Want to delete</h2>
-                <p>“Product”</p>
+                <h2>آیا اطمینان به حذف دارید؟</h2>
                 <div className="submit-section">
                   <Link
                     href="/admin/pharmacy-list"
                     className="btn btn-success me-2"
                   >
-                    Yes
+                    بله
                   </Link>
                   <Link
                     href="#"
                     className="btn btn-danger"
                     data-bs-dismiss="modal"
                   >
-                    No
+                    خیر
                   </Link>
                 </div>
               </div>

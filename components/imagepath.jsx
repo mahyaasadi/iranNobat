@@ -13,7 +13,7 @@ export { default as avatar12 } from "public/assets/img/profiles/avatar-12.jpg";
 export { default as avatar11 } from "public/assets/img/profiles/avatar-11.jpg";
 export { default as avatar06 } from "public/assets/img/profiles/avatar-06.jpg";
 export { default as avatar10 } from "public/assets/img/profiles/avatar-10.jpg";
-export { default as sort } from "public/assets/img/icon/sort.png";
+export { default as sort } from "public/assets/img/icon/sort-32.png";
 export { default as urology } from "public/assets/img/icon/urology.png";
 export { default as neurology } from "public/assets/img/icon/neurology.png";
 export { default as ortho } from "public/assets/img/icon/ortho.png";

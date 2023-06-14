@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import axios from "axios"
+import axios from "axios";
 import Image from "next/image";
 import FeatherIcon from "feather-icons-react";
 import {
@@ -15,14 +15,14 @@ import {
 } from "components/imagepath";
 import "public/assets/css/bootstrap.min.css";
 import "public/assets/css/feathericon.min.css";
-// import "public/assets/js/feather.min.js";
 import "public/assets/plugins/fontawesome/css/fontawesome.min.css";
 import "public/assets/plugins/fontawesome/css/all.min.css";
-// import "public/assets/plugins/fontawesome/js/fontawesome.min.js";
 import "public/assets/css/font-awesome.min.css";
 import "public/assets/css/style.css";
+import Cookies from "js-cookie";
 
 let user = null;
+let centerId = null;
 
 const Header = () => {
   const [task, settask] = useState(true);
@@ -54,7 +54,7 @@ const Header = () => {
     document.body.classList.toggle("slide-nav");
   };
 
- useEffect(() => {
+  useEffect(() => {
     let data = { Token: sessionStorage.getItem("SEID") };
     console.log(data);
     axios
@@ -62,6 +62,9 @@ const Header = () => {
       .then(function (response) {
         console.log(response.data);
         user = response.data;
+        let centerId = user.CenterID;
+        Cookies.set("CenterID", centerId);
+        console.log(centerId);
         document.getElementById("avatar").setAttribute("src", user.Avatar);
         document.getElementById("avatar").setAttribute("srcSet", user.Avatar);
         document
@@ -71,7 +74,7 @@ const Header = () => {
           .getElementById("dropdownAvatar")
           .setAttribute("srcSet", user.Avatar);
         document.getElementById("userName").innerHTML = user.FullName;
-        if (user.Admin = true) {
+        if ((user.Admin = true)) {
           document.getElementById("role").innerHTML = "ادمین";
         }
       })
@@ -97,84 +100,7 @@ const Header = () => {
           </Link>
         </div>
         {/* /Logo */}
-        {/* Search */}
-        <div className="top-nav-search">
-          <div className="main">
-            <form className="search" method="post" action="/admin">
-              <div className="s-icon">
-                <i className="fas fa-search" />
-              </div>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Start typing your Search..."
-              />
-              <ul className="results">
-                <li>
-                  <h6>
-                    <i className="me-1">
-                      {" "}
-                      <FeatherIcon icon="calendar" />
-                    </i>
-                    Appointments
-                  </h6>
-                  <p>
-                    No matched Appointment found.{" "}
-                    <Link href="/admin/appointment-list">
-                      <span>View all</span>
-                    </Link>
-                  </p>
-                </li>
-                <li>
-                  <h6>
-                    <i className="me-1">
-                      {" "}
-                      <FeatherIcon icon="calendar" />
-                    </i>{" "}
-                    Specialities
-                  </h6>
-                  <p>
-                    No matched Appointment found.{" "}
-                    <Link href="/admin/specialities">
-                      <span>View all</span>
-                    </Link>
-                  </p>
-                </li>
-                <li>
-                  <h6>
-                    <i className="me-1">
-                      {" "}
-                      <FeatherIcon icon="user" />
-                    </i>{" "}
-                    Doctors
-                  </h6>
-                  <p>
-                    No matched Appointment found.{" "}
-                    <Link href="/admin/doctor-list">
-                      <span>View all</span>
-                    </Link>
-                  </p>
-                </li>
-                <li>
-                  <h6>
-                    <i className="me-1">
-                      {" "}
-                      <FeatherIcon icon="user" />
-                    </i>
-                    Patients
-                  </h6>
-                  <p>
-                    No matched Appointment found.{" "}
-                    <Link href="/admin/patient-list">
-                      <span>View all</span>
-                    </Link>
-                  </p>
-                </li>
-              </ul>
-            </form>
-          </div>
-        </div>
-        {/* /Search */}
+        
         {/* Mobile Menu Toggle */}
         <Link
           href="#"
@@ -310,63 +236,6 @@ const Header = () => {
             </div>
           </li>
           {/* /Notifications */}
-          {/* User Menu */}
-          {/* <li className="nav-item dropdown main-drop">
-            <Link
-              href="#"
-              className="dropdown-toggle nav-link"
-              data-bs-toggle="dropdown"
-            >
-              <span className="user-img">
-                <img src={avatar01} alt="" />
-                <span className="status online" />
-              </span>
-            </Link>
-            <div className="dropdown-menu">
-              <div className="user-header">
-                <div className="avatar avatar-sm">
-                  <img
-                    src={avatar01}
-                    alt="User Image"
-                    className="avatar-img rounded-circle"
-                  />
-                </div>
-                <div className="user-text">
-                  <h6>Robert Haddin</h6>
-                  <p className="text-muted mb-0">Administrator</p>
-                </div>
-              </div>
-              <Link className="dropdown-item" href="/admin/profile">
-                <i className="me-1">
-                  <FeatherIcon icon="user" />
-                </i>
-                My Profile
-              </Link>
-              <Link className="dropdown-item" href="/admin/profile">
-                <i className="me-1">
-                  <FeatherIcon icon="edit" />
-                </i>{" "}
-                Edit Profile
-              </Link>
-              <Link className="dropdown-item" href="/admin/settings">
-                <i className="me-1">
-                  <FeatherIcon icon="sliders" />
-                </i>{" "}
-                Account Settings
-              </Link>
-              <hr className="my-0 ms-2 me-2" />
-              <Link
-                className="dropdown-item"
-                href="/admin/login"
-                onClick={() => setIsAuth("admin")}
-              >
-                <i className="me-1">
-                  <FeatherIcon icon="log-out" />
-                </i>
-                Logout
-              </Link>
-            </div>
-          </li> */}
 
           {/* <!-- User Menu --> */}
 

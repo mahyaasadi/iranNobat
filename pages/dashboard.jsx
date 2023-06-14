@@ -1,11 +1,38 @@
 "use client"; //This is a client component
-import React, { useState } from 'react';
-import Link from 'next/link'
+import React, { useState } from "react";
+import Link from "next/link";
 // import Appointment from 'components/dashboard/appointments'
-import Select from 'react-select';
+import {
+  avatar02,
+  avatar03,
+  avatar04,
+  avatar05,
+  avatar06,
+  avatar07,
+  avatar08,
+  avatar09,
+  avatar10,
+  avatar11,
+  avatar12,
+  avatar13,
+  calender,
+  cardio,
+  chart,
+  dental,
+  flag01,
+  flag02,
+  flag03,
+  flag04,
+  flag05,
+  neurology,
+  ortho,
+  urology,
+} from "components/imagepath";
+import Select from "react-select";
+import Image from "next/image";
 import "components/dashboard/header";
 import "components/dashboard/sidebar";
-import FeatherIcon from 'feather-icons-react';
+import FeatherIcon from "feather-icons-react";
 
 const Dashboard = () => {
   const options = [
@@ -127,7 +154,7 @@ const Dashboard = () => {
                   <div className="card-body">
                     <div className="dash-widget-header">
                       <span className="dash-widget-icon bg-warning">
-                        <img src="" alt="User Image" />
+                        <Image src="" alt="User Image" />
                       </span>
                       <div className="dash-count">
                         <h5 className="dash-title">درخواست نوبت</h5>
@@ -151,7 +178,7 @@ const Dashboard = () => {
                   <div className="card-body">
                     <div className="dash-widget-header">
                       <span className="dash-widget-icon bg-danger">
-                        <img src="" alt="User Image" />
+                        <Image src="" alt="User Image" />
                       </span>
                       <div className="dash-count">
                         <h5 className="dash-title">در آمد</h5>
@@ -180,9 +207,7 @@ const Dashboard = () => {
               {/* /Income Report */}
             </div>
             {/* Today’s  Appointment */}
-            <div className="row">
-              {/* <TodayAppointment /> */}
-            </div>
+            <div className="row">{/* <TodayAppointment /> */}</div>
             {/* /Today’s  Appointment */}
             <div className="row">
               {/* Recent Activities */}
@@ -219,7 +244,7 @@ const Dashboard = () => {
                           <tr className="speciality-item">
                             <td className="spl-name">
                               <div className="spl-box">
-                                <img src="" alt="User Image" />
+                                <Image src={urology} alt="User Image" />
                               </div>
                               <div className="spl-count">
                                 <h6>Urology</h6>
@@ -238,7 +263,7 @@ const Dashboard = () => {
                           <tr className="speciality-item">
                             <td className="spl-name">
                               <div className="spl-box">
-                                <img src="" alt="User Image" />
+                                <Image src={neurology} alt="User Image" />
                               </div>
                               <div className="spl-count">
                                 <h6>Neurology</h6>
@@ -257,7 +282,7 @@ const Dashboard = () => {
                           <tr className="speciality-item">
                             <td className="spl-name">
                               <div className="spl-box">
-                                <img src="" alt="User Image" />
+                                <Image src={ortho} alt="User Image" />
                               </div>
                               <div className="spl-count">
                                 <h6>Orthopedic</h6>
@@ -276,7 +301,7 @@ const Dashboard = () => {
                           <tr className="speciality-item">
                             <td className="spl-name">
                               <div className="spl-box">
-                                <img src="" alt="User Image" />
+                                <Image src={cardio} alt="User Image" />
                               </div>
                               <div className="spl-count">
                                 <h6>Urology</h6>
@@ -295,7 +320,7 @@ const Dashboard = () => {
                           <tr className="speciality-item">
                             <td className="spl-name">
                               <div className="spl-box">
-                                <img src="" alt="User Image" />
+                                <Image src={dental} alt="User Image" />
                               </div>
                               <div className="spl-count">
                                 <h6>Urology</h6>
@@ -334,9 +359,7 @@ const Dashboard = () => {
                   <div className="card-body up-content">
                     <div className="nav nav-tabs">
                       <div className="nav nav-tabs upcomimg-app">
-                        <div className="pricing-carousel owl-carousel owl-theme">
-                          
-                        </div>
+                        <div className="pricing-carousel owl-carousel owl-theme"></div>
                       </div>
                     </div>
                     <div className="tab-content upcoming-content">
@@ -346,8 +369,8 @@ const Dashboard = () => {
                             <div className="row">
                               <div className="col-sm-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
+                                  <Image
+                                    src={avatar02}
                                     alt=""
                                     className="img-fluid"
                                   />
@@ -359,8 +382,8 @@ const Dashboard = () => {
                               </div>
                               <div className="col-sm-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
+                                  <Image
+                                    src={avatar05}
                                     alt=""
                                     className="img-fluid"
                                   />
@@ -407,8 +430,8 @@ const Dashboard = () => {
                             <div className="row">
                               <div className="col-sm-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
+                                  <Image
+                                    src={avatar09}
                                     alt=""
                                     className="img-fluid"
                                   />
@@ -420,8 +443,8 @@ const Dashboard = () => {
                               </div>
                               <div className="col-sm-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
+                                  <Image
+                                    src={avatar13}
                                     alt=""
                                     className="img-fluid"
                                   />
@@ -460,8 +483,8 @@ const Dashboard = () => {
                             <div className="row">
                               <div className="col-sm-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
+                                  <Image
+                                    src={avatar08}
                                     alt=""
                                     className="img-fluid"
                                   />
@@ -473,8 +496,8 @@ const Dashboard = () => {
                               </div>
                               <div className="col-sm-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
+                                  <Image
+                                    src={avatar02}
                                     alt=""
                                     className="img-fluid"
                                   />
@@ -523,8 +546,8 @@ const Dashboard = () => {
                             <div className="row">
                               <div className="col-sm-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
+                                  <Image
+                                    src={avatar07}
                                     alt=""
                                     className="img-fluid"
                                   />
@@ -536,8 +559,8 @@ const Dashboard = () => {
                               </div>
                               <div className="col-sm-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
+                                  <Image
+                                    src={avatar08}
                                     alt=""
                                     className="img-fluid"
                                   />
@@ -584,8 +607,8 @@ const Dashboard = () => {
                             <div className="row">
                               <div className="col-sm-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
+                                  <Image
+                                    src={avatar02}
                                     alt=""
                                     className="img-fluid"
                                   />
@@ -597,8 +620,8 @@ const Dashboard = () => {
                               </div>
                               <div className="col-sm-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
+                                  <Image
+                                    src={avatar05}
                                     alt=""
                                     className="img-fluid"
                                   />
@@ -637,8 +660,8 @@ const Dashboard = () => {
                             <div className="row">
                               <div className="col-sm-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
+                                  <Image
+                                    src={avatar02}
                                     alt=""
                                     className="img-fluid"
                                   />
@@ -650,8 +673,8 @@ const Dashboard = () => {
                               </div>
                               <div className="col-sm-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
+                                  <Image
+                                    src={avatar05}
                                     alt=""
                                     className="img-fluid"
                                   />
@@ -700,8 +723,8 @@ const Dashboard = () => {
                             <div className="row">
                               <div className="col-sm-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
+                                  <Image
+                                    src={avatar02}
                                     alt=""
                                     className="img-fluid"
                                   />
@@ -713,8 +736,8 @@ const Dashboard = () => {
                               </div>
                               <div className="col-sm-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
+                                  <Image
+                                    src={avatar02}
                                     alt=""
                                     className="img-fluid"
                                   />
@@ -761,8 +784,8 @@ const Dashboard = () => {
                             <div className="row">
                               <div className="col-sm-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
+                                  <Image
+                                    src={avatar02}
                                     alt=""
                                     className="img-fluid"
                                   />
@@ -774,11 +797,7 @@ const Dashboard = () => {
                               </div>
                               <div className="col-sm-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
-                                    alt=""
-                                    className="img-fluid"
-                                  />
+                                  <Image src="" alt="" className="img-fluid" />
                                   <div className="app-name">
                                     <h6>Chris Harris</h6>
                                     <p>ID : 781212, M</p>
@@ -814,8 +833,8 @@ const Dashboard = () => {
                             <div className="row">
                               <div className="col-sm-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
+                                  <Image
+                                    src={avatar02}
                                     alt=""
                                     className="img-fluid"
                                   />
@@ -827,8 +846,8 @@ const Dashboard = () => {
                               </div>
                               <div className="col-sm-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
+                                  <Image
+                                    src={avatar02}
                                     alt=""
                                     className="img-fluid"
                                   />
@@ -877,8 +896,8 @@ const Dashboard = () => {
                             <div className="row">
                               <div className="col-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
+                                  <Image
+                                    src={avatar02}
                                     alt=""
                                     className="img-fluid"
                                   />
@@ -890,8 +909,8 @@ const Dashboard = () => {
                               </div>
                               <div className="col-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
+                                  <Image
+                                    src={avatar02}
                                     alt=""
                                     className="img-fluid"
                                   />
@@ -938,8 +957,8 @@ const Dashboard = () => {
                             <div className="row">
                               <div className="col-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
+                                  <Image
+                                    src={avatar02}
                                     alt=""
                                     className="img-fluid"
                                   />
@@ -951,8 +970,8 @@ const Dashboard = () => {
                               </div>
                               <div className="col-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
+                                  <Image
+                                    src={avatar02}
                                     alt=""
                                     className="img-fluid"
                                   />
@@ -991,8 +1010,8 @@ const Dashboard = () => {
                             <div className="row">
                               <div className="col-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
+                                  <Image
+                                    src={avatar12}
                                     alt=""
                                     className="img-fluid"
                                   />
@@ -1004,11 +1023,7 @@ const Dashboard = () => {
                               </div>
                               <div className="col-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
-                                    alt=""
-                                    className="img-fluid"
-                                  />
+                                  <Image src="" alt="" className="img-fluid" />
                                   <div className="app-name">
                                     <h6>Chris Harris</h6>
                                     <p>ID : 781212, M</p>
@@ -1054,8 +1069,8 @@ const Dashboard = () => {
                             <div className="row">
                               <div className="col-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
+                                  <Image
+                                    src={avatar13}
                                     alt=""
                                     className="img-fluid"
                                   />
@@ -1067,11 +1082,7 @@ const Dashboard = () => {
                               </div>
                               <div className="col-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
-                                    alt=""
-                                    className="img-fluid"
-                                  />
+                                  <Image src="" alt="" className="img-fluid" />
                                   <div className="app-name">
                                     <h6>Chris Harris</h6>
                                     <p>ID : 781212, M</p>
@@ -1115,8 +1126,8 @@ const Dashboard = () => {
                             <div className="row">
                               <div className="col-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
+                                  <Image
+                                    src={avatar13}
                                     alt=""
                                     className="img-fluid"
                                   />
@@ -1128,11 +1139,7 @@ const Dashboard = () => {
                               </div>
                               <div className="col-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
-                                    alt=""
-                                    className="img-fluid"
-                                  />
+                                  <Image src="" alt="" className="img-fluid" />
                                   <div className="app-name">
                                     <h6>Chris Harris</h6>
                                     <p>ID : 781212, M</p>
@@ -1168,8 +1175,8 @@ const Dashboard = () => {
                             <div className="row">
                               <div className="col-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
+                                  <Image
+                                    src={avatar13}
                                     alt=""
                                     className="img-fluid"
                                   />
@@ -1181,11 +1188,7 @@ const Dashboard = () => {
                               </div>
                               <div className="col-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
-                                    alt=""
-                                    className="img-fluid"
-                                  />
+                                  <Image src="" alt="" className="img-fluid" />
                                   <div className="app-name">
                                     <h6>Chris Harris</h6>
                                     <p>ID : 781212, M</p>
@@ -1231,8 +1234,8 @@ const Dashboard = () => {
                             <div className="row">
                               <div className="col-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
+                                  <Image
+                                    src={avatar12}
                                     alt=""
                                     className="img-fluid"
                                   />
@@ -1244,8 +1247,8 @@ const Dashboard = () => {
                               </div>
                               <div className="col-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
+                                  <Image
+                                    src={avatar10}
                                     alt=""
                                     className="img-fluid"
                                   />
@@ -1287,37 +1290,6 @@ const Dashboard = () => {
                             </div>
                           </div>
                         </div>
-                        <div className="appointment-items">
-                          <div className="app-user">
-                            <div className="row">
-                              <div className="col-6">
-                                <div className="app-img">
-                                  <img
-                                    src=""
-                                    alt=""
-                                    className="img-fluid"
-                                  />
-                                  <div className="app-name">
-                                    <h6>Dr. Lester </h6>
-                                    <p>Orthopaedics</p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="col-6">
-                                <div className="app-img">
-                                  <img
-                                    src=""
-                                    alt=""
-                                    className="img-fluid"
-                                  />
-                                  <div className="app-name">
-                                    <h6>Chris Harris</h6>
-                                    <p>ID : 781212, M</p>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
                           <div className="app-time">
                             <p>
                               <i className="me-1">
@@ -1345,11 +1317,7 @@ const Dashboard = () => {
                             <div className="row">
                               <div className="col-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
-                                    alt=""
-                                    className="img-fluid"
-                                  />
+                                  <Image src="" alt="" className="img-fluid" />
                                   <div className="app-name">
                                     <h6>Dr. Lester </h6>
                                     <p>Orthopaedics</p>
@@ -1358,11 +1326,7 @@ const Dashboard = () => {
                               </div>
                               <div className="col-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
-                                    alt=""
-                                    className="img-fluid"
-                                  />
+                                  <Image src="" alt="" className="img-fluid" />
                                   <div className="app-name">
                                     <h6>Chris Harris</h6>
                                     <p>ID : 781212, M</p>
@@ -1408,11 +1372,7 @@ const Dashboard = () => {
                             <div className="row">
                               <div className="col-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
-                                    alt=""
-                                    className="img-fluid"
-                                  />
+                                  <Image src="" alt="" className="img-fluid" />
                                   <div className="app-name">
                                     <h6>Dr. Lester </h6>
                                     <p>Orthopaedics</p>
@@ -1421,11 +1381,7 @@ const Dashboard = () => {
                               </div>
                               <div className="col-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
-                                    alt=""
-                                    className="img-fluid"
-                                  />
+                                  <Image src="" alt="" className="img-fluid" />
                                   <div className="app-name">
                                     <h6>Chris Harris</h6>
                                     <p>ID : 781212, M</p>
@@ -1469,11 +1425,7 @@ const Dashboard = () => {
                             <div className="row">
                               <div className="col-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
-                                    alt=""
-                                    className="img-fluid"
-                                  />
+                                  <Image src="" alt="" className="img-fluid" />
                                   <div className="app-name">
                                     <h6>Dr. Lester </h6>
                                     <p>Orthopaedics</p>
@@ -1482,11 +1434,7 @@ const Dashboard = () => {
                               </div>
                               <div className="col-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
-                                    alt=""
-                                    className="img-fluid"
-                                  />
+                                  <Image src="" alt="" className="img-fluid" />
                                   <div className="app-name">
                                     <h6>Chris Harris</h6>
                                     <p>ID : 781212, M</p>
@@ -1522,11 +1470,7 @@ const Dashboard = () => {
                             <div className="row">
                               <div className="col-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
-                                    alt=""
-                                    className="img-fluid"
-                                  />
+                                  <Image src="" alt="" className="img-fluid" />
                                   <div className="app-name">
                                     <h6>Dr. Lester </h6>
                                     <p>Orthopaedics</p>
@@ -1535,11 +1479,7 @@ const Dashboard = () => {
                               </div>
                               <div className="col-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
-                                    alt=""
-                                    className="img-fluid"
-                                  />
+                                  <Image src="" alt="" className="img-fluid" />
                                   <div className="app-name">
                                     <h6>Chris Harris</h6>
                                     <p>ID : 781212, M</p>
@@ -1585,11 +1525,7 @@ const Dashboard = () => {
                             <div className="row">
                               <div className="col-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
-                                    alt=""
-                                    className="img-fluid"
-                                  />
+                                  <Image src="" alt="" className="img-fluid" />
                                   <div className="app-name">
                                     <h6>Dr. Lester </h6>
                                     <p>Orthopaedics</p>
@@ -1598,11 +1534,7 @@ const Dashboard = () => {
                               </div>
                               <div className="col-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
-                                    alt=""
-                                    className="img-fluid"
-                                  />
+                                  <Image src="" alt="" className="img-fluid" />
                                   <div className="app-name">
                                     <h6>Chris Harris</h6>
                                     <p>ID : 781212, M</p>
@@ -1646,11 +1578,7 @@ const Dashboard = () => {
                             <div className="row">
                               <div className="col-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
-                                    alt=""
-                                    className="img-fluid"
-                                  />
+                                  <Image src="" alt="" className="img-fluid" />
                                   <div className="app-name">
                                     <h6>Dr. Lester </h6>
                                     <p>Orthopaedics</p>
@@ -1659,11 +1587,7 @@ const Dashboard = () => {
                               </div>
                               <div className="col-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
-                                    alt=""
-                                    className="img-fluid"
-                                  />
+                                  <Image src="" alt="" className="img-fluid" />
                                   <div className="app-name">
                                     <h6>Chris Harris</h6>
                                     <p>ID : 781212, M</p>
@@ -1699,11 +1623,7 @@ const Dashboard = () => {
                             <div className="row">
                               <div className="col-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
-                                    alt=""
-                                    className="img-fluid"
-                                  />
+                                  <Image src="" alt="" className="img-fluid" />
                                   <div className="app-name">
                                     <h6>Dr. Lester </h6>
                                     <p>Orthopaedics</p>
@@ -1712,11 +1632,7 @@ const Dashboard = () => {
                               </div>
                               <div className="col-6">
                                 <div className="app-img">
-                                  <img
-                                    src=""
-                                    alt=""
-                                    className="img-fluid"
-                                  />
+                                  <Image src="" alt="" className="img-fluid" />
                                   <div className="app-name">
                                     <h6>Chris Harris</h6>
                                     <p>ID : 781212, M</p>
@@ -1903,7 +1819,7 @@ const Dashboard = () => {
                     <div className="country-item">
                       <div className="con-name">
                         <div className="flag-box">
-                          <img
+                          <Image
                             className="rounded-circle"
                             src=""
                             alt="User Image"
@@ -1926,7 +1842,7 @@ const Dashboard = () => {
                     <div className="country-item">
                       <div className="con-name">
                         <div className="flag-box">
-                          <img
+                          <Image
                             className="rounded-circle"
                             src=""
                             alt="User Image"
@@ -1949,7 +1865,7 @@ const Dashboard = () => {
                     <div className="country-item">
                       <div className="con-name">
                         <div className="flag-box">
-                          <img
+                          <Image
                             className="rounded-circle"
                             src=""
                             alt="User Image"
@@ -1972,7 +1888,7 @@ const Dashboard = () => {
                     <div className="country-item">
                       <div className="con-name">
                         <div className="flag-box">
-                          <img
+                          <Image
                             className="rounded-circle"
                             src=""
                             alt="User Image"
@@ -2066,7 +1982,6 @@ const Dashboard = () => {
           </div>
         </div>
         {/* /Page Wrapper */}
-      </div>
     </>
   );
 };

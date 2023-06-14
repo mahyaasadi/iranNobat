@@ -13,4 +13,4 @@ export default function DashboardLayout({ children }) {
   );
 }
 
-import Footer from "components/dashboard/footer/indeex";
+import Footer from "components/dashboard/footer";

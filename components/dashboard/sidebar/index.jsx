@@ -6,14 +6,12 @@ import "public/assets/css/feathericon.min.css";
 import { useRouter } from "next/router";
 import "public/assets/css/bootstrap.min.css";
 import "public/assets/css/feathericon.min.css";
-// import "public/assets/js/feather.min.js";
 import "public/assets/plugins/fontawesome/css/fontawesome.min.css";
 import "public/assets/plugins/fontawesome/css/all.min.css";
-// import "public/assets/plugins/fontawesome/js/fontawesome.min.js";
 import "public/assets/css/font-awesome.min.css";
 import "public/assets/css/style.css";
 
-import Link from 'next/link';
+import Link from "next/link";
 const Sidebar = () => {
   const router = useRouter();
 
@@ -33,7 +31,7 @@ const Sidebar = () => {
                   <span
                     onClick={(e) => {
                       e.preventDefault();
-                      router.push("/dashboardContent");
+                      router.push("/dashboard");
                     }}
                   >
                     داشبورد
@@ -47,7 +45,9 @@ const Sidebar = () => {
                 </a>
                 <ul className="hidden">
                   <li>
-                    <Link class="" href="/doctorsList">پزشکان</Link>
+                    <Link href="/doctorsList">
+                      پزشکان
+                    </Link>
                   </li>
                 </ul>
               </li>

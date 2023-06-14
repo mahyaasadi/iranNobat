@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tanstack/react-query": "^4.29.13",
+    "@tanstack/react-query-devtools": "^4.29.13",
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
     "eslint": "8.42.0",
@@ -16,6 +18,7 @@
     "feather-icons": "^4.29.0",
     "feather-icons-react": "^0.6.2",
     "jquery": "^3.7.0",
+    "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.0",
     "next": "^13.4.4",
     "next-auth": "^4.22.1",
@@ -28,6 +31,7 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.44.3",
     "react-owl-carousel": "^2.3.3",
+    "react-query": "^3.39.3",
     "react-router-dom": "^6.11.2",
     "react-select": "^5.7.3",
     "sweetalert2": "^11.7.11",
