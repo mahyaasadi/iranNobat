@@ -1,4 +1,4 @@
-export { default as logo } from "public/assets/img/logo.png";
+export { default as logo } from "public/assets/img/irannobatLogo.png";
 export { default as logoSmall } from "public/assets/img/logo-small.png";
 export { default as avatar01 } from "public/assets/img/profiles/avatar-01.jpg";
 export { default as avatar07 } from "public/assets/img/profiles/avatar-07.jpg";

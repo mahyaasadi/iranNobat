@@ -2,13 +2,12 @@
 import React from "react";
 import Link from "next/link";
 import FeatherIcon from "feather-icons-react";
-import { Card } from "react-bootstrap";
+// import { Card } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 
 const DoctorsListTable = ({data , editDoctor, deleteDoctor}) => {
-  console.log(data)
   const columns = [
       {
       name: "نام پزشک",
@@ -38,7 +37,7 @@ const DoctorsListTable = ({data , editDoctor, deleteDoctor}) => {
             dir="ltr"
             href="#"
             className="text-black"
-            onClick={editDoctor}
+            // onClick={editDoctor}
             data-bs-toggle="modal"
             data-bs-target="#editModal"
           >
@@ -51,7 +50,7 @@ const DoctorsListTable = ({data , editDoctor, deleteDoctor}) => {
             dir="ltr"
             href="#"
             className="text-danger"
-            onClick={deleteDoctor}
+            // onClick={deleteDoctor}
             data-bs-toggle="modal"
             data-bs-target="#deleteModal"
           >
@@ -70,6 +69,7 @@ const DoctorsListTable = ({data , editDoctor, deleteDoctor}) => {
     columns,
     data,
   };
+  
   return (
     <div className="card-body p-0">
       <div className="table-responsive">

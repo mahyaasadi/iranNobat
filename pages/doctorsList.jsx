@@ -5,46 +5,69 @@ import FeatherIcon from "feather-icons-react";
 import "public/assets/css/font-awesome.min.css";
 import "public/assets/css/feathericon.min.css";
 import "public/assets/css/style.css";
-import SelectField from "components/commonComponents/selectfield";
-import { Modal, Button } from "react-bootstrap";
 import Image from "next/image";
-import Loading from "components/loading/Loading";
 import axios from "axios";
 import Cookies from "js-cookie";
-import DoctorsListTable from "components/dashboard/doctorsListTable/doctorsListTable";
-import {
-  avatar02,
-  product1,
-  product2,
-  product4,
-  product5,
-  sort,
-} from "components/imagepath";
+import Loading from "components/loading/Loading";
+import DoctorsListTable from "components/dashboard/doctors/doctorsListTable/doctorsListTable";
+import AddDoctorModal from "components/dashboard/doctors/addDoctorModal/addDoctorModal";
+import EditDoctorModel from "components/dashboard/doctors/editDoctorModal/editDoctorModal";
+import DeleteDoctorModal from "components/dashboard/doctors/deleteDoctorsModal/deleteDoctorModal";
+import { sort } from "components/imagepath";
+let CenterID = Cookies.get("CenterID");
 
 const DoctorsList = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [doctorsListData, setDoctorsList] = useState([]);
+  const [doctorsList, setDoctorsList] = useState([]);
 
   //get doctors list
   useEffect(() => {
-    let CenterID = Cookies.get("CenterID");
-    console.log(CenterID);
-    setIsLoading(true);
     try {
-      axios
-        .get(
-          `https://irannobat.ir:8444/api/CenterProfile/getCenterPhysician/${CenterID}`
-        )
-        .then(function (response) {
-          setIsLoading(false);
-          console.log(response.data);
-          setDoctorsList(response.data);
-        });
+      getDoctorData();
     } catch (error) {
       setIsLoading(true);
       console.log(error);
     }
   }, []);
+
+  const [name, setName] = useState("");
+  const [title, setTitle] = useState("");
+  const [specialty, setSpecialty] = useState("");
+
+  // Add Physician
+  const getDoctorData = () => {
+    axios
+      .get(
+        `https://irannobat.ir:8444/api/CenterProfile/getCenterPhysician/${CenterID}`
+      )
+      .then(function (response) {
+        setDoctorsList(response.data);
+      });
+  };
+  const addPhysician = (e) => {
+    e.preventDefault();
+    axios
+      .post(`https://irannobat.ir:8444/api/CenterProfile/AddPhysician`, {
+        CenterID: CenterID,
+        Name: name,
+        Title: title,
+        Spe: specialty,
+      })
+      .then((response) => {
+        console.log(response.data);
+        setDoctorsList([...doctorsList, response.data]);
+        $("#addPhysicianModal").modal("hide");
+        // document.getElementById("addPhysicianModel").reset();
+        // reset values in input fields
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleNameInput = (e) => setName(e.target.value);
+  const handleTitleInput = (e) => setTitle(e.target.value);
+  const handleSpecialtyInput = (e) => setSpecialty(e.target.value);
 
   // Edit Physician
   const editPhysician = () => {
@@ -53,30 +76,11 @@ const DoctorsList = () => {
 
   // Delete Physician
   const deletePhysician = () => {
-    console.log("Delete")
-  }
-
-  const [show1, setShow1] = useState(false);
-  const toggleFilterMenu1 = () => {
-    console.log(show1);
-    setShow1(!show1);
+    console.log("Delete");
   };
 
-  const AddPhysician = () => [
-    axios.post('/', {
-      Name: '',
-      Title: '',
-      Spe: ''
-    })
-    .then((response) => {
-      console.log(response);
-    }, (error) => {
-      console.log(error);
-    });
-  ]
- 
-
-  const [stateValue, setStateValue] = useState();
+  const [show1, setShow1] = useState(false);
+  const toggleFilterMenu1 = () => setShow1(!show1);
 
   return (
     <>
@@ -90,7 +94,7 @@ const DoctorsList = () => {
                 <Link
                   href="#"
                   data-bs-toggle="modal"
-                  data-bs-target="#addproduct"
+                  data-bs-target="#addPhysicianModal"
                   className="btn btn-primary btn-add"
                 >
                   <i className="me-1">
@@ -103,7 +107,7 @@ const DoctorsList = () => {
           </div>
           {/* <!-- /Page Header --> */}
 
-          {/* <!-- Product List --> */}
+          {/* <!-- Doctors List --> */}
           <div className="row">
             <div className="col-sm-12">
               <div className="card">
@@ -175,7 +179,7 @@ const DoctorsList = () => {
                   </div>
                 </div>
                 <DoctorsListTable
-                  data={doctorsListData}
+                  data={doctorsList}
                   editDoctor={editPhysician}
                   deleteDoctor={deletePhysician}
                 />
@@ -184,174 +188,21 @@ const DoctorsList = () => {
               <div id="tablepagination" className="dataTables_wrapper"></div>
             </div>
           </div>
-          {/* <!-- /Product List --> */}
+          {/* <!-- /Doctors List --> */}
         </div>
+        <AddDoctorModal
+          addPhysician={addPhysician}
+          name={name}
+          title={title}
+          specialty={specialty}
+          handleNameInput={handleNameInput}
+          handleTitleInput={handleTitleInput}
+          handleSpecialtyInput={handleSpecialtyInput}        
+        />
+        <EditDoctorModel />
+        <DeleteDoctorModal />
       </div>
       {/* <!-- /Page Wrapper --> */}
-      {/* <!-- Modal --> */}
-      <div
-        className="modal fade contentmodal"
-        id="addproduct"
-        tabIndex="-1"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content doctor-profile">
-            <div className="modal-header">
-              <h3 className="mb-0">اضافه کردن پزشک</h3>
-              <button
-                type="button"
-                className="close-btn"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              >
-                <i>
-                  <FeatherIcon icon="x-circle" />
-                </i>
-              </button>
-            </div>
-            <div className="modal-body">
-              <form action="/admin/pharmacy-list">
-                <div className="add-wrap">
-                  <div className="form-group form-focus">
-                    <input type="text" className="form-control floating" />
-                    <label className="focus-label">
-                      نام پزشک <span className="text-danger">*</span>
-                    </label>
-                  </div>
-                  <div className="form-group form-focus">
-                    <input type="text" className="form-control floating" />
-                    <label className="focus-label">
-                      تخصص <span className="text-danger">*</span>
-                    </label>
-                  </div>
-
-                  <div className="form-group form-focus">
-                    <input type="text" className="form-control floating" />
-                    <label className="focus-label">
-                      عنوان <span className="text-danger">*</span>
-                    </label>
-                  </div>
-
-                  <div className="submit-section">
-                    <button type="submit" className="btn btn-primary btn-save">
-                      ثبت تغییرات
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* <!-- /Modal --> */}
-      {/* <!-- Modal --> */}
-      <div
-        className="modal fade contentmodal"
-        id="editModal"
-        tabIndex="-1"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content doctor-profile">
-            <div className="modal-header">
-              <h3 className="mb-0">ویرایش اطلاعات </h3>
-              <button
-                type="button"
-                className="close-btn"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              >
-                <i>
-                  <FeatherIcon icon="x-circle" />
-                </i>
-              </button>
-            </div>
-            <div className="modal-body">
-              <form action="/admin/pharmacy-list">
-                <div className="add-wrap">
-                  <div className="form-group form-focus">
-                    <input type="text" className="form-control floating" />
-                    <label className="focus-label">
-                      نام پزشک <span className="text-danger">*</span>
-                    </label>
-                  </div>
-                  <div className="form-group form-focus">
-                    <input type="text" className="form-control floating" />
-                    <label className="focus-label">
-                      تخصص <span className="text-danger">*</span>
-                    </label>
-                  </div>
-                  <div className="form-group form-focus">
-                    <input type="text" className="form-control floating" />
-                    <label className="focus-label">
-                      عنوان <span className="text-danger">*</span>
-                    </label>
-                  </div>
-                  <div className="submit-section">
-                    <button type="submit" className="btn btn-primary btn-save">
-                      ثبت تغییرات
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* <!-- /Modal --> */}
-      {/* <!-- Modal --> */}
-      <div
-        className="modal fade contentmodal"
-        id="deleteModal"
-        tabIndex="-1"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content doctor-profile">
-            <div className="modal-header border-bottom-0 justify-content-end">
-              <button
-                type="button"
-                className="close-btn"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              >
-                <div className="del-icon">
-                  <i>
-                    <FeatherIcon icon="x-circle" />
-                  </i>
-                </div>
-              </button>
-            </div>
-            <div className="modal-body">
-              <div className="delete-wrap text-center">
-                <div className="del-icon">
-                  <i className="delete-icon">
-                    <FeatherIcon icon="x-circle" />
-                  </i>
-                </div>
-                <h2>آیا اطمینان به حذف دارید؟</h2>
-                <div className="submit-section">
-                  <Link
-                    href="/admin/pharmacy-list"
-                    className="btn btn-success me-2"
-                  >
-                    بله
-                  </Link>
-                  <Link
-                    href="#"
-                    className="btn btn-danger"
-                    data-bs-dismiss="modal"
-                  >
-                    خیر
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* <!-- /Modal --> */}
       );
     </>
   );

@@ -1,7 +1,6 @@
 "use client"; //This is a client component
 import React, { useState } from "react";
 import Link from "next/link";
-// import Appointment from 'components/dashboard/appointments'
 import {
   avatar02,
   avatar03,
@@ -28,11 +27,11 @@ import {
   ortho,
   urology,
 } from "components/imagepath";
+import FeatherIcon from "feather-icons-react";
 import Select from "react-select";
 import Image from "next/image";
 import "components/dashboard/header";
 import "components/dashboard/sidebar";
-import FeatherIcon from "feather-icons-react";
 
 const Dashboard = () => {
   const options = [

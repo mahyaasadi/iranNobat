@@ -139,11 +139,9 @@ const Login = () => {
                     </div>
                   </div>
                   <div className="d-grid">
-                    
                       <button className="btn btn-primary" type="submit">
                         ورود
                       </button>
-                    
                   </div>
                   <div className="dont-have">حساب ندارید ؟ </div>
                 </form>
