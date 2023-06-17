@@ -2,26 +2,25 @@
 import React from "react";
 import Link from "next/link";
 import FeatherIcon from "feather-icons-react";
-// import { Card } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 
-const DoctorsListTable = ({data , editDoctor, deleteDoctor}) => {
+const DoctorsListTable = ({ data, editPhysician, deletePhysician ,updatePhysician}) => {
   const columns = [
-      {
+    {
       name: "نام پزشک",
       selector: (row) => row.Name,
       sortable: true,
       width: "auto",
     },
-       {
+    {
       name: "عنوان",
       selector: (row) => row.Title,
       sortable: true,
       width: "auto",
     },
-       {
+    {
       name: "تخصص",
       selector: (row) => row.Spe,
       sortable: true,
@@ -29,17 +28,17 @@ const DoctorsListTable = ({data , editDoctor, deleteDoctor}) => {
     },
     {
       name: "عملیات ها",
-      selector: (row) => row.action,
+      selector: (row) => row._id,
       sortable: true,
-      cell: () => (
+      cell: (row) => (
         <div className="actions">
           <Link
             dir="ltr"
             href="#"
             className="text-black"
-            // onClick={editDoctor}
+            onClick={() => updatePhysician(row)}
             data-bs-toggle="modal"
-            data-bs-target="#editModal"
+            data-bs-target="#editPhysicianModal"
           >
             <i className="me-1">
               <FeatherIcon icon="edit-3" />
@@ -50,7 +49,7 @@ const DoctorsListTable = ({data , editDoctor, deleteDoctor}) => {
             dir="ltr"
             href="#"
             className="text-danger"
-            // onClick={deleteDoctor}
+            onClick={() => deletePhysician(row._id)}
             data-bs-toggle="modal"
             data-bs-target="#deleteModal"
           >
@@ -69,7 +68,7 @@ const DoctorsListTable = ({data , editDoctor, deleteDoctor}) => {
     columns,
     data,
   };
-  
+
   return (
     <div className="card-body p-0">
       <div className="table-responsive">

@@ -36,16 +36,6 @@ const Header = () => {
     settask1(!task1);
   };
 
-  // const handledropdown = () => {
-  //   setdropdown(!dropdown);
-  //   setdropdown1(false);
-  // };
-
-  // const handledropdown1 = () => {
-  //   setdropdown1(!dropdown1);
-  //   setdropdown(false);
-  // };
-
   const handlesidebar = () => {
     document.body.classList.toggle("mini-sidebar");
   };
@@ -64,7 +54,6 @@ const Header = () => {
         user = response.data;
         let centerId = user.CenterID;
         Cookies.set("CenterID", centerId);
-        console.log(centerId);
         document.getElementById("avatar").setAttribute("src", user.Avatar);
         document.getElementById("avatar").setAttribute("srcSet", user.Avatar);
         document

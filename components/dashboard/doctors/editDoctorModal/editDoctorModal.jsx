@@ -1,10 +1,10 @@
 import FeatherIcon from "feather-icons-react";
 
-const EditDoctorModel = () => {
+const EditDoctorModal = ({ data, editPhysician}) => {
   return (
     <div
       className="modal fade contentmodal"
-      id="editModal"
+      id="editPhysicianModal"
       tabIndex="-1"
       aria-hidden="true"
     >
@@ -24,24 +24,51 @@ const EditDoctorModel = () => {
             </button>
           </div>
           <div className="modal-body">
-            <form>
+            <form onSubmit={editPhysician}>
               <div className="add-wrap">
                 <div className="form-group form-focus">
-                  <input type="text" className="form-control floating" />
+                  <input
+                    type="hidden"
+                    className="form-control floating"
+                    name="EditDoctorID"
+                    value={data._id}
+                    />
+                  <input
+                    type="text"
+                    className="form-control floating"
+                    name="EditDoctorName"
+                    defaultValue={data.Name}
+                    key={data.Name}
+                    required
+                  />
                   <label className="focus-label">
-                    نام پزشک <span className="text-danger">*</span>
+                    نام پزشک <span className="text-danger" >*</span>
                   </label>
                 </div>
                 <div className="form-group form-focus">
-                  <input type="text" className="form-control floating" />
-                  <label className="focus-label">
-                    تخصص <span className="text-danger">*</span>
-                  </label>
-                </div>
-                <div className="form-group form-focus">
-                  <input type="text" className="form-control floating" />
+                  <input
+                    type="text"
+                    className="form-control floating"
+                    name="EditDoctorTitle"
+                    defaultValue={data.Title}
+                    key={data.Title}
+                    required
+                  />
                   <label className="focus-label">
                     عنوان <span className="text-danger">*</span>
+                  </label>
+                </div>
+                <div className="form-group form-focus">
+                  <input
+                    type="text"
+                    name="EditDoctorSpe"
+                    className="form-control floating"
+                    defaultValue={data.Spe}
+                    key={data.Spe}
+                    required
+                  />
+                  <label className="focus-label">
+                    تخصص <span className="text-danger">*</span>
                   </label>
                 </div>
                 <div className="submit-section">
@@ -58,4 +85,4 @@ const EditDoctorModel = () => {
   );
 };
 
-export default EditDoctorModel;
+export default EditDoctorModal;

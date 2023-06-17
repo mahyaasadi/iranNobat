@@ -24,14 +24,16 @@ const AddDoctorModal = ({ addPhysician, name, title, specialty, handleNameInput,
             </button>
           </div>
           <div className="modal-body">
-            <form onSubmit={addPhysician} id="addPhysicianModel">
+            <form onSubmit={addPhysician} id="frmAddPhysician">
               <div className="add-wrap">
                 <div className="form-group form-focus">
                   <input
                     type="text"
+                    id="AddPhysicianName"
                     className="form-control floating"
                     value={name}
                     onChange={handleNameInput}
+                    required
                   />
                   <label className="focus-label">
                     نام پزشک <span className="text-danger">*</span>
@@ -40,23 +42,27 @@ const AddDoctorModal = ({ addPhysician, name, title, specialty, handleNameInput,
                 <div className="form-group form-focus">
                   <input
                     type="text"
+                    id="AddPhysicianTitle"
                     className="form-control floating"
-                    value={specialty}
-                    onChange={handleSpecialtyInput}
+                    value={title}
+                    onChange={handleTitleInput}
+                    required
                   />
                   <label className="focus-label">
-                    تخصص <span className="text-danger">*</span>
+                    عنوان <span className="text-danger">*</span>
                   </label>
                 </div>
                 <div className="form-group form-focus">
                   <input
                     type="text"
+                    id="AddPhysicianSpe"
                     className="form-control floating"
-                    value={title}
-                    onChange={handleTitleInput}
+                    value={specialty}
+                    onChange={handleSpecialtyInput}
+                    required
                   />
                   <label className="focus-label">
-                    عنوان <span className="text-danger">*</span>
+                    تخصص <span className="text-danger">*</span>
                   </label>
                 </div>
 

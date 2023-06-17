@@ -10,14 +10,11 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import Loading from "components/loading/Loading";
 import { sort } from "components/imagepath";
-import DoctorsListTable from "components/dashboard/doctors/doctorsListTable/doctorsListTable";
-import AddDoctorModal from "components/dashboard/doctors/addDoctorModal/addDoctorModal";
-import EditDoctorModal from "components/dashboard/doctors/editDoctorModal/editDoctorModal";
 import Swal from "sweetalert2";
 
 let CenterID = Cookies.get("CenterID");
 
-const DoctorsList = () => {
+const SpecializedWorks = () => {
   const [isLoading, setIsLoading] = useState(true);
   let [doctorsList, setDoctorsList] = useState([]);
   const [editDoctor, setEditDoctor] = useState({});
@@ -264,12 +261,7 @@ const updateItem =(id, newArr)=> {
                 {isLoading ? (
                   <Loading />
                 ) : (
-                  <DoctorsListTable
-                    data={doctorsList}
-                    deletePhysician={deletePhysician}
-                    editPhysician={editPhysician}
-                    updatePhysician={updatePhysician}
-                  />
+                  <SpecializedWorksListTable/>
                 )}
               </div>
 
@@ -278,29 +270,10 @@ const updateItem =(id, newArr)=> {
           </div>
           {/* <!-- /Doctors List --> */}
         </div>
-        <AddDoctorModal
-          addPhysician={addPhysician}
-          name={name}
-          title={title}
-          specialty={specialty}
-          handleNameInput={handleNameInput}
-          handleTitleInput={handleTitleInput}
-          handleSpecialtyInput={handleSpecialtyInput}
-        />
-        <EditDoctorModal
-          data={editDoctor}
-          editPhysician={editPhysician}
-          name={name}
-          title={title}
-          specialty={specialty}
-          handleNameInput={handleNameInput}
-          handleTitleInput={handleTitleInput}
-          handleSpecialtyInput={handleSpecialtyInput}
-        />
       </div>
       );
     </>
   );
 };
 
-export default DoctorsList;
+export default SpecializedWorks;

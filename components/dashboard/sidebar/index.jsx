@@ -49,6 +49,11 @@ const Sidebar = () => {
                       پزشکان
                     </Link>
                   </li>
+                  <li>
+                    <Link href="/specializedWorks">
+                      کارهای تخصصی مرکز
+                    </Link>
+                  </li>
                 </ul>
               </li>
             </ul>

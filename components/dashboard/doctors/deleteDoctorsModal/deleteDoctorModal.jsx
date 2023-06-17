@@ -1,15 +1,15 @@
 import FeatherIcon from "feather-icons-react";
-import Link from "next/link"
+import Link from "next/link";
 
-const DeleteDoctorModal = () => {
+const DeleteDoctorModal = ({ deletePhysician }) => {
   return (
     <div
       className="modal fade contentmodal"
-      id="deleteModal"
+      id="deletePhysicianModal"
       tabIndex="-1"
       aria-hidden="true"
     >
-      <div className="modal-dialog modal-dialog-centered">
+      {/* <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content doctor-profile">
           <div className="modal-header border-bottom-0 justify-content-end">
             <button
@@ -34,21 +34,20 @@ const DeleteDoctorModal = () => {
               </div>
               <h2>آیا اطمینان به حذف دارید؟</h2>
               <div className="submit-section">
-                <Link href="#" className="btn btn-success me-2">
+                <div onClick={deletePhysician} className="btn btn-success me-2">
                   بله
-                </Link>
-                <Link
-                  href="#"
+                </div>
+                <div
                   className="btn btn-danger"
                   data-bs-dismiss="modal"
                 >
                   خیر
-                </Link>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

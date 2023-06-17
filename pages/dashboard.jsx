@@ -30,8 +30,8 @@ import {
 import FeatherIcon from "feather-icons-react";
 import Select from "react-select";
 import Image from "next/image";
-import "components/dashboard/header";
-import "components/dashboard/sidebar";
+// import "components/dashboard/header";
+// import "components/dashboard/sidebar";
 
 const Dashboard = () => {
   const options = [
