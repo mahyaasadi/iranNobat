@@ -7,11 +7,11 @@ const Footer = () => {
         strategy="beforeInteractive"
       />
       <Script
-        src="assets/js/bootstrap.bundle.min.js"
+        src="assets/js/jquery.slimscroll.min.js"
         strategy="afterInteractive"
       />
       <Script
-        src="assets/js/jquery.slimscroll.min.js"
+        src="assets/js/bootstrap.bundle.min.js"
         strategy="afterInteractive"
       />
       <Script src="assets/js/script.js" strategy="afterInteractive" />

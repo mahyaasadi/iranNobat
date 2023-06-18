@@ -40,6 +40,7 @@ const SelectField = ({
         value={value}
         onChange={onChangeValue}
         {...props}
+        instanceId={useId()}
       />
       {error && <p className="error-message">{errorMessage}</p>}
       {/* </div> */}

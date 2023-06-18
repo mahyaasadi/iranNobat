@@ -2,19 +2,22 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import FeatherIcon from "feather-icons-react";
-import "public/assets/css/font-awesome.min.css";
-import "public/assets/css/feathericon.min.css";
-import "public/assets/css/style.css";
 import Image from "next/image";
 import axios from "axios";
 import Cookies from "js-cookie";
+import Swal from "sweetalert2";
 import Loading from "components/loading/Loading";
 import { sort } from "components/imagepath";
-import Swal from "sweetalert2";
+import DoctorsListTable from "components/dashboard/doctors/doctorsListTable/doctorsListTable";
+import AddDoctorModal from "components/dashboard/doctors/addDoctorModal/addDoctorModal";
+import EditDoctorModal from "components/dashboard/doctors/editDoctorModal/editDoctorModal";
+import "public/assets/css/font-awesome.min.css";
+import "public/assets/css/feathericon.min.css";
+import "public/assets/css/style.css";
 
 let CenterID = Cookies.get("CenterID");
 
-const SpecializedWorks = () => {
+const DoctorsList = () => {
   const [isLoading, setIsLoading] = useState(true);
   let [doctorsList, setDoctorsList] = useState([]);
   const [editDoctor, setEditDoctor] = useState({});
@@ -93,13 +96,12 @@ const SpecializedWorks = () => {
       Title: formProps.EditDoctorTitle,
       Spe: formProps.EditDoctorSpe,
     };
-      console.log(Data)
+    console.log(Data);
     axios
       .put(url, Data)
       .then((response) => {
         console.log(response.data);
-        updateItem(formProps.EditDoctorID,response.data)
-
+        updateItem(formProps.EditDoctorID, response.data);
         $("#editPhysicianModal").modal("hide");
         reset();
       })
@@ -107,23 +109,21 @@ const SpecializedWorks = () => {
         console.log(error);
       });
   };
-const updateItem =(id, newArr)=> {
-    var index = doctorsList.findIndex(x=> x._id === id);
+  const updateItem = (id, newArr) => {
+    let index = doctorsList.findIndex((x) => x._id === id);
 
-    let g = doctorsList[index]
-    g = newArr
-    if (index === -1){
+    let g = doctorsList[index];
+    g = newArr;
+    if (index === -1) {
       // handle error
-      console.log('no match')
-    }
-    else
+      console.log("no match");
+    } else
       setDoctorsList([
-        ...doctorsList.slice(0,index),
+        ...doctorsList.slice(0, index),
         g,
-        ...doctorsList.slice(index+1)
-      ]
-  );
-  }
+        ...doctorsList.slice(index + 1),
+      ]);
+  };
 
   const updatePhysician = (data) => {
     setEditDoctor(data);
@@ -249,7 +249,7 @@ const updateItem =(id, newArr)=> {
                               type="submit"
                               className="btn w-100 btn-primary"
                             >
-                              ثبت
+                              اعمال
                             </button>
                           </form>
                         </div>
@@ -261,7 +261,12 @@ const updateItem =(id, newArr)=> {
                 {isLoading ? (
                   <Loading />
                 ) : (
-                  <SpecializedWorksListTable/>
+                  <DoctorsListTable
+                    data={doctorsList}
+                    deletePhysician={deletePhysician}
+                    editPhysician={editPhysician}
+                    updatePhysician={updatePhysician}
+                  />
                 )}
               </div>
 
@@ -270,10 +275,28 @@ const updateItem =(id, newArr)=> {
           </div>
           {/* <!-- /Doctors List --> */}
         </div>
+        <AddDoctorModal
+          addPhysician={addPhysician}
+          name={name}
+          title={title}
+          specialty={specialty}
+          handleNameInput={handleNameInput}
+          handleTitleInput={handleTitleInput}
+          handleSpecialtyInput={handleSpecialtyInput}
+        />
+        <EditDoctorModal
+          data={editDoctor}
+          editPhysician={editPhysician}
+          name={name}
+          title={title}
+          specialty={specialty}
+          handleNameInput={handleNameInput}
+          handleTitleInput={handleTitleInput}
+          handleSpecialtyInput={handleSpecialtyInput}
+        />
       </div>
-      );
     </>
   );
 };
 
-export default SpecializedWorks;
+export default DoctorsList;

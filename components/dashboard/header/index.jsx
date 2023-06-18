@@ -79,7 +79,7 @@ const Header = () => {
         {/* Logo */}
         <div className="header-left">
           <Link href="/admin" className="logo">
-            <Image src={logo} alt="Logo" />
+            <Image src={logo} alt="Logo" unoptimized={true} priority={true} />
           </Link>
           <Link href="/admin" className="logo logo-small">
             <Image src={logoSmall} alt="Logo" width={30} height={30} />
@@ -89,7 +89,7 @@ const Header = () => {
           </Link>
         </div>
         {/* /Logo */}
-        
+
         {/* Mobile Menu Toggle */}
         <Link
           href="#"
@@ -144,7 +144,7 @@ const Header = () => {
                     <Link href="#">
                       <div className="media d-flex">
                         <span className="avatar">
-                          <img className="avatar-img" alt="" src={avatar02} />
+                          <img className="avatar-img" alt="" src="" />
                         </span>
                         <div className="media-body">
                           <h6>
@@ -163,7 +163,7 @@ const Header = () => {
                     <Link href="#">
                       <div className="media d-flex">
                         <span className="avatar">
-                          <img className="avatar-img" alt="" src={avatar05} />
+                          <img className="avatar-img" alt="" src="" />
                         </span>
                         <div className="media-body">
                           <h6>
@@ -185,7 +185,7 @@ const Header = () => {
                     <Link href="#">
                       <div className="media d-flex">
                         <div className="avatar">
-                          <img className="avatar-img" alt="" src={avatar03} />
+                          <img className="avatar-img" alt="" src="" />
                         </div>
                         <div className="media-body">
                           <h6>
@@ -205,7 +205,7 @@ const Header = () => {
                     <Link href="#">
                       <div className="media d-flex">
                         <div className="avatar avatar-sm">
-                          <img className="avatar-img" alt="" src={avatar06} />
+                          <img className="avatar-img" alt="" src="" />
                         </div>
                         <div className="media-body">
                           <h6>

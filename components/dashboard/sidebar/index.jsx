@@ -45,12 +45,10 @@ const Sidebar = () => {
                 </a>
                 <ul className="hidden">
                   <li>
-                    <Link href="/doctorsList">
-                      پزشکان
-                    </Link>
+                    <Link href="/dashboard/doctorsList">پزشکان</Link>
                   </li>
                   <li>
-                    <Link href="/specializedWorks">
+                    <Link href="/dashboard/specializedWorks">
                       کارهای تخصصی مرکز
                     </Link>
                   </li>

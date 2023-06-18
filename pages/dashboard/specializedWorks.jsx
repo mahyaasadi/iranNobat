@@ -2,48 +2,51 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import FeatherIcon from "feather-icons-react";
-import "public/assets/css/font-awesome.min.css";
-import "public/assets/css/feathericon.min.css";
-import "public/assets/css/style.css";
 import Image from "next/image";
 import axios from "axios";
 import Cookies from "js-cookie";
-import Loading from "components/loading/Loading";
-import { sort } from "components/imagepath";
-import DoctorsListTable from "components/dashboard/doctors/doctorsListTable/doctorsListTable";
-import AddDoctorModal from "components/dashboard/doctors/addDoctorModal/addDoctorModal";
-import EditDoctorModal from "components/dashboard/doctors/editDoctorModal/editDoctorModal";
 import Swal from "sweetalert2";
+import { sort } from "components/imagepath";
+import Loading from "components/loading/Loading";
+import SpecializedWorksListTable from "components/dashboard/specializedWorks/specializedWorksListTable";
+import AddSpeWorkModal from "components/dashboard/specializedWorks/addspeWorkModal/addSpeWorkModal";
+import EditSpeWorkModal from "components/dashboard/specializedWorks/editSpeWorkModal/editSpeWorkModal";
+import "public/assets/css/font-awesome.min.css";
+import "public/assets/css/feathericon.min.css";
+import "public/assets/css/style.css";
 
 let CenterID = Cookies.get("CenterID");
 
-const DoctorsList = () => {
+const SpecializedWorks = () => {
   const [isLoading, setIsLoading] = useState(true);
-  let [doctorsList, setDoctorsList] = useState([]);
-  const [editDoctor, setEditDoctor] = useState({});
+  const [show1, setShow1] = useState(false);
+  const [speWorks, setSpeWorks] = useState([]);
+  const [editSpeWork, setEditSpeWork] = useState({});
   const [name, setName] = useState("");
   const [title, setTitle] = useState("");
-  const [specialty, setSpecialty] = useState("");
+  const [engName, setEngName] = useState("");
 
   const handleNameInput = (e) => setName(e.target.value);
   const handleTitleInput = (e) => setTitle(e.target.value);
-  const handleSpecialtyInput = (e) => setSpecialty(e.target.value);
+  const handleEngNameInput = (e) => setEngName(e.target.value);
+
+  const toggleFilterMenu1 = () => setShow1(!show1);
 
   //reset form inputs
-  const reset = (e) => {
+  const reset = () => {
     setName("");
     setTitle("");
-    setSpecialty("");
+    setEngName("");
   };
 
-  //get doctors list
-  const getDoctorsData = () => {
+  //get specializedWorks list
+  const getSpecializedWorks = () => {
     axios
       .get(
-        `https://irannobat.ir:8444/api/CenterProfile/getCenterPhysician/${CenterID}`
+        `https://irannobat.ir:8444/api/CenterProfile/getCenterSpecializedWorks/${CenterID}`
       )
       .then(function (response) {
-        setDoctorsList(response.data);
+        setSpeWorks(response.data);
         setIsLoading(false);
         console.log(response.data);
       });
@@ -51,30 +54,30 @@ const DoctorsList = () => {
 
   useEffect(() => {
     try {
-      getDoctorsData();
+      getSpecializedWorks();
     } catch (error) {
       setIsLoading(true);
       console.log(error);
     }
   }, []);
 
-  // Add Physician
-  const addPhysician = (e) => {
+  // Add SpeWork
+  const addSpeWork = (e) => {
     e.preventDefault();
 
-    let url = "https://irannobat.ir:8444/api/CenterProfile/AddPhysician";
+    let url = "https://irannobat.ir:8444/api/CenterProfile/AddSpecializedWorks";
     let data = {
       CenterID: CenterID,
       Name: name,
       Title: title,
-      Spe: specialty,
+      EngName: engName,
     };
 
     axios
       .post(url, data)
       .then((response) => {
-        setDoctorsList([...doctorsList, response.data]);
-        $("#addPhysicianModal").modal("hide");
+        setSpeWorks([...speWorks, response.data]);
+        $("#addSpeWorkModal").modal("hide");
         reset();
       })
       .catch((error) => {
@@ -82,61 +85,59 @@ const DoctorsList = () => {
       });
   };
 
-  // Edit Physician
-  const editPhysician = (e) => {
+  // Edit SpeWorks
+  const editSpeWorks = (e) => {
     e.preventDefault();
 
-    let url = "https://irannobat.ir:8444/api/CenterProfile/UpdatePhysician";
+    let url =
+      "https://irannobat.ir:8444/api/CenterProfile/UpdateSpecializedWorks";
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
     let Data = {
       CenterID: CenterID,
-      PhysicianID: formProps.EditDoctorID,
-      Name: formProps.EditDoctorName,
-      Title: formProps.EditDoctorTitle,
-      Spe: formProps.EditDoctorSpe,
+      SpecializedWorksID: formProps.EditSpeWorkID,
+      Name: formProps.EditSpeWorkName,
+      Title: formProps.EditSpeWorkTitle,
+      EngName: formProps.EditSpeWorkEngName,
     };
-      console.log(Data)
+    console.log(Data);
     axios
       .put(url, Data)
       .then((response) => {
         console.log(response.data);
-        updateItem(formProps.EditDoctorID,response.data)
-
-        $("#editPhysicianModal").modal("hide");
+        updateItem(formProps.EditSpeWorkID, response.data);
+        $("#editSpeWorkModal").modal("hide");
         reset();
       })
       .catch((error) => {
         console.log(error);
       });
   };
-const updateItem =(id, newArr)=> {
-    var index = doctorsList.findIndex(x=> x._id === id);
+  const updateItem = (id, newArr) => {
+    let index = speWorks.findIndex((x) => x._id === id);
 
-    let g = doctorsList[index]
-    g = newArr
-    if (index === -1){
+    let g = speWorks[index];
+    g = newArr;
+    if (index === -1) {
       // handle error
-      console.log('no match')
-    }
-    else
-      setDoctorsList([
-        ...doctorsList.slice(0,index),
+      console.log("no match");
+    } else
+      setSpeWorks([
+        ...speWorks.slice(0, index),
         g,
-        ...doctorsList.slice(index+1)
-      ]
-  );
-  }
-
-  const updatePhysician = (data) => {
-    setEditDoctor(data);
+        ...speWorks.slice(index + 1),
+      ]);
   };
 
-  // Delete Physician
-  const deletePhysician = (id) => {
+  const updateSpeWork = (data) => {
+    setEditSpeWork(data);
+  };
+
+  // Delete SpeWork
+  const deleteSpeWork = (id) => {
     Swal.fire({
-      title: "حذف پزشک !",
-      text: "آیا از حذف پزشک مطمئن هستید",
+      title: "حذف کار تخصصی !",
+      text: "آیا از حذف کار تخصصی مطمئن هستید",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -147,13 +148,14 @@ const updateItem =(id, newArr)=> {
       if (result.isConfirmed) {
         let data = {
           CenterID: CenterID,
-          PhysicianID: id,
+          SpecializedWorksID: id,
         };
-        let url = "https://irannobat.ir:8444/api/CenterProfile/DeletePhysician";
+        let url =
+          "https://irannobat.ir:8444/api/CenterProfile/DeleteSpecializedWorks";
         axios
           .delete(url, { data })
           .then(function (response) {
-            setDoctorsList(doctorsList.filter((a) => a._id !== id));
+            setSpeWorks(speWorks.filter((a) => a._id !== id));
           })
           .catch(function (error) {
             console.log(error);
@@ -162,11 +164,9 @@ const updateItem =(id, newArr)=> {
     });
   };
 
-  const [show1, setShow1] = useState(false);
-  const toggleFilterMenu1 = () => setShow1(!show1);
-
   return (
     <>
+      {/* <!-- Page Wrapper --> */}
       <div className="page-wrapper">
         <div className="content container-fluid">
           {/* <!-- Page Header --> */}
@@ -176,7 +176,7 @@ const updateItem =(id, newArr)=> {
                 <Link
                   href="#"
                   data-bs-toggle="modal"
-                  data-bs-target="#addPhysicianModal"
+                  data-bs-target="#addSpeWorkModal"
                   className="btn btn-primary btn-add"
                 >
                   <i className="me-1">
@@ -189,14 +189,14 @@ const updateItem =(id, newArr)=> {
           </div>
           {/* <!-- /Page Header --> */}
 
-          {/* <!-- Doctors List --> */}
+          {/* <!-- SpeWorks List --> */}
           <div className="row">
             <div className="col-sm-12">
               <div className="card">
                 <div className="card-header border-bottom-0">
                   <div className="row align-items-center">
                     <div className="col">
-                      <h5 className="card-title">لیست پزشکان</h5>
+                      <h5 className="card-title">لیست کارهای تخصصی مرکز</h5>
                     </div>
                     <div className="col-auto d-flex flex-wrap">
                       <div className="form-custom me-2">
@@ -211,8 +211,8 @@ const updateItem =(id, newArr)=> {
                             className="mb-0"
                             onClick={(value) => toggleFilterMenu1()}
                           >
-                            <Image src={sort} className="me-2" alt="icon" />
-                            بر اساس
+                            <Image src={sort} className="me-2" alt="icon" /> بر
+                            اساس
                           </p>
                           <span className="down-icon">
                             <i>
@@ -231,14 +231,6 @@ const updateItem =(id, newArr)=> {
                               <input type="radio" name="sort" />
                               <span className="checkmark"></span> شماره شناسه
                             </label>
-                            <label className="custom_radio w-100">
-                              <input type="radio" name="sort" />
-                              <span className="checkmark"></span> نام
-                            </label>
-                            <label className="custom_radio w-100 mb-4">
-                              <input type="radio" name="sort" />
-                              <span className="checkmark"></span> عنوان
-                            </label>
                             <p className="lab-title"> ترتیب بر اساس</p>
                             <label className="custom_radio w-100">
                               <input type="radio" name="sort" />
@@ -252,7 +244,7 @@ const updateItem =(id, newArr)=> {
                               type="submit"
                               className="btn w-100 btn-primary"
                             >
-                              ثبت
+                              اعمال
                             </button>
                           </form>
                         </div>
@@ -264,11 +256,10 @@ const updateItem =(id, newArr)=> {
                 {isLoading ? (
                   <Loading />
                 ) : (
-                  <DoctorsListTable
-                    data={doctorsList}
-                    deletePhysician={deletePhysician}
-                    editPhysician={editPhysician}
-                    updatePhysician={updatePhysician}
+                  <SpecializedWorksListTable
+                    data={speWorks}
+                    deleteSpeWork={deleteSpeWork}
+                    updateSpeWork={updateSpeWork}
                   />
                 )}
               </div>
@@ -276,31 +267,32 @@ const updateItem =(id, newArr)=> {
               <div id="tablepagination" className="dataTables_wrapper"></div>
             </div>
           </div>
-          {/* <!-- /Doctors List --> */}
+          {/* <!-- /SpeWorks List --> */}
         </div>
-        <AddDoctorModal
-          addPhysician={addPhysician}
+
+        <AddSpeWorkModal
           name={name}
           title={title}
-          specialty={specialty}
+          engName={engName}
           handleNameInput={handleNameInput}
           handleTitleInput={handleTitleInput}
-          handleSpecialtyInput={handleSpecialtyInput}
+          handleEngNameInput={handleEngNameInput}
+          addSpeWork={addSpeWork}
         />
-        <EditDoctorModal
-          data={editDoctor}
-          editPhysician={editPhysician}
+
+        <EditSpeWorkModal
           name={name}
           title={title}
-          specialty={specialty}
+          engName={engName}
+          data={editSpeWork}
+          editSpeWorks={editSpeWorks}
           handleNameInput={handleNameInput}
           handleTitleInput={handleTitleInput}
-          handleSpecialtyInput={handleSpecialtyInput}
+          handleEngNameInput={handleEngNameInput}
         />
       </div>
-      );
+      {/* <!-- /Modal --> */}
     </>
   );
 };
-
-export default DoctorsList;
+export default SpecializedWorks;

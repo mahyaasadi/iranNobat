@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import Link from "next/link";
 import FeatherIcon from "feather-icons-react";
@@ -6,10 +5,10 @@ import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 
-const DoctorsListTable = ({ data, deletePhysician ,updatePhysician}) => {
+const SpecialiazedWorksListTable = ({ data, updateSpeWork, deleteSpeWork }) => {
   const columns = [
     {
-      name: "نام پزشک",
+      name: "نام ",
       selector: (row) => row.Name,
       sortable: true,
       width: "auto",
@@ -21,8 +20,8 @@ const DoctorsListTable = ({ data, deletePhysician ,updatePhysician}) => {
       width: "auto",
     },
     {
-      name: "تخصص",
-      selector: (row) => row.Spe,
+      name: "نام انگلیسی",
+      selector: (row) => row.EngName,
       sortable: true,
       width: "auto",
     },
@@ -30,16 +29,16 @@ const DoctorsListTable = ({ data, deletePhysician ,updatePhysician}) => {
       name: "عملیات ها",
       selector: (row) => row._id,
       sortable: true,
-      
+
       cell: (row) => (
         <div className="actions">
           <Link
             dir="ltr"
             href="#"
             className="text-black"
-            onClick={() => updatePhysician(row)}
+            onClick={() => updateSpeWork(row)}
             data-bs-toggle="modal"
-            data-bs-target="#editPhysicianModal"
+            data-bs-target="#editSpeWorkModal"
           >
             <i className="me-1">
               <FeatherIcon icon="edit-3" />
@@ -50,7 +49,7 @@ const DoctorsListTable = ({ data, deletePhysician ,updatePhysician}) => {
             dir="ltr"
             href="#"
             className="text-danger"
-            onClick={() => deletePhysician(row._id)}
+            onClick={() => deleteSpeWork(row._id)}
             data-bs-toggle="modal"
             data-bs-target="#deleteModal"
           >
@@ -87,4 +86,4 @@ const DoctorsListTable = ({ data, deletePhysician ,updatePhysician}) => {
   );
 };
 
-export default DoctorsListTable;
+export default SpecialiazedWorksListTable;

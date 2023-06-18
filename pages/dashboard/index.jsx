@@ -1,6 +1,9 @@
-"use client"; //This is a client component
+// "use client"; //This is a client component
 import React, { useState } from "react";
 import Link from "next/link";
+import FeatherIcon from "feather-icons-react";
+import Select from "react-select";
+import Image from "next/image";
 import {
   avatar02,
   avatar03,
@@ -27,11 +30,6 @@ import {
   ortho,
   urology,
 } from "components/imagepath";
-import FeatherIcon from "feather-icons-react";
-import Select from "react-select";
-import Image from "next/image";
-// import "components/dashboard/header";
-// import "components/dashboard/sidebar";
 
 const Dashboard = () => {
   const options = [
@@ -153,7 +151,7 @@ const Dashboard = () => {
                   <div className="card-body">
                     <div className="dash-widget-header">
                       <span className="dash-widget-icon bg-warning">
-                        <Image src="" alt="User Image" />
+                        <Image src={calender} alt="User Image" />
                       </span>
                       <div className="dash-count">
                         <h5 className="dash-title">درخواست نوبت</h5>
@@ -177,7 +175,7 @@ const Dashboard = () => {
                   <div className="card-body">
                     <div className="dash-widget-header">
                       <span className="dash-widget-icon bg-danger">
-                        <Image src="" alt="User Image" />
+                        <Image src={chart} alt="User Image" />
                       </span>
                       <div className="dash-count">
                         <h5 className="dash-title">در آمد</h5>
@@ -197,25 +195,17 @@ const Dashboard = () => {
                 </div>
               </div>
             </div>
+
             <div className="row">
-              {/* Appointments */}
               {/* <Appointments /> */}
-              {/* /Appointments */}
-              {/* Income Report */}
               {/* <IncomeReport /> */}
-              {/* /Income Report */}
             </div>
-            {/* Today’s  Appointment */}
             <div className="row">{/* <TodayAppointment /> */}</div>
-            {/* /Today’s  Appointment */}
             <div className="row">
-              {/* Recent Activities */}
               {/* <RecentActivities /> */}
-              {/* /Recent Activities */}
-              {/* Top Doctors */}
               {/* <TopDoctors /> */}
-              {/* /Top Doctors */}
             </div>
+
             <div className="row">
               {/* Popular by Speciality */}
               <div className="col-xl-4 col-md-6">
@@ -232,6 +222,8 @@ const Dashboard = () => {
                           onChange={setSelectedOption}
                           options={options}
                           placeholder={"This Week"}
+                          id="long-value-select"
+                          instanceId="long-value-select"
                         />
                       </div>
                     </div>
@@ -341,11 +333,7 @@ const Dashboard = () => {
                   </div>
                 </div>
               </div>
-              {/* /Popular by Speciality */}
-              {/* Consultaion Today */}
-              {/* <Consultation /> */}
-              {/* /Consultaion Today */}
-              {/* Upcoming Appointments */}
+
               <div className="col-xl-4">
                 <div className="card">
                   <div className="card-header">
@@ -794,7 +782,7 @@ const Dashboard = () => {
                                   </div>
                                 </div>
                               </div>
-                              <div className="col-sm-6">
+                              {/* <div className="col-sm-6">
                                 <div className="app-img">
                                   <Image src="" alt="" className="img-fluid" />
                                   <div className="app-name">
@@ -802,7 +790,7 @@ const Dashboard = () => {
                                     <p>ID : 781212, M</p>
                                   </div>
                                 </div>
-                              </div>
+                              </div> */}
                             </div>
                           </div>
                           <div className="app-time">
@@ -1020,7 +1008,7 @@ const Dashboard = () => {
                                   </div>
                                 </div>
                               </div>
-                              <div className="col-6">
+                              {/* <div className="col-6">
                                 <div className="app-img">
                                   <Image src="" alt="" className="img-fluid" />
                                   <div className="app-name">
@@ -1028,7 +1016,7 @@ const Dashboard = () => {
                                     <p>ID : 781212, M</p>
                                   </div>
                                 </div>
-                              </div>
+                              </div> */}
                             </div>
                           </div>
                           <div className="app-time">
@@ -1079,7 +1067,7 @@ const Dashboard = () => {
                                   </div>
                                 </div>
                               </div>
-                              <div className="col-6">
+                              {/* <div className="col-6">
                                 <div className="app-img">
                                   <Image src="" alt="" className="img-fluid" />
                                   <div className="app-name">
@@ -1087,7 +1075,7 @@ const Dashboard = () => {
                                     <p>ID : 781212, M</p>
                                   </div>
                                 </div>
-                              </div>
+                              </div> */}
                             </div>
                           </div>
                           <div className="app-time">
@@ -1136,7 +1124,7 @@ const Dashboard = () => {
                                   </div>
                                 </div>
                               </div>
-                              <div className="col-6">
+                              {/* <div className="col-6">
                                 <div className="app-img">
                                   <Image src="" alt="" className="img-fluid" />
                                   <div className="app-name">
@@ -1144,7 +1132,7 @@ const Dashboard = () => {
                                     <p>ID : 781212, M</p>
                                   </div>
                                 </div>
-                              </div>
+                              </div> */}
                             </div>
                           </div>
                           <div className="app-time">
@@ -1185,7 +1173,7 @@ const Dashboard = () => {
                                   </div>
                                 </div>
                               </div>
-                              <div className="col-6">
+                              {/* <div className="col-6">
                                 <div className="app-img">
                                   <Image src="" alt="" className="img-fluid" />
                                   <div className="app-name">
@@ -1193,7 +1181,7 @@ const Dashboard = () => {
                                     <p>ID : 781212, M</p>
                                   </div>
                                 </div>
-                              </div>
+                              </div> */}
                             </div>
                           </div>
                           <div className="app-time">
@@ -1289,382 +1277,381 @@ const Dashboard = () => {
                             </div>
                           </div>
                         </div>
-                          <div className="app-time">
-                            <p>
-                              <i className="me-1">
-                                <FeatherIcon icon="clock" />
-                              </i>{" "}
-                              06:00pm - 06:20pm
-                            </p>
-                          </div>
-                          <div className="app-infos">
-                            <div className="row align-items-center">
-                              <div className="col-4 col-sm-4">
-                                <p>Duration</p>
-                                <p className="mb-0">20 Min</p>
-                              </div>
-                              <div className="col-8 col-sm-4">
-                                <p>Consultation Fee</p>
-                                <h6>$30.00K</h6>
-                              </div>
-                              <div className="col-sm-4"></div>
+                        <div className="app-time">
+                          <p>
+                            <i className="me-1">
+                              <FeatherIcon icon="clock" />
+                            </i>{" "}
+                            06:00pm - 06:20pm
+                          </p>
+                        </div>
+                        <div className="app-infos">
+                          <div className="row align-items-center">
+                            <div className="col-4 col-sm-4">
+                              <p>Duration</p>
+                              <p className="mb-0">20 Min</p>
                             </div>
+                            <div className="col-8 col-sm-4">
+                              <p>Consultation Fee</p>
+                              <h6>$30.00K</h6>
+                            </div>
+                            <div className="col-sm-4"></div>
                           </div>
                         </div>
-                        <div className="appointment-items">
-                          <div className="app-user">
-                            <div className="row">
-                              <div className="col-6">
-                                <div className="app-img">
-                                  <Image src="" alt="" className="img-fluid" />
-                                  <div className="app-name">
-                                    <h6>Dr. Lester </h6>
-                                    <p>Orthopaedics</p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="col-6">
-                                <div className="app-img">
-                                  <Image src="" alt="" className="img-fluid" />
-                                  <div className="app-name">
-                                    <h6>Chris Harris</h6>
-                                    <p>ID : 781212, M</p>
-                                  </div>
+                      </div>
+                      <div className="appointment-items">
+                        <div className="app-user">
+                          {/* <div className="row">
+                            <div className="col-6">
+                              <div className="app-img">
+                                <Image src="" alt="" className="img-fluid" />
+                                <div className="app-name">
+                                  <h6>Dr. Lester </h6>
+                                  <p>Orthopaedics</p>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="app-time">
-                            <p>
-                              <i className="me-1">
-                                <FeatherIcon icon="clock" />
-                              </i>{" "}
-                              06:00pm - 06:20pm
-                            </p>
-                          </div>
-                          <div className="app-infos">
-                            <div className="row align-items-center">
-                              <div className="col-4 col-sm-4">
-                                <p>Duration</p>
-                                <p className="mb-0">20 Min</p>
+                            <div className="col-6">
+                              <div className="app-img">
+                                <Image src="" alt="" className="img-fluid" />
+                                <div className="app-name">
+                                  <h6>Chris Harris</h6>
+                                  <p>ID : 781212, M</p>
+                                </div>
                               </div>
-                              <div className="col-8 col-sm-4">
-                                <p>Consultation Fee</p>
-                                <h6>$30.00K</h6>
-                              </div>
-                              <div className="col-sm-4">
-                                <div className="float-sm-end">
-                                  <div className="mode-app text-yellow">
-                                    <i>
-                                      <FeatherIcon icon="video" />
-                                    </i>
-                                  </div>
+                            </div>
+                          </div> */}
+                        </div>
+                        <div className="app-time">
+                          <p>
+                            <i className="me-1">
+                              <FeatherIcon icon="clock" />
+                            </i>{" "}
+                            06:00pm - 06:20pm
+                          </p>
+                        </div>
+                        <div className="app-infos">
+                          <div className="row align-items-center">
+                            <div className="col-4 col-sm-4">
+                              <p>Duration</p>
+                              <p className="mb-0">20 Min</p>
+                            </div>
+                            <div className="col-8 col-sm-4">
+                              <p>Consultation Fee</p>
+                              <h6>$30.00K</h6>
+                            </div>
+                            <div className="col-sm-4">
+                              <div className="float-sm-end">
+                                <div className="mode-app text-yellow">
+                                  <i>
+                                    <FeatherIcon icon="video" />
+                                  </i>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                      <div id="menu6" className="tab-pane">
-                        <div className="appointment-items">
-                          <div className="app-user">
-                            <div className="row">
-                              <div className="col-6">
-                                <div className="app-img">
-                                  <Image src="" alt="" className="img-fluid" />
-                                  <div className="app-name">
-                                    <h6>Dr. Lester </h6>
-                                    <p>Orthopaedics</p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="col-6">
-                                <div className="app-img">
-                                  <Image src="" alt="" className="img-fluid" />
-                                  <div className="app-name">
-                                    <h6>Chris Harris</h6>
-                                    <p>ID : 781212, M</p>
-                                  </div>
+                    </div>
+                    <div id="menu6" className="tab-pane">
+                      <div className="appointment-items">
+                        <div className="app-user">
+                          {/* <div className="row">
+                            <div className="col-6">
+                              <div className="app-img">
+                                <Image src="" alt="" className="img-fluid" />
+                                <div className="app-name">
+                                  <h6>Dr. Lester </h6>
+                                  <p>Orthopaedics</p>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="app-time">
-                            <p>
-                              <i className="me-1">
-                                <FeatherIcon icon="clock" />
-                              </i>{" "}
-                              06:00pm - 06:20pm
-                            </p>
-                          </div>
-                          <div className="app-infos">
-                            <div className="row align-items-center">
-                              <div className="col-4 col-sm-4">
-                                <p>Duration</p>
-                                <p className="mb-0">20 Min</p>
-                              </div>
-                              <div className="col-8 col-sm-4">
-                                <p>Consultation Fee</p>
-                                <h6>$30.00K</h6>
-                              </div>
-                              <div className="col-sm-4">
-                                <div className="float-end">
-                                  <div className="mode-app text-yellow">
-                                    <i>
-                                      <FeatherIcon icon="video" />
-                                    </i>
-                                  </div>
+                            <div className="col-6">
+                              <div className="app-img">
+                                <Image src="" alt="" className="img-fluid" />
+                                <div className="app-name">
+                                  <h6>Chris Harris</h6>
+                                  <p>ID : 781212, M</p>
                                 </div>
                               </div>
                             </div>
-                          </div>
+                          </div> */}
                         </div>
-                        <div className="appointment-items">
-                          <div className="app-user">
-                            <div className="row">
-                              <div className="col-6">
-                                <div className="app-img">
-                                  <Image src="" alt="" className="img-fluid" />
-                                  <div className="app-name">
-                                    <h6>Dr. Lester </h6>
-                                    <p>Orthopaedics</p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="col-6">
-                                <div className="app-img">
-                                  <Image src="" alt="" className="img-fluid" />
-                                  <div className="app-name">
-                                    <h6>Chris Harris</h6>
-                                    <p>ID : 781212, M</p>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="app-time">
-                            <p>
-                              <i className="me-1">
-                                <FeatherIcon icon="clock" />
-                              </i>{" "}
-                              06:00pm - 06:20pm
-                            </p>
-                          </div>
-                          <div className="app-infos">
-                            <div className="row align-items-center">
-                              <div className="col-4 col-sm-4">
-                                <p>Duration</p>
-                                <p className="mb-0">20 Min</p>
-                              </div>
-                              <div className="col-8 col-sm-4">
-                                <p>Consultation Fee</p>
-                                <h6>$30.00K</h6>
-                              </div>
-                              <div className="col-sm-4"></div>
-                            </div>
-                          </div>
+                        <div className="app-time">
+                          <p>
+                            <i className="me-1">
+                              <FeatherIcon icon="clock" />
+                            </i>{" "}
+                            06:00pm - 06:20pm
+                          </p>
                         </div>
-                        <div className="appointment-items">
-                          <div className="app-user">
-                            <div className="row">
-                              <div className="col-6">
-                                <div className="app-img">
-                                  <Image src="" alt="" className="img-fluid" />
-                                  <div className="app-name">
-                                    <h6>Dr. Lester </h6>
-                                    <p>Orthopaedics</p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="col-6">
-                                <div className="app-img">
-                                  <Image src="" alt="" className="img-fluid" />
-                                  <div className="app-name">
-                                    <h6>Chris Harris</h6>
-                                    <p>ID : 781212, M</p>
-                                  </div>
-                                </div>
-                              </div>
+                        <div className="app-infos">
+                          <div className="row align-items-center">
+                            <div className="col-4 col-sm-4">
+                              <p>Duration</p>
+                              <p className="mb-0">20 Min</p>
                             </div>
-                          </div>
-                          <div className="app-time">
-                            <p>
-                              <i className="me-1">
-                                <FeatherIcon icon="clock" />
-                              </i>{" "}
-                              06:00pm - 06:20pm
-                            </p>
-                          </div>
-                          <div className="app-infos">
-                            <div className="row align-items-center">
-                              <div className="col-4 col-sm-4">
-                                <p>Duration</p>
-                                <p className="mb-0">20 Min</p>
-                              </div>
-                              <div className="col-8 col-sm-4">
-                                <p>Consultation Fee</p>
-                                <h6>$30.00K</h6>
-                              </div>
-                              <div className="col-sm-4">
-                                <div className="float-sm-end">
-                                  <div className="mode-app text-yellow">
-                                    <i>
-                                      <FeatherIcon icon="video" />
-                                    </i>
-                                  </div>
+                            <div className="col-8 col-sm-4">
+                              <p>Consultation Fee</p>
+                              <h6>$30.00K</h6>
+                            </div>
+                            <div className="col-sm-4">
+                              <div className="float-end">
+                                <div className="mode-app text-yellow">
+                                  <i>
+                                    <FeatherIcon icon="video" />
+                                  </i>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                      <div id="menu7" className="tab-pane">
-                        <div className="appointment-items">
-                          <div className="app-user">
-                            <div className="row">
-                              <div className="col-6">
-                                <div className="app-img">
-                                  <Image src="" alt="" className="img-fluid" />
-                                  <div className="app-name">
-                                    <h6>Dr. Lester </h6>
-                                    <p>Orthopaedics</p>
-                                  </div>
+                      <div className="appointment-items">
+                        {/* <div className="app-user">
+                          <div className="row">
+                            <div className="col-6">
+                              <div className="app-img">
+                                <Image src="" alt="" className="img-fluid" />
+                                <div className="app-name">
+                                  <h6>Dr. Lester </h6>
+                                  <p>Orthopaedics</p>
                                 </div>
                               </div>
-                              <div className="col-6">
-                                <div className="app-img">
-                                  <Image src="" alt="" className="img-fluid" />
-                                  <div className="app-name">
-                                    <h6>Chris Harris</h6>
-                                    <p>ID : 781212, M</p>
-                                  </div>
+                            </div>
+                            <div className="col-6">
+                              <div className="app-img">
+                                <Image src="" alt="" className="img-fluid" />
+                                <div className="app-name">
+                                  <h6>Chris Harris</h6>
+                                  <p>ID : 781212, M</p>
                                 </div>
                               </div>
                             </div>
                           </div>
-                          <div className="app-time">
-                            <p>
-                              <i className="me-1">
-                                <FeatherIcon icon="clock" />
-                              </i>{" "}
-                              06:00pm - 06:20pm
-                            </p>
+                        </div> */}
+                        <div className="app-time">
+                          <p>
+                            <i className="me-1">
+                              <FeatherIcon icon="clock" />
+                            </i>{" "}
+                            06:00pm - 06:20pm
+                          </p>
+                        </div>
+                        <div className="app-infos">
+                          <div className="row align-items-center">
+                            <div className="col-4 col-sm-4">
+                              <p>Duration</p>
+                              <p className="mb-0">20 Min</p>
+                            </div>
+                            <div className="col-8 col-sm-4">
+                              <p>Consultation Fee</p>
+                              <h6>$30.00K</h6>
+                            </div>
+                            <div className="col-sm-4"></div>
                           </div>
-                          <div className="app-infos">
-                            <div className="row align-items-center">
-                              <div className="col-4 col-sm-4">
-                                <p>Duration</p>
-                                <p className="mb-0">20 Min</p>
+                        </div>
+                      </div>
+                      <div className="appointment-items">
+                        {/* <div className="app-user">
+                          <div className="row">
+                            <div className="col-6">
+                              <div className="app-img">
+                                <Image src="" alt="" className="img-fluid" />
+                                <div className="app-name">
+                                  <h6>Dr. Lester </h6>
+                                  <p>Orthopaedics</p>
+                                </div>
                               </div>
-                              <div className="col-8 col-sm-4">
-                                <p>Consultation Fee</p>
-                                <h6>$30.00K</h6>
+                            </div>
+                            <div className="col-6">
+                              <div className="app-img">
+                                <Image src="" alt="" className="img-fluid" />
+                                <div className="app-name">
+                                  <h6>Chris Harris</h6>
+                                  <p>ID : 781212, M</p>
+                                </div>
                               </div>
-                              <div className="col-sm-4">
-                                <div className="float-end">
-                                  <div className="mode-app text-yellow">
-                                    <i>
-                                      <FeatherIcon icon="video" />
-                                    </i>
-                                  </div>
+                            </div>
+                          </div>
+                        </div> */}
+                        <div className="app-time">
+                          <p>
+                            <i className="me-1">
+                              <FeatherIcon icon="clock" />
+                            </i>{" "}
+                            06:00pm - 06:20pm
+                          </p>
+                        </div>
+                        <div className="app-infos">
+                          <div className="row align-items-center">
+                            <div className="col-4 col-sm-4">
+                              <p>Duration</p>
+                              <p className="mb-0">20 Min</p>
+                            </div>
+                            <div className="col-8 col-sm-4">
+                              <p>Consultation Fee</p>
+                              <h6>$30.00K</h6>
+                            </div>
+                            <div className="col-sm-4">
+                              <div className="float-sm-end">
+                                <div className="mode-app text-yellow">
+                                  <i>
+                                    <FeatherIcon icon="video" />
+                                  </i>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                        <div className="appointment-items">
-                          <div className="app-user">
-                            <div className="row">
-                              <div className="col-6">
-                                <div className="app-img">
-                                  <Image src="" alt="" className="img-fluid" />
-                                  <div className="app-name">
-                                    <h6>Dr. Lester </h6>
-                                    <p>Orthopaedics</p>
-                                  </div>
+                      </div>
+                    </div>
+                    <div id="menu7" className="tab-pane">
+                      <div className="appointment-items">
+                        {/* <div className="app-user">
+                          <div className="row">
+                            <div className="col-6">
+                              <div className="app-img">
+                                <Image src="" alt="" className="img-fluid" />
+                                <div className="app-name">
+                                  <h6>Dr. Lester </h6>
+                                  <p>Orthopaedics</p>
                                 </div>
                               </div>
-                              <div className="col-6">
-                                <div className="app-img">
-                                  <Image src="" alt="" className="img-fluid" />
-                                  <div className="app-name">
-                                    <h6>Chris Harris</h6>
-                                    <p>ID : 781212, M</p>
-                                  </div>
+                            </div>
+                            <div className="col-6">
+                              <div className="app-img">
+                                <Image src="" alt="" className="img-fluid" />
+                                <div className="app-name">
+                                  <h6>Chris Harris</h6>
+                                  <p>ID : 781212, M</p>
                                 </div>
                               </div>
                             </div>
                           </div>
-                          <div className="app-time">
-                            <p>
-                              <i className="me-1">
-                                <FeatherIcon icon="clock" />
-                              </i>{" "}
-                              06:00pm - 06:20pm
-                            </p>
-                          </div>
-                          <div className="app-infos">
-                            <div className="row align-items-center">
-                              <div className="col-4 col-sm-4">
-                                <p>Duration</p>
-                                <p className="mb-0">20 Min</p>
+                        </div> */}
+                        <div className="app-time">
+                          <p>
+                            <i className="me-1">
+                              <FeatherIcon icon="clock" />
+                            </i>{" "}
+                            06:00pm - 06:20pm
+                          </p>
+                        </div>
+                        <div className="app-infos">
+                          <div className="row align-items-center">
+                            <div className="col-4 col-sm-4">
+                              <p>Duration</p>
+                              <p className="mb-0">20 Min</p>
+                            </div>
+                            <div className="col-8 col-sm-4">
+                              <p>Consultation Fee</p>
+                              <h6>$30.00K</h6>
+                            </div>
+                            <div className="col-sm-4">
+                              <div className="float-end">
+                                <div className="mode-app text-yellow">
+                                  <i>
+                                    <FeatherIcon icon="video" />
+                                  </i>
+                                </div>
                               </div>
-                              <div className="col-8 col-sm-4">
-                                <p>Consultation Fee</p>
-                                <h6>$30.00K</h6>
-                              </div>
-                              <div className="col-sm-4"></div>
                             </div>
                           </div>
                         </div>
-                        <div className="appointment-items">
-                          <div className="app-user">
-                            <div className="row">
-                              <div className="col-6">
-                                <div className="app-img">
-                                  <Image src="" alt="" className="img-fluid" />
-                                  <div className="app-name">
-                                    <h6>Dr. Lester </h6>
-                                    <p>Orthopaedics</p>
-                                  </div>
+                      </div>
+                      <div className="appointment-items">
+                        {/* <div className="app-user">
+                          <div className="row">
+                            <div className="col-6">
+                              <div className="app-img">
+                                <Image src="" alt="" className="img-fluid" />
+                                <div className="app-name">
+                                  <h6>Dr. Lester </h6>
+                                  <p>Orthopaedics</p>
                                 </div>
                               </div>
-                              <div className="col-6">
-                                <div className="app-img">
-                                  <Image src="" alt="" className="img-fluid" />
-                                  <div className="app-name">
-                                    <h6>Chris Harris</h6>
-                                    <p>ID : 781212, M</p>
-                                  </div>
+                            </div>
+                            <div className="col-6">
+                              <div className="app-img">
+                                <Image src="" alt="" className="img-fluid" />
+                                <div className="app-name">
+                                  <h6>Chris Harris</h6>
+                                  <p>ID : 781212, M</p>
                                 </div>
                               </div>
                             </div>
                           </div>
-                          <div className="app-time">
-                            <p>
-                              <i className="me-1">
-                                <FeatherIcon icon="clock" />
-                              </i>{" "}
-                              06:00pm - 06:20pm
-                            </p>
+                        </div> */}
+                        <div className="app-time">
+                          <p>
+                            <i className="me-1">
+                              <FeatherIcon icon="clock" />
+                            </i>{" "}
+                            06:00pm - 06:20pm
+                          </p>
+                        </div>
+                        <div className="app-infos">
+                          <div className="row align-items-center">
+                            <div className="col-4 col-sm-4">
+                              <p>Duration</p>
+                              <p className="mb-0">20 Min</p>
+                            </div>
+                            <div className="col-8 col-sm-4">
+                              <p>Consultation Fee</p>
+                              <h6>$30.00K</h6>
+                            </div>
+                            <div className="col-sm-4"></div>
                           </div>
-                          <div className="app-infos">
-                            <div className="row align-items-center">
-                              <div className="col-4 col-sm-4">
-                                <p>Duration</p>
-                                <p className="mb-0">20 Min</p>
+                        </div>
+                      </div>
+                      <div className="appointment-items">
+                        {/* <div className="app-user">
+                          <div className="row">
+                            <div className="col-6">
+                              <div className="app-img">
+                                <Image src="" alt="" className="img-fluid" />
+                                <div className="app-name">
+                                  <h6>Dr. Lester </h6>
+                                  <p>Orthopaedics</p>
+                                </div>
                               </div>
-                              <div className="col-8 col-sm-4">
-                                <p>Consultation Fee</p>
-                                <h6>$30.00K</h6>
+                            </div>
+                            <div className="col-6">
+                              <div className="app-img">
+                                <Image src="" alt="" className="img-fluid" />
+                                <div className="app-name">
+                                  <h6>Chris Harris</h6>
+                                  <p>ID : 781212, M</p>
+                                </div>
                               </div>
-                              <div className="col-sm-4">
-                                <div className="float-end">
-                                  <div className="mode-app text-yellow">
-                                    <i>
-                                      <FeatherIcon icon="video" />
-                                    </i>
-                                  </div>
+                            </div>
+                          </div>
+                        </div> */}
+                        <div className="app-time">
+                          <p>
+                            <i className="me-1">
+                              <FeatherIcon icon="clock" />
+                            </i>{" "}
+                            06:00pm - 06:20pm
+                          </p>
+                        </div>
+                        <div className="app-infos">
+                          <div className="row align-items-center">
+                            <div className="col-4 col-sm-4">
+                              <p>Duration</p>
+                              <p className="mb-0">20 Min</p>
+                            </div>
+                            <div className="col-8 col-sm-4">
+                              <p>Consultation Fee</p>
+                              <h6>$30.00K</h6>
+                            </div>
+                            <div className="col-sm-4">
+                              <div className="float-end">
+                                <div className="mode-app text-yellow">
+                                  <i>
+                                    <FeatherIcon icon="video" />
+                                  </i>
                                 </div>
                               </div>
                             </div>
@@ -1675,312 +1662,315 @@ const Dashboard = () => {
                   </div>
                 </div>
               </div>
-              {/* /Upcoming Appointments */}
             </div>
-            <div className="row">
-              {/* Recent Prescriptions */}
-              <div className="col-xl-4 col-md-6">
-                <div className="card recent-card">
-                  <div className="card-header">
-                    <div className="row">
-                      <div className="col">
-                        <h5 className="card-title">Recent Prescriptions</h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="card-body">
-                    <div className="table-responsive recent-tab">
-                      <table className="table table-borderless">
-                        <tbody>
-                          <tr>
-                            <td>
-                              <div className="pres-list">
-                                <div className="pres-head">
-                                  <h6>Abacavir</h6>
-                                  <p>#8995447</p>
-                                </div>
-                                <div className="pres-body">
-                                  <div>
-                                    <p>Prescribed By </p>
-                                    <h6>Dr. Cullin Drew</h6>
-                                  </div>
-                                  <div>
-                                    <p>Prescribed For</p>
-                                    <h6>Amanda</h6>
-                                  </div>
-                                  <div>
-                                    <p>Type </p>
-                                    <h6 className="text-muted">One time</h6>
-                                  </div>
-                                </div>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <div className="pres-list">
-                                <div className="pres-head">
-                                  <h6>Calcium</h6>
-                                  <p>#8799488</p>
-                                </div>
-                                <div className="pres-body">
-                                  <div>
-                                    <p>Prescribed By </p>
-                                    <h6>Dr. Mark Briffa</h6>
-                                  </div>
-                                  <div>
-                                    <p>Prescribed For</p>
-                                    <h6>Theiry</h6>
-                                  </div>
-                                  <div>
-                                    <p>Type </p>
-                                    <h6 className="text-muted">One time</h6>
-                                  </div>
-                                </div>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <div className="pres-list mb-0">
-                                <div className="pres-head">
-                                  <h6>Abacavir</h6>
-                                  <p>#8995447</p>
-                                </div>
-                                <div className="pres-body">
-                                  <div>
-                                    <p>Prescribed By </p>
-                                    <h6>Dr. Linda</h6>
-                                  </div>
-                                  <div>
-                                    <p>Prescribed For</p>
-                                    <h6>Hendry</h6>
-                                  </div>
-                                  <div>
-                                    <p>Type </p>
-                                    <h6 className="text-muted">One time</h6>
-                                  </div>
-                                </div>
-                              </div>
-                            </td>
-                          </tr>
-                        </tbody>
-                        <tbody></tbody>
-                      </table>
+            {/* /Upcoming Appointments */}
+          </div>
+          <div className="row">
+            {/* Recent Prescriptions */}
+            <div className="col-xl-4 col-md-6">
+              <div className="card recent-card">
+                <div className="card-header">
+                  <div className="row">
+                    <div className="col">
+                      <h5 className="card-title">Recent Prescriptions</h5>
                     </div>
                   </div>
                 </div>
+                <div className="card-body">
+                  <div className="table-responsive recent-tab">
+                    <table className="table table-borderless">
+                      <tbody>
+                        <tr>
+                          <td>
+                            <div className="pres-list">
+                              <div className="pres-head">
+                                <h6>Abacavir</h6>
+                                <p>#8995447</p>
+                              </div>
+                              <div className="pres-body">
+                                <div>
+                                  <p>Prescribed By </p>
+                                  <h6>Dr. Cullin Drew</h6>
+                                </div>
+                                <div>
+                                  <p>Prescribed For</p>
+                                  <h6>Amanda</h6>
+                                </div>
+                                <div>
+                                  <p>Type </p>
+                                  <h6 className="text-muted">One time</h6>
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div className="pres-list">
+                              <div className="pres-head">
+                                <h6>Calcium</h6>
+                                <p>#8799488</p>
+                              </div>
+                              <div className="pres-body">
+                                <div>
+                                  <p>Prescribed By </p>
+                                  <h6>Dr. Mark Briffa</h6>
+                                </div>
+                                <div>
+                                  <p>Prescribed For</p>
+                                  <h6>Theiry</h6>
+                                </div>
+                                <div>
+                                  <p>Type </p>
+                                  <h6 className="text-muted">One time</h6>
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div className="pres-list mb-0">
+                              <div className="pres-head">
+                                <h6>Abacavir</h6>
+                                <p>#8995447</p>
+                              </div>
+                              <div className="pres-body">
+                                <div>
+                                  <p>Prescribed By </p>
+                                  <h6>Dr. Linda</h6>
+                                </div>
+                                <div>
+                                  <p>Prescribed For</p>
+                                  <h6>Hendry</h6>
+                                </div>
+                                <div>
+                                  <p>Type </p>
+                                  <h6 className="text-muted">One time</h6>
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tbody></tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
-              {/* /Recent Prescriptions */}
-              {/* Top Countries */}
-              <div className="col-xl-4 col-md-6">
-                <div className="card">
-                  <div className="card-header">
-                    <div className="row align-items-center">
-                      <div className="col">
-                        <h5 className="card-title">Top Countries</h5>
-                      </div>
-                      <div className="col-auto select-option">
-                        <Select
-                          className="select"
-                          defaultValue={selectedOption}
-                          onChange={setSelectedOption}
-                          options={options1}
-                          placeholder={"Patients"}
+            </div>
+            {/* /Recent Prescriptions */}
+            {/* Top Countries */}
+            <div className="col-xl-4 col-md-6">
+              <div className="card">
+                <div className="card-header">
+                  <div className="row align-items-center">
+                    <div className="col">
+                      <h5 className="card-title">Top Countries</h5>
+                    </div>
+                    <div className="col-auto select-option">
+                      <Select
+                        className="select"
+                        defaultValue={selectedOption}
+                        onChange={setSelectedOption}
+                        options={options1}
+                        placeholder={"Patients"}
+                        id="long-value-select"
+                        instanceId="long-value-select"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="card-body">
+                  <div className="country-item">
+                    <div className="con-name">
+                      {/* <div className="flag-box">
+                        <img
+                          className="rounded-circle"
+                          src=""
+                          alt="User Image"
                         />
+                      </div> */}
+                      <div className="flag-name">
+                        <p className="user-name">
+                          <span>United States</span>{" "}
+                          <span className="d-block text-muted">
+                            800 Patients
+                          </span>
+                        </p>
                       </div>
+                    </div>
+                    <div className="con-revenue">
+                      <p className="text-muted">Revenue</p>
+                      <h6>$6000K</h6>
                     </div>
                   </div>
-                  <div className="card-body">
-                    <div className="country-item">
-                      <div className="con-name">
-                        <div className="flag-box">
-                          <img
-                            className="rounded-circle"
-                            src=""
-                            alt="User Image"
-                          />
-                        </div>
-                        <div className="flag-name">
-                          <p className="user-name">
-                            <span>United States</span>{" "}
-                            <span className="d-block text-muted">
-                              800 Patients
-                            </span>
-                          </p>
-                        </div>
-                      </div>
-                      <div className="con-revenue">
-                        <p className="text-muted">Revenue</p>
-                        <h6>$6000K</h6>
+                  <div className="country-item">
+                    <div className="con-name">
+                      {/* <div className="flag-box">
+                        <Image
+                          className="rounded-circle"
+                          src=""
+                          alt="User Image"
+                        />
+                      </div> */}
+                      <div className="flag-name">
+                        <p className="user-name">
+                          <span>United Kingdom</span>{" "}
+                          <span className="d-block text-muted">
+                            450 Patients
+                          </span>
+                        </p>
                       </div>
                     </div>
-                    <div className="country-item">
-                      <div className="con-name">
-                        <div className="flag-box">
-                          <Image
-                            className="rounded-circle"
-                            src=""
-                            alt="User Image"
-                          />
-                        </div>
-                        <div className="flag-name">
-                          <p className="user-name">
-                            <span>United Kingdom</span>{" "}
-                            <span className="d-block text-muted">
-                              450 Patients
-                            </span>
-                          </p>
-                        </div>
-                      </div>
-                      <div className="con-revenue">
-                        <p className="text-muted">Revenue</p>
-                        <h6>$4000K</h6>
+                    <div className="con-revenue">
+                      <p className="text-muted">Revenue</p>
+                      <h6>$4000K</h6>
+                    </div>
+                  </div>
+                  <div className="country-item">
+                    <div className="con-name">
+                      {/* <div className="flag-box">
+                        <Image
+                          className="rounded-circle"
+                          src=""
+                          alt="User Image"
+                        />
+                      </div> */}
+                      <div className="flag-name">
+                        <p className="user-name">
+                          <span>UAE</span>{" "}
+                          <span className="d-block text-muted">
+                            300 Patients
+                          </span>
+                        </p>
                       </div>
                     </div>
-                    <div className="country-item">
-                      <div className="con-name">
-                        <div className="flag-box">
-                          <Image
-                            className="rounded-circle"
-                            src=""
-                            alt="User Image"
-                          />
-                        </div>
-                        <div className="flag-name">
-                          <p className="user-name">
-                            <span>UAE</span>{" "}
-                            <span className="d-block text-muted">
-                              300 Patients
-                            </span>
-                          </p>
-                        </div>
-                      </div>
-                      <div className="con-revenue">
-                        <p className="text-muted">Revenue</p>
-                        <h6>$3000K</h6>
+                    <div className="con-revenue">
+                      <p className="text-muted">Revenue</p>
+                      <h6>$3000K</h6>
+                    </div>
+                  </div>
+                  <div className="country-item">
+                    <div className="con-name">
+                      {/* <div className="flag-box">
+                        <Image
+                          className="rounded-circle"
+                          src=""
+                          alt="User Image"
+                        />
+                      </div> */}
+                      <div className="flag-name">
+                        <p className="user-name">
+                          <span>India</span>{" "}
+                          <span className="d-block text-muted">
+                            300 Patients
+                          </span>
+                        </p>
                       </div>
                     </div>
-                    <div className="country-item">
-                      <div className="con-name">
-                        <div className="flag-box">
-                          <Image
-                            className="rounded-circle"
-                            src=""
-                            alt="User Image"
-                          />
-                        </div>
-                        <div className="flag-name">
-                          <p className="user-name">
-                            <span>India</span>{" "}
-                            <span className="d-block text-muted">
-                              300 Patients
-                            </span>
-                          </p>
-                        </div>
-                      </div>
-                      <div className="con-revenue">
-                        <p className="text-muted">Revenue</p>
-                        <h6>$3000K</h6>
+                    <div className="con-revenue">
+                      <p className="text-muted">Revenue</p>
+                      <h6>$3000K</h6>
+                    </div>
+                  </div>
+                  <div className="country-item">
+                    <div className="con-name">
+                      {/* <div className="flag-box">
+                        <Image
+                          className="rounded-circle"
+                          src=""
+                          alt="User Image"
+                        />
+                      </div> */}
+                      <div className="flag-name">
+                        <p className="user-name">
+                          <span>UAE</span>{" "}
+                          <span className="d-block text-muted">
+                            300 Patients
+                          </span>
+                        </p>
                       </div>
                     </div>
-                    <div className="country-item">
-                      <div className="con-name">
-                        <div className="flag-box">
-                          <Image
-                            className="rounded-circle"
-                            src=""
-                            alt="User Image"
-                          />
-                        </div>
-                        <div className="flag-name">
-                          <p className="user-name">
-                            <span>UAE</span>{" "}
-                            <span className="d-block text-muted">
-                              300 Patients
-                            </span>
-                          </p>
-                        </div>
-                      </div>
-                      <div className="con-revenue">
-                        <p className="text-muted">Revenue</p>
-                        <h6>$3000K</h6>
-                      </div>
+                    <div className="con-revenue">
+                      <p className="text-muted">Revenue</p>
+                      <h6>$3000K</h6>
                     </div>
                   </div>
                 </div>
               </div>
-              {/* /Top Countries */}
-              {/* Doctor Ratings */}
-              <div className="col-xl-4">
-                <div className="row">
-                  <div className="col-sm-6 d-flex">
-                    <div className="spl-items flex-fill">
-                      <Link href="/admin/reviews">
-                        <i>
-                          <FeatherIcon icon="star" />
-                        </i>
-                        <h6>Doctor Ratings</h6>
-                      </Link>
-                    </div>
-                  </div>
-                  <div className="col-sm-6 d-flex">
-                    <div className="spl-items flex-fill">
-                      <Link href="/admin/transactions-list">
-                        <i>
-                          <FeatherIcon icon="credit-card" />
-                        </i>
-                        <h6>Transactions</h6>
-                      </Link>
-                    </div>
-                  </div>
-                  <div className="col-sm-6 d-flex">
-                    <div className="spl-items flex-fill">
-                      <Link href="/admin/settings">
-                        <i>
-                          <FeatherIcon icon="sliders" />
-                        </i>
-                        <h6>Settings</h6>
-                      </Link>
-                    </div>
-                  </div>
-                  <div className="col-sm-6 d-flex">
-                    <div className="spl-items flex-fill">
-                      <Link href="/admin/appointment-list">
-                        <i>
-                          <FeatherIcon icon="calendar" />
-                        </i>
-                        <h6>Appointments</h6>
-                      </Link>
-                    </div>
-                  </div>
-                  <div className="col-sm-6 d-flex">
-                    <div className="spl-items flex-fill">
-                      <Link href="/admin/specialities">
-                        <i>
-                          <FeatherIcon icon="package" />
-                        </i>
-                        <h6>Specialities</h6>
-                      </Link>
-                    </div>
-                  </div>
-                  <div className="col-sm-6 d-flex">
-                    <div className="spl-items flex-fill">
-                      <Link href="/admin/patient-list">
-                        <i>
-                          <FeatherIcon icon="users" />
-                        </i>
-                        <h6>Patients</h6>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/* /Doctor Ratings */}
             </div>
+            {/* /Top Countries */}
+            {/* Doctor Ratings */}
+            <div className="col-xl-4">
+              <div className="row">
+                <div className="col-sm-6 d-flex">
+                  <div className="spl-items flex-fill">
+                    <Link href="/admin/reviews">
+                      <i>
+                        <FeatherIcon icon="star" />
+                      </i>
+                      <h6>Doctor Ratings</h6>
+                    </Link>
+                  </div>
+                </div>
+                <div className="col-sm-6 d-flex">
+                  <div className="spl-items flex-fill">
+                    <Link href="/admin/transactions-list">
+                      <i>
+                        <FeatherIcon icon="credit-card" />
+                      </i>
+                      <h6>Transactions</h6>
+                    </Link>
+                  </div>
+                </div>
+                <div className="col-sm-6 d-flex">
+                  <div className="spl-items flex-fill">
+                    <Link href="/admin/settings">
+                      <i>
+                        <FeatherIcon icon="sliders" />
+                      </i>
+                      <h6>Settings</h6>
+                    </Link>
+                  </div>
+                </div>
+                <div className="col-sm-6 d-flex">
+                  <div className="spl-items flex-fill">
+                    <Link href="/admin/appointment-list">
+                      <i>
+                        <FeatherIcon icon="calendar" />
+                      </i>
+                      <h6>Appointments</h6>
+                    </Link>
+                  </div>
+                </div>
+                <div className="col-sm-6 d-flex">
+                  <div className="spl-items flex-fill">
+                    <Link href="/admin/specialities">
+                      <i>
+                        <FeatherIcon icon="package" />
+                      </i>
+                      <h6>Specialities</h6>
+                    </Link>
+                  </div>
+                </div>
+                <div className="col-sm-6 d-flex">
+                  <div className="spl-items flex-fill">
+                    <Link href="/admin/patient-list">
+                      <i>
+                        <FeatherIcon icon="users" />
+                      </i>
+                      <h6>Patients</h6>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* /Doctor Ratings */}
           </div>
         </div>
-        {/* /Page Wrapper */}
+      </div>
+      {/* /Page Wrapper */}
     </>
   );
 };
