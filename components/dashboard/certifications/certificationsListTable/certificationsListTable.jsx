@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import Link from "next/link";
 import FeatherIcon from "feather-icons-react";
@@ -6,40 +5,49 @@ import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 
-const DoctorsListTable = ({ data, deletePhysician, updatePhysician }) => {
+const CertificationsListTable = ({
+  data,
+  deleteCertificate,
+  updateCertificate,
+}) => {
   const columns = [
     {
-      name: "نام پزشک",
+      name: "نام شرکت",
+      selector: (row) => row.Company,
+      sortable: true,
+      width: "auto",
+    },
+    {
+      name: "لینک مجوز",
+      selector: (row) => row.Link,
+      sortable: true,
+      width: "auto",
+    },
+    {
+      name: "عنوان مجوز",
       selector: (row) => row.Name,
       sortable: true,
       width: "auto",
     },
     {
-      name: "عنوان",
-      selector: (row) => row.Title,
-      sortable: true,
-      width: "auto",
-    },
-    {
-      name: "تخصص",
-      selector: (row) => row.Spe,
+      name: "سال صدور",
+      selector: (row) => row.Year,
       sortable: true,
       width: "auto",
     },
     {
       name: "عملیات ها",
-      selector: (row) => row._id,
+      selector: (row) => row.action,
       sortable: true,
-
       cell: (row) => (
         <div className="actions">
           <Link
             dir="ltr"
             href="#"
             className="text-black"
-            onClick={() => updatePhysician(row)}
+            onClick={() => updateCertificate(row)}
             data-bs-toggle="modal"
-            data-bs-target="#editPhysicianModal"
+            data-bs-target="#editCertificateModal"
           >
             <i className="me-1">
               <FeatherIcon icon="edit-3" />
@@ -50,7 +58,7 @@ const DoctorsListTable = ({ data, deletePhysician, updatePhysician }) => {
             dir="ltr"
             href="#"
             className="text-danger"
-            onClick={() => deletePhysician(row._id)}
+            onClick={() => deleteCertificate(row._id)}
           >
             <i className="me-1">
               <FeatherIcon icon="trash-2" />
@@ -67,7 +75,6 @@ const DoctorsListTable = ({ data, deletePhysician, updatePhysician }) => {
     columns,
     data,
   };
-
   return (
     <div className="card-body p-0">
       <div className="table-responsive">
@@ -85,4 +92,4 @@ const DoctorsListTable = ({ data, deletePhysician, updatePhysician }) => {
   );
 };
 
-export default DoctorsListTable;
+export default CertificationsListTable;

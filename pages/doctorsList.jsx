@@ -2,12 +2,10 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import FeatherIcon from "feather-icons-react";
-import Image from "next/image";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import Loading from "components/loading/Loading";
-import { sort } from "components/imagepath";
 import DoctorsListTable from "components/dashboard/doctors/doctorsListTable/doctorsListTable";
 import AddDoctorModal from "components/dashboard/doctors/addDoctorModal/addDoctorModal";
 import EditDoctorModal from "components/dashboard/doctors/editDoctorModal/editDoctorModal";
@@ -30,7 +28,7 @@ const DoctorsList = () => {
   const handleSpecialtyInput = (e) => setSpecialty(e.target.value);
 
   //reset form inputs
-  const reset = (e) => {
+  const reset = () => {
     setName("");
     setTitle("");
     setSpecialty("");
@@ -45,7 +43,6 @@ const DoctorsList = () => {
       .then(function (response) {
         setDoctorsList(response.data);
         setIsLoading(false);
-        console.log(response.data);
       });
   };
 
@@ -96,11 +93,10 @@ const DoctorsList = () => {
       Title: formProps.EditDoctorTitle,
       Spe: formProps.EditDoctorSpe,
     };
-    console.log(Data);
+
     axios
       .put(url, Data)
       .then((response) => {
-        console.log(response.data);
         updateItem(formProps.EditDoctorID, response.data);
         $("#editPhysicianModal").modal("hide");
         reset();
@@ -136,6 +132,7 @@ const DoctorsList = () => {
       text: "آیا از حذف پزشک مطمئن هستید",
       icon: "warning",
       showCancelButton: true,
+      allowOutsideClick: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "بله",
@@ -149,7 +146,7 @@ const DoctorsList = () => {
         let url = "https://irannobat.ir:8444/api/CenterProfile/DeletePhysician";
         axios
           .delete(url, { data })
-          .then(function (response) {
+          .then(function () {
             setDoctorsList(doctorsList.filter((a) => a._id !== id));
           })
           .catch(function (error) {
@@ -158,9 +155,6 @@ const DoctorsList = () => {
       }
     });
   };
-
-  const [show1, setShow1] = useState(false);
-  const toggleFilterMenu1 = () => setShow1(!show1);
 
   return (
     <>
@@ -201,58 +195,6 @@ const DoctorsList = () => {
                           id="tableSearch"
                           className="dataTables_wrapper"
                         ></div>
-                      </div>
-                      <div className="SortBy">
-                        <div className="selectBoxes order-by">
-                          <p
-                            className="mb-0"
-                            onClick={(value) => toggleFilterMenu1()}
-                          >
-                            <Image src={sort} className="me-2" alt="icon" />
-                            بر اساس
-                          </p>
-                          <span className="down-icon">
-                            <i>
-                              {" "}
-                              <FeatherIcon icon="chevron-down" />
-                            </i>
-                          </span>
-                        </div>
-                        <div
-                          id="checkBox"
-                          style={{ display: show1 ? "block" : "none" }}
-                        >
-                          <form action="/admin/product-list">
-                            <p className="lab-title"> بر اساس </p>
-                            <label className="custom_radio w-100">
-                              <input type="radio" name="sort" />
-                              <span className="checkmark"></span> شماره شناسه
-                            </label>
-                            <label className="custom_radio w-100">
-                              <input type="radio" name="sort" />
-                              <span className="checkmark"></span> نام
-                            </label>
-                            <label className="custom_radio w-100 mb-4">
-                              <input type="radio" name="sort" />
-                              <span className="checkmark"></span> عنوان
-                            </label>
-                            <p className="lab-title"> ترتیب بر اساس</p>
-                            <label className="custom_radio w-100">
-                              <input type="radio" name="sort" />
-                              <span className="checkmark"></span> صعودی
-                            </label>
-                            <label className="custom_radio w-100 mb-4">
-                              <input type="radio" name="sort" />
-                              <span className="checkmark"></span> نزولی
-                            </label>
-                            <button
-                              type="submit"
-                              className="btn w-100 btn-primary"
-                            >
-                              اعمال
-                            </button>
-                          </form>
-                        </div>
                       </div>
                     </div>
                   </div>

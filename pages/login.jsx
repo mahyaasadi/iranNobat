@@ -35,7 +35,6 @@ const Login = () => {
         Password: document.getElementById("Password").value,
       })
       .then(function (response) {
-        // console.log(response.data);
         setIsLoading(!isLoading);
         sessionStorage.setItem(
           "SEID",
@@ -50,8 +49,8 @@ const Login = () => {
           title: "اطلاعات اشتباه وارد شده است",
           confirmButtonText: "بازگشت",
           confirmButtonColor: "#802d38",
-          showCancelButton: false,
           icon: "error",
+          showCancelButton: false,
           allowOutsideClick: true,
         });
       });
@@ -86,21 +85,21 @@ const Login = () => {
                 ) : (
                   <form onSubmit={handleSubmit}>
                     <div className="form-group form-focus">
-                      <Controller
+                      {/* <Controller
                         control={control}
                         name="UserName"
-                        render={({ field: { value, onChange } }) => (
-                          <input
-                            className="form-control floating"
-                            type="text"
-                            id="UserName"
-                            name="UserName"
-                            autoComplete="false"
-                            placeholder="نام کاربری"
-                            required
-                          />
-                        )}
+                        render={({ field: { value, onChange } }) => ( */}
+                      <input
+                        className="form-control floating"
+                        type="text"
+                        id="UserName"
+                        name="UserName"
+                        autoComplete="false"
+                        placeholder="نام کاربری"
+                        required
                       />
+                      {/* )}
+                      /> */}
                     </div>
                     <div className="form-group form-focus">
                       <Controller

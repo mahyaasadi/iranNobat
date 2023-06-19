@@ -46,7 +46,6 @@ const Header = () => {
 
   useEffect(() => {
     let data = { Token: sessionStorage.getItem("SEID") };
-    console.log(data);
     axios
       .post("https://irannobat.ir:8444/api/AdminUser/getUserByToken", data)
       .then(function (response) {
@@ -78,10 +77,10 @@ const Header = () => {
       <div className="header">
         {/* Logo */}
         <div className="header-left">
-          <Link href="/admin" className="logo">
+          <Link href="/dashboard" className="logo">
             <Image src={logo} alt="Logo" unoptimized={true} priority={true} />
           </Link>
-          <Link href="/admin" className="logo logo-small">
+          <Link href="/dashboard" className="logo logo-small">
             <Image src={logoSmall} alt="Logo" width={30} height={30} />
           </Link>
           <Link href="#" id="toggle_btn" onClick={handlesidebar}>
@@ -123,7 +122,7 @@ const Header = () => {
           </li>
           {/* /Flag */}
           {/* Notifications */}
-          <li className="nav-item dropdown noti-nav">
+          {/* <li className="nav-item dropdown noti-nav">
             <Link
               href="#"
               className="dropdown-toggle nav-link"
@@ -223,7 +222,7 @@ const Header = () => {
                 </ul>
               </div>
             </div>
-          </li>
+          </li> */}
           {/* /Notifications */}
 
           {/* <!-- User Menu --> */}

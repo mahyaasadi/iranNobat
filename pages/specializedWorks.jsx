@@ -2,11 +2,9 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import FeatherIcon from "feather-icons-react";
-import Image from "next/image";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
-import { sort } from "components/imagepath";
 import Loading from "components/loading/Loading";
 import SpecializedWorksListTable from "components/dashboard/specializedWorks/specializedWorksListTable";
 import AddSpeWorkModal from "components/dashboard/specializedWorks/addspeWorkModal/addSpeWorkModal";
@@ -19,7 +17,6 @@ let CenterID = Cookies.get("CenterID");
 
 const SpecializedWorks = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [show1, setShow1] = useState(false);
   const [speWorks, setSpeWorks] = useState([]);
   const [editSpeWork, setEditSpeWork] = useState({});
   const [name, setName] = useState("");
@@ -29,8 +26,6 @@ const SpecializedWorks = () => {
   const handleNameInput = (e) => setName(e.target.value);
   const handleTitleInput = (e) => setTitle(e.target.value);
   const handleEngNameInput = (e) => setEngName(e.target.value);
-
-  const toggleFilterMenu1 = () => setShow1(!show1);
 
   //reset form inputs
   const reset = () => {
@@ -48,7 +43,6 @@ const SpecializedWorks = () => {
       .then(function (response) {
         setSpeWorks(response.data);
         setIsLoading(false);
-        console.log(response.data);
       });
   };
 
@@ -100,11 +94,10 @@ const SpecializedWorks = () => {
       Title: formProps.EditSpeWorkTitle,
       EngName: formProps.EditSpeWorkEngName,
     };
-    console.log(Data);
+
     axios
       .put(url, Data)
       .then((response) => {
-        console.log(response.data);
         updateItem(formProps.EditSpeWorkID, response.data);
         $("#editSpeWorkModal").modal("hide");
         reset();
@@ -140,6 +133,7 @@ const SpecializedWorks = () => {
       text: "آیا از حذف کار تخصصی مطمئن هستید",
       icon: "warning",
       showCancelButton: true,
+      allowOutsideClick: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "بله",
@@ -204,50 +198,6 @@ const SpecializedWorks = () => {
                           id="tableSearch"
                           className="dataTables_wrapper"
                         ></div>
-                      </div>
-                      <div className="SortBy">
-                        <div className="selectBoxes order-by">
-                          <p
-                            className="mb-0"
-                            onClick={(value) => toggleFilterMenu1()}
-                          >
-                            <Image src={sort} className="me-2" alt="icon" /> بر
-                            اساس
-                          </p>
-                          <span className="down-icon">
-                            <i>
-                              {" "}
-                              <FeatherIcon icon="chevron-down" />
-                            </i>
-                          </span>
-                        </div>
-                        <div
-                          id="checkBox"
-                          style={{ display: show1 ? "block" : "none" }}
-                        >
-                          <form action="/admin/product-list">
-                            <p className="lab-title"> بر اساس </p>
-                            <label className="custom_radio w-100">
-                              <input type="radio" name="sort" />
-                              <span className="checkmark"></span> شماره شناسه
-                            </label>
-                            <p className="lab-title"> ترتیب بر اساس</p>
-                            <label className="custom_radio w-100">
-                              <input type="radio" name="sort" />
-                              <span className="checkmark"></span> صعودی
-                            </label>
-                            <label className="custom_radio w-100 mb-4">
-                              <input type="radio" name="sort" />
-                              <span className="checkmark"></span> نزولی
-                            </label>
-                            <button
-                              type="submit"
-                              className="btn w-100 btn-primary"
-                            >
-                              اعمال
-                            </button>
-                          </form>
-                        </div>
                       </div>
                     </div>
                   </div>

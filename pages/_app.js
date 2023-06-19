@@ -8,7 +8,7 @@ import React from "react";
 import DashboardLayout from "pages/dashboardLayout";
 
 export default function MyApp({ Component, pageProps }) {
-  // const [queryClient] = React.useState(() => new QueryClient());
+  // const queryClient = new QueryClient()
   return (
     <>
       {/* Provide the client to your App */}
