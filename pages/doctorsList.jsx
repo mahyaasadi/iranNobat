@@ -206,7 +206,6 @@ const DoctorsList = () => {
                   <DoctorsListTable
                     data={doctorsList}
                     deletePhysician={deletePhysician}
-                    editPhysician={editPhysician}
                     updatePhysician={updatePhysician}
                   />
                 )}

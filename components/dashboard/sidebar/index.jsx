@@ -51,7 +51,10 @@ const Sidebar = () => {
                     <Link href="/specializedWorks">کارهای تخصصی مرکز</Link>
                   </li>
                   <li>
-                    <Link href="/certifications">دریافت مجوزها</Link>
+                    <Link href="/certifications">مجوزها</Link>
+                  </li>
+                  <li>
+                    <Link href="/insurances"> بیمه های تحت پوشش مرکز</Link>
                   </li>
                 </ul>
               </li>

@@ -41,7 +41,6 @@ const Certifications = () => {
       )
       .then(function (response) {
         setCertificationsList(response.data);
-        console.log(response.data);
         setIsLoading(false);
       });
   };
