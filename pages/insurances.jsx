@@ -90,6 +90,7 @@ const Insurance = () => {
   // Edit Insurance
   const editInsurance = (e) => {
     e.preventDefault();
+
     let url = "https://irannobat.ir:8444/api/CenterProfile/UpdateInsurance";
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
@@ -100,12 +101,12 @@ const Insurance = () => {
       Type: formProps.EditInsuranceType,
       Status: formProps.EditInsuranceStatus,
     };
+
     axios
       .put(url, Data)
       .then((response) => {
         updateItem(formProps.EditInsuranceID, response.data);
         $("#editInsuranceModal").modal("hide");
-        // reset();
       })
       .catch((error) => {
         console.log(error);

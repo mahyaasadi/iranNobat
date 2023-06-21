@@ -27,7 +27,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(isLoading);
+    setIsLoading(true);
 
     await axios
       .post("https://irannobat.ir:8444/api/AdminUser/Login", {
@@ -35,7 +35,7 @@ const Login = () => {
         Password: document.getElementById("Password").value,
       })
       .then(function (response) {
-        setIsLoading(!isLoading);
+        setIsLoading(false);
         sessionStorage.setItem(
           "SEID",
           JSON.stringify(response.data.UserSecretKey)
@@ -43,7 +43,7 @@ const Login = () => {
         router.push("/dashboard");
       })
       .catch(function (error) {
-        setIsLoading(isLoading);
+        setIsLoading(true);
         console.log(error);
         MySwal.fire({
           title: "اطلاعات اشتباه وارد شده است",
@@ -71,35 +71,36 @@ const Login = () => {
             />
           </div>
         </div>
-        {/* /Login Banner */}
 
         <div className="col-md-6 login-wrap-bg">
-          {/* Login */}
+            {!isLoading ? (
+                <Loading />
+              ) : (
+          
           <div className="login-page">
             <div className="login-wrapper">
-              <div className="loginbox">
-                <h3>ورود</h3>
-                <p className="account-subtitle">دسترسی به داشبورد</p>
-                {!setIsLoading ? (
-                  <Loading />
-                ) : (
+              
+                <div className="loginbox">
+                  <h3>ورود</h3>
+                  <p className="account-subtitle">دسترسی به داشبورد</p>
+
                   <form onSubmit={handleSubmit}>
                     <div className="form-group form-focus">
-                      {/* <Controller
+                      <Controller
                         control={control}
                         name="UserName"
-                        render={({ field: { value, onChange } }) => ( */}
-                      <input
-                        className="form-control floating"
-                        type="text"
-                        id="UserName"
-                        name="UserName"
-                        autoComplete="false"
-                        placeholder="نام کاربری"
-                        required
+                        render={({ field: { value, onChange } }) => (
+                          <input
+                            className="form-control floating"
+                            type="text"
+                            id="UserName"
+                            name="UserName"
+                            autoComplete="false"
+                            placeholder="نام کاربری"
+                            required
+                          />
+                        )}
                       />
-                      {/* )}
-                      /> */}
                     </div>
                     <div className="form-group form-focus">
                       <Controller
@@ -149,10 +150,10 @@ const Login = () => {
                     </div>
                     <div className="dont-have">حساب ندارید ؟ </div>
                   </form>
-                )}
-              </div>
+                </div>
             </div>
           </div>
+              )}
         </div>
       </div>
     </>

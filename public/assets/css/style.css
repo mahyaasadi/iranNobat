@@ -3227,10 +3227,13 @@ html.menu-opened body {
 .sidebar-menu li a:hover {
   color: #0ce0ff;
 }
-.sidebar-menu > ul > li > a:hover {
+.sidebar-menu li a:focus {
   color: #0ce0ff;
 }
-.sidebar-menu li.active > a {
+.sidebar-menu > ul > li > a:active {
+  color: #0ce0ff;
+}
+.sidebar-menu li.focus > a {
   color: #0ce0ff;
   position: relative;
 }
@@ -4796,7 +4799,7 @@ span.fa.toggle-password\".fa-eye {
   background: #f5f6fa;
 }
 .form-focus .form-control::-webkit-input-placeholder {
-  color: transparent;
+  /* color: transparent; */
   transition: 240ms;
 }
 .form-focus .form-control:focus::-webkit-input-placeholder {
@@ -5024,7 +5027,7 @@ a.btn.trash svg.feather {
 .app-listing {
   display: flex;
   display: -ms-flexbox;
-  justify-content: end;
+  justify-content: flex-end;
   margin-bottom: 25px;
 }
 .app-listing .import-list,

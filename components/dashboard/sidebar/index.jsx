@@ -25,7 +25,7 @@ const Sidebar = () => {
               <li className="menu-title">
                 <span>اصلی</span>
               </li>
-              <li className="active">
+              <li>
                 <Link href="index.html">
                   <i className="fe fe-home"></i>{" "}
                   <span
@@ -40,7 +40,7 @@ const Sidebar = () => {
               </li>
               <li className="submenu">
                 <a href="#">
-                  <i className="fe fe-document"></i> <span> تنظیمات مراکز</span>{" "}
+                  <i className="fe fe-document"></i> <span> تنظیمات مرکز</span>{" "}
                   <span className="menu-arrow"></span>
                 </a>
                 <ul className="hidden">
@@ -48,13 +48,24 @@ const Sidebar = () => {
                     <Link href="/doctorsList">پزشکان</Link>
                   </li>
                   <li>
-                    <Link href="/specializedWorks">کارهای تخصصی مرکز</Link>
+                    <Link href="/specializedWorks">کارهای تخصصی </Link>
                   </li>
                   <li>
                     <Link href="/certifications">مجوزها</Link>
                   </li>
                   <li>
-                    <Link href="/insurances"> بیمه های تحت پوشش مرکز</Link>
+                    <Link href="/insurances"> بیمه های تحت پوشش </Link>
+                  </li>
+                </ul>
+              </li>
+              <li className="submenu">
+                <a href="#">
+                  <i className="fe fe-document"></i> <span> تنظیمات پذیرش</span>{" "}
+                  <span className="menu-arrow"></span>
+                </a>
+                <ul className="hidden">
+                  <li>
+                    <Link href="/discounts">تخفیفات</Link>
                   </li>
                 </ul>
               </li>
