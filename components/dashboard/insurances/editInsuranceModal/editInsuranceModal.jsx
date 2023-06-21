@@ -56,6 +56,7 @@ const EditInsuranceModal = ({
                     required
                   />
                 </div>
+
                 <SelectField
                   options={insuranceType}
                   errorMessage={""}

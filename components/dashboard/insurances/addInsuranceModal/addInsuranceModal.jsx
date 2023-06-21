@@ -60,7 +60,6 @@ const AddInsuranceModal = ({
                   onChangeValue={(value) => FUSelectInsuranceType(value?.value)}
                   key={data.Type}
                 />
-
                 <SelectField
                   options={insuranceStatus}
                   errorMessage={""}

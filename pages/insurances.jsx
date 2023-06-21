@@ -29,8 +29,6 @@ const Insurance = () => {
   // reset form inputs
   const reset = () => {
     setName("");
-    // setInsuranceType("");
-    // setInsuranceStatus("");
   };
 
   let SelectInsuranceType,
