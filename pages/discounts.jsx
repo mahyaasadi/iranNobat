@@ -124,13 +124,14 @@ const Discounts = () => {
     let url = "https://irannobat.ir:8444/api/CenterDiscount/update";
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
+    
     let Data = {
       CenterID: CenterID,
       DiscountID: formProps.EditDiscountID,
       Name: formProps.EditDiscountName,
       Des: formProps.EditDiscountDes,
       Value: formProps.EditDiscountValue,
-      Percent: formProps.EditDiscountPercent,
+      Percent: parseInt(formProps.EditDiscountPercent),
     };
 
     axios
@@ -163,6 +164,7 @@ const Discounts = () => {
   const updateDiscount = (data) => {
     setEditedDiscountList(data);
   };
+
   return (
     <>
       <div className="page-wrapper">

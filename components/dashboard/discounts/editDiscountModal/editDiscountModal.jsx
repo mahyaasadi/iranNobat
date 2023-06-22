@@ -14,8 +14,19 @@ const EditDiscountModal = ({
   discountPercentDataClass,
   editDiscount,
 }) => {
-  // const selectedPercent = { value: data.Percent, label: data.Percent };
 
+  let percentLabel = "محاسبه بر اساس مبلغ"
+
+  let percent = 0
+  if (data.Percent){
+    percent = 1
+    percentLabel = "محاسبه بر اساس درصد"
+  }
+  
+
+  const selectedPercent = { value: percent, label: percentLabel };
+
+  console.log(data)
   return (
     <div
       className="modal fade contentmodal"
@@ -101,7 +112,7 @@ const EditDiscountModal = ({
                   placeholder={"روش محاسبه را انتخاب کنید"}
                   isRequired={true}
                   name="EditDiscountPercent"
-                  // defaultValue={discountPercentDataClass}
+                  defaultValue={selectedPercent}
                   onChangeValue={(value) =>
                     FUSelectDiscountPercent(value?.value)
                   }
