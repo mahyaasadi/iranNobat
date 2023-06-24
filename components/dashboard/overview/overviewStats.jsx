@@ -16,7 +16,7 @@ const OverviewStats = ({ stats }) => {
               <div className="dash-count">
                 <h5 className="dash-title">تعداد درخواست ها</h5>
                 <div className="dash-counts">
-                  <p>{stats.Total.toLocaleString()}</p>
+                  <p>{stats.Total}</p>
                 </div>
               </div>
             </div>
@@ -35,7 +35,7 @@ const OverviewStats = ({ stats }) => {
               <div className="dash-count">
                 <h5 className="dash-title">در حال مکالمه</h5>
                 <div className="dash-counts">
-                  <p>{stats.Talking.toLocaleString()}</p>
+                  <p>{stats.Talking}</p>
                 </div>
               </div>
             </div>
@@ -57,7 +57,7 @@ const OverviewStats = ({ stats }) => {
                   <p>
                     {typeof stats.WaitingForPayment === undefined
                       ? 0
-                      : stats.WaitingForPayment.toLocaleString()}
+                      : stats.WaitingForPayment}
                   </p>
                 </div>
               </div>
@@ -78,9 +78,7 @@ const OverviewStats = ({ stats }) => {
                 <h5 className="dash-title">نوبت های داده شده</h5>
                 <div className="dash-counts">
                   <p>
-                    {typeof stats.TurnGiven === undefined
-                      ? 0
-                      : stats.TurnGiven.toLocaleString()}
+                    {typeof stats.TurnGiven === undefined ? 0 : stats.TurnGiven}
                   </p>
                 </div>
               </div>

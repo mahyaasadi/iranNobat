@@ -46,6 +46,7 @@ const DoctorsListTable = ({ data, deletePhysician, updatePhysician }) => {
             </i>{" "}
             ویرایش
           </Link>
+
           <Link
             dir="ltr"
             href="#"

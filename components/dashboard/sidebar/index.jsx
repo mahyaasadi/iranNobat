@@ -44,6 +44,9 @@ const Sidebar = () => {
                   <li>
                     <Link href="/insurances"> بیمه های تحت پوشش </Link>
                   </li>
+                  <li>
+                    <Link href="/imagesGallery">گالری تصاویر</Link>
+                  </li>
                 </ul>
               </li>
 

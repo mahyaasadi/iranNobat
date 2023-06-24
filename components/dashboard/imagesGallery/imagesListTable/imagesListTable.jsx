@@ -1,27 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import FeatherIcon from "feather-icons-react";
+import { Row, Col, Card, Media } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 
-const SpecialiazedWorksListTable = ({ data, updateSpeWork, deleteSpeWork }) => {
+const ImagesListTable = ({ data }) => {
   const columns = [
     {
-      name: "نام ",
-      selector: (row) => row.Name,
+      name: "عکس",
+      selector: (row) => row.Thumb,
       sortable: true,
-      width: "auto",
+      cell: (row) => (
+        <img
+          src={"https://irannobat.ir/CenterProfileImage/" + row.Thumb}
+          alt=""
+        />
+      ),
+      width: "100px",
     },
     {
       name: "عنوان",
-      selector: (row) => row.Title,
-      sortable: true,
-      width: "auto",
-    },
-    {
-      name: "نام انگلیسی",
-      selector: (row) => row.EngName,
+      selector: (row) => row.Des,
       sortable: true,
       width: "auto",
     },
@@ -36,9 +37,9 @@ const SpecialiazedWorksListTable = ({ data, updateSpeWork, deleteSpeWork }) => {
             dir="ltr"
             href="#"
             className="text-black"
-            onClick={() => updateSpeWork(row)}
+            // onClick={() => updateImage(row)}
             data-bs-toggle="modal"
-            data-bs-target="#editSpeWorkModal"
+            data-bs-target="#editImageModal"
           >
             <i className="me-1">
               <FeatherIcon icon="edit-3" />
@@ -49,7 +50,7 @@ const SpecialiazedWorksListTable = ({ data, updateSpeWork, deleteSpeWork }) => {
             dir="ltr"
             href="#"
             className="text-danger"
-            onClick={() => deleteSpeWork(row._id)}
+            // onClick={() => deleteImage(row._id)}
           >
             <i className="me-1">
               <FeatherIcon icon="trash-2" />
@@ -58,7 +59,7 @@ const SpecialiazedWorksListTable = ({ data, updateSpeWork, deleteSpeWork }) => {
           </Link>
         </div>
       ),
-      width: "auto",
+      width: "200px",
     },
   ];
 
@@ -84,4 +85,4 @@ const SpecialiazedWorksListTable = ({ data, updateSpeWork, deleteSpeWork }) => {
   );
 };
 
-export default SpecialiazedWorksListTable;
+export default ImagesListTable;

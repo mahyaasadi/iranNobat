@@ -1,4 +1,7 @@
 import FeatherIcon from "feather-icons-react";
+import JDate from "jalali-date";
+
+const jdate = new JDate();
 
 const AddCertificateModal = ({
   companyName,
@@ -81,6 +84,9 @@ const AddCertificateModal = ({
                     id="AddCertificateYear"
                     className="form-control floating"
                     value={year}
+                    defaultValue={jdate.getFullYear()}
+                    // key={year}
+
                     onChange={handleYearInput}
                     required
                   />
