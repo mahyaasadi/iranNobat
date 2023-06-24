@@ -19,7 +19,7 @@ const Discounts = () => {
   const [discountName, setDiscountName] = useState("");
   const [description, setDescription] = useState("");
   const [discountValue, setDiscountValue] = useState("");
-  const [discountPercent, setdiscountPercent] = useState(
+  const [discountPercent, setDiscountPercent] = useState(
     discountPercentDataClass
   );
 
@@ -45,7 +45,7 @@ const Discounts = () => {
     axios
       .get(`https://irannobat.ir:8444/api/CenterDiscount/getAll/${CenterID}`)
       .then(function (response) {
-        console.log(response.data);
+        // console.log(response.data);
         setDiscountsList(response.data);
         setIsLoading(false);
       });
@@ -93,7 +93,7 @@ const Discounts = () => {
       icon: "warning",
       showCancelButton: true,
       allowOutsideClick: true,
-      confirmButtonColor: "#3085d6",
+      confirmButtonColor: "#0db1ca",
       cancelButtonColor: "#d33",
       confirmButtonText: "بله",
       cancelButtonText: "خیر",
@@ -124,7 +124,7 @@ const Discounts = () => {
     let url = "https://irannobat.ir:8444/api/CenterDiscount/update";
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
-    
+
     let Data = {
       CenterID: CenterID,
       DiscountID: formProps.EditDiscountID,

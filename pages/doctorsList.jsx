@@ -9,9 +9,6 @@ import Loading from "components/loading/Loading";
 import DoctorsListTable from "components/dashboard/doctors/doctorsListTable/doctorsListTable";
 import AddDoctorModal from "components/dashboard/doctors/addDoctorModal/addDoctorModal";
 import EditDoctorModal from "components/dashboard/doctors/editDoctorModal/editDoctorModal";
-import "public/assets/css/font-awesome.min.css";
-import "public/assets/css/feathericon.min.css";
-import "public/assets/css/style.css";
 
 let CenterID = Cookies.get("CenterID");
 
@@ -133,17 +130,18 @@ const DoctorsList = () => {
       icon: "warning",
       showCancelButton: true,
       allowOutsideClick: true,
-      confirmButtonColor: "#3085d6",
+      confirmButtonColor: "#0db1ca",
       cancelButtonColor: "#d33",
       confirmButtonText: "بله",
       cancelButtonText: "خیر",
     }).then((result) => {
       if (result.isConfirmed) {
+        let url = "https://irannobat.ir:8444/api/CenterProfile/DeletePhysician";
         let data = {
           CenterID: CenterID,
           PhysicianID: id,
         };
-        let url = "https://irannobat.ir:8444/api/CenterProfile/DeletePhysician";
+
         axios
           .delete(url, { data })
           .then(function () {
@@ -210,12 +208,11 @@ const DoctorsList = () => {
                   />
                 )}
               </div>
-
               <div id="tablepagination" className="dataTables_wrapper"></div>
             </div>
           </div>
-          {/* <!-- /Doctors List --> */}
         </div>
+
         <AddDoctorModal
           addPhysician={addPhysician}
           name={name}
@@ -225,6 +222,7 @@ const DoctorsList = () => {
           handleTitleInput={handleTitleInput}
           handleSpecialtyInput={handleSpecialtyInput}
         />
+
         <EditDoctorModal
           data={editDoctor}
           editPhysician={editPhysician}

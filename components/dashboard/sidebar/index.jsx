@@ -1,9 +1,7 @@
 "use client"; //This is a client component
-// import "public/assets/css/bootstrap.rtl.min.css";
 import "public/assets/css/font-awesome.min.css";
 import "public/assets/css/feathericon.min.css";
-// import "public/assets/plugins/morris/morris.css";
-import { useRouter } from "next/router";
+import Link from "next/link";
 import "public/assets/css/bootstrap.min.css";
 import "public/assets/css/feathericon.min.css";
 import "public/assets/plugins/fontawesome/css/fontawesome.min.css";
@@ -11,13 +9,9 @@ import "public/assets/plugins/fontawesome/css/all.min.css";
 import "public/assets/css/font-awesome.min.css";
 import "public/assets/css/style.css";
 
-import Link from "next/link";
 const Sidebar = () => {
-  const router = useRouter();
-
   return (
     <>
-      {/* <!-- Sidebar --> */}
       <div className="sidebar" id="sidebar">
         <div className="sidebar-inner slimscroll">
           <div id="sidebar-menu" className="sidebar-menu">
@@ -26,21 +20,15 @@ const Sidebar = () => {
                 <span>اصلی</span>
               </li>
               <li>
-                <Link href="index.html">
-                  <i className="fe fe-home"></i>{" "}
-                  <span
-                    onClick={(e) => {
-                      e.preventDefault();
-                      router.push("/dashboard");
-                    }}
-                  >
-                    داشبورد
-                  </span>
+                <Link href="/dashboard">
+                  <i className="fe fe-home"></i>
+                  <span>داشبورد</span>
                 </Link>
               </li>
+
               <li className="submenu">
                 <a href="#">
-                  <i className="fe fe-document"></i> <span> تنظیمات مرکز</span>{" "}
+                  <i className="fe fe-document"></i> <span> تنظیمات مرکز</span>
                   <span className="menu-arrow"></span>
                 </a>
                 <ul className="hidden">
@@ -58,9 +46,10 @@ const Sidebar = () => {
                   </li>
                 </ul>
               </li>
+
               <li className="submenu">
                 <a href="#">
-                  <i className="fe fe-document"></i> <span> تنظیمات پذیرش</span>{" "}
+                  <i className="fe fe-document"></i> <span> تنظیمات پذیرش</span>
                   <span className="menu-arrow"></span>
                 </a>
                 <ul className="hidden">
@@ -69,10 +58,22 @@ const Sidebar = () => {
                   </li>
                 </ul>
               </li>
+
+              <li className="submenu">
+                <a href="#">
+                  <i className="fe fe-document"></i>
+                  <span> تنظیمات سیستم اینو</span>
+                  <span className="menu-arrow"></span>
+                </a>
+                <ul className="hidden">
+                  <li>
+                    <Link href="/cannedMessages">پیام های پیش فرض</Link>
+                  </li>
+                </ul>
+              </li>
             </ul>
           </div>
         </div>
-        {/* <!-- /Sidebar --> */}
       </div>
     </>
   );

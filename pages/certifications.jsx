@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import FeatherIcon from "feather-icons-react";
 import Swal from "sweetalert2";
-import Loading from "components/loading/Loading";
+import Loading from "components/loading/loading";
 import CertificationsListTable from "/components/dashboard/certifications/certificationsListTable/certificationsListTable";
 import AddCertificateModal from "components/dashboard/certifications/addCertificateModal/addCertificateModal";
 import EditCertificateModal from "components/dashboard/certifications/editCertificateModal/editCertificateModal";
@@ -134,7 +134,7 @@ const Certifications = () => {
       icon: "warning",
       showCancelButton: true,
       allowOutsideClick: true,
-      confirmButtonColor: "#3085d6",
+      confirmButtonColor: "#0db1ca",
       cancelButtonColor: "#d33",
       confirmButtonText: "بله",
       cancelButtonText: "خیر",

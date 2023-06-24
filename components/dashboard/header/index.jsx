@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import axios from "axios";
 import Image from "next/image";
+import Cookies from "js-cookie";
 import FeatherIcon from "feather-icons-react";
 import {
   avatar01,
@@ -19,7 +20,6 @@ import "public/assets/plugins/fontawesome/css/fontawesome.min.css";
 import "public/assets/plugins/fontawesome/css/all.min.css";
 import "public/assets/css/font-awesome.min.css";
 import "public/assets/css/style.css";
-import Cookies from "js-cookie";
 
 let user = null;
 let centerId = null;
@@ -31,6 +31,7 @@ const Header = () => {
   const [dropdown1, setdropdown1] = useState(false);
 
   const handletheme = () => {
+
     document.body.classList.toggle("darkmode");
     settask(!task);
     settask1(!task1);
@@ -86,7 +87,6 @@ const Header = () => {
             <FeatherIcon icon="chevrons-left" />
           </Link>
         </div>
-        {/* /Logo */}
 
         {/* Mobile Menu Toggle */}
         <Link
@@ -97,7 +97,7 @@ const Header = () => {
         >
           <i className="fas fa-bars" />
         </Link>
-        {/* /Mobile Menu Toggle */}
+
         {/* Header Menu */}
         <ul className="nav nav-tabs user-menu">
           {/* Flag */}
@@ -119,7 +119,7 @@ const Header = () => {
               </i>
             </Link>
           </li>
-          {/* /Flag */}
+
           {/* Notifications */}
           {/* <li className="nav-item dropdown noti-nav">
             <Link
@@ -225,7 +225,6 @@ const Header = () => {
           {/* /Notifications */}
 
           {/* <!-- User Menu --> */}
-
           <li className="nav-item dropdown has-arrow">
             <a
               href="#"
@@ -271,13 +270,8 @@ const Header = () => {
               </a>
             </div>
           </li>
-          {/* <!-- /User Menu --> */}
-
-          {/* /User Menu */}
         </ul>
-        {/* /Header Menu */}
       </div>
-      {/* /Header */}
     </>
   );
 };

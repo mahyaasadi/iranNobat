@@ -14,19 +14,16 @@ const EditDiscountModal = ({
   discountPercentDataClass,
   editDiscount,
 }) => {
+  let percentLabel = "محاسبه بر اساس مبلغ";
+  let percent = 0;
 
-  let percentLabel = "محاسبه بر اساس مبلغ"
-
-  let percent = 0
-  if (data.Percent){
-    percent = 1
-    percentLabel = "محاسبه بر اساس درصد"
+  if (data.Percent) {
+    percent = 1;
+    percentLabel = "محاسبه بر اساس درصد";
   }
-  
 
   const selectedPercent = { value: percent, label: percentLabel };
 
-  console.log(data)
   return (
     <div
       className="modal fade contentmodal"
@@ -132,4 +129,5 @@ const EditDiscountModal = ({
     </div>
   );
 };
+
 export default EditDiscountModal;

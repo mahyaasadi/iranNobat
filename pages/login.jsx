@@ -73,13 +73,11 @@ const Login = () => {
         </div>
 
         <div className="col-md-6 login-wrap-bg">
-            {!isLoading ? (
-                <Loading />
-              ) : (
-          
-          <div className="login-page">
-            <div className="login-wrapper">
-              
+          {!isLoading ? (
+            <Loading />
+          ) : (
+            <div className="login-page">
+              <div className="login-wrapper">
                 <div className="loginbox">
                   <h3>ورود</h3>
                   <p className="account-subtitle">دسترسی به داشبورد</p>
@@ -126,11 +124,11 @@ const Login = () => {
                         )}
                       />
                     </div>
+
                     <div className="form-group">
                       <div className="row">
                         <div className="col-6">
                           <label className="custom_check mr-2 mb-0 d-inline-flex">
-                            {" "}
                             مرا به خاطر داشته باش
                             <input type="checkbox" name="radio" />
                             <span className="checkmark" />
@@ -151,9 +149,9 @@ const Login = () => {
                     <div className="dont-have">حساب ندارید ؟ </div>
                   </form>
                 </div>
+              </div>
             </div>
-          </div>
-              )}
+          )}
         </div>
       </div>
     </>

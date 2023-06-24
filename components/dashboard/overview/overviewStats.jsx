@@ -4,7 +4,6 @@ import { eventsAccepted, payment, talking } from "components/imagePath";
 
 const OverviewStats = ({ stats }) => {
   return (
-
     // total requests
     <div className="row">
       <div className="col-xl-3 col-sm-6 col-12">
@@ -17,7 +16,7 @@ const OverviewStats = ({ stats }) => {
               <div className="dash-count">
                 <h5 className="dash-title">تعداد درخواست ها</h5>
                 <div className="dash-counts">
-                  <p>{stats.Total}</p>
+                  <p>{stats.Total.toLocaleString()}</p>
                 </div>
               </div>
             </div>
@@ -31,12 +30,12 @@ const OverviewStats = ({ stats }) => {
           <div className="card-body">
             <div className="dash-widget-header">
               <span className="dash-widget-icon bg-talking">
-                <Image src={talking} alt="User Image" />
+                <Image src={talking} alt="talking" />
               </span>
               <div className="dash-count">
                 <h5 className="dash-title">در حال مکالمه</h5>
                 <div className="dash-counts">
-                  <p>{stats.Talking}</p>
+                  <p>{stats.Talking.toLocaleString()}</p>
                 </div>
               </div>
             </div>
@@ -50,12 +49,16 @@ const OverviewStats = ({ stats }) => {
           <div className="card-body">
             <div className="dash-widget-header">
               <span className="dash-widget-icon bg-waiting">
-                <Image src={payment} alt="User Image" />
+                <Image src={payment} alt="waitingForPayment" />
               </span>
               <div className="dash-count">
                 <h5 className="dash-title">در انتظار پرداخت</h5>
                 <div className="dash-counts">
-                  <p>{stats.WaitingForPayment}</p>
+                  <p>
+                    {typeof stats.WaitingForPayment === undefined
+                      ? 0
+                      : stats.WaitingForPayment.toLocaleString()}
+                  </p>
                 </div>
               </div>
             </div>
@@ -69,12 +72,16 @@ const OverviewStats = ({ stats }) => {
           <div className="card-body">
             <div className="dash-widget-header">
               <span className="dash-widget-icon bg-turnGiven">
-                <Image src={eventsAccepted} alt="User Image" />
+                <Image src={eventsAccepted} alt="eventsAccepted" />
               </span>
               <div className="dash-count">
                 <h5 className="dash-title">نوبت های داده شده</h5>
                 <div className="dash-counts">
-                  <p>{typeof(stats.TurnGiven) === undefined ? 0 : stats.TurnGiven}</p>
+                  <p>
+                    {typeof stats.TurnGiven === undefined
+                      ? 0
+                      : stats.TurnGiven.toLocaleString()}
+                  </p>
                 </div>
               </div>
             </div>
@@ -82,7 +89,7 @@ const OverviewStats = ({ stats }) => {
         </div>
       </div>
     </div>
-  )
+  );
 };
 
-export default OverviewStats
+export default OverviewStats;

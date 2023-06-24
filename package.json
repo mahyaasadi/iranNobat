@@ -17,6 +17,7 @@
     "eslint-config-next": "13.4.4",
     "feather-icons": "^4.29.0",
     "feather-icons-react": "^0.6.2",
+    "jalali-date": "^1.1.4",
     "jquery": "^3.7.0",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.0",

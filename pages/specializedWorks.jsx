@@ -134,7 +134,7 @@ const SpecializedWorks = () => {
       icon: "warning",
       showCancelButton: true,
       allowOutsideClick: true,
-      confirmButtonColor: "#3085d6",
+      confirmButtonColor: "#0db1ca",
       cancelButtonColor: "#d33",
       confirmButtonText: "بله",
       cancelButtonText: "خیر",
