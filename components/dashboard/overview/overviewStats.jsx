@@ -1,20 +1,8 @@
 import FeatherIcon from "feather-icons-react";
 import Image from "next/image";
-import { calender, chart } from "components/imagePath";
+import { eventsAccepted, payment, talking } from "components/imagePath";
 
-const OverviewStats = ({
-    getTodayStats,
-    getLastWeekStats,
-    getThisMonthStats,
-    talkingValue,
-    totalReq,
-    turnGivenValue,
-    WaitingForPaymentValue,
-    todayData,
-    lastWeekData,
-    thisMonthData
-}) => {
-
+const OverviewStats = ({ stats }) => {
   return (
 
     // total requests
@@ -29,13 +17,10 @@ const OverviewStats = ({
               <div className="dash-count">
                 <h5 className="dash-title">تعداد درخواست ها</h5>
                 <div className="dash-counts">
-                  <p>{todayData.Total}</p>
+                  <p>{stats.Total}</p>
                 </div>
               </div>
             </div>
-            <p className="trade-level mb-0">
-              هفته گذشته
-            </p>
           </div>
         </div>
       </div>
@@ -46,40 +31,34 @@ const OverviewStats = ({
           <div className="card-body">
             <div className="dash-widget-header">
               <span className="dash-widget-icon bg-talking">
-                
+                <Image src={talking} alt="User Image" />
               </span>
               <div className="dash-count">
                 <h5 className="dash-title">در حال مکالمه</h5>
                 <div className="dash-counts">
-                  <p>{todayData.Talking}</p>
+                  <p>{stats.Talking}</p>
                 </div>
               </div>
             </div>
-            <p className="trade-level mb-0">
-              هفته گذشته
-            </p>
           </div>
         </div>
       </div>
 
-    {/* waiting for payment */}
+      {/* waiting for payment */}
       <div className="col-xl-3 col-sm-6 col-12">
         <div className="card">
           <div className="card-body">
             <div className="dash-widget-header">
               <span className="dash-widget-icon bg-waiting">
-                <Image src={chart} alt="User Image" />
+                <Image src={payment} alt="User Image" />
               </span>
               <div className="dash-count">
                 <h5 className="dash-title">در انتظار پرداخت</h5>
                 <div className="dash-counts">
-                  <p>62523</p>
+                  <p>{stats.WaitingForPayment}</p>
                 </div>
               </div>
             </div>
-            <p className="trade-level mb-0">
-              هفته گذشته
-            </p>
           </div>
         </div>
       </div>
@@ -90,23 +69,20 @@ const OverviewStats = ({
           <div className="card-body">
             <div className="dash-widget-header">
               <span className="dash-widget-icon bg-turnGiven">
-                <Image src={calender} alt="User Image" />
+                <Image src={eventsAccepted} alt="User Image" />
               </span>
               <div className="dash-count">
                 <h5 className="dash-title">نوبت های داده شده</h5>
                 <div className="dash-counts">
-                  <p>4500</p>
+                  <p>{typeof(stats.TurnGiven) === undefined ? 0 : stats.TurnGiven}</p>
                 </div>
               </div>
             </div>
-            <p className="trade-level mb-0">
-              هفته گذشته
-            </p>
           </div>
         </div>
       </div>
-
     </div>
-  );
+  )
 };
+
 export default OverviewStats

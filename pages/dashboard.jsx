@@ -7,6 +7,7 @@ import FeatherIcon from "feather-icons-react";
 import Select from "react-select";
 import Image from "next/image";
 import OverviewStats from "components/dashboard/overview/overviewStats"
+import Loading from "components/loading/loading"
 import {
   avatar02,
   avatar03,
@@ -37,101 +38,66 @@ import {
 let CenterID = Cookies.get("CenterID");
 
 const Dashboard = () => {
-  
-const [selectedOption, setSelectedOption] = useState();
 
-const [todayData, setTodayData] = useState([])
-const [lastWeekData, setLastWeekData] = useState([])
-const [thisMonthData, setThisMonthData] = useState([])
+  const [selectedDuration, setSelectedDuration] = useState("today");
+  const [stats, setStats] = useState(null)
+  const [statsIsLoading, setStatsIsLoading] = useState(true)
 
-const [talkingValue, setTalkingValue] = useState("")
-const [totalReq, setTotalReq] = useState("")
-const [turnGivenValue, setTurnGivenValue] = useState("")
-const [WaitingForPaymentValue, setWaitingForPaymentValue] = useState("")
+  const overviewOptions = [
+    { value: "today", label: "امروز" },
+    { value: "lastWeek", label: "هفته گذشته" },
+    { value: "lastMonth", label: "این ماه" },
+  ];
 
-const overviewOptions = [
-  { value: "امروز ", label: "امروز" },
-  { value: "هفته گذشته", label: "هفته گذشته" },
-  { value: "این ماه", label: "این ماه" },
-];
-  
-// today stats
-  const getTodayStats = () => {
-    axios
-      .post("https://irannobat.ir:8444/api/Dashboard/TodayStatistics", {
-        CenterID: CenterID,
+  const getStats = (duration) => {
+    let url = "https://irannobat.ir:8444/api/Dashboard"
+    setStatsIsLoading(true)
+    if (duration === "today") {
+      url += "/TodayStatistics"
+    }
+    else if (duration === "lastWeek") {
+      url += "/LastWeekStatistics"
+    }
+    else if (duration === "lastMonth") {
+      url += "/MonthStatistics"
+    }
+    console.log(duration, url);
+
+    axios.post(url, {
+      CenterID: CenterID
+    })
+      .then((response) => {
+        console.log(duration, response.data)
+        setStats(response.data);
+        setStatsIsLoading(false)
       })
-      .then(function (response) {
-        // console.log(response.data)
-        setTodayData(response.data)
-        console.log(todayData)
-      });
   };
 
   useEffect(() => {
     try {
-      getTodayStats();
+      getStats(selectedDuration);
     } catch (error) {
+      setStatsIsLoading(true)
       console.log(error);
     }
-  }, []);
-
-  // last week stats
-  const getLastWeekStats = () => {
-    axios
-      .post("https://irannobat.ir:8444/api/Dashboard/LastWeekStatistics", {
-        CenterID: CenterID,
-      })
-      .then(function (response) {
-        setLastWeekData(response.data)
-        console.log(lastWeekData)
-      });
-  };
-
-  useEffect(() => {
-    try {
-      getLastWeekStats();
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
-
-  // this month stats
-  const getThisMonthStats = () => {
-    axios
-      .post("https://irannobat.ir:8444/api/Dashboard/MonthStatistics", {
-        CenterID: CenterID,
-      })
-      .then(function (response) {
-        setThisMonthData(response.data)
-        console.log(thisMonthData);
-      });
-  };
-
-  useEffect(() => {
-    try {
-      getThisMonthStats();
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
+  }, [selectedDuration]);
 
   return (
     <>
       <div className="main-wrapper">
         <div className="page-wrapper">
           <div className="content container-fluid pb-0">
-            <div className="card-header dashboard-header">
-              <div className="dashboard-row row align-items-center">
-                <div className="col">
+            <div className="">
+              <div className="dashboard-header">
+                <div className="col overview-title">
                   <h5 className="card-title">بررسی اجمالی</h5>
                 </div>
 
-                <div className="col-auto select-option">
+                <div className="dashboard-selector">
                   <Select
                     className="select"
                     // defaultValue={selectedOption}
-                    onChange={setSelectedOption}
+                    onChange={(e) => setSelectedDuration(e.value)}
                     options={overviewOptions}
                     placeholder={"امروز"}
                     id="long-value-select"
@@ -141,20 +107,14 @@ const overviewOptions = [
 
               </div>
             </div>
-            
-            <OverviewStats
-              todayData={todayData}
-              lastWeekData={lastWeekData}
-              thisMonthData={thisMonthData}
-              
-              talkingValue={talkingValue}
-              totalReq={totalReq}
-              turnGivenValue={turnGivenValue}
-              WaitingForPaymentValue={WaitingForPaymentValue}
-              getTodayStats={getTodayStats}
-              getLastWeekStats={getLastWeekStats}
-              getThisMonthStats={getThisMonthStats}
-            />
+
+            {!statsIsLoading ? (
+              <OverviewStats
+                stats={stats}
+              />
+            ) : (
+              <Loading />
+            )}
 
           </div>
         </div>
