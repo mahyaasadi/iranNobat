@@ -6,19 +6,31 @@ import Swal from "sweetalert2";
 import FeatherIcon from "feather-icons-react";
 import Loading from "components/loading/loading";
 import ImagesListTable from "components/dashboard/imagesGallery/imagesListTable/imagesListTable";
+import UploadImageModal from "components/dashboard/imagesGallery/uploadImageModal/uploadImageModal";
+// import EditImageModal from "components/dashboard/imagesGallery/editImageModal/EditImageModal";
 
 let CenterID = Cookies.get("CenterID");
 
 const ImagesGallery = () => {
-  const [imagesData, setImagseData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [imagesData, setImagesData] = useState([]);
+  const [imgTitle, setImgTitle] = useState("");
+  const [imgDescription, setImgDescription] = useState("");
 
-  //get CannedMessages list
+  // recieved data after uploading
+  const [image, setImage] = useState(null);
+  const [med, setMed] = useState(null);
+  const [thumb, setThumb] = useState(null);
+  const [webpImage, setWebpImage] = useState(null);
+  const [webpMed, setWebpMed] = useState(null);
+  const [webpThumb, setWebpThumb] = useState(null);
+
+  //get Images
   const getImagesGallery = () => {
     let url = `https://irannobat.ir:8444/api/CenterProfile/getCenterGallery/${CenterID}`;
 
     axios.get(url).then(function (response) {
-      setImagseData(response.data);
+      setImagesData(response.data);
       console.log(response.data);
       setIsLoading(false);
     });
@@ -33,20 +45,104 @@ const ImagesGallery = () => {
     }
   }, []);
 
-  //   const getBase64FromUrl = async (url) => {
-  //     const data = await fetch(url);
-  //     const blob = await data.blob();
-  //     return new Promise((resolve) => {
-  //       const reader = new FileReader();
-  //       reader.readAsDataURL(blob);
-  //       reader.onloadend = () => {
-  //         const base64data = reader.result;
-  //         resolve(base64data);
-  //       };
-  //     });
-  //   };
+  // Convert imageUrl to Base64
+  const convertBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      // console.log(file);
 
-  //   getBase64FromUrl("/CenterProfileImage/167084132240x40.jpg").then(console.log);
+      fileReader.onload = () => {
+        // console.log(fileReader.result);
+        resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (error) => {
+        // console.log(error);
+        reject(error);
+      };
+    });
+  };
+
+  // Upload image
+  let img = null;
+  const uploadImage = async (e) => {
+    e.preventDefault();
+
+    let formData = new FormData(e.target);
+    const formProps = Object.fromEntries(formData);
+
+    if (formProps.img && formProps.img.size != 0) {
+      img = await convertBase64(formProps.img);
+      let data = {
+        CenterID: CenterID,
+        Img: img,
+        Title: formProps.Title,
+        Des: formProps.Des,
+      };
+
+      let url = "https://irannobat.ir:8444/api/CenterProfile/AddGallery";
+      axios
+        .post(url, data)
+        .then((response) => {
+          // console.log(response.data);
+          setImagesData([...imagesData, response.data]);
+          $("#uploadImageModal").modal("hide");
+          e.target.reset();
+          $("#fileUploadPreview").attr("src", " ");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      Swal.fire({
+        title: "خطا !",
+        text: "تصویر انتخاب نشده است",
+        icon: "error",
+        confirmButtonText: "تایید",
+      });
+    }
+  };
+
+  // Delete Message
+  const deleteImage = (data) => {
+    Swal.fire({
+      title: "حذف تصویر!",
+      text: "آیا از حذف تصویر مطمئن هستید",
+      icon: "warning",
+      showCancelButton: true,
+      allowOutsideClick: true,
+      confirmButtonColor: "#0db1ca",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "بله",
+      cancelButtonText: "خیر",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let url = "https://irannobat.ir:8444/api/CenterProfile/DeleteGallery";
+        let deleteData = {
+          data: {
+            CenterID: CenterID,
+            GalleryID: data._id,
+            Image: data.Image,
+            Med: data.Med,
+            Thumb: data.Thumb,
+            WebpImage: data.WebpImage,
+            WebpMed: data.WebpMed,
+            WebpThumb: data.WebpThumb,
+          },
+        };
+        console.log(deleteData);
+        axios
+          .delete(url, deleteData)
+          .then(function (response) {
+            setImagesData(imagesData.filter((a) => a._id !== data._id));
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+    });
+  };
 
   return (
     <>
@@ -58,7 +154,7 @@ const ImagesGallery = () => {
                 <Link
                   href="#"
                   data-bs-toggle="modal"
-                  data-bs-target="#addImageModal"
+                  data-bs-target="#uploadImageModal"
                   className="btn btn-primary btn-add"
                 >
                   <i className="me-1">
@@ -89,122 +185,24 @@ const ImagesGallery = () => {
                   </div>
                 </div>
 
-                <ImagesListTable data={imagesData} />
+                {isLoading ? (
+                  <Loading />
+                ) : (
+                  <ImagesListTable
+                    data={imagesData}
+                    deleteImage={deleteImage}
+                  />
+                )}
               </div>
-
               <div id="tablepagination" className="dataTables_wrapper"></div>
             </div>
           </div>
         </div>
       </div>
-      {/* <!-- Add Modal --> */}
-      <div
-        className="modal fade contentmodal"
-        id="addImageModal"
-        tabIndex="-1"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content doctor-profile">
-            <div className="modal-header">
-              <h3 className="mb-0">Add Product</h3>
-              <button
-                type="button"
-                className="close-btn"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              >
-                <i>
-                  <FeatherIcon icon="x-circle" />
-                </i>
-              </button>
-            </div>
-            <div className="modal-body">
-              <form action="/admin/pharmacy-list">
-                <div className="add-wrap">
-                  <div className="form-group form-focus">
-                    <input type="text" className="form-control floating" />
-                    <label className="focus-label">
-                      Product Name <span className="text-danger">*</span>
-                    </label>
-                  </div>
 
-                  <div className="form-group form-focus">
-                    <input type="text" className="form-control floating" />
-                    <label className="focus-label">
-                      Price <span className="text-danger">*</span>
-                    </label>
-                  </div>
+      <UploadImageModal uploadImage={uploadImage} />
 
-                  <div className="submit-section">
-                    <button type="submit" className="btn btn-primary btn-save">
-                      Save Changes
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* <!-- Edit Modal --> */}
-      <div
-        className="modal fade contentmodal"
-        id="editModal"
-        tabIndex="-1"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content doctor-profile">
-            <div className="modal-header">
-              <h3 className="mb-0">Edit Product</h3>
-              <button
-                type="button"
-                className="close-btn"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              >
-                <i>
-                  <FeatherIcon icon="x-circle" />
-                </i>
-              </button>
-            </div>
-            <div className="modal-body">
-              <form action="/admin/pharmacy-list">
-                <div className="add-wrap">
-                  <div className="form-group form-focus">
-                    <input
-                      type="text"
-                      className="form-control floating"
-                      defaultValue="Safi Natural"
-                    />
-                    <label className="focus-label">
-                      Product Name <span className="text-danger">*</span>
-                    </label>
-                  </div>
-
-                  <div className="form-group form-focus">
-                    <input
-                      type="text"
-                      className="form-control floating"
-                      defaultValue="$330.00"
-                    />
-                    <label className="focus-label">
-                      Price <span className="text-danger">*</span>
-                    </label>
-                  </div>
-
-                  <div className="submit-section">
-                    <button type="submit" className="btn btn-primary btn-save">
-                      Save Changes
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* <EditImageModal /> */}
     </>
   );
 };

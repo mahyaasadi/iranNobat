@@ -55,7 +55,7 @@ const OverviewStats = ({ stats }) => {
                 <h5 className="dash-title">در انتظار پرداخت</h5>
                 <div className="dash-counts">
                   <p>
-                    {typeof stats.WaitingForPayment === undefined
+                    {stats.WaitingForPayment === undefined
                       ? 0
                       : stats.WaitingForPayment}
                   </p>
@@ -77,9 +77,7 @@ const OverviewStats = ({ stats }) => {
               <div className="dash-count">
                 <h5 className="dash-title">نوبت های داده شده</h5>
                 <div className="dash-counts">
-                  <p>
-                    {typeof stats.TurnGiven === undefined ? 0 : stats.TurnGiven}
-                  </p>
+                  <p>{stats.TurnGiven === undefined ? 0 : stats.TurnGiven}</p>
                 </div>
               </div>
             </div>

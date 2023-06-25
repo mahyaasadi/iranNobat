@@ -34,7 +34,6 @@ const CannedMessages = () => {
 
     axios.get(url).then(function (response) {
       setMessagesData(response.data.result.CannedMessages);
-      console.log(response.data.result.CannedMessages);
       setIsLoading(false);
     });
   };

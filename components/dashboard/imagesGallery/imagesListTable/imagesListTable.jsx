@@ -6,7 +6,7 @@ import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 
-const ImagesListTable = ({ data }) => {
+const ImagesListTable = ({ data, deleteImage }) => {
   const columns = [
     {
       name: "عکس",
@@ -18,10 +18,16 @@ const ImagesListTable = ({ data }) => {
           alt=""
         />
       ),
-      width: "100px",
+      width: "150px",
     },
     {
       name: "عنوان",
+      selector: (row) => row.Title,
+      sortable: true,
+      width: "auto",
+    },
+    {
+      name: "توضیحات",
       selector: (row) => row.Des,
       sortable: true,
       width: "auto",
@@ -36,21 +42,8 @@ const ImagesListTable = ({ data }) => {
           <Link
             dir="ltr"
             href="#"
-            className="text-black"
-            // onClick={() => updateImage(row)}
-            data-bs-toggle="modal"
-            data-bs-target="#editImageModal"
-          >
-            <i className="me-1">
-              <FeatherIcon icon="edit-3" />
-            </i>{" "}
-            ویرایش
-          </Link>
-          <Link
-            dir="ltr"
-            href="#"
             className="text-danger"
-            // onClick={() => deleteImage(row._id)}
+            onClick={() => deleteImage(row)}
           >
             <i className="me-1">
               <FeatherIcon icon="trash-2" />

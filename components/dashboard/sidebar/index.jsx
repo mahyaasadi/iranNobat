@@ -74,6 +74,19 @@ const Sidebar = () => {
                   </li>
                 </ul>
               </li>
+
+              <li className="submenu">
+                <a href="#">
+                  <i className="fe fe-document"></i>
+                  <span> تنظیمات نوبت دهی </span>
+                  <span className="menu-arrow"></span>
+                </a>
+                <ul className="hidden">
+                  <li>
+                    <Link href="/sections">انتخاب بخش</Link>
+                  </li>
+                </ul>
+              </li>
             </ul>
           </div>
         </div>
