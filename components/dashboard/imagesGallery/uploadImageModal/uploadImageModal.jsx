@@ -1,5 +1,6 @@
 import Link from "next/link";
 import FeatherIcon from "feather-icons-react";
+import Image from "next/image";
 
 const UploadImageModal = ({
   uploadImage,
@@ -8,7 +9,6 @@ const UploadImageModal = ({
   handleImgTitleTitleInput,
   handleImgDescriptionInput,
 }) => {
-    
   const displayPreview = (e) => {
     var urlCreator = window.URL || window.webkitURL;
     var imageUrl = urlCreator.createObjectURL(e.target.files[0]);
@@ -46,6 +46,7 @@ const UploadImageModal = ({
                     name="Title"
                     id="Title"
                     className="form-control floating"
+                    required
                   />
                   <label className="focus-label">
                     عنوان<span className="text-danger">*</span>
@@ -57,9 +58,10 @@ const UploadImageModal = ({
                     type="text"
                     name="Des"
                     className="form-control floating"
+                    required
                   />
                   <label className="focus-label">
-                    مشخصات<span className="text-danger">*</span>
+                    توضیحات<span className="text-danger">*</span>
                   </label>
                 </div>
 
@@ -75,11 +77,14 @@ const UploadImageModal = ({
                     className="upload"
                     name="img"
                     onChange={displayPreview}
+                    required
                   />
                 </div>
-                <div>
-                  <img
+
+                <div className="previewImgContainer">
+                  <Image
                     src=""
+                    alt=""
                     width="200"
                     id="fileUploadPreview"
                     className="d-block m-auto previewImg"

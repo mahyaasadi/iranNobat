@@ -5,7 +5,7 @@ import FeatherIcon from "feather-icons-react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
-import Loading from "components/loading/Loading";
+import Loading from "components/loading/loading";
 import DoctorsListTable from "components/dashboard/doctors/doctorsListTable/doctorsListTable";
 import AddDoctorModal from "components/dashboard/doctors/addDoctorModal/addDoctorModal";
 import EditDoctorModal from "components/dashboard/doctors/editDoctorModal/editDoctorModal";

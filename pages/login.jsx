@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import Loading from "components/loading/Loading";
+import Loading from "components/loading/loading";
 import Logo from "public/assets/img/irannobatLogo.png";
 import "public/assets/css/bootstrap.min.css";
 import "public/assets/css/feather.css";

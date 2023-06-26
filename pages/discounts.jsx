@@ -4,7 +4,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import FeatherIcon from "feather-icons-react";
 import Swal from "sweetalert2";
-import Loading from "components/loading/Loading";
+import Loading from "components/loading/loading";
 import discountPercentDataClass from "class/discountPercentDataClass";
 import DiscountsListTable from "components/dashboard/discounts/discountsListTable/discountsListTable";
 import AddDiscountModal from "components/dashboard/discounts/addDiscountModal/addDiscountModal";

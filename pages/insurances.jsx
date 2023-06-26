@@ -4,7 +4,7 @@ import FeatherIcon from "feather-icons-react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
-import Loading from "components/loading/Loading";
+import Loading from "components/loading/loading";
 import SelectField from "components/commonComponents/selectfield";
 import InsuranceListTable from "components/dashboard/insurances/insuranceListTable/insuranceListTable";
 import AddInsuranceModal from "components/dashboard/insurances/addInsuranceModal/addInsuranceModal";

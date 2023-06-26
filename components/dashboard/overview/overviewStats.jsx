@@ -16,7 +16,7 @@ const OverviewStats = ({ stats }) => {
               <div className="dash-count">
                 <h5 className="dash-title">تعداد درخواست ها</h5>
                 <div className="dash-counts">
-                  <p>{stats.Total}</p>
+                  <p>{stats.Total === undefined ? 0 : stats.Total}</p>
                 </div>
               </div>
             </div>
@@ -35,7 +35,7 @@ const OverviewStats = ({ stats }) => {
               <div className="dash-count">
                 <h5 className="dash-title">در حال مکالمه</h5>
                 <div className="dash-counts">
-                  <p>{stats.Talking}</p>
+                  <p>{stats.Talking === undefined ? 0 : stats.Talking}</p>
                 </div>
               </div>
             </div>

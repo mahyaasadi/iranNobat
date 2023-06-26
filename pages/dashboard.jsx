@@ -64,16 +64,15 @@ const Dashboard = () => {
       <div className="main-wrapper">
         <div className="page-wrapper">
           <div className="content container-fluid pb-0">
-            <div className="">
+            <div className="overview-container">
               <div className="dashboard-header">
                 <div className="col overview-title">
-                  <h5 className="card-title">بررسی اجمالی</h5>
+                  <p className="card-title">بررسی اجمالی</p>
                 </div>
 
                 <div className="dashboard-selector">
                   <Select
                     className="select"
-                    // defaultValue={selectedOption}
                     onChange={(e) => setSelectedDuration(e.value)}
                     options={overviewOptions}
                     placeholder={"امروز : " + jdate.format("dddd DD MMMM YYYY")}
