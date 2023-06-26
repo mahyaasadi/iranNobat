@@ -3186,6 +3186,9 @@ html.menu-opened body {
   font-size: 12px;
   color: #1b5a90;
 }
+.previewImg {
+  border-radius: 10px
+}
 
 .spl-img {
   width: 43px;
@@ -4041,7 +4044,8 @@ html.menu-opened body {
 }
 
 .box-container {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto auto;
   gap: 2em
 }
 

@@ -9,7 +9,7 @@ const UploadImageModal = ({
   handleImgDescriptionInput,
 }) => {
     
-  const ChangeImg = (e) => {
+  const displayPreview = (e) => {
     var urlCreator = window.URL || window.webkitURL;
     var imageUrl = urlCreator.createObjectURL(e.target.files[0]);
     $("#fileUploadPreview").attr("src", imageUrl);
@@ -46,8 +46,6 @@ const UploadImageModal = ({
                     name="Title"
                     id="Title"
                     className="form-control floating"
-                    // value={imgTitle}
-                    // onChange={handleImgTitleTitleInput}
                   />
                   <label className="focus-label">
                     عنوان<span className="text-danger">*</span>
@@ -59,8 +57,6 @@ const UploadImageModal = ({
                     type="text"
                     name="Des"
                     className="form-control floating"
-                    // value={imgDescription}
-                    // onChange={handleImgDescriptionInput}
                   />
                   <label className="focus-label">
                     مشخصات<span className="text-danger">*</span>
@@ -78,8 +74,7 @@ const UploadImageModal = ({
                     type="file"
                     className="upload"
                     name="img"
-                    // value={img}
-                    onChange={ChangeImg}
+                    onChange={displayPreview}
                   />
                 </div>
                 <div>
@@ -87,7 +82,7 @@ const UploadImageModal = ({
                     src=""
                     width="200"
                     id="fileUploadPreview"
-                    className="d-block m-auto"
+                    className="d-block m-auto previewImg"
                   />
                 </div>
 

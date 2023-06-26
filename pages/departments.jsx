@@ -1,35 +1,46 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Loading from "components/loading/loading"
+import DepartmentsList from "components/dashboard/departments/departmentsList"
 
-const Sections = () => {
-  const [sectionsData, setSectionsData] = useState([]);
-  //get sections
-  const getSections = () => {
+const Departments = () => {
+  const [departmentsData, setDepartmentsData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true)
+
+  //get departments
+  const getDepartments = () => {
     let url = "https://irannobat.ir:8444/api/Modality/getAll";
+    setIsLoading(true)
 
     axios.get(url).then(function (response) {
-      console.log(response.data);
-      setSectionsData(response.data);
-      //   console.log(sectionsData);
+      setIsLoading(false)
+      setDepartmentsData(response.data);
+      console.log(departmentsData)
     });
   };
 
   useEffect(() => {
     try {
-      getSections();
+      getDepartments();
     } catch (error) {
       console.log(error);
+      setIsLoading(true)
     }
   }, []);
 
   return (
     <div>
       <fieldset className="checkbox-group">
-        <legend class="checkbox-group-legend">
+        <legend className="checkbox-group-legend">
           بخش مورد نظر را انتخاب فرمائید
         </legend>
         <div className="box-container">
-          <div className="checkbox">
+
+          {isLoading ? <Loading /> : (
+            <DepartmentsList departmentsData={departmentsData} />
+          )}
+
+          {/* <div className="checkbox">
             <label className="checkbox-wrapper">
               <input type="checkbox" className="checkbox-input" />
               <span className="checkbox-tile">
@@ -37,9 +48,9 @@ const Sections = () => {
                 <span className="checkbox-label">text</span>
               </span>
             </label>
-          </div>
+          </div> */}
 
-          <div className="checkbox">
+          {/* <div className="checkbox">
             <label className="checkbox-wrapper">
               <input type="checkbox" className="checkbox-input" />
               <span className="checkbox-tile">
@@ -47,11 +58,11 @@ const Sections = () => {
                 <span className="checkbox-label"></span>
               </span>
             </label>
-          </div>
+          </div> */}
         </div>
 
         {/*  */}
-        <div className="box-container">
+        {/* <div className="box-container">
           <div className="checkbox">
             <label className="checkbox-wrapper">
               <input type="checkbox" className="checkbox-input" />
@@ -71,33 +82,10 @@ const Sections = () => {
               </span>
             </label>
           </div>
-        </div>
-
-        {/*  */}
-        <div className="box-container">
-          <div className="checkbox">
-            <label className="checkbox-wrapper">
-              <input type="checkbox" className="checkbox-input" />
-              <span className="checkbox-tile">
-                <span className="checkbox-icon"></span>
-                <span className="checkbox-label"></span>
-              </span>
-            </label>
-          </div>
-
-          <div className="checkbox">
-            <label className="checkbox-wrapper">
-              <input type="checkbox" className="checkbox-input" />
-              <span className="checkbox-tile">
-                <span className="checkbox-icon"></span>
-                <span className="checkbox-label"></span>
-              </span>
-            </label>
-          </div>
-        </div>
+        </div> */}
 
         {/*  */}
-        <div className="box-container">
+        {/* <div className="box-container">
           <div className="checkbox">
             <label className="checkbox-wrapper">
               <input type="checkbox" className="checkbox-input" />
@@ -117,9 +105,32 @@ const Sections = () => {
               </span>
             </label>
           </div>
-        </div>
+        </div> */}
+
+        {/*  */}
+        {/* <div className="box-container">
+          <div className="checkbox">
+            <label className="checkbox-wrapper">
+              <input type="checkbox" className="checkbox-input" />
+              <span className="checkbox-tile">
+                <span className="checkbox-icon"></span>
+                <span className="checkbox-label"></span>
+              </span>
+            </label>
+          </div>
+
+          <div className="checkbox">
+            <label className="checkbox-wrapper">
+              <input type="checkbox" className="checkbox-input" />
+              <span className="checkbox-tile">
+                <span className="checkbox-icon"></span>
+                <span className="checkbox-label"></span>
+              </span>
+            </label>
+          </div>
+        </div> */}
       </fieldset>
     </div>
   );
 };
-export default Sections;
+export default Departments;

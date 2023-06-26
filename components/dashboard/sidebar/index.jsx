@@ -83,7 +83,7 @@ const Sidebar = () => {
                 </a>
                 <ul className="hidden">
                   <li>
-                    <Link href="/sections">انتخاب بخش</Link>
+                    <Link href="/departments">انتخاب بخش</Link>
                   </li>
                 </ul>
               </li>
