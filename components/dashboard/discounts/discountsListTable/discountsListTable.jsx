@@ -23,7 +23,7 @@ const DiscountsListTable = ({ data, updateDiscount, deleteDiscount }) => {
       name: "درصد تخفیف",
       selector: (row) => row.Value,
       sortable: true,
-      width: "auto",
+      width: "200px",
     },
     {
       name: "روش محاسبه ",
@@ -73,7 +73,7 @@ const DiscountsListTable = ({ data, updateDiscount, deleteDiscount }) => {
           </Link>
         </div>
       ),
-      width: "auto",
+      width: "200px",
     },
   ];
 

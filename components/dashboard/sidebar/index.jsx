@@ -59,6 +59,9 @@ const Sidebar = () => {
                   <li>
                     <Link href="/discounts">تخفیفات</Link>
                   </li>
+                  <li>
+                    <Link href="/tariff">تعرفه بخش ها</Link>
+                  </li>
                 </ul>
               </li>
 
@@ -78,7 +81,7 @@ const Sidebar = () => {
               <li className="submenu">
                 <a href="#">
                   <i className="fe fe-document"></i>
-                  <span> تنظیمات نوبت دهی </span>
+                  <span>تنظیمات نوبت دهی </span>
                   <span className="menu-arrow"></span>
                 </a>
                 <ul className="hidden">

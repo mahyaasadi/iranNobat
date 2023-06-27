@@ -50,7 +50,7 @@ const EditCertificateModal = ({ data, editCertificate }) => {
                 </div>
                 <div className="form-group form-focus">
                   <input
-                    type="url"
+                    type="text"
                     className="form-control floating"
                     name="EditCertificateLink"
                     defaultValue={data.Link}

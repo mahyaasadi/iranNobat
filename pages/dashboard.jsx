@@ -44,7 +44,7 @@ const Dashboard = () => {
         CenterID: CenterID,
       })
       .then((response) => {
-        console.log(duration, response.data);
+        // console.log(duration, response.data);
         setStats(response.data);
         setStatsIsLoading(false);
       });

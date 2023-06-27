@@ -7,7 +7,6 @@ import FeatherIcon from "feather-icons-react";
 import Loading from "components/loading/loading";
 import ImagesListTable from "components/dashboard/imagesGallery/imagesListTable/imagesListTable";
 import UploadImageModal from "components/dashboard/imagesGallery/uploadImageModal/uploadImageModal";
-// import EditImageModal from "components/dashboard/imagesGallery/editImageModal/EditImageModal";
 
 let CenterID = Cookies.get("CenterID");
 

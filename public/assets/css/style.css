@@ -688,7 +688,7 @@ label {
 
 .nav-tabs.menu-tabs .nav-item.active .nav-link {
   color: #fff;
-  background: #00dbfb;
+  background: #0db1ca;
 }
 
 .settings-menu-links .nav-tabs.menu-tabs {
@@ -915,7 +915,7 @@ label {
 
 .nav-tabs.menu-tabs .nav-link:hover {
   color: #fff;
-  background: #00dbfb;
+  background: #0db1ca;
 }
 
 .settings-form .social-icon {
@@ -3782,6 +3782,14 @@ html.menu-opened body {
   color: #7e84a3;
 }
 
+.categoryCard {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid #eef1fe;
+  border-radius: 20px;
+  -webkit-box-shadow: 5px 8px 10px #eef1fe;
+  box-shadow: 5px 8px 10px #eef1fe;
+}
+
 /*-----------------
 	12. Sidebar
 -----------------------*/
@@ -3838,7 +3846,7 @@ html.menu-opened body {
   color: #0db1ca;
 }
 
-.sidebar-menu li a:focus {
+.sidebar-menu li a: {
   color: #0db1ca;
 }
 
@@ -4072,8 +4080,14 @@ html.menu-opened body {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column
+}
+
+.SubmitDepartmentForm {
+  display: flex;
   flex-direction: column;
-  gap: 1em
+  align-items: center;
+  justify-content: center
 }
 
 @media (min-width: 1024px) {
@@ -4092,6 +4106,10 @@ html.menu-opened body {
 
 .submitDepartments {
   padding: 0.75em 3em 0.75em 3em
+}
+
+.submitDepartments-btn {
+  margin-top: 4em;
 }
 
 .checkbox-group {
@@ -4138,7 +4156,7 @@ html.menu-opened body {
   color: #0f3675;
   text-align: center;
   line-height: 1.125;
-  margin-bottom: 1rem;
+  margin-bottom: 3rem;
 }
 
 .checkbox-wrapper {
@@ -8500,4 +8518,8 @@ body.darkmode {
   .social-share>li {
     margin-right: 6px;
   }
+}
+
+.font-size-12 {
+  font-size: 10px !important
 }

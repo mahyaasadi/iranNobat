@@ -54,7 +54,7 @@ const AddCertificateModal = ({
                 </div>
                 <div className="form-group form-focus">
                   <input
-                    type="url"
+                    type="text"
                     id="AddCertificateLink"
                     className="form-control floating"
                     value={linkAddress}
