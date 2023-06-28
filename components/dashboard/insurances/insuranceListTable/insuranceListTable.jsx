@@ -43,9 +43,9 @@ const InsuranceListTable = ({ data, deleteInsurance, updateInsurance }) => {
           >
             <i className="me-1">
               <FeatherIcon icon="edit-3" />
-            </i>{" "}
-            ویرایش
+            </i>
           </Link>
+
           <Link
             dir="ltr"
             href="#"
@@ -54,12 +54,11 @@ const InsuranceListTable = ({ data, deleteInsurance, updateInsurance }) => {
           >
             <i className="me-1">
               <FeatherIcon icon="trash-2" />
-            </i>{" "}
-            حذف
+            </i>
           </Link>
         </div>
       ),
-      width: "auto",
+      width: "200px",
     },
   ];
 

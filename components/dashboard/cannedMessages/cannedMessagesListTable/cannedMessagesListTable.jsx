@@ -36,8 +36,7 @@ const CannedMessagesListTable = ({ data, updateMessage, deleteMessage }) => {
           >
             <i className="me-1">
               <FeatherIcon icon="edit-3" />
-            </i>{" "}
-            ویرایش
+            </i>
           </Link>
 
           <Link
@@ -49,7 +48,6 @@ const CannedMessagesListTable = ({ data, updateMessage, deleteMessage }) => {
             <i className="me-1">
               <FeatherIcon icon="trash-2" />
             </i>
-            حذف
           </Link>
         </div>
       ),

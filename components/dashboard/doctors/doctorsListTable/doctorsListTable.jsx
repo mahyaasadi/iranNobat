@@ -58,7 +58,7 @@ const DoctorsListTable = ({ data, deletePhysician, updatePhysician }) => {
           </Link>
         </div>
       ),
-      width: "auto",
+      width: "200px",
     },
   ];
 

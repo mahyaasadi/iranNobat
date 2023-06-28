@@ -59,14 +59,14 @@ const Tariff = () => {
           </div>
         </div>
 
-        {/* <!-- Product List --> */}
+        {/* <!--  services Table --> */}
         <div className="row">
           <div className="col-sm-12">
             <div className="card">
               <div className="card-header border-bottom-0">
                 <div className="row align-items-center">
                   <div className="col">
-                    <h5 className="card-title">Product List</h5>
+                    <h5 className="card-title">لیست خدمات</h5>
                   </div>
                   <div className="col-auto d-flex flex-wrap">
                     <div className="form-custom me-2">

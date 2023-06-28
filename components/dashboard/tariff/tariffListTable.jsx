@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import FeatherIcon from "feather-icons-react";
 import DataTable from "react-data-table-component";
@@ -6,58 +5,28 @@ import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 
 const TariffListTable = ({ data }) => {
-  //   const data = [
-  //     {
-  //       ID: "4545",
-  //       Product: "Natura ayurvedic medicine",
-  //       Category: "Ventricular systems",
-  //     },
-  //     {
-  //       ID: "4545",
-  //       Product: "Safi Natural Blood Purifier",
-  //       Category: "Neuromodulation",
-  //     },
-  //     {
-  //       ID: "4545",
-  //       Product: "Natural Syrup for bronchtas",
-  //       Category: "Ventricular assist devices",
-  //     },
-  //     {
-  //       ID: "4545",
-  //       Product: "safi Natral blood Purifier",
-  //       Category: "surgical systems",
-  //     },
-  //     {
-  //       ID: "4545",
-  //       Product: "Headache pills",
-  //       Category: "Assist devices",
-  //     },
-  //     {
-  //       ID: "4545",
-  //       Product: "Benadrys cough Syrup",
-  //       Category: "Interventional devices",
-  //     },
-  //   ];
-
   const columns = [
     {
-      name: "Id",
-      selector: (row) => row.CenterGroup,
+      name: "#",
+      selector: (row) => row._id,
       sortable: true,
-      className: "font-size-12",
       width: "auto",
     },
     {
-      name: "Category",
-      selector: (row) => row.Category,
-      className: "font-size-12",
+      name: "نام",
+      selector: (row) => row.Service,
+      sortable: true,
+      width: "auto",
+    },
+    {
+      name: "حرفه ای K",
+      selector: (row) => row.Professional_K,
       sortable: true,
       width: "auto",
     },
     {
       name: "Action",
       selector: (row) => row.action,
-      className: "font-size-12",
       sortable: true,
       cell: () => (
         <div className="actions">
@@ -71,6 +40,7 @@ const TariffListTable = ({ data }) => {
               <FeatherIcon icon="edit-3" />
             </i>
           </Link>
+
           <Link
             className="text-danger"
             href="#"
@@ -93,11 +63,10 @@ const TariffListTable = ({ data }) => {
   };
 
   return (
-    <div className="card-body p-0 font-size-12">
-      <div className="table-responsive font-size-12">
+    <div className="card-body p-0">
+      <div className="table-responsive">
         <DataTableExtensions {...tableData}>
           <DataTable
-            className="font-size-12"
             noHeader
             defaultSortField="id"
             defaultSortAsc={false}

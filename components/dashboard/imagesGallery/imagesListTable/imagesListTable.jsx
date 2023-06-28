@@ -47,8 +47,7 @@ const ImagesListTable = ({ data, deleteImage }) => {
           >
             <i className="me-1">
               <FeatherIcon icon="trash-2" />
-            </i>{" "}
-            حذف
+            </i>
           </Link>
         </div>
       ),

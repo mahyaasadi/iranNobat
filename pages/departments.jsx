@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
-import Link from "next/link";
+// import Link from "next/link";
 import Swal from "sweetalert2";
 import Loading from "components/loading/loading";
 import DepartmentsList from "components/dashboard/departments/departmentsList";
@@ -94,28 +94,31 @@ const Departments = () => {
 
   return (
     <div className="departments-container">
+      {isLoading ?
+      (
+        <Loading />
+      ) : (
       <div className="checkbox-group">
         <div className="submitHeader">
           <div className="checkbox-group-legend">
             بخش مورد نظر را انتخاب نمایید
           </div>
+         
           <form
             className="SubmitDepartmentForm"
             onSubmit={SubmitFrmSetDepartment}
           >
             <div className="box-container">
-              {isLoading ? (
-                <Loading />
-              ) : (
                 <DepartmentsList departmentsData={departmentsData} />
-              )}
             </div>
             <div className="submitDepartments-btn">
               <button className="btn btn-primary submitDepartments">ثبت</button>
             </div>
           </form>
+           
         </div>
       </div>
+      )}
     </div>
   );
 };

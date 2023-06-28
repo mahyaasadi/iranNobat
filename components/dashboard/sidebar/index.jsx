@@ -2,6 +2,7 @@
 import "public/assets/css/font-awesome.min.css";
 import "public/assets/css/feathericon.min.css";
 import Link from "next/link";
+import { useRouter } from 'next/router';
 import "public/assets/css/bootstrap.min.css";
 import "public/assets/css/feathericon.min.css";
 import "public/assets/plugins/fontawesome/css/fontawesome.min.css";
@@ -10,6 +11,12 @@ import "public/assets/css/font-awesome.min.css";
 import "public/assets/css/style.css";
 
 const Sidebar = () => {
+  const router = useRouter();
+
+   // Get the query parameter from the URL
+   const { keyword } = router.query;
+   console.log(keyword);
+   
   return (
     <>
       <div className="sidebar" id="sidebar">
@@ -39,10 +46,10 @@ const Sidebar = () => {
                     <Link href="/specializedWorks">کارهای تخصصی </Link>
                   </li>
                   <li>
-                    <Link href="/certifications">مجوزها</Link>
+                    <Link href={{ pathname: '/certifications', query: { keyword: 'certifications' } }}>مجوزها</Link>
                   </li>
                   <li>
-                    <Link href="/insurances"> بیمه های تحت پوشش </Link>
+                    {/* <Link className={`${param ==== "insu" && "sele"}`} href="/insurances"> بیمه های تحت پوشش </Link> */}
                   </li>
                   <li>
                     <Link href="/imagesGallery">گالری تصاویر</Link>
