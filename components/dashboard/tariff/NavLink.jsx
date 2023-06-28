@@ -9,7 +9,7 @@ const NavLink = ({ data, getServices }) => {
           className="nav-link"
           href={"#Tab" + data._id}
           data-bs-toggle="tab"
-          onClick={() => getServices(data._id)}
+          onClick={() => getServices(data._id, data.PerFullName)}
         >
           {data.PerFullName}
         </a>

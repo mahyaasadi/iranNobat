@@ -84,7 +84,6 @@ const ImagesGallery = () => {
       axios
         .post(url, data)
         .then((response) => {
-          // console.log(response.data);
           setImagesData([...imagesData, response.data]);
           $("#uploadImageModal").modal("hide");
           e.target.reset();
@@ -200,8 +199,6 @@ const ImagesGallery = () => {
       </div>
 
       <UploadImageModal uploadImage={uploadImage} />
-
-      {/* <EditImageModal /> */}
     </>
   );
 };

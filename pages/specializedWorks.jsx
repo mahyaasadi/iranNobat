@@ -160,10 +160,8 @@ const SpecializedWorks = () => {
 
   return (
     <>
-      {/* <!-- Page Wrapper --> */}
       <div className="page-wrapper">
         <div className="content container-fluid">
-          {/* <!-- Page Header --> */}
           <div className="page-header">
             <div className="row align-items-center">
               <div className="col-md-12 d-flex justify-content-end">
@@ -181,7 +179,6 @@ const SpecializedWorks = () => {
               </div>
             </div>
           </div>
-          {/* <!-- /Page Header --> */}
 
           {/* <!-- SpeWorks List --> */}
           <div className="row">
@@ -217,7 +214,6 @@ const SpecializedWorks = () => {
               <div id="tablepagination" className="dataTables_wrapper"></div>
             </div>
           </div>
-          {/* <!-- /SpeWorks List --> */}
         </div>
 
         <AddSpeWorkModal
@@ -241,7 +237,6 @@ const SpecializedWorks = () => {
           handleEngNameInput={handleEngNameInput}
         />
       </div>
-      {/* <!-- /Modal --> */}
     </>
   );
 };

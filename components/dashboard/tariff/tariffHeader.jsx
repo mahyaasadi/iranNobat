@@ -3,7 +3,7 @@ import Image from "next/image";
 import NavLink from "./NavLink";
 import TabContent from "./TabContent";
 
-const TariffHeader = ({ data, getServices }) => {
+const TariffHeader = ({ data, getServices, addService }) => {
   return (
     <>
       <div className="departmentsCategory w-100">

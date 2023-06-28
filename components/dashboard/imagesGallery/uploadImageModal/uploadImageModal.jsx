@@ -2,13 +2,7 @@ import Link from "next/link";
 import FeatherIcon from "feather-icons-react";
 import Image from "next/image";
 
-const UploadImageModal = ({
-  uploadImage,
-  imgTitle,
-  imgDescription,
-  handleImgTitleTitleInput,
-  handleImgDescriptionInput,
-}) => {
+const UploadImageModal = ({ uploadImage }) => {
   const displayPreview = (e) => {
     var urlCreator = window.URL || window.webkitURL;
     var imageUrl = urlCreator.createObjectURL(e.target.files[0]);
