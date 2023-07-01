@@ -3,12 +3,12 @@ import FeatherIcon from "feather-icons-react";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
-import { tableCustomStyles } from './tableStyle.jsx';
+import { tableCustomStyles } from "./tableStyle.jsx";
 
 const TariffListTable = ({ data, updateService, deleteService }) => {
   const columns = [
     {
-      name: "#",
+      name: "شناسه",
       selector: (row) => row._id,
       sortable: true,
       width: "120px",
@@ -44,10 +44,10 @@ const TariffListTable = ({ data, updateService, deleteService }) => {
       name: "تعرفه خصوصی",
       selector: (row) => row.PrivateTariff,
       sortable: true,
-      width: "200px",
+      width: "400px",
     },
     {
-      name: "Action",
+      name: "عملیات ها",
       selector: (row) => row.action,
       sortable: true,
       cell: (row) => (

@@ -9,6 +9,7 @@ import TariffHeader from "components/dashboard/tariff/tariffHeader";
 import TariffListTable from "components/dashboard/tariff/tariffListTable";
 import AddTariffModal from "components/dashboard/tariff/addTariffModal";
 import EditTariffModal from "components/dashboard/tariff/editTariffModal";
+import TariffCalcModal from "components/dashboard/tariff/tariffCalcModal";
 
 let CenterID = Cookies.get("CenterID");
 
@@ -169,7 +170,6 @@ const Tariff = () => {
     axios
       .put(url, editData)
       .then((response) => {
-        console.log("edit");
         updateItem(formProps.serviceId, response.data);
         $("#editTariffModal").modal("hide");
       })
@@ -232,6 +232,59 @@ const Tariff = () => {
     });
   };
 
+  // Apply Calculations based on k
+  const applyKCalculations = async (e) => {
+    e.preventDefault();
+
+    let formData = new FormData(e.target);
+    const formProps = Object.fromEntries(formData);
+
+    let url =
+      "https://irannobat.ir:8444/api/CenterServicessInfo/EditServiceTariffByValue/Tariff/k";
+    let data = {
+      CenterID: CenterID,
+      ModalityID: activeDepId,
+      PKF: parseInt(formProps.pkf),
+      PKH: parseInt(formProps.pkh),
+      GKF: parseInt(formProps.gkf),
+      GKH: parseInt(formProps.gkh),
+    };
+    console.log("sentData", data);
+
+    await axios
+      .put(url, data)
+      .then((response) => {
+        setIsLoading(false);
+
+        console.log("response", response.data);
+        setServices([...services, response.data]);
+        // updateServiceList(formProps.serviceId, response.data);
+        console.log("updatedServices", services);
+        $("#tariffCalcModal").modal("hide");
+        e.target.reset();
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(true);
+      });
+  };
+
+  // const updateServiceList = (id, newArr) => {
+  //   let index = services.findIndex((x) => x._id === id);
+  //   let g = services[index];
+  //   g = newArr;
+
+  //   if (index === -1) {
+  //     // handle error
+  //     console.log("no match");
+  //   } else
+  //     setServices([
+  //       ...services.slice(0, index),
+  //       g,
+  //       ...services.slice(index + 1),
+  //     ]);
+  // };
+
   return (
     <div className="page-wrapper">
       <div className="content container-fluid">
@@ -249,6 +302,20 @@ const Tariff = () => {
                 <FeatherIcon icon="plus-square" />
               </i>{" "}
               سرویس جدید
+            </Link>
+          </div>
+
+          <div>
+            <Link
+              href="#"
+              data-bs-toggle="modal"
+              data-bs-target="#tariffCalcModal"
+              className="btn btn-primary btn-add"
+            >
+              <i className="me-1">
+                <FeatherIcon icon="plus-square" />
+              </i>{" "}
+              اعمال محاسبات
             </Link>
           </div>
 
@@ -300,6 +367,11 @@ const Tariff = () => {
           </div>
         </div>
       </div>
+
+      <TariffCalcModal
+        applyKCalculations={applyKCalculations}
+        data={editedServices}
+      />
 
       <AddTariffModal addService={addService} />
 

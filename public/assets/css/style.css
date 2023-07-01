@@ -3187,6 +3187,23 @@ html.menu-opened body {
   height: 35px;
 }
 
+.tariffCalcModal {
+  display: flex;
+  justify-content: center
+}
+
+.tariffCalcForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.calcSubmit-btn {
+  margin-top: 0 !important;
+}
+
 #checkBoxes .form-custom .form-control {
   padding-left: 25px;
 }
@@ -3796,17 +3813,17 @@ html.menu-opened body {
 
 .sidebar {
   background-color: #fff;
+  top: 5em;
   right: 0;
-  top: 60px;
+  height: 100vh;
   margin-top: 0;
   position: fixed;
   transition: all 0.2s ease-in-out 0s;
-  width: 205px;
+  width: 200px;
   z-index: 1001;
-  box-shadow: 0px 4px 4px #eef1fe;
+  box-shadow: 0px 4px 4px #EEF1FE;
   overflow-y: hidden;
   direction: ltr;
-  height: 100vh;
 }
 
 .sidebar.opened {
@@ -3825,13 +3842,9 @@ html.menu-opened body {
 .sidebar-menu ul {
   font-size: 15px;
   list-style-type: none;
-  margin: 0;
+  margin-right: 0;
   padding: 20px 0;
   position: relative;
-}
-
-.sidebar-menu ul div {
-  padding-right: 40px;
 }
 
 .sidebar-menu li a {
@@ -3843,24 +3856,20 @@ html.menu-opened body {
 }
 
 .sidebar-menu li a:hover {
-  color: #0db1ca;
+  color: #0CE0FF;
 }
 
-.sidebar-menu li a: {
-  color: #0db1ca;
+.sidebar-menu>ul>li>a:hover {
+  color: #0CE0FF;
 }
 
-.sidebar-menu>ul>li>a:active {
-  color: #0db1ca;
-}
-
-.sidebar-menu li.focus>a {
-  color: #0db1ca;
+.sidebar-menu li.active>a {
+  color: #0CE0FF;
   position: relative;
 }
 
 .menu-title {
-  color: #7e84a3;
+  color: #7E84A3;
   display: flex;
   display: -ms-flexbox;
   font-size: 14px;
@@ -3872,7 +3881,7 @@ html.menu-opened body {
 }
 
 .menu-title:before {
-  border-top: 1px solid #eef1fe;
+  border-top: 1px solid #EEF1FE;
   content: "";
   margin: 0 auto;
   position: absolute;
@@ -3885,7 +3894,7 @@ html.menu-opened body {
 }
 
 .menu-title span {
-  background: #fff;
+  background: #FFF;
   padding-left: 10px;
 }
 
@@ -3911,7 +3920,7 @@ html.menu-opened body {
 }
 
 .sidebar-menu ul ul a.active {
-  color: #0ce0ff;
+  color: #0CE0FF;
 }
 
 .mobile_btn {
@@ -3940,10 +3949,14 @@ html.menu-opened body {
   display: block;
   font-size: 13px;
   padding: 7px 0px 7px 0px;
-  margin: 0 40px 0 15px;
-  border-bottom: 1px solid #f4f6ff;
+  margin: 0 15px 0 40px;
+  border-bottom: 1px solid #F4F6FF;
   position: relative;
-  color: #7e84a3;
+  color: #7E84A3;
+}
+
+.hiddenSidebar {
+  margin-right: 1em !important
 }
 
 .sidebar-menu ul ul {
@@ -3971,7 +3984,7 @@ html.menu-opened body {
 .sidebar-menu .menu-arrow {
   -webkit-transition: -webkit-transform 0.15s;
   -o-transition: -o-transform 0.15s;
-  transition: transform 0.15s;
+  transition: transform .15s;
   position: absolute;
   left: 15px;
   display: inline-block;
@@ -4045,11 +4058,6 @@ html.menu-opened body {
   height: 40px;
 }
 
-.submit-section {
-  text-align: center;
-  margin-top: 40px;
-}
-
 .submit-btn {
   border-radius: 50px;
   font-size: 18px;
@@ -4082,9 +4090,9 @@ html.menu-opened body {
   align-items: center;
   flex-direction: column;
   border: 1px solid #f2f2f2;
-  box-shadow: 0 5px 5px 3px rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 5px 2px rgba(0, 0, 0, 0.2), 0 5px 4px 0 rgba(0, 0, 0, 0.2);
   border-radius: 8px;
-  padding: 2.5em;
+  padding: 3em;
 }
 
 .SubmitDepartmentForm {
@@ -4113,7 +4121,7 @@ html.menu-opened body {
 }
 
 .submitDepartments-btn {
-  margin-top: 4em;
+  margin-top: 6.5em;
 }
 
 .checkbox-group {
@@ -7850,7 +7858,7 @@ body.darkmode {
 .darkmode .nav-tabs .nav-link.active {
   background-color: #141432;
   border: 1px solid #2f2f64;
-  color: #97a2d2;
+  /* color: #97a2d2; */
 }
 
 .darkmode .nav-tabs.nav-tabs-solid {
@@ -8530,4 +8538,12 @@ body.darkmode {
   .social-share>li {
     margin-right: 6px;
   }
+}
+
+.margin-4 {
+  margin-right: 1.5em
+}
+
+ul li .active {
+  color: #0db1ca
 }

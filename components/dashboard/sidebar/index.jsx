@@ -11,10 +11,7 @@ import "public/assets/css/font-awesome.min.css";
 import "public/assets/css/style.css";
 
 const Sidebar = () => {
-  // const router = useRouter();
-  // Get the query parameter from the URL
-  //  const { keyword } = router.query;
-  //  console.log(keyword);
+  const router = useRouter();
 
   return (
     <>
@@ -25,7 +22,7 @@ const Sidebar = () => {
               <li className="menu-title">
                 <span>اصلی</span>
               </li>
-              <li>
+              <li className={router.pathname == "/dashboard" ? "active" : ""}>
                 <Link href="/dashboard">
                   <i className="fe fe-home"></i>
                   <span>داشبورد</span>
@@ -37,28 +34,38 @@ const Sidebar = () => {
                   <i className="fe fe-document"></i> <span> تنظیمات مرکز</span>
                   <span className="menu-arrow"></span>
                 </a>
-                <ul className="hidden">
-                  <li>
+                <ul className="hidden hiddenSidebar">
+                  <li
+                    className={
+                      router.pathname == "/doctorsList" ? "active" : ""
+                    }
+                  >
                     <Link href="/doctorsList">پزشکان</Link>
                   </li>
-                  <li>
+                  <li
+                    className={
+                      router.pathname == "/specializedWorks" ? "active" : ""
+                    }
+                  >
                     <Link href="/specializedWorks">کارهای تخصصی </Link>
                   </li>
-                  <li>
-                    <Link
-                      href={{
-                        pathname: "/certifications",
-                        query: { keyword: "certifications" },
-                      }}
-                    >
-                      مجوزها
-                    </Link>
+                  <li
+                    className={
+                      router.pathname == "/certifications" ? "active" : ""
+                    }
+                  >
+                    <Link href="/certifications">مجوزها</Link>
                   </li>
-                  <li>
-                    {/* <Link className={`${param ==== "insu" && "sele"}`} href="/insurances"> بیمه های تحت پوشش </Link> */}
+                  <li
+                    className={router.pathname == "/insurances" ? "active" : ""}
+                  >
                     <Link href="/insurances"> بیمه های تحت پوشش </Link>
                   </li>
-                  <li>
+                  <li
+                    className={
+                      router.pathname == "/imagesGallery" ? "active" : ""
+                    }
+                  >
                     <Link href="/imagesGallery">گالری تصاویر</Link>
                   </li>
                 </ul>
@@ -69,11 +76,13 @@ const Sidebar = () => {
                   <i className="fe fe-document"></i> <span> تنظیمات پذیرش</span>
                   <span className="menu-arrow"></span>
                 </a>
-                <ul className="hidden">
-                  <li>
+                <ul className="hidden hiddenSidebar">
+                  <li
+                    className={router.pathname == "/discounts" ? "active" : ""}
+                  >
                     <Link href="/discounts">تخفیفات</Link>
                   </li>
-                  <li>
+                  <li className={router.pathname == "/tariff" ? "active" : ""}>
                     <Link href="/tariff">تعرفه بخش ها</Link>
                   </li>
                 </ul>
@@ -85,8 +94,12 @@ const Sidebar = () => {
                   <span> تنظیمات سیستم اینو</span>
                   <span className="menu-arrow"></span>
                 </a>
-                <ul className="hidden">
-                  <li>
+                <ul className="hidden hiddenSidebar">
+                  <li
+                    className={
+                      router.pathname == "/cannedMessages" ? "active" : ""
+                    }
+                  >
                     <Link href="/cannedMessages">پیام های پیش فرض</Link>
                   </li>
                 </ul>
@@ -98,8 +111,12 @@ const Sidebar = () => {
                   <span>تنظیمات نوبت دهی </span>
                   <span className="menu-arrow"></span>
                 </a>
-                <ul className="hidden">
-                  <li>
+                <ul className="hidden hiddenSidebar">
+                  <li
+                    className={
+                      router.pathname == "/departments" ? "active" : ""
+                    }
+                  >
                     <Link href="/departments">انتخاب بخش</Link>
                   </li>
                 </ul>
