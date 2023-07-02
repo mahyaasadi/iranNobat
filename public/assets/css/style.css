@@ -1382,6 +1382,44 @@ button.bg-danger:hover {
   opacity: 0.8
 }
 
+.loeing-btn-container {
+  background-color: #c7e6f2;
+  border: 1px solid #c7e6f2 !important;
+  padding: 6px 10px 6px 10px;
+  color: #3c5e6e;
+  border-radius: 3px;
+  box-shadow: none !important;
+  opacity: 0.8;
+  font-size: 14px;
+}
+
+.loeing-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ServiceName {
+  color: #6d7375 !important;
+  font-size: 14px;
+}
+
+.margin-right-4 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.addLoeing-btn {
+  display: flex;
+  justify-content: end;
+  margin-bottom: 15px;
+}
+
+.loeing-btn-container:hover {
+  opacity: 1;
+  border: 1px solid #3c5e6e !important;
+}
+
 .btn-primary:hover {
   opacity: 1
 }

@@ -6,7 +6,7 @@ const NavLink = ({ data, getServices }) => {
     <>
       <li className="nav-item">
         <a
-          className="nav-link"
+          className="nav-link ServiceNav"
           href={"#Tab" + data._id}
           data-bs-toggle="tab"
           onClick={() => getServices(data._id, data.PerFullName)}

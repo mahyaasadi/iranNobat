@@ -10,9 +10,12 @@ import TariffListTable from "components/dashboard/tariff/tariffListTable";
 import AddTariffModal from "components/dashboard/tariff/addTariffModal";
 import EditTariffModal from "components/dashboard/tariff/editTariffModal";
 import TariffCalcModal from "components/dashboard/tariff/tariffCalcModal";
+import LoeingModal from "components/dashboard/tariff/loeing/loeingModal";
+import AddLoeingModal from "components/dashboard/tariff/loeing/addLoeingModal";
 
 let CenterID = Cookies.get("CenterID");
-
+let activeServiceId = null;
+let activeServiceName = null;
 let activeDepId = null;
 let activeDepName = null;
 
@@ -21,11 +24,13 @@ const Tariff = () => {
   const [departmentsData, setDepartmentsData] = useState([]);
   const [services, setServices] = useState([]);
   const [editedServices, setEditedServices] = useState([]);
+  const [loeingData, SetLoeingData] = useState([]);
 
   //get departments -> In Tariff Header
   const getDepartments = () => {
     let UrlGetDep = `https://irannobat.ir:8444/api/Center/GetDepartments/${CenterID}`;
     setIsLoading(true);
+
     axios.get(UrlGetDep).then(function (response) {
       setIsLoading(false);
       setDepartmentsData(response.data);
@@ -33,10 +38,18 @@ const Tariff = () => {
     });
   };
 
+  //setting nav[0] as the default clicked one
+  const clickNav = () => {
+    let nav = $(".ServiceNav");
+    nav[0].click();
+  };
+
   useEffect(() => {
     try {
       getDepartments();
-      // getServices("1", "سی تی اسکن");
+
+      // setting nav[0] as default clicked
+      setTimeout(() => clickNav(), 400);
     } catch (error) {
       console.log(error);
       setIsLoading(true);
@@ -159,17 +172,22 @@ const Tariff = () => {
       Total_K: formProps.total_K,
       Technical_K: formProps.tech_K,
       Professional_K: formProps.pro_K,
+      PrivateTechnicalK_Price: formProps.ptk_price,
+      PrivateProfessionalK_Price: formProps.ppk_price,
+      GovernmentalTechnicalK_Price: formProps.gtk_price,
+      GovernmentalProfessionalK_Price: formProps.gpk_price,
       GovernmentalTariff: formProps.govTariff,
       PrivateTariff: formProps.privateTariff,
+      FreeTariff: formProps.freeTariff,
       ST: formProps.taminShare,
       SS: formProps.salamatShare,
       SA: formProps.arteshShare,
     };
-    console.log(editData);
 
     axios
       .put(url, editData)
       .then((response) => {
+        console.log("reponese", response.data);
         updateItem(formProps.serviceId, response.data);
         $("#editTariffModal").modal("hide");
       })
@@ -249,17 +267,13 @@ const Tariff = () => {
       GKF: parseInt(formProps.gkf),
       GKH: parseInt(formProps.gkh),
     };
-    console.log("sentData", data);
 
     await axios
       .put(url, data)
       .then((response) => {
         setIsLoading(false);
-
         console.log("response", response.data);
-        setServices([...services, response.data]);
-        // updateServiceList(formProps.serviceId, response.data);
-        console.log("updatedServices", services);
+        setServices(response.data.ServicesInfo);
         $("#tariffCalcModal").modal("hide");
         e.target.reset();
       })
@@ -269,7 +283,125 @@ const Tariff = () => {
       });
   };
 
-  // const updateServiceList = (id, newArr) => {
+  // set loeing data
+  const SetLoeingModalData = (data, id, name) => {
+    activeServiceId = id;
+    activeServiceName = name;
+    SetLoeingData(data);
+  };
+
+  // Add Loeing
+  const addLoeing = (e) => {
+    e.preventDefault();
+
+    let formData = new FormData(e.target);
+    const formProps = Object.fromEntries(formData);
+
+    let url = "https://irannobat.ir:8444/api/CenterServicessInfo/AddLoeing";
+
+    let addData = {
+      CenterID: CenterID,
+      ServiceID: activeServiceId,
+      LoeingCode: formProps.loeingCode,
+      Name: formProps.loeingName,
+    };
+    console.log(addData);
+    axios
+      .post(url, addData)
+      .then((response) => {
+        SetLoeingData([...loeingData, response.data]);
+
+        setIsLoading(false);
+        $("#addLoeingModal").modal("hide");
+        $("#loeingModal").modal("show");
+
+        //increasing the loeing count
+        let count = $("#loeingCount" + activeServiceId).html();
+        count = parseInt(count);
+        count++;
+        $("#loeingCount" + activeServiceId).html(count);
+
+        getServices(activeDepId, activeDepName);
+        e.target.reset();
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(true);
+      });
+  };
+
+  // Delete loeing
+  const deleteLoeing = (id) => {
+    Swal.fire({
+      title: "حذف لوئینگ!",
+      text: "آیا از حذف خدمت لوئینگ مطمئن هستید",
+      icon: "warning",
+      showCancelButton: true,
+      allowOutsideClick: true,
+      confirmButtonColor: "#0db1ca",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "بله",
+      cancelButtonText: "خیر",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let deleteData = {
+          CenterID: CenterID,
+          ServiceID: activeServiceId,
+          LoeingID: id,
+        };
+        let url = `https://irannobat.ir:8444/api/CenterServicessInfo/DeleteLoeing`;
+
+        axios
+          .delete(url, { data: deleteData })
+          .then(function () {
+            SetLoeingData(loeingData.filter((a) => a._id !== id));
+
+            //decreasing the loeing count
+            let count = $("#loeingCount" + activeServiceId).html();
+            count = parseInt(count);
+            count--;
+            $("#loeingCount" + activeServiceId).html(count);
+
+            getServices(activeDepId, activeDepName);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+    });
+  };
+
+  //Edit loeing
+  // const editLoeing = (e) => {
+  //   e.preventDefault();
+
+  //   let formData = new FormData(e.target);
+  //   const formProps = Object.fromEntries(formData);
+
+  //   let url = "https://irannobat.ir:8444/api/CenterServicessInfo/EditLoeing";
+
+  //   let editData = {
+  //     CenterID: CenterID,
+  //     ServiceID: activeServiceId,
+  //     LoeingCode: ,
+  //     Name: ,
+  //     LoeingID:
+  //   }
+
+  //   axios
+  //     .put(url, editData)
+  //     .then((response) => {
+  //       console.log("reponese", response.data);
+  //       updateItem(formProps.serviceId, response.data);
+  //       $("#editTariffModal").modal("hide");
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //       setIsLoading(true);
+  //     });
+  // };
+
+  // const updateItem = (id, newArr) => {
   //   let index = services.findIndex((x) => x._id === id);
   //   let g = services[index];
   //   g = newArr;
@@ -283,6 +415,10 @@ const Tariff = () => {
   //       g,
   //       ...services.slice(index + 1),
   //     ]);
+  // };
+
+  // const updateLoeing = (data) => {
+  //   setEditedServices(data);
   // };
 
   return (
@@ -358,6 +494,7 @@ const Tariff = () => {
                     data={services}
                     updateService={updateService}
                     deleteService={deleteService}
+                    SetLoeingModalData={SetLoeingModalData}
                   />
                 </div>
               )}
@@ -376,6 +513,17 @@ const Tariff = () => {
       <AddTariffModal addService={addService} />
 
       <EditTariffModal data={editedServices} editService={editService} />
+
+      <LoeingModal
+        data={loeingData}
+        addLoeing={addLoeing}
+        Service={activeServiceId}
+        ServiceName={activeServiceName}
+        deleteLoeing={deleteLoeing}
+        // updateLoeing={updateLoeing}
+      />
+
+      <AddLoeingModal data={loeingData} addLoeing={addLoeing} />
     </div>
   );
 };

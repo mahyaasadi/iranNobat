@@ -95,33 +95,123 @@ const EditTariffModal = ({ data, editService }) => {
                     </div>
                   </div>
 
-                  <div className="d-flex gap-2">
-                    <div className="form-group form-focus w-50">
-                      <input
-                        type="number"
-                        className="form-control floating"
-                        required
-                        name="govTariff"
-                        key={data.GovernmentalTariff}
-                        defaultValue={data.GovernmentalTariff}
-                      />
-                      <label className="focus-label">
-                        تعرفه دولتی<span className="text-danger">*</span>
-                      </label>
+                  <div className="row">
+                    <div className="col">
+                      <div className="form-group form-focus">
+                        <input
+                          type="number"
+                          className="form-control floating"
+                          required
+                          name="ptk_price"
+                          key={data.PrivateTechnicalK_Price}
+                          defaultValue={data.PrivateTechnicalK_Price}
+                        />
+                        <label className="focus-label">
+                          مبلغ K فنی-خصوصی{" "}
+                          <span className="text-danger">*</span>
+                        </label>
+                      </div>
                     </div>
 
-                    <div className="form-group form-focus w-50">
-                      <input
-                        type="number"
-                        className="form-control floating"
-                        required
-                        name="privateTariff"
-                        key={data.PrivateTariff}
-                        defaultValue={data.PrivateTariff}
-                      />
-                      <label className="focus-label p-1">
-                        تعرفه خصوصی<span className="text-danger">*</span>
-                      </label>
+                    <div className="col">
+                      <div className="form-group form-focus">
+                        <input
+                          type="number"
+                          className="form-control floating"
+                          required
+                          name="ppk_price"
+                          key={data.PrivateProfessionalK_Price}
+                          defaultValue={data.PrivateProfessionalK_Price}
+                        />
+                        <label className="focus-label p-1">
+                          مبلغ K حرفه ای-خصوصی
+                          <span className="text-danger">*</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div className="col">
+                      <div className="form-group form-focus">
+                        <input
+                          type="number"
+                          className="form-control floating"
+                          required
+                          name="gtk_price"
+                          key={data.GovernmentalTechnicalK_Price}
+                          defaultValue={data.GovernmentalTechnicalK_Price
+}
+                        />
+                        <label className="focus-label p-1">
+                          مبلغ K فنی-دولتی<span className="text-danger">*</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div className="col">
+                      <div className="form-group form-focus">
+                        <input
+                          type="number"
+                          className="form-control floating"
+                          required
+                          name="gpk_price"
+                          key={data.GovernmentalProfessionalK_Price}
+                          defaultValue={data.GovernmentalProfessionalK_Price}
+                        />
+                        <label className="focus-label p-1">
+                          مبلغ K حرفه ای-دولتی{" "}
+                          <span className="text-danger">*</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="row">
+                    <div className="col">
+                      <div className="form-group form-focus">
+                        <input
+                          type="number"
+                          className="form-control floating"
+                          required
+                          name="govTariff"
+                          key={data.GovernmentalTariff}
+                          defaultValue={data.GovernmentalTariff}
+                        />
+                        <label className="focus-label">
+                          تعرفه دولتی<span className="text-danger">*</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div className="col">
+                      <div className="form-group form-focus">
+                        <input
+                          type="number"
+                          className="form-control floating"
+                          required
+                          name="privateTariff"
+                          key={data.PrivateTariff}
+                          defaultValue={data.PrivateTariff}
+                        />
+                        <label className="focus-label p-1">
+                          تعرفه خصوصی<span className="text-danger">*</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div className="col">
+                      <div className="form-group form-focus">
+                        <input
+                          type="number"
+                          className="form-control floating"
+                          required
+                          name="freeTariff"
+                          key={data.FreeTariff}
+                          defaultValue={data.FreeTariff}
+                        />
+                        <label className="focus-label p-1">
+                          تعرفه آزاد <span className="text-danger">*</span>
+                        </label>
+                      </div>
                     </div>
                   </div>
 
@@ -140,34 +230,34 @@ const EditTariffModal = ({ data, editService }) => {
                       </div>
                     </div>
 
-                  <div className="col">
-                    <div className="form-group form-focus">
-                      <input
-                        type="number"
-                        className="form-control floating"
-                        required
-                        name="salamatShare"
-                        key={data.SS}
-                        defaultValue={data.SS}
-                      />
-                      <label className="focus-label">سهم سلامت</label>
+                    <div className="col">
+                      <div className="form-group form-focus">
+                        <input
+                          type="number"
+                          className="form-control floating"
+                          required
+                          name="salamatShare"
+                          key={data.SS}
+                          defaultValue={data.SS}
+                        />
+                        <label className="focus-label">سهم سلامت</label>
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="col">
-                    <div className="form-group form-focus">
-                      <input
-                        type="number"
-                        className="form-control floating"
-                        required
-                        name="arteshShare"
-                        key={data.SA}
-                        defaultValue={data.SA}
-                      />
-                      <label className="focus-label">سهم ارتش</label>
+                    <div className="col">
+                      <div className="form-group form-focus">
+                        <input
+                          type="number"
+                          className="form-control floating"
+                          required
+                          name="arteshShare"
+                          key={data.SA}
+                          defaultValue={data.SA}
+                        />
+                        <label className="focus-label">سهم ارتش</label>
+                      </div>
                     </div>
                   </div>
-                </div>
 
                   <div className="submit-section">
                     <button type="submit" className="btn btn-primary btn-save">

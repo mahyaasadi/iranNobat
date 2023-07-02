@@ -13,7 +13,7 @@ const AddDiscountModal = ({
   handleDescriptionInput,
   handlediscountValueInput,
   discountPercentDataClass,
-  addDiscount = { addDiscount },
+  addDiscount,
 }) => {
   return (
     <div

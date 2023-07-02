@@ -4,8 +4,14 @@ import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import { tableCustomStyles } from "./tableStyle.jsx";
+import numberWithCommas from "class/numberWithComma";
 
-const TariffListTable = ({ data, updateService, deleteService }) => {
+const TariffListTable = ({
+  data,
+  updateService,
+  deleteService,
+  SetLoeingModalData,
+}) => {
   const columns = [
     {
       name: "شناسه",
@@ -17,7 +23,7 @@ const TariffListTable = ({ data, updateService, deleteService }) => {
       name: "نام",
       selector: (row) =>
         typeof row.Service != "undefined"
-          ? row.Service.substr(0, 60) + " ..."
+          ? row.Service.substr(0, 30) + " ..."
           : row.Service,
       sortable: true,
       width: "550px",
@@ -36,15 +42,22 @@ const TariffListTable = ({ data, updateService, deleteService }) => {
     },
     {
       name: "تعرفه دولتی",
-      selector: (row) => row.GovernmentalTariff,
+      selector: (row) => numberWithCommas(row.GovernmentalTariff),
       sortable: true,
       width: "150px",
     },
     {
       name: "تعرفه خصوصی",
-      selector: (row) => row.PrivateTariff,
+      selector: (row) => numberWithCommas(row.PrivateTariff),
       sortable: true,
-      width: "400px",
+      width: "150px",
+    },
+    {
+      name: "تعرفه آزاد",
+      selector: (row) =>
+        row.FreeTariff ? numberWithCommas(row.FreeTariff) : "",
+      sortable: true,
+      width: "180px",
     },
     {
       name: "عملیات ها",
@@ -72,6 +85,32 @@ const TariffListTable = ({ data, updateService, deleteService }) => {
             <i className="me-1">
               <FeatherIcon icon="edit-3" />
             </i>
+          </Link>
+
+          {/* Loeing */}
+          <Link
+            href="#"
+            className="ml-4"
+            data-bs-toggle="modal"
+            data-bs-target="#loeingModal"
+          >
+            <button
+              type="submit"
+              className="loeing-btn-container"
+              onClick={() =>
+                SetLoeingModalData(row["Tamin-Loeing"], row._id, row.Service)
+              }
+            >
+              <div className="loeing-btn">
+                <p className="margin-right-4">
+                  {" "}
+                  لوئینگ تامین{" "}
+                  <span id={"loeingCount" + row._id}>
+                    {row["Tamin-Loeing"] ? row["Tamin-Loeing"].length : ""}
+                  </span>
+                </p>
+              </div>
+            </button>
           </Link>
         </div>
       ),
