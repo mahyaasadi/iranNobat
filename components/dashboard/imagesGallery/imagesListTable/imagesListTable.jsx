@@ -5,6 +5,7 @@ import { Row, Col, Card, Media } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
+import { tableCustomStyles } from "components/commonComponents/customTableStyle/tableStyle.jsx";
 
 const ImagesListTable = ({ data, deleteImage }) => {
   const columns = [
@@ -70,6 +71,7 @@ const ImagesListTable = ({ data, deleteImage }) => {
             defaultSortAsc={false}
             pagination
             highlightOnHover
+            customStyles={tableCustomStyles}
           />
         </DataTableExtensions>
       </div>

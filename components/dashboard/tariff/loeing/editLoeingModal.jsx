@@ -1,21 +1,18 @@
 import FeatherIcon from "feather-icons-react";
-import SelectField from "components/commonComponents/selectfield";
-import Link from "next/link";
 
-const AddLoeingModal = ({ data, addLoeing }) => {
+const EditLoeingModal = ({ data, editLoeing }) => {
   return (
     <>
       <div
-        className="modal fade contentmodal "
-        id="addLoeingModal"
+        className="modal fade contentmodal"
+        id="editLoeingModal"
         tabIndex="-1"
         aria-hidden="true"
-        // data-backdrop="static"
       >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="mb-0">اضافه کردن لوئینگ</h5>
+              <h5 className="mb-0">ویرایش لوئینگ</h5>
               <button
                 type="button"
                 className="close-btn"
@@ -29,13 +26,15 @@ const AddLoeingModal = ({ data, addLoeing }) => {
             </div>
 
             <div className="modal-body">
-              <form onSubmit={addLoeing}>
+              <form onSubmit={editLoeing}>
                 <div className="form-group form-focus">
                   <input
                     type="hidden"
                     className="form-control floating"
                     required
                     name="loeingId"
+                    key={data._id}
+                    defaultValue={data._id}
                   />
 
                   <input
@@ -43,6 +42,8 @@ const AddLoeingModal = ({ data, addLoeing }) => {
                     className="form-control floating"
                     required
                     name="loeingCode"
+                    key={data.LoeingCode}
+                    defaultValue={data.LoeingCode}
                   />
                   <label className="focus-label">
                     کد لوئینگ <span className="text-danger">*</span>
@@ -55,6 +56,8 @@ const AddLoeingModal = ({ data, addLoeing }) => {
                     className="form-control floating"
                     required
                     name="loeingName"
+                    defaultValue={data.Name}
+                    key={data.Name}
                   ></textarea>
                   <label className="focus-label">
                     نام خدمت لوئینگ <span className="text-danger">*</span>
@@ -74,4 +77,4 @@ const AddLoeingModal = ({ data, addLoeing }) => {
     </>
   );
 };
-export default AddLoeingModal;
+export default EditLoeingModal;

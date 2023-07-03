@@ -4,7 +4,13 @@ import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 
-const LoeingModal = ({ data, Service, ServiceName, deleteLoeing }) => {
+const LoeingModal = ({
+  data,
+  Service,
+  ServiceName,
+  deleteLoeing,
+  updateLoeing,
+}) => {
   const columns = [
     {
       name: "شناسه",
@@ -37,9 +43,9 @@ const LoeingModal = ({ data, Service, ServiceName, deleteLoeing }) => {
           <Link
             className="text-black"
             href="#"
-            // onClick={() => updateLoeing(row)}
+            onClick={() => updateLoeing(row)}
             data-bs-toggle="modal"
-            data-bs-target="#editModal"
+            data-bs-target="#editLoeingModal"
           >
             <i className="me-1">
               <FeatherIcon icon="edit-3" />
@@ -63,8 +69,6 @@ const LoeingModal = ({ data, Service, ServiceName, deleteLoeing }) => {
         id="loeingModal"
         tabIndex="-1"
         aria-hidden="true"
-        // data-bs-backdrop="static"
-        // data-bs-keyboard="false"
       >
         <div className="modal-dialog modal-dialog-centered modal-lg">
           <div className="modal-content">

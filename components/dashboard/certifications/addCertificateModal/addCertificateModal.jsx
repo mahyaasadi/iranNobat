@@ -24,7 +24,7 @@ const AddCertificateModal = ({
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content doctor-profile">
           <div className="modal-header">
-            <h3 className="mb-0">اضافه کردن مجوز</h3>
+            <h5 className="mb-0">اضافه کردن مجوز</h5>
             <button
               type="button"
               className="close-btn"

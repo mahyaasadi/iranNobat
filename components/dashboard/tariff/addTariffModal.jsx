@@ -14,7 +14,7 @@ const AddTariffModal = ({ addService }) => {
         <div className="modal-dialog modal-dialog-centered modal-xl">
           <div className="modal-content">
             <div className="modal-header">
-              <h3 className="mb-0">سرویس جدید</h3>
+              <h5 className="mb-0">سرویس جدید</h5>
               <button
                 type="button"
                 className="close-btn"

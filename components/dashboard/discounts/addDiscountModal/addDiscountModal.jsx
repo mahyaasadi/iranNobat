@@ -25,7 +25,7 @@ const AddDiscountModal = ({
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content doctor-profile">
           <div className="modal-header">
-            <h3 className="mb-0">اضافه کردن تخفیف</h3>
+            <h5 className="mb-0">اضافه کردن تخفیف</h5>
             <button
               type="button"
               className="close-btn"

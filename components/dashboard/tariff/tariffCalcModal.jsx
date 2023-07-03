@@ -2,13 +2,16 @@ import FeatherIcon from "feather-icons-react";
 import SelectField from "components/commonComponents/selectfield";
 import Select from "react-select";
 import Link from "next/link";
+import Loading from "components/loading/loading";
 
-const TariffCalcModal = ({ data, applyKCalculations }) => {
-  const calculationOptions = [
-    { value: "basedOnGovTariff", label: "اعمال بر تعرفه دولتی" },
-    { value: "basedOnPrivateTariff", label: "اعمال بر تعرفه خصوصی" },
-  ];
-
+const TariffCalcModal = ({
+  data,
+  isLoading,
+  calculationsOptions,
+  applyKCalculations,
+  applyPercentCalculations,
+  applyPriceCalculations,
+}) => {
   return (
     <>
       <div
@@ -20,7 +23,7 @@ const TariffCalcModal = ({ data, applyKCalculations }) => {
         <div className="modal-dialog modal-dialog-centered modal-lg">
           <div className="modal-content">
             <div className="modal-header">
-              <h3 className="mb-0">اعمال محاسبات</h3>
+              <h5 className="mb-0">اعمال محاسبات</h5>
               <button
                 type="button"
                 className="close-btn"
@@ -62,7 +65,7 @@ const TariffCalcModal = ({ data, applyKCalculations }) => {
               </div>
 
               <div className="card-body pt-4">
-                {/* tab-1 */}
+                {/* tab-1 : Based On K */}
                 <div className="tab-content pt-0">
                   <div
                     role="tabpanel"
@@ -130,26 +133,44 @@ const TariffCalcModal = ({ data, applyKCalculations }) => {
                         </label>
                       </div>
 
-                      <div className="submit-section calcSubmit-btn">
+                      {isLoading ? (
                         <button
-                          type="submit"
                           className="btn btn-primary btn-save mt-4"
+                          type="button"
+                          disabled
                         >
-                          ثبت
+                          <span
+                            className="spinner-border spinner-border-sm margin-left-4"
+                            role="status"
+                            aria-hidden="true"
+                          ></span>
+                          در حال پردازش
                         </button>
-                      </div>
+                      ) : (
+                        <div className="submit-section calcSubmit-btn">
+                          <button
+                            type="submit"
+                            className="btn btn-primary btn-save mt-4"
+                          >
+                            ثبت
+                          </button>
+                        </div>
+                      )}
                     </form>
                   </div>
 
-                  {/* tab-2 */}
+                  {/* tab-2 : Based On Price*/}
                   <div role="tabpanel" id="tab-2" className="tab-pane fade">
-                    <form className="tariffCalcForm">
+                    <form
+                      className="tariffCalcForm"
+                      onSubmit={applyPriceCalculations}
+                    >
                       <div className="form-group form-focus w-50">
                         <input
                           type="text"
                           className="form-control floating"
                           required
-                          name=""
+                          name="price"
                           placeholder="مبلغ مورد نظر را وارد نمایید"
                         />
                         <label className="focus-label">
@@ -158,35 +179,53 @@ const TariffCalcModal = ({ data, applyKCalculations }) => {
 
                         <Select
                           className="select mt-3"
-                          // onChange={(e) => setSelectedDuration(e.value)}
-                          options={calculationOptions}
+                          options={calculationsOptions}
                           required
+                          name="applyPriceOptions"
                           placeholder="روش اعمال"
                           id="long-value-select"
                           instanceId="long-value-select"
                         />
                       </div>
 
-                      <div className="submit-section calcSubmit-btn">
+                      {isLoading ? (
                         <button
-                          type="submit"
                           className="btn btn-primary btn-save mt-4"
+                          type="button"
+                          disabled
                         >
-                          ثبت
+                          <span
+                            className="spinner-border spinner-border-sm margin-left-4"
+                            role="status"
+                            aria-hidden="true"
+                          ></span>
+                          در حال پردازش
                         </button>
-                      </div>
+                      ) : (
+                        <div className="submit-section calcSubmit-btn">
+                          <button
+                            type="submit"
+                            className="btn btn-primary btn-save mt-4"
+                          >
+                            ثبت
+                          </button>
+                        </div>
+                      )}
                     </form>
                   </div>
 
-                  {/* tab-3 */}
+                  {/* tab-3 : Based On Percent */}
                   <div role="tabpanel" id="tab-3" className="tab-pane fade">
-                    <form className="tariffCalcForm">
+                    <form
+                      className="tariffCalcForm"
+                      onSubmit={applyPercentCalculations}
+                    >
                       <div className="form-group form-focus w-50">
                         <input
                           type="text"
                           className="form-control floating"
                           required
-                          name=""
+                          name="percent"
                           placeholder="درصد مورد نظر را وارد نمایید"
                         />
                         <label className="focus-label">
@@ -195,8 +234,8 @@ const TariffCalcModal = ({ data, applyKCalculations }) => {
 
                         <Select
                           className="select mt-3"
-                          // onChange={(e) => setSelectedDuration(e.value)}
-                          options={calculationOptions}
+                          name="applyPercentOptions"
+                          options={calculationsOptions}
                           placeholder="روش اعمال"
                           required
                           id="long-value-select"
@@ -204,14 +243,29 @@ const TariffCalcModal = ({ data, applyKCalculations }) => {
                         />
                       </div>
 
-                      <div className="submit-section calcSubmit-btn">
+                      {isLoading ? (
                         <button
-                          type="submit"
                           className="btn btn-primary btn-save mt-4"
+                          type="button"
+                          disabled
                         >
-                          ثبت
+                          <span
+                            className="spinner-border spinner-border-sm margin-left-4"
+                            role="status"
+                            aria-hidden="true"
+                          ></span>
+                          در حال پردازش
                         </button>
-                      </div>
+                      ) : (
+                        <div className="submit-section calcSubmit-btn">
+                          <button
+                            type="submit"
+                            className="btn btn-primary btn-save mt-4"
+                          >
+                            ثبت
+                          </button>
+                        </div>
+                      )}
                     </form>
                   </div>
                 </div>

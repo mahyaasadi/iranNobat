@@ -4,6 +4,8 @@ import FeatherIcon from "feather-icons-react";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
+import { tableCustomStyles } from "components/commonComponents/customTableStyle/tableStyle.jsx";
+
 
 const SpecialiazedWorksListTable = ({ data, updateSpeWork, deleteSpeWork }) => {
   const columns = [
@@ -76,6 +78,7 @@ const SpecialiazedWorksListTable = ({ data, updateSpeWork, deleteSpeWork }) => {
             defaultSortAsc={false}
             pagination
             highlightOnHover
+            customStyles={tableCustomStyles}
           />
         </DataTableExtensions>
       </div>

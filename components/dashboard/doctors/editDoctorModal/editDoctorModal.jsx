@@ -1,6 +1,6 @@
 import FeatherIcon from "feather-icons-react";
 
-const EditDoctorModal = ({ data, editPhysician}) => {
+const EditDoctorModal = ({ data, editPhysician }) => {
   return (
     <div
       className="modal fade contentmodal"
@@ -11,7 +11,7 @@ const EditDoctorModal = ({ data, editPhysician}) => {
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content doctor-profile">
           <div className="modal-header">
-            <h3 className="mb-0">ویرایش اطلاعات </h3>
+            <h5 className="mb-0">ویرایش اطلاعات </h5>
             <button
               type="button"
               className="close-btn"
@@ -32,7 +32,7 @@ const EditDoctorModal = ({ data, editPhysician}) => {
                     className="form-control floating"
                     name="EditDoctorID"
                     value={data._id}
-                    />
+                  />
                   <input
                     type="text"
                     className="form-control floating"
@@ -42,7 +42,7 @@ const EditDoctorModal = ({ data, editPhysician}) => {
                     required
                   />
                   <label className="focus-label">
-                    نام پزشک <span className="text-danger" >*</span>
+                    نام پزشک <span className="text-danger">*</span>
                   </label>
                 </div>
                 <div className="form-group form-focus">

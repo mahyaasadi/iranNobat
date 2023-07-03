@@ -14,7 +14,7 @@ const EditTariffModal = ({ data, editService }) => {
         <div className="modal-dialog modal-dialog-centered modal-xl">
           <div className="modal-content">
             <div className="modal-header">
-              <h3 className="mb-0">ویرایش اطلاعات</h3>
+              <h5 className="mb-0">ویرایش اطلاعات</h5>
               <button
                 type="button"
                 className="close-btn"

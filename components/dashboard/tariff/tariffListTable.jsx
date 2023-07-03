@@ -3,7 +3,7 @@ import FeatherIcon from "feather-icons-react";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
-import { tableCustomStyles } from "./tableStyle.jsx";
+import { tableCustomStyles } from "components/commonComponents/customTableStyle/tableStyle.jsx";
 import numberWithCommas from "class/numberWithComma";
 
 const TariffListTable = ({
@@ -23,10 +23,10 @@ const TariffListTable = ({
       name: "نام",
       selector: (row) =>
         typeof row.Service != "undefined"
-          ? row.Service.substr(0, 30) + " ..."
+          ? row.Service.substr(0, 40) + " ..."
           : row.Service,
       sortable: true,
-      width: "550px",
+      width: "500px",
     },
     {
       name: "K حرفه ای",
@@ -42,22 +42,24 @@ const TariffListTable = ({
     },
     {
       name: "تعرفه دولتی",
-      selector: (row) => numberWithCommas(row.GovernmentalTariff),
+      selector: (row) =>
+        row.GovernmentalTariff ? numberWithCommas(row.GovernmentalTariff) : "",
       sortable: true,
       width: "150px",
     },
     {
       name: "تعرفه خصوصی",
-      selector: (row) => numberWithCommas(row.PrivateTariff),
+      selector: (row) =>
+        row.PrivateTariff ? numberWithCommas(row.PrivateTariff) : "",
       sortable: true,
       width: "150px",
     },
     {
-      name: "تعرفه آزاد",
+      name: "تعرفه آزاد مرکز",
       selector: (row) =>
         row.FreeTariff ? numberWithCommas(row.FreeTariff) : "",
       sortable: true,
-      width: "180px",
+      width: "200px",
     },
     {
       name: "عملیات ها",
@@ -70,7 +72,7 @@ const TariffListTable = ({
             href="#"
             onClick={() => deleteService(row._id)}
           >
-            <i className="me-1">
+            <i className="trash-icon">
               <FeatherIcon icon="trash-2" />
             </i>
           </Link>
@@ -82,7 +84,7 @@ const TariffListTable = ({
             data-bs-toggle="modal"
             data-bs-target="#editTariffModal"
           >
-            <i className="me-1">
+            <i className="edit-icon">
               <FeatherIcon icon="edit-3" />
             </i>
           </Link>
@@ -102,7 +104,7 @@ const TariffListTable = ({
               }
             >
               <div className="loeing-btn">
-                <p className="margin-right-4">
+                <p className="loeing-text">
                   {" "}
                   لوئینگ تامین{" "}
                   <span id={"loeingCount" + row._id}>
@@ -114,7 +116,7 @@ const TariffListTable = ({
           </Link>
         </div>
       ),
-      width: "150px",
+      width: "200px",
     },
   ];
 
