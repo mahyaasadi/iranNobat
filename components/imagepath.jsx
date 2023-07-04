@@ -54,3 +54,4 @@ export { default as flag02 } from "public/assets/img/flags/flag-02.png";
 export { default as flag03 } from "public/assets/img/flags/flag-03.png";
 export { default as flag04 } from "public/assets/img/flags/flag-04.png";
 export { default as flag05 } from "public/assets/img/flags/flag-05.png";
+export { default as prescription } from "public/assets/img/icon/prescription.png";

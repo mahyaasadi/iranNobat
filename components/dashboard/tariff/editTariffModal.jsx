@@ -54,7 +54,6 @@ const EditTariffModal = ({ data, editService }) => {
                         defaultValue={data.Service}
                         key={data.Service}
                       />
-
                       <label className="focus-label">
                         نام <span className="text-danger">*</span>
                       </label>
@@ -69,6 +68,7 @@ const EditTariffModal = ({ data, editService }) => {
                         name="total_K"
                         defaultValue={data.Total_K}
                         key={data.Total_K}
+                        readOnly
                       />
                       <label className="focus-label">ضریب K</label>
                     </div>
@@ -79,6 +79,7 @@ const EditTariffModal = ({ data, editService }) => {
                         name="tech_K"
                         key={data.Technical_K}
                         defaultValue={data.Technical_K}
+                        readOnly
                       />
                       <label className="focus-label">ضریب K فنی</label>
                     </div>
@@ -90,6 +91,7 @@ const EditTariffModal = ({ data, editService }) => {
                         name="pro_K"
                         key={data.Professional_K}
                         defaultValue={data.Professional_K}
+                        readOnly
                       />
                       <label className="focus-label">ضریب K حرفه ای</label>
                     </div>
@@ -138,8 +140,7 @@ const EditTariffModal = ({ data, editService }) => {
                           required
                           name="gtk_price"
                           key={data.GovernmentalTechnicalK_Price}
-                          defaultValue={data.GovernmentalTechnicalK_Price
-}
+                          defaultValue={data.GovernmentalTechnicalK_Price}
                         />
                         <label className="focus-label p-1">
                           مبلغ K فنی-دولتی<span className="text-danger">*</span>
@@ -215,6 +216,36 @@ const EditTariffModal = ({ data, editService }) => {
                     </div>
                   </div>
 
+                  {/*  */}
+                  <div className="d-flex gap-2">
+                    <div className="form-group form-focus w-50">
+                      <input
+                        type="number"
+                        className="form-control floating"
+                        // required
+                        name="patientCost"
+                        key={data.PatientCost}
+                        defaultValue={data.PatientCost}
+                      />
+                      <label className="focus-label">
+                        سهم بیمار خدمات و تامین{" "}
+                      </label>
+                    </div>
+
+                    <div className="form-group form-focus w-50">
+                      <input
+                        type="number"
+                        className="form-control floating"
+                        // required
+                        name="arteshPatientCost"
+                        key={data.ArteshPatientCost}
+                        defaultValue={data.ArteshPatientCost}
+                      />
+                      <label className="focus-label">سهم بیمار ارتش</label>
+                    </div>
+                  </div>
+
+                  {/*  */}
                   <div className="row">
                     <div className="col">
                       <div className="form-group form-focus">

@@ -121,6 +121,14 @@ const Sidebar = () => {
                   </li>
                 </ul>
               </li>
+
+              <li className={router.pathname == "/prescription" ? "active" : ""}>
+                <Link href="/prescription">
+                  <i className="fe fe-home"></i>
+                  <span>نسخه نویسی</span>
+                </Link>
+              </li>
+
             </ul>
           </div>
         </div>

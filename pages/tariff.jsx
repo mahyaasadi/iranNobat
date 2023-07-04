@@ -50,7 +50,9 @@ const Tariff = () => {
   //setting nav[0] as the default clicked one
   const clickNav = () => {
     let nav = $(".ServiceNav");
-    nav[0].click();
+    if (nav) {
+      nav[0].click();
+    }
   };
 
   useEffect(() => {
@@ -142,17 +144,24 @@ const Tariff = () => {
       Professional_K: formProps.pro_K,
       GovernmentalTariff: formProps.govTariff,
       PrivateTariff: formProps.privateTariff,
+      FreeTariff: formProps.freeTariff,
+      PatientCost: formProps.patientCost,
+      ArteshPatientCost: formProps.arteshPatientCost,
+      PrivateTechnicalK_Price: formProps.ptk_price,
+      PrivateProfessionalK_Price: formProps.ppk_price,
+      GovernmentalTechnicalK_Price: formProps.gtk_price,
+      GovernmentalProfessionalK_Price: formProps.gpk_price,
       ST: formProps.taminShare,
       SS: formProps.salamatShare,
       SA: formProps.arteshShare,
     };
-
+    console.log("addData", addData);
     axios
       .post(url, addData)
       .then((response) => {
         setServices([...services, response.data]);
         setIsLoading(false);
-
+        console.log("added", response.data);
         $("#addTariffModal").modal("hide");
         e.target.reset();
       })
@@ -187,6 +196,8 @@ const Tariff = () => {
       GovernmentalTariff: formProps.govTariff,
       PrivateTariff: formProps.privateTariff,
       FreeTariff: formProps.freeTariff,
+      PatientCost: formProps.patientCost,
+      ArteshPatientCost: formProps.arteshPatientCost,
       ST: formProps.taminShare,
       SS: formProps.salamatShare,
       SA: formProps.arteshShare,
@@ -195,7 +206,7 @@ const Tariff = () => {
     axios
       .put(url, editData)
       .then((response) => {
-        console.log("reponese", response.data);
+        // console.log("reponese", response.data);
         updateItem(formProps.serviceId, response.data);
         $("#editTariffModal").modal("hide");
       })
@@ -282,7 +293,7 @@ const Tariff = () => {
       LoeingCode: formProps.loeingCode,
       Name: formProps.loeingName,
     };
-    console.log(addData);
+    // console.log(addData);
     axios
       .post(url, addData)
       .then((response) => {
@@ -451,14 +462,14 @@ const Tariff = () => {
       ModalityID: activeDepId,
       Price: parseInt(formProps.price),
     };
-    console.log("sentData: ", data, url);
+    // console.log("sentData: ", data, url);
 
     await axios
       .put(url, data)
       .then((response) => {
-        console.log("clicked");
+        // console.log("clicked");
         setIsLoading(false);
-        console.log("response", response.data);
+        // console.log("response", response.data);
         setServices(response.data.ServicesInfo);
         $("#tariffCalcModal").modal("hide");
         e.target.reset();

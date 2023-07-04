@@ -26,19 +26,7 @@ const TariffListTable = ({
           ? row.Service.substr(0, 40) + " ..."
           : row.Service,
       sortable: true,
-      width: "500px",
-    },
-    {
-      name: "K حرفه ای",
-      selector: (row) => row.Professional_K,
-      sortable: true,
-      width: "100px",
-    },
-    {
-      name: "K فنی ",
-      selector: (row) => row.Technical_K,
-      sortable: true,
-      width: "100px",
+      width: "300px",
     },
     {
       name: "تعرفه دولتی",
@@ -59,7 +47,21 @@ const TariffListTable = ({
       selector: (row) =>
         row.FreeTariff ? numberWithCommas(row.FreeTariff) : "",
       sortable: true,
-      width: "200px",
+      width: "150px",
+    },
+    {
+      name: "س . ب . تامین و خدمات",
+      selector: (row) =>
+        row.PatientCost ? numberWithCommas(row.PatientCost) : "",
+      sortable: true,
+      width: "150px",
+    },
+    {
+      name: "س . ب . ارتش",
+      selector: (row) =>
+        row.ArteshPatientCost ? numberWithCommas(row.ArteshPatientCost) : "",
+      sortable: true,
+      width: "250px",
     },
     {
       name: "عملیات ها",

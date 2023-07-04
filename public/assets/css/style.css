@@ -2254,7 +2254,7 @@ button.bg-danger:hover {
 }
 
 .tab-content {
-  padding-top: 20px;
+  padding-top: 40px;
 }
 
 .nav-tabs .nav-link {
@@ -8617,4 +8617,138 @@ ul li .active {
 .trash-icon:hover {
   border: 1px solid #e06f69;
   transition: all 0.4s ease-in-out
+}
+
+/* --------------- prescription page ------------ */
+.prescription-main-container {
+  display: flex;
+  justify-content: center
+}
+
+.patientInfoCard {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid #eef1fe;
+  border-radius: 10px;
+  box-shadow: 0px 7px 10px #eef1fe;
+  margin-bottom: 30px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+}
+
+.patientInfo-container {
+  position: relative;
+  top: 8em;
+  right: 7em;
+}
+
+.rounded {
+  border-radius: 32px !important;
+}
+
+.GetPatientBtn {
+  position: absolute;
+  top: 16px;
+  left: 17px;
+  width: 95px;
+  height: 40px;
+}
+
+.lblGetPatient {
+  background-color: white;
+  position: absolute;
+  top: 6px;
+  right: 40px;
+  color: gray;
+  padding: 0 2px;
+}
+
+.font-12 {
+  font-size: 12px !important;
+}
+
+.font-13 {
+  font-size: 13px;
+}
+
+.GetPatientInput {
+  padding-left: 100px;
+  text-align: center
+}
+
+.patientInfo {
+  padding: 0 12px;
+  margin-top: 2em;
+}
+
+.prescriptionInfoCard {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid #eef1fe;
+  border-radius: 10px;
+  box-shadow: 0px 7px 10px #eef1fe;
+  margin-bottom: 30px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  height: 35vh;
+}
+
+.prescript-header {
+  margin-bottom: 2.5em;
+  display: flex;
+  justify-content: space-between;
+}
+
+.prescript-title {
+  font-size: 15px;
+}
+
+.prescript-body {
+  padding: 30px;
+  position: relative;
+  flex: 1 1 auto;
+}
+
+.nav-border {
+  border-bottom: 1px solid lightgray !important;
+}
+
+.border-radius {
+  border-radius: 15px;
+}
+
+.visitBtn {
+  border: 1px solid #0db1ca;
+  color: #1B5A90;
+}
+
+.visitBtn:hover {
+  background-color: #0db1ca;
+  color: white
+}
+
+.lblDrug {
+  background-color: white;
+  position: absolute;
+  top: 7em;
+  right: 40px;
+  color: gray;
+  padding: 0 8px;
+}
+
+.inputRounded {
+  border-radius: 13px
+}
+
+.feather-search {
+  position: absolute;
+  top: 7.5em;
+  left: 23em;
+}
+#patientInfoSection {
+  display: none;
 }

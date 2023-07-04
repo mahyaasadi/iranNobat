@@ -83,16 +83,118 @@ const AddTariffModal = ({ addService }) => {
                     </div>
                   </div>
 
+                  {/*  */}
+                  <div className="row">
+                    <div className="col">
+                      <div className="form-group form-focus">
+                        <input
+                          type="number"
+                          className="form-control floating"
+                          // required
+                          name="ptk_price"
+                        />
+                        <label className="focus-label">مبلغ K فنی-خصوصی </label>
+                      </div>
+                    </div>
+
+                    <div className="col">
+                      <div className="form-group form-focus">
+                        <input
+                          type="number"
+                          className="form-control floating"
+                          // required
+                          name="ppk_price"
+                        />
+                        <label className="focus-label p-1">
+                          مبلغ K حرفه ای-خصوصی
+                        </label>
+                      </div>
+                    </div>
+
+                    <div className="col">
+                      <div className="form-group form-focus">
+                        <input
+                          type="number"
+                          className="form-control floating"
+                          // required
+                          name="gtk_price"
+                        />
+                        <label className="focus-label p-1">
+                          مبلغ K فنی-دولتی
+                        </label>
+                      </div>
+                    </div>
+
+                    <div className="col">
+                      <div className="form-group form-focus">
+                        <input
+                          type="number"
+                          className="form-control floating"
+                          // required
+                          name="gpk_price"
+                        />
+                        <label className="focus-label p-1">
+                          مبلغ K حرفه ای-دولتی{" "}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/*  */}
+
+                  <div className="row">
+                    <div className="col">
+                      <div className="form-group form-focus">
+                        <input
+                          type="number"
+                          className="form-control floating"
+                          required
+                          name="govTariff"
+                        />
+                        <label className="focus-label">
+                          تعرفه دولتی<span className="text-danger">*</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div className="col">
+                      <div className="form-group form-focus">
+                        <input
+                          type="number"
+                          className="form-control floating"
+                          required
+                          name="privateTariff"
+                        />
+                        <label className="focus-label">
+                          تعرفه خصوصی<span className="text-danger">*</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div className="col">
+                      <div className="form-group form-focus">
+                        <input
+                          type="number"
+                          className="form-control floating"
+                          // required
+                          name="freeTariff"
+                        />
+                        <label className="focus-label">تعرفه آزاد</label>
+                      </div>
+                    </div>
+                  </div>
+
                   <div className="d-flex gap-2">
                     <div className="form-group form-focus w-50">
                       <input
                         type="number"
                         className="form-control floating"
-                        required
-                        name="govTariff"
+                        // required
+                        name="patientCost"
                       />
                       <label className="focus-label">
-                        تعرفه دولتی<span className="text-danger">*</span>
+                        سهم بیمار خدمات و تامین{" "}
+                        <span className="text-danger">*</span>
                       </label>
                     </div>
 
@@ -100,11 +202,11 @@ const AddTariffModal = ({ addService }) => {
                       <input
                         type="number"
                         className="form-control floating"
-                        required
-                        name="privateTariff"
+                        // required
+                        name="arteshPatientCost"
                       />
                       <label className="focus-label">
-                        تعرفه خصوصی<span className="text-danger">*</span>
+                        سهم بیمار ارتش <span className="text-danger">*</span>
                       </label>
                     </div>
                   </div>
