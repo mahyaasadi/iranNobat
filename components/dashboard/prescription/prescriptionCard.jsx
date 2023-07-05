@@ -1,18 +1,43 @@
 import FeatherIcon from "feather-icons-react";
 import SelectField from "components/commonComponents/selectfield";
 import PrescriptionType from "components/dashboard/prescription/prescriptionType";
+import ServiceType from "components/dashboard/prescription/serviceType";
+import TaminSrvSerach from "components/dashboard/prescription/TaminSrvSerach";
 
-const PrescriptionCard = ({ lists, onSelect, changePrescId }) => {
+const PrescriptionCard = ({
+  lists,
+  onSelect,
+  changePrescId,
+  ServiceList,
+  SearchTaminSrv,
+  TaminSrvSerachList,
+  SelectSrvSearch,
+  FuAddToListItem,
+  registerEpresc
+}) => {
+  function QtyChange(ac) {
+    let qty = $("#QtyInput").val();
+    qty = parseInt(qty);
+    if (ac == "+") {
+      qty = qty + 1;
+    } else {
+      if (qty != 1) {
+        qty = qty - 1;
+      }
+    }
+    $("#QtyInput").val(qty);
+  }
+
   return (
     <>
-      <div className="col-xl-8 col-sm-6 col-12 patientInfo-container">
-        <div className="prescriptionInfoCard">
-          <div className="prescript-body">
+      <div>
+        <div className="card presCard">
+          <div className="card-body">
             <div className="prescript-header">
               <div className="prescript-title">نسخه جدید</div>
 
               <div className="prescript-btns d-flex gap-2">
-                <div className="btn border-radius visitBtn font-13">
+                <div className="btn border-radius visitBtn font-13" onClick={()=>registerEpresc(1)}>
                   فقط ثبت ویزیت
                 </div>
                 <div className="btn btn-primary border-radius font-13">
@@ -23,7 +48,7 @@ const PrescriptionCard = ({ lists, onSelect, changePrescId }) => {
 
             {/*  */}
             <div className="card-body">
-              <ul class="nav nav-tabs nav-tabs-bottom">
+              <ul className="nav nav-tabs nav-tabs-bottom">
                 {lists.map((item) => {
                   return (
                     <PrescriptionType
@@ -38,59 +63,111 @@ const PrescriptionCard = ({ lists, onSelect, changePrescId }) => {
                   );
                 })}
               </ul>
+              <hr />
+              <form
+                className="w-100 pt-2"
+                onSubmit={SearchTaminSrv}
+              >
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend"></div>
 
-              <div className="tab-content">
-                <div className="tab-pane show active" id="bottom-tab1">
-                  <form className="w-75">
-                    <lable className="lblDrug font-12">نام دارو</lable>
-                    <input
-                      className="form-control inputRounded"
-                      type="text"
-                      name="nationalCode"
-                    />
-                    <i className="text-secondary">
-                      <svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        className="feather feather-search"
+                  <lable className="lblAbs font-12">
+                    نام / کد خدمت یا دارو
+                  </lable>
+                  <input
+                    type="text"
+                    id="srvSerachInput"
+                    name="srvSerachInput"
+                    class="form-control rounded-right w-50"
+                  />
+                  <select
+                    class="form-select disNone"
+                    id="ServiceSearchSelect"
+                    onChange={() =>
+                      changePrescId($("#ServiceSearchSelect").val())
+                    }
+                  >
+                    {ServiceList.map((item) => {
+                      return (
+                        <ServiceType
+                          key={item.srvType}
+                          srvType={item.srvType}
+                          srvTypeDes={item.srvTypeDes}
+                          prescTypeId={item.prescTypeId}
+                          Active={item.Active}
+                          changePrescId={changePrescId}
+                        />
+                      );
+                    })}
+                  </select>
+                  <button
+                    class="btn btn-primary rounded-left w-10"
+                    id="basic-addon1"
+                  >
+                    <i class="fe fe-search"></i>
+                  </button>
+                </div>
+              </form>
+
+              {/* tamin search */}
+              <div className="col-12 SearchDiv">
+                <TaminSrvSerach
+                  data={TaminSrvSerachList}
+                  SelectSrvSearch={SelectSrvSearch}
+                />
+              </div>
+              <div class="row ">
+                <div class="col-md-3">
+                  <label className="lblAbs margin-top-left font-12">
+                    تعداد
+                  </label>
+                  <div class="row mt-2">
+                    <div class="col-auto">
+                      <button
+                        class="btn btn-primary btn-rounded"
+                        onClick={() => QtyChange("+")}
                       >
-                        <g>
-                          <circle cx="11" cy="11" r="8"></circle>
-                          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                        </g>
-                      </svg>
-                    </i>
-
-                    <SelectField
-                      options={""}
-                      errorMessage={""}
-                      error={false}
-                      label={true}
-                      placeholder={"روش محاسبه را انتخاب کنید"}
-                      className=""
-                    />
-                  </form>
+                        <i class="fe fe-plus"></i>
+                      </button>
+                    </div>
+                    <div class="col p-0">
+                      <input
+                        type="text"
+                        class="form-control text-center rounded"
+                        id="QtyInput"
+                        name="QTY"
+                        dir="ltr"
+                        value="1"
+                      />
+                    </div>
+                    <div class="col-auto">
+                      <button
+                        class="btn btn-primary btn-rounded"
+                        onClick={() => QtyChange("-")}
+                      >
+                        <i class="fe fe-minus"></i>
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <div className="tab-pane" id="bottom-tab2">
-                  Tab content 2
+                <div class="col-md-7">
+                  <label className="lblAbs margin-top-25 font-12">
+                    توضیحات
+                  </label>
+                  <input
+                    type="text"
+                    class="mt-2 form-control text-center rounded"
+                    id="eprscItemDescription"
+                    // placeholder="توضیحات"
+                  />
                 </div>
-                <div className="tab-pane" id="bottom-tab3">
-                  Tab content 3
-                </div>
-                <div className="tab-pane show" id="bottom-tab4">
-                  Tab content 4
-                </div>
-                <div className="tab-pane" id="bottom-tab5">
-                  Tab content 5
-                </div>
-                <div className="tab-pane" id="bottom-tab6">
-                  Tab content 6
+                <div class="col-md-2">
+                  <button
+                    class="btn rounded w-100 mt-2 addToListBtn"
+                    onClick={FuAddToListItem}
+                  >
+                    اضافه به لیست
+                  </button>
                 </div>
               </div>
             </div>

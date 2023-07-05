@@ -31,11 +31,11 @@ const PrescriptionType = ({img , name , active , id , changePrescId}) =>{
     }
     return (
         <>
-            <li class="nav-item">
-                <a class={'nav-link '+ active} href={'#bottom-tab'+id} id={"prescTypeId"+id}  data-bs-toggle="tab" onClick={Select}>
+            <li className="nav-item">
+                <a className={'nav-link '+ active} href={'#bottom-tab'+id} id={"prescTypeId"+id}  data-bs-toggle="tab" onClick={Select}>
                     <img src={img} height="20" /> &nbsp;
                      {name}
-                    <span class="badge badge-primary" id="badge_TaminPrescTypeID1"></span>
+                    <span className="badge badge-primary" id="badge_TaminPrescTypeID1"></span>
                 </a>
             </li>
         </>

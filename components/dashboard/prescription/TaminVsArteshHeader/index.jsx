@@ -68,7 +68,7 @@ const Header = ({
             onKeyUp={handleKeyUp}
           />
           <select
-            class="form-select disNone"
+            class="form-select disNone w-20"
             id="ServiceSearchSelect"
             onChange={() => changePrescId($("#ServiceSearchSelect").val())}
           >

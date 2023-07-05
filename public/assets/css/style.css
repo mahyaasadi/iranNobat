@@ -620,8 +620,12 @@ table.table td h2.table-avatar a>img {
   }
 
   .dashboard-selector {
-    width: 100%
+    width: 100%;
   }
+}
+
+.margin-right-2 {
+  margin-right: 2em;
 }
 
 @media (min-width: 768px) {
@@ -2903,7 +2907,7 @@ button.bg-danger:hover {
   align-items: center;
   border: 1px solid rgba(66, 139, 193, 0.22);
   border-radius: 3px;
-  margin: 15px 0 15px 15px;
+  margin: 15px 0 15px 5px;
   padding: 1px;
 }
 
@@ -3999,7 +4003,11 @@ html.menu-opened body {
 }
 
 .hiddenSidebar {
-  margin-right: 1em !important
+  margin-right: 1.75em !important
+}
+
+.width-15 {
+  width: 15px !important;
 }
 
 .sidebar-menu ul ul {
@@ -8648,21 +8656,22 @@ ul li .active {
   border-radius: 32px !important;
 }
 
+.rounded-left {
+  border-top-left-radius: 32px !important;
+  border-bottom-left-radius: 32px !important;
+}
+
+.rounded-right {
+  border-bottom-right-radius: 32px !important;
+  border-top-right-radius: 32px !important;
+}
+
 .GetPatientBtn {
   position: absolute;
   top: 16px;
   left: 17px;
   width: 95px;
   height: 40px;
-}
-
-.lblGetPatient {
-  background-color: white;
-  position: absolute;
-  top: 6px;
-  right: 40px;
-  color: gray;
-  padding: 0 2px;
 }
 
 .font-12 {
@@ -8731,13 +8740,27 @@ ul li .active {
   color: white
 }
 
-.lblDrug {
+.lblAbs {
   background-color: white;
   position: absolute;
-  top: 7em;
-  right: 40px;
   color: gray;
   padding: 0 8px;
+  z-index: 1;
+  margin-top: -0.5rem !important;
+  margin-right: 1rem !important;
+}
+
+.padding-20 {
+  padding: 20px !important;
+}
+
+.margin-top-25 {
+  margin-top: -0.25rem !important
+}
+
+.margin-top-left {
+  margin-top: -0.25rem !important;
+  margin-right: 4rem !important;
 }
 
 .inputRounded {
@@ -8749,6 +8772,82 @@ ul li .active {
   top: 7.5em;
   left: 23em;
 }
+
 #patientInfoSection {
   display: none;
+  height: 50vh;
+}
+
+.themecolor {
+  color: #0db1ca !important;
+}
+
+.phone-input {
+  position: relative
+}
+
+.smartphone-icon {
+  position: absolute;
+  top: 0.5em;
+  right: 1em;
+}
+
+.w-10 {
+  min-width: 10% !important;
+}
+
+.disNone {
+  display: none;
+}
+
+.presCard {
+  border-radius: 10px
+}
+
+.smartphone-container {
+  border: 1px solid #;
+  color: #1B5A90;
+  padding: 1px;
+  font-size: 13px;
+  height: calc(1em + 1.21875rem);
+  font-weight: 400;
+  background-color: #d3e9f2;
+}
+
+.smartphone-padding {
+  padding: 6px 3em;
+}
+
+.appointmentBtn {
+  display: flex;
+  justify-content: center;
+}
+
+.appointmentBtn-radius {
+  border-radius: 8px;
+}
+
+.editPhone-icon {
+  position: absolute;
+  top: 0.5em;
+  left: 1em;
+}
+.addToListBtn {
+  background-color: #1B5A90;
+  color: #d3e9f2;
+  opacity: 0.9
+}
+.addToListBtn:hover {
+  opacity: 1;
+  border: 1px solid #d3e9f2;
+  color: #d3e9f2;
+}
+
+@media (max-width: 576px) {
+  .prescript-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+  }
 }

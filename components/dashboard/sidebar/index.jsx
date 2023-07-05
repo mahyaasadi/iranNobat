@@ -9,6 +9,7 @@ import "public/assets/plugins/fontawesome/css/fontawesome.min.css";
 import "public/assets/plugins/fontawesome/css/all.min.css";
 import "public/assets/css/font-awesome.min.css";
 import "public/assets/css/style.css";
+import FeatherIcon from "feather-icons-react";
 
 const Sidebar = () => {
   const router = useRouter();
@@ -24,14 +25,19 @@ const Sidebar = () => {
               </li>
               <li className={router.pathname == "/dashboard" ? "active" : ""}>
                 <Link href="/dashboard">
-                  <i className="fe fe-home"></i>
+                  <i>
+                    <FeatherIcon icon="home" />
+                  </i>
                   <span>داشبورد</span>
                 </Link>
               </li>
 
               <li className="submenu">
                 <a href="#">
-                  <i className="fe fe-document"></i> <span> تنظیمات مرکز</span>
+                  <i>
+                    <FeatherIcon icon="triangle" className="width-15" />
+                  </i>
+                  <span> تنظیمات مرکز</span>
                   <span className="menu-arrow"></span>
                 </a>
                 <ul className="hidden hiddenSidebar">
@@ -40,57 +46,77 @@ const Sidebar = () => {
                       router.pathname == "/doctorsList" ? "active" : ""
                     }
                   >
-                    <Link href="/doctorsList">پزشکان</Link>
+                    <Link href="/doctorsList" className="font-12">
+                      پزشکان
+                    </Link>
                   </li>
                   <li
                     className={
                       router.pathname == "/specializedWorks" ? "active" : ""
                     }
                   >
-                    <Link href="/specializedWorks">کارهای تخصصی </Link>
+                    <Link href="/specializedWorks" className="font-12">
+                      کارهای تخصصی{" "}
+                    </Link>
                   </li>
                   <li
                     className={
                       router.pathname == "/certifications" ? "active" : ""
                     }
                   >
-                    <Link href="/certifications">مجوزها</Link>
+                    <Link href="/certifications" className="font-12">
+                      مجوزها
+                    </Link>
                   </li>
                   <li
                     className={router.pathname == "/insurances" ? "active" : ""}
                   >
-                    <Link href="/insurances"> بیمه های تحت پوشش </Link>
+                    <Link href="/insurances" className="font-12">
+                      {" "}
+                      بیمه های تحت پوشش{" "}
+                    </Link>
                   </li>
                   <li
                     className={
                       router.pathname == "/imagesGallery" ? "active" : ""
                     }
                   >
-                    <Link href="/imagesGallery">گالری تصاویر</Link>
+                    <Link href="/imagesGallery" className="font-12">
+                      گالری تصاویر
+                    </Link>
                   </li>
                 </ul>
               </li>
 
               <li className="submenu">
                 <a href="#">
-                  <i className="fe fe-document"></i> <span> تنظیمات پذیرش</span>
+                  <i>
+                    <FeatherIcon icon="clipboard" className="width-15" />
+                  </i>{" "}
+                  <span> تنظیمات پذیرش</span>
                   <span className="menu-arrow"></span>
                 </a>
                 <ul className="hidden hiddenSidebar">
                   <li
                     className={router.pathname == "/discounts" ? "active" : ""}
                   >
-                    <Link href="/discounts">تخفیفات</Link>
+                    <Link href="/discounts" className="font-12">
+                      تخفیفات
+                    </Link>
                   </li>
                   <li className={router.pathname == "/tariff" ? "active" : ""}>
-                    <Link href="/tariff">تعرفه بخش ها</Link>
+                    <Link href="/tariff" className="font-12">
+                      تعرفه بخش ها
+                    </Link>
                   </li>
                 </ul>
               </li>
 
               <li className="submenu">
                 <a href="#">
-                  <i className="fe fe-document"></i>
+                  <i>
+                    <FeatherIcon icon="message-circle" className="width-15" />
+                  </i>
                   <span> تنظیمات سیستم اینو</span>
                   <span className="menu-arrow"></span>
                 </a>
@@ -100,14 +126,18 @@ const Sidebar = () => {
                       router.pathname == "/cannedMessages" ? "active" : ""
                     }
                   >
-                    <Link href="/cannedMessages">پیام های پیش فرض</Link>
+                    <Link href="/cannedMessages" className="font-12">
+                      پیام های پیش فرض
+                    </Link>
                   </li>
                 </ul>
               </li>
 
               <li className="submenu">
                 <a href="#">
-                  <i className="fe fe-document"></i>
+                  <i>
+                    <FeatherIcon icon="check-square" className="width-15" />
+                  </i>
                   <span>تنظیمات نوبت دهی </span>
                   <span className="menu-arrow"></span>
                 </a>
@@ -117,18 +147,23 @@ const Sidebar = () => {
                       router.pathname == "/departments" ? "active" : ""
                     }
                   >
-                    <Link href="/departments">انتخاب بخش</Link>
+                    <Link href="/departments" className="font-12">
+                      انتخاب بخش
+                    </Link>
                   </li>
                 </ul>
               </li>
 
-              <li className={router.pathname == "/prescription" ? "active" : ""}>
+              <li
+                className={router.pathname == "/prescription" ? "active" : ""}
+              >
                 <Link href="/prescription">
-                  <i className="fe fe-home"></i>
+                  <i>
+                    <FeatherIcon icon="edit" className="width-15" />
+                  </i>
                   <span>نسخه نویسی</span>
                 </Link>
               </li>
-
             </ul>
           </div>
         </div>

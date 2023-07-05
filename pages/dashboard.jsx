@@ -70,7 +70,7 @@ const Dashboard = () => {
                   <p className="card-title">بررسی اجمالی</p>
                 </div>
 
-                <div className="dashboard-selector">
+                <div className="dashboard-selector font-13">
                   <Select
                     className="select"
                     onChange={(e) => setSelectedDuration(e.value)}
