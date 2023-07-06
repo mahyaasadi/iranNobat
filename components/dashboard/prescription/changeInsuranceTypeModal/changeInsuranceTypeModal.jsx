@@ -7,7 +7,10 @@ import FeatherIcon from "feather-icons-react";
 
 let CenterID = Cookies.get("CenterID");
 
-const ChangeInsuranceTypeModal = ({ changeInsuranceType }) => {
+const ChangeInsuranceTypeModal = ({
+  changeInsuranceType,
+  selectInsuranceType,
+}) => {
   const [insuranceOptionsList, setInsuranceOptionsList] = useState([]);
 
   //get insuranceType optionsList
@@ -72,6 +75,7 @@ const ChangeInsuranceTypeModal = ({ changeInsuranceType }) => {
                     placeholder="نوع بیمه مورد نظر را انتخاب نمایید"
                     id="long-value-select"
                     instanceId="long-value-select"
+                    onChangeValue={(value) => selectInsuranceType(value?.value)}
                   />
                 </div>
 

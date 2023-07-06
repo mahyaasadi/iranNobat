@@ -8745,7 +8745,7 @@ ul li .active {
   position: absolute;
   color: gray;
   padding: 0 8px;
-  z-index: 1;
+  z-index: 15;
   margin-top: -0.5rem !important;
   margin-right: 1rem !important;
 }
@@ -8805,7 +8805,6 @@ ul li .active {
 }
 
 .smartphone-container {
-  border: 1px solid #;
   color: #1B5A90;
   padding: 1px;
   font-size: 13px;
@@ -8832,18 +8831,36 @@ ul li .active {
   top: 0.5em;
   left: 1em;
 }
+
 .addToListBtn {
   background-color: #1B5A90;
   color: #d3e9f2;
   opacity: 0.9
 }
+
 .addToListBtn:hover {
   opacity: 1;
   border: 1px solid #d3e9f2;
   color: #d3e9f2;
 }
 
-@media (max-width: 576px) {
+.padding-1 {
+  padding: 1em;
+}
+
+.presc-card-title {
+  color: #1B5A90 !important;
+  border: 1px solid;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 17%;
+  padding: 5px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2), 0 3px 3px 0 rgba(0, 0, 0, 0.19);
+}
+
+@media (max-width: 756px) {
   .prescript-header {
     display: flex;
     flex-direction: column;

@@ -162,7 +162,20 @@ const Sidebar = () => {
                     <FeatherIcon icon="edit" className="width-15" />
                   </i>
                   <span>نسخه نویسی</span>
+                  <span className="menu-arrow"></span>
                 </Link>
+
+                <ul className="hidden hiddenSidebar">
+                  <li
+                    className={
+                      router.pathname == "/prescriptionHistory" ? "active" : ""
+                    }
+                  >
+                    <Link href="/prescriptionHistory" className="font-12">
+                      سوابق نسخه
+                    </Link>
+                  </li>
+                </ul>
               </li>
             </ul>
           </div>

@@ -1,13 +1,19 @@
 import PatientInfo from "components/dashboard/prescription/PatientInfo";
 
-const PatientInformation = ({ getPatientInfo, data, changeInsuranceType }) => {
+const PatientInformation = ({
+  getPatientInfo,
+  data,
+  changeInsuranceType,
+  insuranceType,
+  selectInsuranceType,
+}) => {
   return (
     <>
-      <div >
-        <div class="card presCard">
+      <div>
+        <div className="card presCard">
           <div className="card-body">
             <form className="w-100" onSubmit={getPatientInfo}>
-              <div class="input-group mb-3">
+              <div className="input-group mb-3">
                 <lable className="lblAbs font-12">
                   کد ملی / کد اتباع بیمار
                 </lable>
@@ -18,7 +24,7 @@ const PatientInformation = ({ getPatientInfo, data, changeInsuranceType }) => {
                   className="form-control rounded-right GetPatientInput w-50"
                 />
                 <button
-                  class="btn btn-primary rounded-left w-10 font-12"
+                  className="btn btn-primary rounded-left w-10 font-12"
                   id="basic-addon1"
                 >
                   استعلام
@@ -29,6 +35,8 @@ const PatientInformation = ({ getPatientInfo, data, changeInsuranceType }) => {
             <PatientInfo
               data={data}
               changeInsuranceType={changeInsuranceType}
+              insuranceType={insuranceType}
+              selectInsuranceType={selectInsuranceType}
             />
           </div>
         </div>

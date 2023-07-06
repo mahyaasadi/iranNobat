@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+import Swal from "sweetalert2";
 import Loading from "components/loading/loading";
 import PatientInformation from "components/dashboard/prescription/patientInformation";
 import PrescriptionCard from "components/dashboard/prescription/prescriptionCard";
@@ -14,6 +15,7 @@ import {
 } from "components/dashboard/prescription/taminprescriptionData";
 
 let CenterID = Cookies.get("CenterID");
+
 let precId = "01";
 let ActiveSrvCode,
   ActiveSrvName,
@@ -50,26 +52,7 @@ const Prescription = () => {
   const [TaminServiceTypeList, setTaminServiceTypeList] =
     useState(TaminServiceType);
 
-  const changeInsuranceType = (e) => {
-    e.preventDefault();
-
-    let formData = new FormData(e.target);
-    const formProps = Object.fromEntries(formData);
-
-    let url = "https://irannobat.ir:8444/api/Patient/ChangeInsurance";
-    let data = {
-      CenterID: CenterID,
-      IID: formProps.insuranceTypeOptions,
-      NID: ActivePatientID,
-    };
-
-    axios
-      .post(url, data)
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => console.log(error));
-  };
+  let insuranceType = null;
 
   //get patient info
   const getPatientInfo = (e) => {
@@ -90,7 +73,7 @@ const Prescription = () => {
       .post(url, data)
       .then((response) => {
         setIsLoading(false);
-
+        // setInsuranceType(response.data.user.InsuranceTypeName);
         console.log(response.data);
         setPatientsInfo(response.data.user);
         $("#patientInfoSection").show("");
@@ -98,6 +81,32 @@ const Prescription = () => {
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  // Change Insurance Type
+  const selectInsuranceType = (type) => {
+    insuranceType = type;
+  };
+
+  const changeInsuranceType = (e) => {
+    e.preventDefault();
+
+    let formData = new FormData(e.target);
+    const formProps = Object.fromEntries(formData);
+
+    let url = "https://irannobat.ir:8444/api/Patient/ChangeInsurance";
+    let data = {
+      CenterID: CenterID,
+      IID: formProps.insuranceTypeOptions,
+      NID: ActivePatientID,
+    };
+
+    axios
+      .post(url, data)
+      .then((response) => {
+        console.log("changeInsurance", response.data);
+      })
+      .catch((error) => console.log(error));
   };
 
   const SearchTaminSrv = (e) => {
@@ -110,11 +119,11 @@ const Prescription = () => {
       Text: formProps.srvSerachInput,
       srvType: precId,
     };
-    console.log(data);
+    // console.log(data);
     axios
       .post("https://irannobat.ir:8444/api/TaminServices/SearchSrv", data)
       .then(function (response) {
-        console.log(response.data);
+        // console.log(response.data);
         setTaminSrvSerachList(response.data);
         $(".SearchDiv").show();
       })
@@ -130,8 +139,16 @@ const Prescription = () => {
     $(".SearchDiv").hide();
   };
 
+  // add to list button
   const FuAddToListItem = () => {
-    if (ActiveSrvCode == null) {
+    if (ActiveSrvCode == null || ActiveSrvName == null) {
+      Swal.fire({
+        title: "اطلاعات ناقص وارد شده است!",
+        icon: "warning",
+        allowOutsideClick: true,
+        confirmButtonColor: "#3085d6",
+        confirmButtonText: "تایید",
+      });
     } else {
       let Item = {
         SrvName: ActiveSrvName,
@@ -140,9 +157,17 @@ const Prescription = () => {
       };
       $("#srvSerachInput").val("");
       SetPrescriptionItemsDta([...PrescriptionItemsData, Item]);
+      Swal.fire({
+        title: "با موفقیت به لیست اضافه شد!",
+        icon: "success",
+        allowOutsideClick: true,
+        confirmButtonColor: "#3085d6",
+        confirmButtonText: "تایید",
+      });
     }
   };
 
+  // only Visit
   const registerEpresc = (visit) => {
     if (visit == 1) {
       console.log("visit");
@@ -163,11 +188,27 @@ const Prescription = () => {
         .post(url, Data)
         .then(function (response) {
           console.log(response.data);
-          // setTaminSrvSerachList(response.data);
-          // $(".SearchDiv").show();
+          if (response.data.res.trackingCode !== null) {
+            Swal.fire({
+              title: "ویزیت با موفقیت ثبت شد!",
+              text: "کد رهگیری شما : " + `${response.data.res.trackingCode}`,
+              icon: "success",
+              allowOutsideClick: true,
+              confirmButtonColor: "#3085d6",
+              confirmButtonText: "تایید",
+            });
+          } else if (response.data.res.error_Msg == "نسخه تکراری است") {
+            Swal.fire({
+              title: "نسخه ثبت شده تکراری می باشد!",
+              icon: "warning",
+              allowOutsideClick: true,
+              confirmButtonColor: "#3085d6",
+              confirmButtonText: "تایید",
+            });
+          }
         })
-        .catch(function (response) {
-          console.log(response);
+        .catch(function (error) {
+          console.log(error);
         });
     }
   };
@@ -175,16 +216,18 @@ const Prescription = () => {
     <>
       <div className="page-wrapper">
         <div className="content container-fluid">
-          <div class="row">
-            <div className="col-xl-3 col-lg-3 col-sm-6 col-12">
+          <div className="row">
+            <div className="col-xl-3 col-lg-4 col-sm-6 col-12">
               <PatientInformation
                 getPatientInfo={getPatientInfo}
                 data={patientsInfo}
+                insuranceType={insuranceType}
                 changeInsuranceType={changeInsuranceType}
+                selectInsuranceType={selectInsuranceType}
               />
             </div>
 
-            <div className="col-xl-9 col-sm-6 col-12">
+            <div className="col-xl-9 col-lg-8 col-sm-6 col-12">
               <PrescriptionCard
                 registerEpresc={registerEpresc}
                 SelectSrvSearch={SelectSrvSearch}

@@ -13,7 +13,7 @@ const PrescriptionCard = ({
   TaminSrvSerachList,
   SelectSrvSearch,
   FuAddToListItem,
-  registerEpresc
+  registerEpresc,
 }) => {
   function QtyChange(ac) {
     let qty = $("#QtyInput").val();
@@ -37,7 +37,10 @@ const PrescriptionCard = ({
               <div className="prescript-title">نسخه جدید</div>
 
               <div className="prescript-btns d-flex gap-2">
-                <div className="btn border-radius visitBtn font-13" onClick={()=>registerEpresc(1)}>
+                <div
+                  className="btn border-radius visitBtn font-13"
+                  onClick={() => registerEpresc(1)}
+                >
                   فقط ثبت ویزیت
                 </div>
                 <div className="btn btn-primary border-radius font-13">
@@ -64,12 +67,9 @@ const PrescriptionCard = ({
                 })}
               </ul>
               <hr />
-              <form
-                className="w-100 pt-2"
-                onSubmit={SearchTaminSrv}
-              >
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend"></div>
+              <form className="w-100 pt-2" onSubmit={SearchTaminSrv}>
+                <div className="input-group mb-3">
+                  <div className="input-group-prepend"></div>
 
                   <lable className="lblAbs font-12">
                     نام / کد خدمت یا دارو
@@ -78,10 +78,10 @@ const PrescriptionCard = ({
                     type="text"
                     id="srvSerachInput"
                     name="srvSerachInput"
-                    class="form-control rounded-right w-50"
+                    className="form-control rounded-right w-50"
                   />
                   <select
-                    class="form-select disNone"
+                    className="form-select disNone"
                     id="ServiceSearchSelect"
                     onChange={() =>
                       changePrescId($("#ServiceSearchSelect").val())
@@ -101,10 +101,10 @@ const PrescriptionCard = ({
                     })}
                   </select>
                   <button
-                    class="btn btn-primary rounded-left w-10"
+                    className="btn btn-primary rounded-left w-10"
                     id="basic-addon1"
                   >
-                    <i class="fe fe-search"></i>
+                    <i className="fe fe-search"></i>
                   </button>
                 </div>
               </form>
@@ -116,54 +116,55 @@ const PrescriptionCard = ({
                   SelectSrvSearch={SelectSrvSearch}
                 />
               </div>
-              <div class="row ">
-                <div class="col-md-3">
+
+              <div className="row ">
+                <div className="col-md-3">
                   <label className="lblAbs margin-top-left font-12">
                     تعداد
                   </label>
-                  <div class="row mt-2">
-                    <div class="col-auto">
+                  <div className="row mt-2">
+                    <div className="col-auto">
                       <button
-                        class="btn btn-primary btn-rounded"
+                        className="btn btn-primary btn-rounded"
                         onClick={() => QtyChange("+")}
                       >
-                        <i class="fe fe-plus"></i>
+                        <i className="fe fe-plus"></i>
                       </button>
                     </div>
-                    <div class="col p-0">
+                    <div className="col p-0">
                       <input
                         type="text"
-                        class="form-control text-center rounded"
+                        className="form-control text-center rounded"
                         id="QtyInput"
                         name="QTY"
                         dir="ltr"
                         value="1"
                       />
                     </div>
-                    <div class="col-auto">
+                    <div className="col-auto">
                       <button
-                        class="btn btn-primary btn-rounded"
+                        className="btn btn-primary btn-rounded"
                         onClick={() => QtyChange("-")}
                       >
-                        <i class="fe fe-minus"></i>
+                        <i className="fe fe-minus"></i>
                       </button>
                     </div>
                   </div>
                 </div>
-                <div class="col-md-7">
+                <div className="col-md-7">
                   <label className="lblAbs margin-top-25 font-12">
                     توضیحات
                   </label>
                   <input
                     type="text"
-                    class="mt-2 form-control text-center rounded"
+                    className="mt-2 form-control text-center rounded"
                     id="eprscItemDescription"
                     // placeholder="توضیحات"
                   />
                 </div>
-                <div class="col-md-2">
+                <div className="col-md-2">
                   <button
-                    class="btn rounded w-100 mt-2 addToListBtn"
+                    className="btn rounded w-100 mt-2 addToListBtn font-13"
                     onClick={FuAddToListItem}
                   >
                     اضافه به لیست
