@@ -21,7 +21,6 @@
     "jquery": "^3.7.0",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.0",
-    "moment": "^2.29.4",
     "next": "^13.4.4",
     "next-auth": "^4.22.1",
     "postcss": "8.4.24",

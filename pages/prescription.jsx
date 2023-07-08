@@ -3,8 +3,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import Loading from "components/loading/loading";
-import PatientInformation from "components/dashboard/prescription/patientInformation";
-import PrescriptionCard from "components/dashboard/prescription/prescriptionCard";
+import PrescriptionCard from "components/dashboard/prescription/prescriptionCard/prescriptionCard";
 import PatientInfo from "components/dashboard/prescription/PatientInfo";
 import TaminHeader from "components/dashboard/prescription/TaminVsArteshHeader";
 import ArteshDoctorsListTable from "components/dashboard/prescription/arteshDoctorsListTable";
@@ -105,6 +104,26 @@ const Prescription = () => {
       .post(url, data)
       .then((response) => {
         console.log("changeInsurance", response.data);
+        if (response.data.isCovered) {
+          Swal.fire({
+            title: "!تغییر نوع بیمه با موفقیت انجام شد",
+            icon: "success",
+            allowOutsideClick: true,
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "تایید",
+          });
+        }
+        else if (response.data.isCovered !== "true") {
+          Swal.fire({
+            title: "!خطا در تغییر نوع بیمه",
+            text: "شما تحت پوشش این بیمه نمی باشید",
+            icon: "warning",
+            allowOutsideClick: true,
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "تایید",
+          });
+        }
+        $("#changeInsuranceTypeModal").hide("")
       })
       .catch((error) => console.log(error));
   };
@@ -218,7 +237,7 @@ const Prescription = () => {
         <div className="content container-fluid">
           <div className="row">
             <div className="col-xl-3 col-lg-4 col-sm-6 col-12">
-              <PatientInformation
+              <PatientInfo
                 getPatientInfo={getPatientInfo}
                 data={patientsInfo}
                 insuranceType={insuranceType}
@@ -234,13 +253,14 @@ const Prescription = () => {
                 SearchTaminSrv={SearchTaminSrv}
                 TaminSrvSerachList={TaminSrvSerachList}
                 ServiceList={TaminServiceTypeList}
-                SearchTaminSrv={SearchTaminSrv}
                 lists={taminHeaderList}
                 onSelect={selectPrescriptionType}
                 changePrescId={changePrescId}
                 FuAddToListItem={FuAddToListItem}
               />
+
               <PrescriptionItems data={PrescriptionItemsData} />
+
             </div>
           </div>
         </div>

@@ -40,7 +40,7 @@ const TariffCalcModal = ({
               <div className="card-header tariffCalcModal">
                 <ul
                   role="tablist"
-                  className="nav nav-tabs card-header-tabs float-right"
+                  className="nav nav-tabs nav-tabs-bottom"
                 >
                   <li className="nav-item">
                     <a

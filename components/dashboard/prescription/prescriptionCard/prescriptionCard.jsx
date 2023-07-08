@@ -80,6 +80,7 @@ const PrescriptionCard = ({
                     name="srvSerachInput"
                     className="form-control rounded-right w-50"
                   />
+                  
                   <select
                     className="form-select disNone"
                     id="ServiceSearchSelect"
