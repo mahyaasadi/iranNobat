@@ -1,8 +1,11 @@
+import axios from "axios";
+import { useState, useEffect } from "react";
 import FeatherIcon from "feather-icons-react";
-import SelectField from "components/commonComponents/selectfield";
+import Select from "react-select";
 import PrescriptionType from "components/dashboard/prescription/prescriptionType";
 import ServiceType from "components/dashboard/prescription/serviceType";
 import TaminSrvSerach from "components/dashboard/prescription/TaminSrvSerach";
+import SelectField from "components/commonComponents/selectfield";
 
 const PrescriptionCard = ({
   lists,
@@ -14,7 +17,12 @@ const PrescriptionCard = ({
   SelectSrvSearch,
   FuAddToListItem,
   registerEpresc,
+  FUSelectInstructionType,
+  FUSelectDrugAmount,
 }) => {
+  const [drugInstructionList, setDrugInstructionList] = useState([]);
+  const [drugAmountList, setDrugAmountList] = useState([]);
+
   function QtyChange(ac) {
     let qty = $("#QtyInput").val();
     qty = parseInt(qty);
@@ -28,6 +36,68 @@ const PrescriptionCard = ({
     $("#QtyInput").val(qty);
   }
 
+  const getDrugInstructionsList = () => {
+    let url = "https://irannobat.ir:8444/api/TaminEprsc/DrugInstruction";
+    axios
+      .post(url)
+      .then((response) => {
+        // console.log(response.data.res.data);
+
+        let selectInstructionData = [];
+        for (let i = 0; i < response.data.res.data.length; i++) {
+          const item = response.data.res.data[i];
+          let obj = {
+            value: item.drugInstId,
+            label: item.drugInstConcept,
+          };
+          selectInstructionData.push(obj);
+        }
+        console.log("selectInstructionData", selectInstructionData);
+        setDrugInstructionList(selectInstructionData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const getDrugAmountList = () => {
+    let url = "https://irannobat.ir:8444/api/TaminEprsc/DrugAmount";
+    axios
+      .post(url)
+      .then((response) => {
+        // console.log(response.data.res.data);
+
+        let selectAmountData = [];
+        for (let i = 0; i < response.data.res.data.length; i++) {
+          const item = response.data.res.data[i];
+          let obj = {
+            value: item.drugAmntId,
+            label: item.drugAmntConcept,
+          };
+          selectAmountData.push(obj);
+        }
+        console.log("selectAmountData", selectAmountData);
+        setDrugAmountList(selectAmountData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getDrugInstructionsList();
+    getDrugAmountList();
+  }, []);
+
+  const colourStyles = {
+    menu: (provided) => ({ ...provided, zIndex: 9999 }),
+    control: (styles) => ({
+      ...styles,
+      minHeight: 43,
+      borderRadius: 20,
+      border: "1px solid #E6E9F4",
+    }),
+  };
   return (
     <>
       <div>
@@ -43,7 +113,11 @@ const PrescriptionCard = ({
                 >
                   فقط ثبت ویزیت
                 </div>
-                <div className="btn btn-primary border-radius font-13">
+
+                <div
+                  className="btn btn-primary border-radius font-13"
+                  onClick={() => registerEpresc(0)}
+                >
                   ثبت نسخه نهایی
                 </div>
               </div>
@@ -80,7 +154,7 @@ const PrescriptionCard = ({
                     name="srvSerachInput"
                     className="form-control rounded-right w-50"
                   />
-                  
+
                   <select
                     className="form-select disNone"
                     id="ServiceSearchSelect"
@@ -96,7 +170,7 @@ const PrescriptionCard = ({
                           srvTypeDes={item.srvTypeDes}
                           prescTypeId={item.prescTypeId}
                           Active={item.Active}
-                          changePrescId={changePrescId}
+                          // changePrescId={changePrescId}
                         />
                       );
                     })}
@@ -118,8 +192,8 @@ const PrescriptionCard = ({
                 />
               </div>
 
-              <div className="row ">
-                <div className="col-md-3">
+              <div className="d-flex align-items-center gap-2">
+                <div className="col-auto">
                   <label className="lblAbs margin-top-left font-12">
                     تعداد
                   </label>
@@ -152,7 +226,36 @@ const PrescriptionCard = ({
                     </div>
                   </div>
                 </div>
-                <div className="col-md-7">
+
+                <div className="col" id="drugInstruction">
+                  <label className="lblDrugIns font-12">زمان مصرف</label>
+                  <SelectField
+                    styles={colourStyles}
+                    className="w-100 font-12"
+                    id="drugInsSelect"
+                    options={drugInstructionList}
+                    placeholder={"زمان مصرف"}
+                    onChangeValue={(value) =>
+                      FUSelectInstructionType(value?.value)
+                    }
+                  />
+                </div>
+
+                <div className="col" id="drugAmount">
+                  <label className="lblDrugIns font-12">تعداد در وعده</label>
+                  <SelectField
+                    styles={colourStyles}
+                    className="w-100 font-12"
+                    id="drugAmountSelect"
+                    options={drugAmountList}
+                    placeholder={"تعداد در وعده "}
+                    onChangeValue={(value) => FUSelectDrugAmount(value?.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="d-flex align-items-center gap-2 margin-top-1">
+                <div className="col-md-8">
                   <label className="lblAbs margin-top-25 font-12">
                     توضیحات
                   </label>
@@ -160,12 +263,11 @@ const PrescriptionCard = ({
                     type="text"
                     className="mt-2 form-control text-center rounded"
                     id="eprscItemDescription"
-                    // placeholder="توضیحات"
                   />
                 </div>
-                <div className="col-md-2">
+                <div className="col-md-4">
                   <button
-                    className="btn rounded w-100 mt-2 addToListBtn font-13"
+                    className="btn rounded w-100 addToListBtn font-13"
                     onClick={FuAddToListItem}
                   >
                     اضافه به لیست
@@ -173,7 +275,6 @@ const PrescriptionCard = ({
                 </div>
               </div>
             </div>
-            {/*  */}
           </div>
         </div>
       </div>

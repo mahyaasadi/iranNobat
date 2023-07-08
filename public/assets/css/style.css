@@ -8707,7 +8707,7 @@ ul li .active {
 }
 
 .prescript-header {
-  margin-bottom: 2.5em;
+  margin-bottom: 0;
   display: flex;
   justify-content: space-between;
 }
@@ -8750,12 +8750,26 @@ ul li .active {
   margin-right: 1rem !important;
 }
 
+.lblDrugIns {
+  background-color: white;
+  position: absolute;
+  color: gray;
+  padding: 0 8px;
+  z-index: 15;
+  margin-top: 0.75rem !important;
+  margin-right: 2rem !important;
+}
+
 .padding-20 {
   padding: 20px !important;
 }
 
 .margin-top-25 {
   margin-top: -0.25rem !important
+}
+
+.margin-top-1 {
+  margin-top: 1em
 }
 
 .margin-top-left {
@@ -8835,7 +8849,9 @@ ul li .active {
 .addToListBtn {
   background-color: #1B5A90;
   color: #d3e9f2;
-  opacity: 0.9
+  opacity: 0.9;
+  height: calc(1.6em + 1.21875rem);
+  line-height: 1.6;
 }
 
 .addToListBtn:hover {

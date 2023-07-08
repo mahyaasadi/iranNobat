@@ -1,6 +1,7 @@
 import Link from "next/link";
 import FeatherIcon from "feather-icons-react";
-import ChangeInsuranceTypeModal from "components/dashboard/prescription/changeInsuranceTypeModal/changeInsuranceTypeModal"
+import ChangeInsuranceTypeModal from "components/dashboard/prescription/changeInsuranceTypeModal/changeInsuranceTypeModal";
+import EditPhoneNumberModal from "components/dashboard/prescription/editPhoneNumberModal";
 
 const PatientInfo = ({
   getPatientInfo,
@@ -8,8 +9,18 @@ const PatientInfo = ({
   changeInsuranceType,
   insuranceType,
   selectInsuranceType,
-  getAppointment
+  getAppointment,
 }) => {
+  const dateFormat = (str) => {
+    if (str !== "" || str !== null) {
+      let date =
+        str.substr(0, 4) + "/" + str.substr(4, 2) + "/" + str.substr(6, 7);
+      return date;
+    } else {
+      return 0;
+    }
+  };
+
   return (
     <>
       <div>
@@ -42,16 +53,23 @@ const PatientInfo = ({
                     <FeatherIcon icon="smartphone" />
                   </i>
                   <p id="PatientTel">{data.Tel}</p>
-                  <i className="editPhone-icon">
-                    <FeatherIcon icon="edit-2" />
-                  </i>
+                  <Link
+                    href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#editPhoneNumberModal"
+                    className="editPhone-icon "
+                  >
+                    <FeatherIcon icon="edit-2" className="themeColor" />
+                  </Link>
                 </div>
               </div>
 
               <div className="">
                 <p className="mt-3">{data.Name}</p>
                 <p className="mt-3">سن بیمار : {data.Age}</p>
-                <p className="mt-3">تاریخ اعتبار تا {data.accountValidto}</p>
+                <p className="mt-3">
+                  تاریخ اعتبار تا {dateFormat(`${data.accountValidto}`)}
+                </p>
 
                 <div className="d-flex gap-2">
                   <p>بیمه : {data.InsuranceName}</p>
@@ -81,6 +99,8 @@ const PatientInfo = ({
                 changeInsuranceType={changeInsuranceType}
                 selectInsuranceType={selectInsuranceType}
               />
+
+              <EditPhoneNumberModal />
             </div>
           </div>
         </div>

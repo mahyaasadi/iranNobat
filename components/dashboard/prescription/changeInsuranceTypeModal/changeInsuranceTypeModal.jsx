@@ -20,7 +20,7 @@ const ChangeInsuranceTypeModal = ({
     axios
       .get(url)
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         let selectData = [];
         for (let i = 0; i < response.data.length; i++) {
           const sel = response.data[i];
@@ -30,7 +30,7 @@ const ChangeInsuranceTypeModal = ({
           };
           selectData.push(obj);
         }
-        console.log(selectData);
+        // console.log(selectData);
         setInsuranceOptionsList(selectData);
       })
       .catch((error) => console.log(error));

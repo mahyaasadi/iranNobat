@@ -19,12 +19,17 @@ let precId = "01";
 let ActiveSrvCode,
   ActiveSrvName,
   ActivePrscImg,
-  ActiveTaminSrvCode,
+  ActivePrscName,
   ActivePatientID,
-  ActivePatientTel = null;
+  ActivePatientTel,
+  ActiveSrvTypePrsc,
+  ActiveInsuranceID = null;
+let addPrescriptionitems = [];
+let addPrescriptionSrvNameitems = [];
 
-const changePrescId = (id, Img) => {
+const changePrescId = (id, Img, name) => {
   precId = id;
+  ActivePrscName = name;
   if (typeof Img !== "undefined") {
     ActivePrscImg = Img;
   }
@@ -32,14 +37,6 @@ const changePrescId = (id, Img) => {
 
 const selectPrescriptionType = () => {
   console.log("select");
-};
-
-const SelectSrvSearch = (name, code, Tamin) => {
-  ActiveTaminSrvCode = Tamin;
-  ActiveSrvCode = code;
-  ActiveSrvName = name;
-  $("#SrvSearchInput").val(name);
-  $(".SearchDiv").hide();
 };
 
 const Prescription = () => {
@@ -52,6 +49,31 @@ const Prescription = () => {
     useState(TaminServiceType);
 
   let insuranceType = null;
+
+  // Drug instruction & amount
+  let SelectedInstruction,
+    SelectedAmount = "";
+
+  const FUSelectInstructionType = (instruction) => {
+    SelectedInstruction = instruction;
+  };
+  const FUSelectDrugAmount = (amount) => {
+    SelectedAmount = amount;
+  };
+
+  // search in selected services
+  const SelectSrvSearch = (name, code, TaminCode, type) => {
+    console.log(ActiveInsuranceID);
+    ActiveSrvName = name;
+    ActiveSrvTypePrsc = type;
+    if (ActiveInsuranceID == "2") {
+      ActiveSrvCode = TaminCode;
+    } else {
+      ActiveSrvCode = code;
+    }
+    $("#srvSerachInput").val(name);
+    $(".SearchDiv").hide();
+  };
 
   //get patient info
   const getPatientInfo = (e) => {
@@ -73,7 +95,8 @@ const Prescription = () => {
       .then((response) => {
         setIsLoading(false);
         // setInsuranceType(response.data.user.InsuranceTypeName);
-        console.log(response.data);
+        // console.log(response.data);
+        ActiveInsuranceID = response.data.user.Insurance;
         setPatientsInfo(response.data.user);
         $("#patientInfoSection").show("");
       })
@@ -112,8 +135,7 @@ const Prescription = () => {
             confirmButtonColor: "#3085d6",
             confirmButtonText: "تایید",
           });
-        }
-        else if (response.data.isCovered !== "true") {
+        } else if (response.data.isCovered !== "true") {
           Swal.fire({
             title: "!خطا در تغییر نوع بیمه",
             text: "شما تحت پوشش این بیمه نمی باشید",
@@ -123,7 +145,7 @@ const Prescription = () => {
             confirmButtonText: "تایید",
           });
         }
-        $("#changeInsuranceTypeModal").hide("")
+        $("#changeInsuranceTypeModal").hide("");
       })
       .catch((error) => console.log(error));
   };
@@ -142,7 +164,7 @@ const Prescription = () => {
     axios
       .post("https://irannobat.ir:8444/api/TaminServices/SearchSrv", data)
       .then(function (response) {
-        // console.log(response.data);
+        console.log(response.data);
         setTaminSrvSerachList(response.data);
         $(".SearchDiv").show();
       })
@@ -151,18 +173,11 @@ const Prescription = () => {
       });
   };
 
-  const SelectSrvSearch = (name, code) => {
-    ActiveSrvCode = code;
-    ActiveSrvName = name;
-    $("#srvSerachInput").val(name);
-    $(".SearchDiv").hide();
-  };
-
   // add to list button
   const FuAddToListItem = () => {
-    if (ActiveSrvCode == null || ActiveSrvName == null) {
+    if (ActiveSrvCode == "" || ActiveSrvName == null) {
       Swal.fire({
-        title: "اطلاعات ناقص وارد شده است!",
+        title: " خدمتی انتخاب نشده است!",
         icon: "warning",
         allowOutsideClick: true,
         confirmButtonColor: "#3085d6",
@@ -174,15 +189,34 @@ const Prescription = () => {
         SrvCode: ActiveSrvCode,
         Img: ActivePrscImg,
       };
+      let obj = {
+        srvId: {
+          srvType: {
+            srvType: ActiveSrvTypePrsc,
+          },
+          srvCode: ActiveSrvCode,
+        },
+        srvQty: $("#QtyInput").val(),
+        timesAday: {
+          // drugAmntId: $("#drugAmountSelect").val(),
+          drugAmntId: parseInt(SelectedAmount),
+        },
+        repeat: null,
+        drugInstruction: {
+          // drugInstId: $("#drugInsSelect").val(),
+          drugInsId: parseInt(SelectedInstruction),
+        },
+        dose: "",
+      };
+      let obj2 = {
+        Name: ActiveSrvName,
+        Code: ActiveSrvCode,
+      };
+      addPrescriptionSrvNameitems.push(obj2);
+      addPrescriptionitems.push(obj);
+      console.log(addPrescriptionitems);
       $("#srvSerachInput").val("");
       SetPrescriptionItemsDta([...PrescriptionItemsData, Item]);
-      Swal.fire({
-        title: "با موفقیت به لیست اضافه شد!",
-        icon: "success",
-        allowOutsideClick: true,
-        confirmButtonColor: "#3085d6",
-        confirmButtonText: "تایید",
-      });
     }
   };
 
@@ -200,6 +234,46 @@ const Prescription = () => {
         note: [],
         SrvNames: [],
         prescTypeName: "ویزیت",
+      };
+      console.log(Data);
+
+      axios
+        .post(url, Data)
+        .then(function (response) {
+          console.log(response.data);
+          if (response.data.res.trackingCode !== null) {
+            Swal.fire({
+              title: "ویزیت با موفقیت ثبت شد!",
+              text: "کد رهگیری شما : " + `${response.data.res.trackingCode}`,
+              icon: "success",
+              allowOutsideClick: true,
+              confirmButtonColor: "#3085d6",
+              confirmButtonText: "تایید",
+            });
+          } else if (response.data.res.error_Msg == "نسخه تکراری است") {
+            Swal.fire({
+              title: "نسخه ثبت شده تکراری می باشد!",
+              icon: "warning",
+              allowOutsideClick: true,
+              confirmButtonColor: "#3085d6",
+              confirmButtonText: "تایید",
+            });
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } else {
+      let url = "https://irannobat.ir:8444/api/TaminEprsc/PrescriptionAdd";
+      let Data = {
+        CenterID,
+        NID: ActivePatientID,
+        PMN: $("#PatientTel").html(),
+        PTI: precId,
+        Comment: $("#eprscItemDescription").val(),
+        note: addPrescriptionitems,
+        SrvNames: addPrescriptionSrvNameitems,
+        prescTypeName: ActivePrscName,
       };
       console.log(Data);
 
@@ -257,10 +331,11 @@ const Prescription = () => {
                 onSelect={selectPrescriptionType}
                 changePrescId={changePrescId}
                 FuAddToListItem={FuAddToListItem}
+                FUSelectInstructionType={FUSelectInstructionType}
+                FUSelectDrugAmount={FUSelectDrugAmount}
               />
 
               <PrescriptionItems data={PrescriptionItemsData} />
-
             </div>
           </div>
         </div>
