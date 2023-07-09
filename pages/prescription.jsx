@@ -223,8 +223,8 @@ const Prescription = () => {
           };
         }
 
-        console.log("ActiveParaGrpCode", ActiveParaGrpCode);
-
+        // console.log("ActiveParaGrpCode", ActiveParaGrpCode);
+        //console
         obj = {
           srvId: {
             srvType: {
