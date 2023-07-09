@@ -12,7 +12,7 @@ const PatientInfo = ({
   getAppointment,
 }) => {
   const dateFormat = (str) => {
-    if (str !== "" || str !== null) {
+    if (str !== " " || str !== null) {
       let date =
         str.substr(0, 4) + "/" + str.substr(4, 2) + "/" + str.substr(6, 7);
       return date;
@@ -23,14 +23,13 @@ const PatientInfo = ({
 
   return (
     <>
-      <div>
         <div className="card presCard">
           <div className="card-body">
             <form className="w-100" onSubmit={getPatientInfo}>
               <div className="input-group mb-3">
-                <lable className="lblAbs font-12">
+                <label className="lblAbs font-12">
                   کد ملی / کد اتباع بیمار
-                </lable>
+                </label>
                 <input
                   type="text"
                   name="nationalCode"
@@ -64,7 +63,7 @@ const PatientInfo = ({
                 </div>
               </div>
 
-              <div className="">
+              <div className="margin-right-1">
                 <p className="mt-3">{data.Name}</p>
                 <p className="mt-3">سن بیمار : {data.Age}</p>
                 <p className="mt-3">
@@ -88,7 +87,7 @@ const PatientInfo = ({
 
               <div className="appointmentBtn">
                 <button
-                  className="btn btn-primary w-75 font-13 mt-4 appointmentBtn-radius"
+                  className="btn btn-primary w-100 font-13 appointmentBtn-radius"
                   onClick={getAppointment}
                 >
                   دریافت نوبت
@@ -104,7 +103,6 @@ const PatientInfo = ({
             </div>
           </div>
         </div>
-      </div>
     </>
   );
 };

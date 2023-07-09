@@ -52,7 +52,7 @@ const PrescriptionCard = ({
           };
           selectInstructionData.push(obj);
         }
-        console.log("selectInstructionData", selectInstructionData);
+        // console.log("selectInstructionData", selectInstructionData);
         setDrugInstructionList(selectInstructionData);
       })
       .catch((error) => {
@@ -76,7 +76,7 @@ const PrescriptionCard = ({
           };
           selectAmountData.push(obj);
         }
-        console.log("selectAmountData", selectAmountData);
+        // console.log("selectAmountData", selectAmountData);
         setDrugAmountList(selectAmountData);
       })
       .catch((error) => {
@@ -125,11 +125,11 @@ const PrescriptionCard = ({
 
             {/*  */}
             <div className="card-body">
-              <ul className="nav nav-tabs nav-tabs-bottom">
-                {lists.map((item) => {
+              <ul className="nav nav-tabs nav-tabs-bottom nav-tabs-scroll">
+                {lists.map((item, index) => {
                   return (
                     <PrescriptionType
-                      key={item.type}
+                      key={index}
                       name={item.name}
                       img={item.img}
                       active={item.Active}
@@ -152,7 +152,7 @@ const PrescriptionCard = ({
                     type="text"
                     id="srvSerachInput"
                     name="srvSerachInput"
-                    className="form-control rounded-right w-50"
+                    className="form-control rounded-right w-50 padding-right-2"
                   />
 
                   <select
@@ -192,8 +192,8 @@ const PrescriptionCard = ({
                 />
               </div>
 
-              <div className="d-flex align-items-center gap-2">
-                <div className="col-auto">
+              <div className="d-flex align-items-center gap-2 media-flex-column">
+                <div className="col-auto media-w-100">
                   <label className="lblAbs margin-top-left font-12">
                     تعداد
                   </label>
@@ -213,7 +213,7 @@ const PrescriptionCard = ({
                         id="QtyInput"
                         name="QTY"
                         dir="ltr"
-                        value="1"
+                        defaultValue="1"
                       />
                     </div>
                     <div className="col-auto">
@@ -227,45 +227,45 @@ const PrescriptionCard = ({
                   </div>
                 </div>
 
-                <div className="col" id="drugInstruction">
+                <div className="col media-w-100" id="drugInstruction">
                   <label className="lblDrugIns font-12">زمان مصرف</label>
                   <SelectField
                     styles={colourStyles}
-                    className="w-100 font-12"
+                    className="w-100 font-12 text-center"
                     id="drugInsSelect"
                     options={drugInstructionList}
-                    placeholder={"زمان مصرف"}
+                    placeholder={" "}
                     onChangeValue={(value) =>
                       FUSelectInstructionType(value?.value)
                     }
                   />
                 </div>
 
-                <div className="col" id="drugAmount">
+                <div className="col media-w-100" id="drugAmount">
                   <label className="lblDrugIns font-12">تعداد در وعده</label>
                   <SelectField
                     styles={colourStyles}
-                    className="w-100 font-12"
+                    className="w-100 font-12 text-center"
                     id="drugAmountSelect"
                     options={drugAmountList}
-                    placeholder={"تعداد در وعده "}
+                    placeholder={" "}
                     onChangeValue={(value) => FUSelectDrugAmount(value?.value)}
                   />
                 </div>
               </div>
 
-              <div className="d-flex align-items-center gap-2 margin-top-1">
-                <div className="col-md-8">
+              <div className="d-flex align-items-center gap-2 margin-top-1 media-flex-column media-gap">
+                <div className="col-md-8 media-w-100">
                   <label className="lblAbs margin-top-25 font-12">
                     توضیحات
                   </label>
                   <input
                     type="text"
-                    className="mt-2 form-control text-center rounded"
+                    className="mt-2 form-control rounded padding-right-2"
                     id="eprscItemDescription"
                   />
                 </div>
-                <div className="col-md-4">
+                <div className="col-md-4 media-w-100">
                   <button
                     className="btn rounded w-100 addToListBtn font-13"
                     onClick={FuAddToListItem}

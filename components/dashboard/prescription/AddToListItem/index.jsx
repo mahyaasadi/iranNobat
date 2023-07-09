@@ -1,4 +1,4 @@
-const AddToListItem = ({ SrvName, SrvCode, Img, Errors }) => {
+const AddToListItem = ({ SrvName, SrvCode, Img }) => {
   return (
     <div className="card PrescItem" id="{response.data.res.info.checkCode}">
       <div className="card-body">
@@ -19,7 +19,7 @@ const AddToListItem = ({ SrvName, SrvCode, Img, Errors }) => {
             <button
               type="button"
               className="btn btn-outline-danger btn-rounded"
-              //   onclick="DeleteCheckService()"
+              //   onClick="DeleteCheckService()"
             >
               <i className="fe fe-trash"></i>
             </button>

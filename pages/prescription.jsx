@@ -15,20 +15,22 @@ import {
 
 let CenterID = Cookies.get("CenterID");
 
-let precId = "01";
+let prescId = "01";
 let ActiveSrvCode,
   ActiveSrvName,
   ActivePrscImg,
-  ActivePrscName,
   ActivePatientID,
   ActivePatientTel,
   ActiveSrvTypePrsc,
-  ActiveInsuranceID = null;
+  ActiveInsuranceID,
+  ActiveParaGrpCode = null;
+
 let addPrescriptionitems = [];
 let addPrescriptionSrvNameitems = [];
+let ActivePrscName = "دارو";
 
 const changePrescId = (id, Img, name) => {
-  precId = id;
+  prescId = id;
   ActivePrscName = name;
   if (typeof Img !== "undefined") {
     ActivePrscImg = Img;
@@ -62,10 +64,12 @@ const Prescription = () => {
   };
 
   // search in selected services
-  const SelectSrvSearch = (name, code, TaminCode, type) => {
-    console.log(ActiveInsuranceID);
+  const SelectSrvSearch = (name, code, TaminCode, type, paraGrpCode) => {
+    // console.log("ActiveInsuranceID :", ActiveInsuranceID);
     ActiveSrvName = name;
     ActiveSrvTypePrsc = type;
+    ActiveParaGrpCode = paraGrpCode;
+
     if (ActiveInsuranceID == "2") {
       ActiveSrvCode = TaminCode;
     } else {
@@ -158,13 +162,13 @@ const Prescription = () => {
     const formProps = Object.fromEntries(formData);
     let data = {
       Text: formProps.srvSerachInput,
-      srvType: precId,
+      srvType: prescId,
     };
     // console.log(data);
     axios
       .post("https://irannobat.ir:8444/api/TaminServices/SearchSrv", data)
       .then(function (response) {
-        console.log(response.data);
+        // console.log(response.data);
         setTaminSrvSerachList(response.data);
         $(".SearchDiv").show();
       })
@@ -174,7 +178,8 @@ const Prescription = () => {
   };
 
   // add to list button
-  const FuAddToListItem = () => {
+  const FuAddToListItem = (e) => {
+    e.preventDefault();
     if (ActiveSrvCode == "" || ActiveSrvName == null) {
       Swal.fire({
         title: " خدمتی انتخاب نشده است!",
@@ -189,33 +194,62 @@ const Prescription = () => {
         SrvCode: ActiveSrvCode,
         Img: ActivePrscImg,
       };
-      let obj = {
-        srvId: {
-          srvType: {
-            srvType: ActiveSrvTypePrsc,
+
+      let drugPrescData = null;
+      if (prescId == 1) {
+        drugPrescData = {
+          srvId: {
+            srvType: {
+              srvType: ActiveSrvTypePrsc,
+            },
+            srvCode: ActiveSrvCode,
           },
-          srvCode: ActiveSrvCode,
-        },
-        srvQty: $("#QtyInput").val(),
-        timesAday: {
-          // drugAmntId: $("#drugAmountSelect").val(),
-          drugAmntId: parseInt(SelectedAmount),
-        },
-        repeat: null,
-        drugInstruction: {
-          // drugInstId: $("#drugInsSelect").val(),
-          drugInsId: parseInt(SelectedInstruction),
-        },
-        dose: "",
-      };
-      let obj2 = {
+          srvQty: parseInt($("#QtyInput").val()),
+          timesAday: {
+            drugAmntId: SelectedAmount,
+          },
+          repeat: null,
+          drugInstruction: {
+            drugInstId: SelectedInstruction,
+          },
+          dose: "",
+        }
+      }
+      else if (prescId == 2) {
+        let paraTarifObj = null;
+        if (ActiveParaGrpCode !== null) {
+          paraTarifObj = {
+            parGrpCode: ActiveParaGrpCode,
+          };
+        }
+
+        console.log("ActiveParaGrpCode", ActiveParaGrpCode);
+
+        obj = {
+          srvId: {
+            srvType: {
+              srvType: ActiveSrvTypePrsc,
+            },
+            srvCode: ActiveSrvCode,
+            // parTarefGrp: {
+            //   parGrpCode: ActiveParaGrpCode,
+            // },
+          },
+          srvQty: parseInt($("#QtyInput").val()),
+        };
+      }
+
+      let justVisitPrescData = {
         Name: ActiveSrvName,
         Code: ActiveSrvCode,
       };
-      addPrescriptionSrvNameitems.push(obj2);
-      addPrescriptionitems.push(obj);
+
+      addPrescriptionitems.push(drugPrescData);
+      addPrescriptionSrvNameitems.push(justVisitPrescData);
       console.log(addPrescriptionitems);
+
       $("#srvSerachInput").val("");
+      $("#QtyInput").val("1");
       SetPrescriptionItemsDta([...PrescriptionItemsData, Item]);
     }
   };
@@ -269,7 +303,7 @@ const Prescription = () => {
         CenterID,
         NID: ActivePatientID,
         PMN: $("#PatientTel").html(),
-        PTI: precId,
+        PTI: parseInt(prescId),
         Comment: $("#eprscItemDescription").val(),
         note: addPrescriptionitems,
         SrvNames: addPrescriptionSrvNameitems,
@@ -283,25 +317,29 @@ const Prescription = () => {
           console.log(response.data);
           if (response.data.res.trackingCode !== null) {
             Swal.fire({
-              title: "ویزیت با موفقیت ثبت شد!",
+              title: "نسخه نهایی با موفقیت ثبت شد!",
               text: "کد رهگیری شما : " + `${response.data.res.trackingCode}`,
               icon: "success",
               allowOutsideClick: true,
               confirmButtonColor: "#3085d6",
               confirmButtonText: "تایید",
             });
-          } else if (response.data.res.error_Msg == "نسخه تکراری است") {
+          } else if (response.data.res.error_Code !== null) {
             Swal.fire({
-              title: "نسخه ثبت شده تکراری می باشد!",
+              title: "خطا !",
+              text: response.data.res.error_Msg,
               icon: "warning",
               allowOutsideClick: true,
               confirmButtonColor: "#3085d6",
               confirmButtonText: "تایید",
             });
+            // console.log(response.data.res.error_Msg);
           }
         })
         .catch(function (error) {
-          console.log(error);
+          if (response.data.res.error_Code !== null) {
+            console.log(response.data.res.error_Msg);
+          }
         });
     }
   };
@@ -310,7 +348,7 @@ const Prescription = () => {
       <div className="page-wrapper">
         <div className="content container-fluid">
           <div className="row">
-            <div className="col-xl-3 col-lg-4 col-sm-6 col-12">
+            <div className="col-xxl-3 col-xl-4 col-lg-5 col-md-12">
               <PatientInfo
                 getPatientInfo={getPatientInfo}
                 data={patientsInfo}
@@ -320,7 +358,7 @@ const Prescription = () => {
               />
             </div>
 
-            <div className="col-xl-9 col-lg-8 col-sm-6 col-12">
+            <div className="col-xxl-9 col-xl-8 col-lg-6 col-12">
               <PrescriptionCard
                 registerEpresc={registerEpresc}
                 SelectSrvSearch={SelectSrvSearch}

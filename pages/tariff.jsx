@@ -467,7 +467,6 @@ const Tariff = () => {
     await axios
       .put(url, data)
       .then((response) => {
-        // console.log("clicked");
         setIsLoading(false);
         // console.log("response", response.data);
         setServices(response.data.ServicesInfo);
@@ -516,12 +515,12 @@ const Tariff = () => {
         <TariffHeader data={departmentsData} getServices={getServices} />
 
         <div className="tariff-btn-container">
-          <div>
+          <div className="media-md-w-100">
             <Link
               href="#"
               data-bs-toggle="modal"
               data-bs-target="#addTariffModal"
-              className="btn btn-primary btn-add"
+              className="btn btn-primary btn-add media-md-w-100 media-font-12"
             >
               <i className="me-1">
                 <FeatherIcon icon="plus-square" />
@@ -530,12 +529,12 @@ const Tariff = () => {
             </Link>
           </div>
 
-          <div>
+          <div className="media-md-w-100">
             <Link
               href="#"
               data-bs-toggle="modal"
               data-bs-target="#tariffCalcModal"
-              className="btn btn-primary btn-add"
+              className="btn btn-primary btn-add media-md-w-100 media-font-12"
             >
               <i className="me-1">
                 <FeatherIcon icon="percent" />
@@ -544,13 +543,13 @@ const Tariff = () => {
             </Link>
           </div>
 
-          <div>
+          <div className="media-md-w-100">
             <Link
               href="#"
-              className="btn btn-primary btn-add"
+              className="btn btn-primary btn-add media-md-w-100 media-font-12"
               onClick={() => getDefaultServices(activeDepId, activeDepName)}
             >
-              <i className="me-1">
+              <i className="me-1 ">
                 <FeatherIcon icon="refresh-cw" />
               </i>{" "}
               بازگشت به تنظیمات مرکز
