@@ -12,11 +12,14 @@ import {
   TaminPrescType,
   TaminServiceType,
 } from "components/dashboard/prescription/taminprescriptionData";
-
+import { taminPrescriptionCreator } from "class/taminPrescriptionCreator.js";
 let CenterID = Cookies.get("CenterID");
-
 let prescId = 1;
 let ActiveServiceTypeID = "01";
+let addPrescriptionitems = [];
+let addPrescriptionSrvNameitems = [];
+let ActivePrscName = "دارو";
+
 let ActiveSrvCode,
   ActiveSrvName,
   ActivePrscImg,
@@ -26,15 +29,11 @@ let ActiveSrvCode,
   ActiveInsuranceID,
   ActiveParaCode = null;
 
-let addPrescriptionitems = [];
-let addPrescriptionSrvNameitems = [];
-let ActivePrscName = "دارو";
-
 const changePrescId = (Sid, Img, name, id) => {
   prescId = id;
   ActiveServiceTypeID = Sid;
   ActivePrscName = name;
-  if (typeof Img !== "undefined") {
+  if (Img !== undefined) {
     ActivePrscImg = Img;
   }
 };
@@ -174,6 +173,8 @@ const Prescription = () => {
   const FuAddToListItem = (e) => {
     e.preventDefault();
 
+    //prescItems, prescData,
+
     if (ActiveSrvCode == null || ActiveSrvName == null) {
       ErrorAlert("خطا", "خدمتی انتخاب نشده است");
     } else {
@@ -204,7 +205,7 @@ const Prescription = () => {
         };
       } else {
         let parTarefGrp = null;
-        console.log(ActiveParaCode);
+
         if (ActiveParaCode === undefined) {
           parTarefGrp = null;
         } else {
@@ -212,6 +213,7 @@ const Prescription = () => {
             parGrpCode: ActiveParaCode,
           };
         }
+
         prescData = {
           srvId: {
             srvType: {
@@ -223,6 +225,7 @@ const Prescription = () => {
           srvQty: parseInt($("#QtyInput").val()),
         };
       }
+
       let justVisitPrescData = {
         Name: ActiveSrvName,
         Code: ActiveSrvCode,
@@ -298,6 +301,8 @@ const Prescription = () => {
             );
           } else if (response.data.res.error_Code !== null) {
             ErrorAlert("خطا!", response.data.res.error_Msg);
+          } else if (response.data.res == null) {
+            ErrorAlert("خطا", "سرور در حال حاضر در دسترس نمی باشد!");
           }
         })
         .catch(function (error) {

@@ -84,7 +84,6 @@ const AddCertificateModal = ({
                     id="AddCertificateYear"
                     className="form-control floating"
                     value={year}
-                    defaultValue={jdate.getFullYear()}
                     // key={year}
 
                     onChange={handleYearInput}

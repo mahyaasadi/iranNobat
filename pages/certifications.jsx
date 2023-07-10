@@ -8,6 +8,7 @@ import Loading from "components/loading/loading";
 import CertificationsListTable from "/components/dashboard/certifications/certificationsListTable/certificationsListTable";
 import AddCertificateModal from "components/dashboard/certifications/addCertificateModal/addCertificateModal";
 import EditCertificateModal from "components/dashboard/certifications/editCertificateModal/editCertificateModal";
+import { QuestionDeleteAlert } from "class/AlertManage.js";
 
 let CenterID = Cookies.get("CenterID");
 
@@ -128,36 +129,34 @@ const Certifications = () => {
 
   //Delete Certificate
   const deleteCertificate = (id) => {
-    Swal.fire({
-      title: "حذف مجوز !",
-      text: "آیا از حذف مجوز مطمئن هستید",
-      icon: "warning",
-      showCancelButton: true,
-      allowOutsideClick: true,
-      confirmButtonColor: "#0db1ca",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "بله",
-      cancelButtonText: "خیر",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        let data = {
-          CenterID: CenterID,
-          CertificateID: id,
-        };
-        let url =
-          "https://irannobat.ir:8444/api/CenterProfile/DeleteCertificate";
-        axios
-          .delete(url, { data })
-          .then(function () {
-            setCertificationsList(
-              certificationsList.filter((a) => a._id !== id)
-            );
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+    // let data =
+
+    let result = QuestionDeleteAlert(
+      "حذف مجوز !",
+      "آیا از حذف مجوز مطمئن هستید",
+      "https://irannobat.ir:8444/api/CenterProfile/DeleteCertificate",
+      {
+        CenterID: CenterID,
+        CertificateID: id,
       }
-    });
+    );
+
+    if (result) {
+      console.log("result");
+      // if (result.statusCode == 200) {
+      setCertificationsList(certificationsList.filter((a) => a._id !== id));
+      // }
+    }
+
+    // QuestionDeleteAlert().then(
+    //   (onResolved) => {
+    //     setCertificationsList(certificationsList.filter((a) => a._id !== id));
+    //   },
+    //   (onRejected) => {
+    //     // this section will be executed on failure
+    //     console.log("error");
+    //   }
+    // );
   };
   return (
     <>
