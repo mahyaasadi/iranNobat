@@ -3,6 +3,7 @@ const PrescriptionType = ({ img, name, active, id, changePrescId }) => {
     $(".prescService").hide();
     let prescTypeId = $(".prescTypeId" + id);
     prescTypeId.show();
+
     switch (id) {
       case 1:
         $("#ServiceSearchSelect").val("01");
@@ -10,7 +11,7 @@ const PrescriptionType = ({ img, name, active, id, changePrescId }) => {
 
         $("#drugInstruction").show();
         $("#drugAmount").show();
-        changePrescId("01", img, name);
+        changePrescId("01", img, name, 1);
         break;
       case 2:
         $("#ServiceSearchSelect").show();
@@ -18,7 +19,7 @@ const PrescriptionType = ({ img, name, active, id, changePrescId }) => {
 
         $("#drugInstruction").hide();
         $("#drugAmount").hide();
-        changePrescId("02", img, name);
+        changePrescId("02", img, name, 2);
         break;
       case 3:
         $("#ServiceSearchSelect").val("16");
@@ -26,7 +27,7 @@ const PrescriptionType = ({ img, name, active, id, changePrescId }) => {
         $("#drugInstruction").hide();
         $("#drugAmount").hide();
 
-        changePrescId("16", img, name);
+        changePrescId("16", img, name, 3);
         break;
       case 5:
         $("#ServiceSearchSelect").val("17");
@@ -34,7 +35,7 @@ const PrescriptionType = ({ img, name, active, id, changePrescId }) => {
         $("#drugInstruction").hide();
         $("#drugAmount").hide();
 
-        changePrescId("17", img, name);
+        changePrescId("17", img, name, 5);
         break;
       default:
         break;

@@ -4,6 +4,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import FeatherIcon from "feather-icons-react";
+import { WarningAlert } from "class/AlertManage.js";
 import Loading from "components/loading/loading";
 import ImagesListTable from "components/dashboard/imagesGallery/imagesListTable/imagesListTable";
 import UploadImageModal from "components/dashboard/imagesGallery/uploadImageModal/uploadImageModal";
@@ -93,12 +94,7 @@ const ImagesGallery = () => {
           console.log(error);
         });
     } else {
-      Swal.fire({
-        title: "خطا !",
-        text: "تصویر انتخاب نشده است",
-        icon: "error",
-        confirmButtonText: "تایید",
-      });
+      WarningAlert("هشدار!", "تصویری انتخاب نشده است");
     }
   };
 

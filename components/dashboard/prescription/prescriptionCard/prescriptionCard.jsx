@@ -11,6 +11,7 @@ const PrescriptionCard = ({
   lists,
   onSelect,
   changePrescId,
+  ChangeActiveServiceTypeID,
   ServiceList,
   SearchTaminSrv,
   TaminSrvSerachList,
@@ -136,6 +137,7 @@ const PrescriptionCard = ({
                       id={item.id}
                       onSelect={onSelect}
                       changePrescId={changePrescId}
+                      ChangeActiveServiceTypeID={ChangeActiveServiceTypeID}
                     />
                   );
                 })}
@@ -143,11 +145,9 @@ const PrescriptionCard = ({
               <hr />
               <form className="w-100 pt-2" onSubmit={SearchTaminSrv}>
                 <div className="input-group mb-3">
-                  <div className="input-group-prepend"></div>
-
-                  <lable className="lblAbs font-12">
+                  <label className="lblAbs font-12">
                     نام / کد خدمت یا دارو
-                  </lable>
+                  </label>
                   <input
                     type="text"
                     id="srvSerachInput"
@@ -159,7 +159,7 @@ const PrescriptionCard = ({
                     className="form-select disNone"
                     id="ServiceSearchSelect"
                     onChange={() =>
-                      changePrescId($("#ServiceSearchSelect").val())
+                      ChangeActiveServiceTypeID($("#ServiceSearchSelect").val())
                     }
                   >
                     {ServiceList.map((item) => {
@@ -170,7 +170,6 @@ const PrescriptionCard = ({
                           srvTypeDes={item.srvTypeDes}
                           prescTypeId={item.prescTypeId}
                           Active={item.Active}
-                          // changePrescId={changePrescId}
                         />
                       );
                     })}

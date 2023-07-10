@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
-import Swal from "sweetalert2";
 import Loading from "components/loading/loading";
 import PrescriptionCard from "components/dashboard/prescription/prescriptionCard/prescriptionCard";
 import PatientInfo from "components/dashboard/prescription/PatientInfo";
 import TaminHeader from "components/dashboard/prescription/TaminVsArteshHeader";
 import ArteshDoctorsListTable from "components/dashboard/prescription/arteshDoctorsListTable";
 import PrescriptionItems from "components/dashboard/prescription/PrescriptionItems";
+import { ErrorAlert, SuccessAlert, WarningAlert } from "class/AlertManage.js";
 import {
   TaminPrescType,
   TaminServiceType,
@@ -15,7 +15,8 @@ import {
 
 let CenterID = Cookies.get("CenterID");
 
-let prescId = "01";
+let prescId = 1;
+let ActiveServiceTypeID = "01";
 let ActiveSrvCode,
   ActiveSrvName,
   ActivePrscImg,
@@ -23,18 +24,22 @@ let ActiveSrvCode,
   ActivePatientTel,
   ActiveSrvTypePrsc,
   ActiveInsuranceID,
-  ActiveParaGrpCode = null;
+  ActiveParaCode = null;
 
 let addPrescriptionitems = [];
 let addPrescriptionSrvNameitems = [];
 let ActivePrscName = "دارو";
 
-const changePrescId = (id, Img, name) => {
+const changePrescId = (Sid, Img, name, id) => {
   prescId = id;
+  ActiveServiceTypeID = Sid;
   ActivePrscName = name;
   if (typeof Img !== "undefined") {
     ActivePrscImg = Img;
   }
+};
+const ChangeActiveServiceTypeID = (id) => {
+  ActiveServiceTypeID = id;
 };
 
 const selectPrescriptionType = () => {
@@ -45,7 +50,7 @@ const Prescription = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [patientsInfo, setPatientsInfo] = useState([]);
   const [TaminSrvSerachList, setTaminSrvSerachList] = useState([]);
-  const [PrescriptionItemsData, SetPrescriptionItemsDta] = useState([]);
+  const [PrescriptionItemsData, SetPrescriptionItemsData] = useState([]);
   const [taminHeaderList, settaminHeaderList] = useState(TaminPrescType);
   const [TaminServiceTypeList, setTaminServiceTypeList] =
     useState(TaminServiceType);
@@ -64,17 +69,16 @@ const Prescription = () => {
   };
 
   // search in selected services
-  const SelectSrvSearch = (name, code, TaminCode, type, paraGrpCode) => {
-    // console.log("ActiveInsuranceID :", ActiveInsuranceID);
+  const SelectSrvSearch = (name, code, TaminCode, type, paraTarefCode) => {
     ActiveSrvName = name;
     ActiveSrvTypePrsc = type;
-    ActiveParaGrpCode = paraGrpCode;
+    ActiveParaCode = paraTarefCode;
+    console.log("ActiveParaCode", ActiveParaCode);
 
-    if (ActiveInsuranceID == "2") {
-      ActiveSrvCode = TaminCode;
-    } else {
-      ActiveSrvCode = code;
-    }
+    ActiveInsuranceID == "2"
+      ? (ActiveSrvCode = TaminCode)
+      : (ActiveSrvCode = code);
+
     $("#srvSerachInput").val(name);
     $(".SearchDiv").hide();
   };
@@ -98,7 +102,6 @@ const Prescription = () => {
       .post(url, data)
       .then((response) => {
         setIsLoading(false);
-        // setInsuranceType(response.data.user.InsuranceTypeName);
         // console.log(response.data);
         ActiveInsuranceID = response.data.user.Insurance;
         setPatientsInfo(response.data.user);
@@ -132,22 +135,12 @@ const Prescription = () => {
       .then((response) => {
         console.log("changeInsurance", response.data);
         if (response.data.isCovered) {
-          Swal.fire({
-            title: "!تغییر نوع بیمه با موفقیت انجام شد",
-            icon: "success",
-            allowOutsideClick: true,
-            confirmButtonColor: "#3085d6",
-            confirmButtonText: "تایید",
-          });
+          SuccessAlert("موفق", "!تغییر نوع بیمه با موفقیت انجام شد");
         } else if (response.data.isCovered !== "true") {
-          Swal.fire({
-            title: "!خطا در تغییر نوع بیمه",
-            text: "شما تحت پوشش این بیمه نمی باشید",
-            icon: "warning",
-            allowOutsideClick: true,
-            confirmButtonColor: "#3085d6",
-            confirmButtonText: "تایید",
-          });
+          ErrorAlert(
+            "خطا",
+            "تغییر بیمه بیمار ، به دلیل عدم پوشش بیمه امکان پذیر نیست"
+          );
         }
         $("#changeInsuranceTypeModal").hide("");
       })
@@ -162,9 +155,9 @@ const Prescription = () => {
     const formProps = Object.fromEntries(formData);
     let data = {
       Text: formProps.srvSerachInput,
-      srvType: prescId,
+      srvType: ActiveServiceTypeID,
     };
-    // console.log(data);
+
     axios
       .post("https://irannobat.ir:8444/api/TaminServices/SearchSrv", data)
       .then(function (response) {
@@ -180,24 +173,19 @@ const Prescription = () => {
   // add to list button
   const FuAddToListItem = (e) => {
     e.preventDefault();
-    if (ActiveSrvCode == "" || ActiveSrvName == null) {
-      Swal.fire({
-        title: " خدمتی انتخاب نشده است!",
-        icon: "warning",
-        allowOutsideClick: true,
-        confirmButtonColor: "#3085d6",
-        confirmButtonText: "تایید",
-      });
+
+    if (ActiveSrvCode == null || ActiveSrvName == null) {
+      ErrorAlert("خطا", "خدمتی انتخاب نشده است");
     } else {
-      let Item = {
+      let prescItems = {
         SrvName: ActiveSrvName,
         SrvCode: ActiveSrvCode,
         Img: ActivePrscImg,
       };
 
-      let drugPrescData = null;
+      let prescData = null;
       if (prescId == 1) {
-        drugPrescData = {
+        prescData = {
           srvId: {
             srvType: {
               srvType: ActiveSrvTypePrsc,
@@ -213,50 +201,46 @@ const Prescription = () => {
             drugInstId: SelectedInstruction,
           },
           dose: "",
-        }
-      }
-      else if (prescId == 2) {
-        let paraTarifObj = null;
-        if (ActiveParaGrpCode !== null) {
-          paraTarifObj = {
-            parGrpCode: ActiveParaGrpCode,
+        };
+      } else {
+        let parTarefGrp = null;
+        console.log(ActiveParaCode);
+        if (ActiveParaCode === undefined) {
+          parTarefGrp = null;
+        } else {
+          parTarefGrp = {
+            parGrpCode: ActiveParaCode,
           };
         }
-
-        // console.log("ActiveParaGrpCode", ActiveParaGrpCode);
-        //console
-        obj = {
+        prescData = {
           srvId: {
             srvType: {
               srvType: ActiveSrvTypePrsc,
             },
             srvCode: ActiveSrvCode,
-            // parTarefGrp: {
-            //   parGrpCode: ActiveParaGrpCode,
-            // },
+            parTarefGrp: parTarefGrp,
           },
           srvQty: parseInt($("#QtyInput").val()),
         };
       }
-
       let justVisitPrescData = {
         Name: ActiveSrvName,
         Code: ActiveSrvCode,
       };
 
-      addPrescriptionitems.push(drugPrescData);
+      addPrescriptionitems.push(prescData);
       addPrescriptionSrvNameitems.push(justVisitPrescData);
       console.log(addPrescriptionitems);
-
+      ActiveSrvCode = null;
       $("#srvSerachInput").val("");
       $("#QtyInput").val("1");
-      SetPrescriptionItemsDta([...PrescriptionItemsData, Item]);
+      SetPrescriptionItemsData([...PrescriptionItemsData, prescItems]);
     }
   };
 
   // only Visit
   const registerEpresc = (visit) => {
-    if (visit == 1) {
+    if (visit === 1) {
       console.log("visit");
       let url = "https://irannobat.ir:8444/api/TaminEprsc/PrescriptionAdd";
       let Data = {
@@ -276,22 +260,14 @@ const Prescription = () => {
         .then(function (response) {
           console.log(response.data);
           if (response.data.res.trackingCode !== null) {
-            Swal.fire({
-              title: "ویزیت با موفقیت ثبت شد!",
-              text: "کد رهگیری شما : " + `${response.data.res.trackingCode}`,
-              icon: "success",
-              allowOutsideClick: true,
-              confirmButtonColor: "#3085d6",
-              confirmButtonText: "تایید",
-            });
+            SuccessAlert(
+              "ویزیت با موفقیت ثبت شد!",
+              "کد رهگیری شما : " + `${response.data.res.trackingCode}`
+            );
           } else if (response.data.res.error_Msg == "نسخه تکراری است") {
-            Swal.fire({
-              title: "نسخه ثبت شده تکراری می باشد!",
-              icon: "warning",
-              allowOutsideClick: true,
-              confirmButtonColor: "#3085d6",
-              confirmButtonText: "تایید",
-            });
+            WarningAlert("هشدار", "نسخه ثبت شده تکراری می باشد!");
+          } else if (ActivePatientID === undefined) {
+            WarningAlert("هشدار", "کد ملی وارد شده معتبر نمی باشد");
           }
         })
         .catch(function (error) {
@@ -303,7 +279,7 @@ const Prescription = () => {
         CenterID,
         NID: ActivePatientID,
         PMN: $("#PatientTel").html(),
-        PTI: parseInt(prescId),
+        PTI: prescId,
         Comment: $("#eprscItemDescription").val(),
         note: addPrescriptionitems,
         SrvNames: addPrescriptionSrvNameitems,
@@ -316,30 +292,16 @@ const Prescription = () => {
         .then(function (response) {
           console.log(response.data);
           if (response.data.res.trackingCode !== null) {
-            Swal.fire({
-              title: "نسخه نهایی با موفقیت ثبت شد!",
-              text: "کد رهگیری شما : " + `${response.data.res.trackingCode}`,
-              icon: "success",
-              allowOutsideClick: true,
-              confirmButtonColor: "#3085d6",
-              confirmButtonText: "تایید",
-            });
+            SuccessAlert(
+              "نسخه نهایی با موفقیت ثبت شد!",
+              "کد رهگیری شما : " + `${response.data.res.trackingCode}`
+            );
           } else if (response.data.res.error_Code !== null) {
-            Swal.fire({
-              title: "خطا !",
-              text: response.data.res.error_Msg,
-              icon: "warning",
-              allowOutsideClick: true,
-              confirmButtonColor: "#3085d6",
-              confirmButtonText: "تایید",
-            });
-            // console.log(response.data.res.error_Msg);
+            ErrorAlert("خطا!", response.data.res.error_Msg);
           }
         })
         .catch(function (error) {
-          if (response.data.res.error_Code !== null) {
-            console.log(response.data.res.error_Msg);
-          }
+          console.log(error);
         });
     }
   };
@@ -368,6 +330,7 @@ const Prescription = () => {
                 lists={taminHeaderList}
                 onSelect={selectPrescriptionType}
                 changePrescId={changePrescId}
+                ChangeActiveServiceTypeID={ChangeActiveServiceTypeID}
                 FuAddToListItem={FuAddToListItem}
                 FUSelectInstructionType={FUSelectInstructionType}
                 FUSelectDrugAmount={FUSelectDrugAmount}

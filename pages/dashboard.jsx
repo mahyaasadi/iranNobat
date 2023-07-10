@@ -57,7 +57,7 @@ const Dashboard = () => {
       setStatsIsLoading(true);
       console.log(error);
     }
-  }, [selectedDuration]);
+  }, []);
 
   return (
     <>

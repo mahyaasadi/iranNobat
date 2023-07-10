@@ -627,9 +627,11 @@ table.table td h2.table-avatar a>img {
 .margin-right-2 {
   margin-right: 2em;
 }
+
 .margin-right-1 {
   margin-right: 1em;
 }
+
 @media (min-width: 768px) {
   .dashboard-selector {
     width: 25%;
@@ -2272,7 +2274,8 @@ button.bg-danger:hover {
 }
 
 .nav-tabs .nav-link {
-  border-radius: 0;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 
 .nav-tabs .nav-link:focus,

@@ -1,7 +1,8 @@
-import Srv from "./obj";
+import Srv from "./srv";
+
 const TaminSrvSerach = ({ data, SelectSrvSearch }) => {
   return data.map((srv, index) => {
-    console.log(srv);
+    // console.log(srv);
     return (
       <Srv
         key={index}
@@ -9,7 +10,7 @@ const TaminSrvSerach = ({ data, SelectSrvSearch }) => {
         code={srv.wsSrvCode}
         type={srv.srvType.srvType}
         SelectSrvSearch={SelectSrvSearch}
-        ParTaref={srv.parTarefGrp?.parGrpCode}
+        paraTarefCode={srv.parTarefGrp?.parGrpCode}
       />
     );
   });

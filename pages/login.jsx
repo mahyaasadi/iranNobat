@@ -4,8 +4,7 @@ import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
+import { ErrorAlert } from "class/AlertManage.js";
 import Loading from "components/loading/loading";
 import Logo from "public/assets/img/irannobatLogo.png";
 import "public/assets/css/bootstrap.min.css";
@@ -14,8 +13,6 @@ import "public/assets/css/feathericon.min.css";
 import "public/assets/css/font-awesome.min.css";
 import "public/assets/css/select2.min.css";
 import "public/assets/css/style.css";
-
-const MySwal = withReactContent(Swal);
 
 const Login = () => {
   const { control } = useForm();
@@ -45,14 +42,7 @@ const Login = () => {
       .catch(function (error) {
         setIsLoading(true);
         console.log(error);
-        MySwal.fire({
-          title: "اطلاعات اشتباه وارد شده است",
-          confirmButtonText: "بازگشت",
-          confirmButtonColor: "#802d38",
-          icon: "error",
-          showCancelButton: false,
-          allowOutsideClick: true,
-        });
+        ErrorAlert("خطا", "اطلاعات اشتباه وارد شده است");
       });
   };
 

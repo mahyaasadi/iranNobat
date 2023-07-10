@@ -22,7 +22,7 @@ const PrescriptionHistory = () => {
     axios
       .post(url, data)
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         setPrescriptionsList(response.data.result);
         setIsLoading(false);
       })

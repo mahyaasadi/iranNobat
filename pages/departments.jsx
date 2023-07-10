@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
-// import Link from "next/link";
-import Swal from "sweetalert2";
 import Loading from "components/loading/loading";
+import { SuccessAlert } from "class/AlertManage.js";
 import DepartmentsList from "components/dashboard/departments/departmentsList";
 
 let CenterID = Cookies.get("CenterID");
@@ -46,19 +45,13 @@ const Departments = () => {
 
     axios
       .post(url, PostData)
-      .then((response) => {
-        Swal.fire({
-          title: " موفق !",
-          text: "ذخیره اطلاعات با موفقیت انجام گردید",
-          icon: "success",
-          confirmButtonColor: "#0db1ca",
-          confirmButtonText: "تایید",
-        });
-      })
+      .then((response) =>
+        SuccessAlert("موفق !", "ذخیره اطلاعات با موفقیت انجام گردید")
+      )
       .catch((error) => {
         console.log(error);
       });
-    console.log("departmentsData", departmentsData);
+    // console.log("departmentsData", departmentsData);
   };
 
   //get departments
@@ -94,30 +87,30 @@ const Departments = () => {
 
   return (
     <div className="departments-container">
-      {isLoading ?
-      (
+      {isLoading ? (
         <Loading />
       ) : (
-      <div className="checkbox-group">
-        <div className="submitHeader">
-          <div className="checkbox-group-legend">
-            بخش مورد نظر را انتخاب نمایید
-          </div>
-         
-          <form
-            className="SubmitDepartmentForm"
-            onSubmit={SubmitFrmSetDepartment}
-          >
-            <div className="box-container">
+        <div className="checkbox-group">
+          <div className="submitHeader">
+            <div className="checkbox-group-legend">
+              بخش مورد نظر را انتخاب نمایید
+            </div>
+
+            <form
+              className="SubmitDepartmentForm"
+              onSubmit={SubmitFrmSetDepartment}
+            >
+              <div className="box-container">
                 <DepartmentsList departmentsData={departmentsData} />
-            </div>
-            <div className="submitDepartments-btn">
-              <button className="btn btn-primary submitDepartments">ثبت</button>
-            </div>
-          </form>
-           
+              </div>
+              <div className="submitDepartments-btn">
+                <button className="btn btn-primary submitDepartments">
+                  ثبت
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
       )}
     </div>
   );
