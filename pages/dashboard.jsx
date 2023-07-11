@@ -1,7 +1,7 @@
 // "use client"; //This is a client component
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import axios from "axios";
+import { axiosClient } from "class/axiosConfig.js";
 import Cookies from "js-cookie";
 import FeatherIcon from "feather-icons-react";
 import Select from "react-select";
@@ -29,7 +29,7 @@ const Dashboard = () => {
 
   const getStats = (duration) => {
     setStatsIsLoading(true);
-    let url = "https://irannobat.ir:8444/api/Dashboard";
+    let url = "Dashboard";
 
     if (duration === "today") {
       url += "/TodayStatistics";
@@ -39,15 +39,10 @@ const Dashboard = () => {
       url += "/MonthStatistics";
     }
 
-    axios
-      .post(url, {
-        CenterID: CenterID,
-      })
-      .then((response) => {
-        // console.log(duration, response.data);
-        setStats(response.data);
-        setStatsIsLoading(false);
-      });
+    axiosClient.post(url, { CenterID }).then((response) => {
+      setStats(response.data);
+      setStatsIsLoading(false);
+    });
   };
 
   useEffect(() => {
@@ -57,7 +52,7 @@ const Dashboard = () => {
       setStatsIsLoading(true);
       console.log(error);
     }
-  }, []);
+  }, [selectedDuration]);
 
   return (
     <>

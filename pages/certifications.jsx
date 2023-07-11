@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Cookies from "js-cookie";
-import axios from "axios";
+import { axiosClient } from "class/axiosConfig.js";
 import FeatherIcon from "feather-icons-react";
-import Swal from "sweetalert2";
 import Loading from "components/loading/loading";
 import CertificationsListTable from "/components/dashboard/certifications/certificationsListTable/certificationsListTable";
 import AddCertificateModal from "components/dashboard/certifications/addCertificateModal/addCertificateModal";
 import EditCertificateModal from "components/dashboard/certifications/editCertificateModal/editCertificateModal";
-import { QuestionDeleteAlert } from "class/AlertManage.js";
+import { QuestionAlert } from "class/AlertManage.js";
 
 let CenterID = Cookies.get("CenterID");
 
@@ -36,10 +35,8 @@ const Certifications = () => {
 
   //Get certifications list
   const getCertifications = () => {
-    axios
-      .get(
-        `https://irannobat.ir:8444/api/CenterProfile/getCenterCertificate/${CenterID}`
-      )
+    axiosClient
+      .get(`CenterProfile/getCenterCertificate/${CenterID}`)
       .then(function (response) {
         setCertificationsList(response.data);
         setIsLoading(false);
@@ -59,7 +56,7 @@ const Certifications = () => {
   const addCertificate = (e) => {
     e.preventDefault();
 
-    let url = "https://irannobat.ir:8444/api/CenterProfile/AddCertificate";
+    let url = "CenterProfile/AddCertificate";
     let data = {
       CenterID: CenterID,
       Company: companyName,
@@ -68,7 +65,7 @@ const Certifications = () => {
       Year: year,
     };
 
-    axios
+    axiosClient
       .post(url, data)
       .then((response) => {
         setCertificationsList([...certificationsList, response.data]);
@@ -84,7 +81,7 @@ const Certifications = () => {
   const editCertificate = (e) => {
     e.preventDefault();
 
-    let url = "https://irannobat.ir:8444/api/CenterProfile/UpdateCertificate";
+    let url = "CenterProfile/UpdateCertificate";
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
     let Data = {
@@ -96,7 +93,7 @@ const Certifications = () => {
       Year: formProps.EditCertificateYear,
     };
 
-    axios
+    axiosClient
       .put(url, Data)
       .then((response) => {
         updateItem(formProps.EditCertificateID, response.data);
@@ -128,36 +125,30 @@ const Certifications = () => {
   };
 
   //Delete Certificate
-  const deleteCertificate = (id) => {
-    // let data =
-
-    let result = QuestionDeleteAlert(
+  const deleteCertificate = async (id) => {
+    let result = await QuestionAlert(
       "حذف مجوز !",
-      "آیا از حذف مجوز مطمئن هستید",
-      "https://irannobat.ir:8444/api/CenterProfile/DeleteCertificate",
-      {
-        CenterID: CenterID,
-        CertificateID: id,
-      }
+      "آیا از حذف مجوز مطمئن هستید"
     );
 
     if (result) {
-      console.log("result");
-      // if (result.statusCode == 200) {
-      setCertificationsList(certificationsList.filter((a) => a._id !== id));
-      // }
-    }
+      let url = "CenterProfile/DeleteCertificate";
+      let data = {
+        CenterID: CenterID,
+        CertificateID: id,
+      };
 
-    // QuestionDeleteAlert().then(
-    //   (onResolved) => {
-    //     setCertificationsList(certificationsList.filter((a) => a._id !== id));
-    //   },
-    //   (onRejected) => {
-    //     // this section will be executed on failure
-    //     console.log("error");
-    //   }
-    // );
+      await axiosClient
+        .delete(url, { data })
+        .then(function (response) {
+          setCertificationsList(certificationsList.filter((a) => a._id !== id));
+        })
+        .catch(function (error) {
+          return error;
+        });
+    }
   };
+
   return (
     <>
       <div className="page-wrapper">

@@ -154,18 +154,25 @@ const Sidebar = () => {
                 </ul>
               </li>
 
-              <li
-                className={router.pathname == "/prescription" ? "active" : ""}
-              >
-                <Link href="/prescription">
+              <li className="submenu">
+                <a href="#">
                   <i>
-                    <FeatherIcon icon="edit" className="width-15" />
+                    <FeatherIcon icon="check-square" className="width-15" />
                   </i>
                   <span>نسخه نویسی</span>
                   <span className="menu-arrow"></span>
-                </Link>
-
+                </a>
                 <ul className="hidden hiddenSidebar">
+                  <li
+                    className={
+                      router.pathname == "/prescription" ? "active" : ""
+                    }
+                  >
+                    <Link href="/prescription" className="font-12">
+                      نسخه نویسی
+                    </Link>
+                  </li>
+
                   <li
                     className={
                       router.pathname == "/prescriptionHistory" ? "active" : ""
@@ -177,6 +184,7 @@ const Sidebar = () => {
                   </li>
                 </ul>
               </li>
+
             </ul>
           </div>
         </div>

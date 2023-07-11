@@ -1,3 +1,3 @@
-const typeResolvingMetadataaminPrescriptionCreator = () => {};
+const taminPrescriptionCreator = () => {};
 
 module.exports.taminPrescriptionCreator = taminPrescriptionCreator;

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import FeatherIcon from "feather-icons-react";
-import axios from "axios";
+import { axiosClient } from "class/axiosConfig.js";
 import Cookies from "js-cookie";
-import Swal from "sweetalert2";
 import Loading from "components/loading/loading";
 import SelectField from "components/commonComponents/selectfield";
 import InsuranceListTable from "components/dashboard/insurances/insuranceListTable/insuranceListTable";
@@ -11,6 +10,7 @@ import AddInsuranceModal from "components/dashboard/insurances/addInsuranceModal
 import EditInsuranceModal from "components/dashboard/insurances/editInsuranceModal/editInsuranceModal";
 import insuranceTypeDataClass from "class/insuranceTypeDataClass";
 import insuranceStatusDataClass from "class/insuranceStatusDataClass";
+import { QuestionAlert } from "class/AlertManage.js";
 
 let CenterID = Cookies.get("CenterID");
 
@@ -44,10 +44,8 @@ const Insurance = () => {
 
   //Get insurance list
   const getInsuranceData = () => {
-    axios
-      .get(
-        `https://irannobat.ir:8444/api/CenterProfile/getCenterInsurance/${CenterID}`
-      )
+    axiosClient
+      .get(`CenterProfile/getCenterInsurance/${CenterID}`)
       .then(function (response) {
         setInsuranceList(response.data);
         setIsLoading(false);
@@ -67,7 +65,7 @@ const Insurance = () => {
   const addInsurance = (e) => {
     e.preventDefault();
 
-    let url = "https://irannobat.ir:8444/api/CenterProfile/AddInsurance";
+    let url = "CenterProfile/AddInsurance";
     let data = {
       CenterID: CenterID,
       Name: name,
@@ -75,7 +73,7 @@ const Insurance = () => {
       Status: SelectInsuranceStatus,
     };
 
-    axios
+    axiosClient
       .post(url, data)
       .then((response) => {
         setInsuranceList([...insuranceList, response.data]);
@@ -91,7 +89,7 @@ const Insurance = () => {
   const editInsurance = (e) => {
     e.preventDefault();
 
-    let url = "https://irannobat.ir:8444/api/CenterProfile/UpdateInsurance";
+    let url = "CenterProfile/UpdateInsurance";
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
     let Data = {
@@ -102,7 +100,7 @@ const Insurance = () => {
       Status: formProps.EditInsuranceStatus,
     };
 
-    axios
+    axiosClient
       .put(url, Data)
       .then((response) => {
         updateItem(formProps.EditInsuranceID, response.data);
@@ -134,34 +132,25 @@ const Insurance = () => {
   };
 
   // Delete Insurance
-  const deleteInsurance = (id) => {
-    Swal.fire({
-      title: "حذف بیمه!",
-      text: "آیا از حذف مطمئن هستید",
-      icon: "warning",
-      showCancelButton: true,
-      allowOutsideClick: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "بله",
-      cancelButtonText: "خیر",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        let data = {
-          CenterID: CenterID,
-          InsuranceID: id,
-        };
-        let url = "https://irannobat.ir:8444/api/CenterProfile/DeleteInsurance";
-        axios
-          .delete(url, { data })
-          .then(function () {
-            setInsuranceList(insuranceList.filter((a) => a._id !== id));
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      }
-    });
+  const deleteInsurance = async (id) => {
+    let result = await QuestionAlert("حذف بیمه!", "آیا از حذف مطمئن هستید");
+
+    if (result) {
+      let data = {
+        CenterID: CenterID,
+        InsuranceID: id,
+      };
+      let url = "CenterProfile/DeleteInsurance";
+
+      await axiosClient
+        .delete(url, { data })
+        .then(function () {
+          setInsuranceList(insuranceList.filter((a) => a._id !== id));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   };
 
   return (

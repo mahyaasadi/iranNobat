@@ -3875,7 +3875,7 @@ html.menu-opened body {
 
 .sidebar {
   background-color: #fff;
-  top: 5em;
+  top: 4em;
   right: 0;
   height: 100vh;
   margin-top: 0;
@@ -8696,6 +8696,10 @@ ul li .active {
 
 .font-13 {
   font-size: 13px;
+}
+
+.font-14 {
+  font-size: 14px;
 }
 
 .GetPatientInput {

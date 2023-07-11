@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import { axiosClient } from "class/axiosConfig.js";
 import Cookies from "js-cookie";
+import { useRouter } from "next/router";
 import Loading from "components/loading/loading";
+import { taminPrescriptionCreator } from "class/taminPrescriptionCreator.js";
 import PrescriptionCard from "components/dashboard/prescription/prescriptionCard/prescriptionCard";
 import PatientInfo from "components/dashboard/prescription/PatientInfo";
 import TaminHeader from "components/dashboard/prescription/TaminVsArteshHeader";
@@ -12,7 +14,7 @@ import {
   TaminPrescType,
   TaminServiceType,
 } from "components/dashboard/prescription/taminprescriptionData";
-import { taminPrescriptionCreator } from "class/taminPrescriptionCreator.js";
+
 let CenterID = Cookies.get("CenterID");
 let prescId = 1;
 let ActiveServiceTypeID = "01";
@@ -23,7 +25,6 @@ let ActivePrscName = "دارو";
 let ActiveSrvCode,
   ActiveSrvName,
   ActivePrscImg,
-  ActivePatientID,
   ActivePatientTel,
   ActiveSrvTypePrsc,
   ActiveInsuranceID,
@@ -37,6 +38,7 @@ const changePrescId = (Sid, Img, name, id) => {
     ActivePrscImg = Img;
   }
 };
+
 const ChangeActiveServiceTypeID = (id) => {
   ActiveServiceTypeID = id;
 };
@@ -46,6 +48,10 @@ const selectPrescriptionType = () => {
 };
 
 const Prescription = () => {
+  const Router = useRouter();
+  const prescriptionHeadID = Router.query.id;
+  let ActivePatientID = Router.query.pid;
+
   const [isLoading, setIsLoading] = useState(true);
   const [patientsInfo, setPatientsInfo] = useState([]);
   const [TaminSrvSerachList, setTaminSrvSerachList] = useState([]);
@@ -91,13 +97,13 @@ const Prescription = () => {
     const formProps = Object.fromEntries(formData);
     ActivePatientID = formProps.nationalCode;
 
-    let url = "https://irannobat.ir:8444/api/Patient/checkByNid";
+    let url = "Patient/checkByNid";
     let data = {
       CenterID: CenterID,
       NID: formProps.nationalCode,
     };
 
-    axios
+    axiosClient
       .post(url, data)
       .then((response) => {
         setIsLoading(false);
@@ -122,14 +128,14 @@ const Prescription = () => {
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
 
-    let url = "https://irannobat.ir:8444/api/Patient/ChangeInsurance";
+    let url = "Patient/ChangeInsurance";
     let data = {
       CenterID: CenterID,
       IID: formProps.insuranceTypeOptions,
       NID: ActivePatientID,
     };
 
-    axios
+    axiosClient
       .post(url, data)
       .then((response) => {
         console.log("changeInsurance", response.data);
@@ -157,8 +163,8 @@ const Prescription = () => {
       srvType: ActiveServiceTypeID,
     };
 
-    axios
-      .post("https://irannobat.ir:8444/api/TaminServices/SearchSrv", data)
+    axiosClient
+      .post("TaminServices/SearchSrv", data)
       .then(function (response) {
         // console.log(response.data);
         setTaminSrvSerachList(response.data);
@@ -169,11 +175,9 @@ const Prescription = () => {
       });
   };
 
-  // add to list button
+  // add to list function
   const FuAddToListItem = (e) => {
     e.preventDefault();
-
-    //prescItems, prescData,
 
     if (ActiveSrvCode == null || ActiveSrvName == null) {
       ErrorAlert("خطا", "خدمتی انتخاب نشده است");
@@ -226,13 +230,13 @@ const Prescription = () => {
         };
       }
 
-      let justVisitPrescData = {
+      let onlyVisitPrescData = {
         Name: ActiveSrvName,
         Code: ActiveSrvCode,
       };
 
       addPrescriptionitems.push(prescData);
-      addPrescriptionSrvNameitems.push(justVisitPrescData);
+      addPrescriptionSrvNameitems.push(onlyVisitPrescData);
       console.log(addPrescriptionitems);
       ActiveSrvCode = null;
       $("#srvSerachInput").val("");
@@ -245,7 +249,7 @@ const Prescription = () => {
   const registerEpresc = (visit) => {
     if (visit === 1) {
       console.log("visit");
-      let url = "https://irannobat.ir:8444/api/TaminEprsc/PrescriptionAdd";
+      let url = "TaminEprsc/PrescriptionAdd";
       let Data = {
         CenterID,
         NID: ActivePatientID,
@@ -258,7 +262,7 @@ const Prescription = () => {
       };
       console.log(Data);
 
-      axios
+      axiosClient
         .post(url, Data)
         .then(function (response) {
           console.log(response.data);
@@ -277,7 +281,7 @@ const Prescription = () => {
           console.log(error);
         });
     } else {
-      let url = "https://irannobat.ir:8444/api/TaminEprsc/PrescriptionAdd";
+      let url = "TaminEprsc/PrescriptionAdd";
       let Data = {
         CenterID,
         NID: ActivePatientID,
@@ -290,7 +294,7 @@ const Prescription = () => {
       };
       console.log(Data);
 
-      axios
+      axiosClient
         .post(url, Data)
         .then(function (response) {
           console.log(response.data);
@@ -310,6 +314,117 @@ const Prescription = () => {
         });
     }
   };
+
+  //
+  const responseObj = {
+    status: 200,
+    family: "SUCCESSFUL",
+    reason: "OK",
+    data: [
+      {
+        noteDetailsEprscId: 3881192726,
+        srvId: {
+          srvId: 123730,
+          srvType: {
+            srvType: "02",
+            srvTypeDes: "آزمايشگاه",
+            status: "1",
+            statusstDate: "13940101",
+            custType: "4",
+            prescTypeId: 2,
+          },
+          srvCode: "807307-004",
+          srvName:
+            "396902002-نمونه از غده تيموس که با بيوپسي سوزني ترانس قفسه سينه (نمونه) به دست آمده است",
+          srvName2:
+            "396902002-Specimen from thymus gland obtained by transthoracic needle biopsy (specimen)",
+          srvBimSw: "1",
+          srvSex: null,
+          srvPrice: 1488300,
+          srvPriceDate: "14000226",
+          doseCode: null,
+          parTarefGrp: {
+            parGrpCode: "001",
+            parGrpDesc: "آسيب شناسي",
+            parGrpRem: "1",
+            status: "1",
+            statusStDate: "13830101",
+          },
+          status: "1",
+          statusstDate: "14010231",
+          bGType: null,
+          gSrvCode: null,
+          agreementFlag: null,
+          isDeleted: "0",
+          visible: null,
+          dentalServiceType: null,
+          wsSrvCode: "807307-004",
+          hosprescType: null,
+          countIsRestricted: null,
+          terminology: null,
+          srvCodeComplete: "807307-004",
+        },
+        srvQty: 1,
+        srvRem: 1,
+        srvPrice: 1488300,
+        timesAday: null,
+        dose: null,
+        doseCode: null,
+        repeat: null,
+        isBrand: null,
+        dateDo: null,
+        isOk: "0",
+        drugInstruction: null,
+        isPayable: null,
+        organId: null,
+        organDesc: null,
+        illnessId: null,
+        illnessDesc: null,
+        planId: null,
+        planDesc: null,
+        organDet: null,
+        organDetDesc: null,
+        confirmStatusflag: null,
+        drugAmntId: null,
+        drugInstId: null,
+        isDentalService: null,
+        noteHeadEprscId: null,
+        toothId: null,
+        referenceStatus: null,
+        repeatDays: null,
+        readOnly: false,
+      },
+    ],
+  };
+  //
+
+  //get prescription data by headId to edit
+  const getEprscData = () => {
+    let url = "TaminEprsc/GetEpresc";
+    let data = {
+      CenterID,
+      headerID: prescriptionHeadID,
+    };
+
+    if (prescriptionHeadID) {
+      axiosClient
+        .post(url, data)
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => console.log(error));
+    }
+  };
+
+  useEffect(() => {
+    // getEprscData();
+    // getPatientInfo();
+    if (ActivePatientID) {
+      $("#frmPatientInfoBtnSubmit").click();
+    }
+    SetPrescriptionItemsData(responseObj.data);
+  }, [prescriptionHeadID]);
+
   return (
     <>
       <div className="page-wrapper">
@@ -322,6 +437,7 @@ const Prescription = () => {
                 insuranceType={insuranceType}
                 changeInsuranceType={changeInsuranceType}
                 selectInsuranceType={selectInsuranceType}
+                ActivePatientID={ActivePatientID}
               />
             </div>
 

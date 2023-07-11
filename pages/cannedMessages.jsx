@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import axios from "axios";
+import { axiosClient } from "class/axiosConfig.js";
 import Cookies from "js-cookie";
-import Swal from "sweetalert2";
 import FeatherIcon from "feather-icons-react";
 import Loading from "components/loading/loading";
 import CannedMessagesListTable from "components/dashboard/cannedMessages/cannedMessagesListTable/cannedMessagesListTable";
 import AddMessageModal from "components/dashboard/cannedMessages/addMessageModal/addMessageModal";
 import EditMessageModal from "components/dashboard/cannedMessages/editMessageModal/editMessageModal";
+import { QuestionAlert } from "class/AlertManage.js";
 
 let CenterID = Cookies.get("CenterID");
 
@@ -30,9 +30,9 @@ const CannedMessages = () => {
 
   //get CannedMessages list
   const getCannedMessages = () => {
-    let url = `https://irannobat.ir:8444/api/Center/getCannedMessages/${CenterID}`;
+    let url = `Center/getCannedMessages/${CenterID}`;
 
-    axios.get(url).then(function (response) {
+    axiosClient.get(url).then(function (response) {
       setMessagesData(response.data.result.CannedMessages);
       setIsLoading(false);
     });
@@ -51,7 +51,7 @@ const CannedMessages = () => {
   const addMessage = (e) => {
     e.preventDefault();
 
-    let url = " https://irannobat.ir:8444/api/Center/addCannedMessages";
+    let url = "Center/addCannedMessages";
     let data = {
       CenterID: CenterID,
       Text: messageText,
@@ -59,7 +59,7 @@ const CannedMessages = () => {
       Type: "Text",
     };
 
-    axios
+    axiosClient
       .post(url, data)
       .then((response) => {
         setMessagesData([...messagesData, response.data]);
@@ -75,7 +75,7 @@ const CannedMessages = () => {
   const editMessage = (e) => {
     e.preventDefault();
 
-    let url = "https://irannobat.ir:8444/api/Center/EditCannedMessages";
+    let url = "Center/EditCannedMessages";
     let formData = new FormData(e.target);
 
     const formProps = Object.fromEntries(formData);
@@ -87,7 +87,7 @@ const CannedMessages = () => {
       Type: "Text",
     };
 
-    axios
+    axiosClient
       .put(url, Data)
       .then((response) => {
         updateItem(formProps.EditMessageID, response.data);
@@ -120,35 +120,28 @@ const CannedMessages = () => {
   };
 
   // Delete Message
-  const deleteMessage = (id) => {
-    Swal.fire({
-      title: "حذف پیام !",
-      text: "آیا از حذف پیام مطمئن هستید",
-      icon: "warning",
-      showCancelButton: true,
-      allowOutsideClick: true,
-      confirmButtonColor: "#0db1ca",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "بله",
-      cancelButtonText: "خیر",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        let url = "https://irannobat.ir:8444/api/Center/DeleteCannedMessages";
-        let data = {
-          CenterID: CenterID,
-          CMID: id,
-        };
+  const deleteMessage = async (id) => {
+    let result = await QuestionAlert(
+      "حذف پیام !",
+      "آیا از حذف پیام مطمئن هستید"
+    );
 
-        axios
-          .delete(url, { data })
-          .then(function (response) {
-            setMessagesData(messagesData.filter((a) => a._id !== id));
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      }
-    });
+    if (result) {
+      let url = "Center/DeleteCannedMessages";
+      let data = {
+        CenterID: CenterID,
+        CMID: id,
+      };
+
+      await axiosClient
+        .delete(url, { data })
+        .then(function (response) {
+          setMessagesData(messagesData.filter((a) => a._id !== id));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   };
 
   return (

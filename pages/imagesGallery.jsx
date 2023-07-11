@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import axios from "axios";
+import { axiosClient } from "class/axiosConfig.js";
 import Cookies from "js-cookie";
-import Swal from "sweetalert2";
 import FeatherIcon from "feather-icons-react";
-import { WarningAlert } from "class/AlertManage.js";
+import { WarningAlert, QuestionAlert } from "class/AlertManage.js";
 import Loading from "components/loading/loading";
 import ImagesListTable from "components/dashboard/imagesGallery/imagesListTable/imagesListTable";
 import UploadImageModal from "components/dashboard/imagesGallery/uploadImageModal/uploadImageModal";
@@ -27,9 +26,9 @@ const ImagesGallery = () => {
 
   //get Images
   const getImagesGallery = () => {
-    let url = `https://irannobat.ir:8444/api/CenterProfile/getCenterGallery/${CenterID}`;
+    let url = `CenterProfile/getCenterGallery/${CenterID}`;
 
-    axios.get(url).then(function (response) {
+    axiosClient.get(url).then(function (response) {
       setImagesData(response.data);
       console.log(response.data);
       setIsLoading(false);
@@ -81,8 +80,8 @@ const ImagesGallery = () => {
         Des: formProps.Des,
       };
 
-      let url = "https://irannobat.ir:8444/api/CenterProfile/AddGallery";
-      axios
+      let url = "CenterProfile/AddGallery";
+      axiosClient
         .post(url, data)
         .then((response) => {
           setImagesData([...imagesData, response.data]);
@@ -99,43 +98,36 @@ const ImagesGallery = () => {
   };
 
   // Delete Message
-  const deleteImage = (data) => {
-    Swal.fire({
-      title: "حذف تصویر!",
-      text: "آیا از حذف تصویر مطمئن هستید",
-      icon: "warning",
-      showCancelButton: true,
-      allowOutsideClick: true,
-      confirmButtonColor: "#0db1ca",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "بله",
-      cancelButtonText: "خیر",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        let url = "https://irannobat.ir:8444/api/CenterProfile/DeleteGallery";
-        let deleteData = {
-          data: {
-            CenterID: CenterID,
-            GalleryID: data._id,
-            Image: data.Image,
-            Med: data.Med,
-            Thumb: data.Thumb,
-            WebpImage: data.WebpImage,
-            WebpMed: data.WebpMed,
-            WebpThumb: data.WebpThumb,
-          },
-        };
-        console.log(deleteData);
-        axios
-          .delete(url, deleteData)
-          .then(function (response) {
-            setImagesData(imagesData.filter((a) => a._id !== data._id));
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      }
-    });
+  const deleteImage = async (data) => {
+    let result = await QuestionAlert(
+      "حذف تصویر!",
+      "آیا از حذف تصویر مطمئن هستید"
+    );
+
+    if (result) {
+      let url = "CenterProfile/DeleteGallery";
+      let deleteData = {
+        data: {
+          CenterID: CenterID,
+          GalleryID: data._id,
+          Image: data.Image,
+          Med: data.Med,
+          Thumb: data.Thumb,
+          WebpImage: data.WebpImage,
+          WebpMed: data.WebpMed,
+          WebpThumb: data.WebpThumb,
+        },
+      };
+
+      await axiosClient
+        .delete(url, deleteData)
+        .then(function (response) {
+          setImagesData(imagesData.filter((a) => a._id !== data._id));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   };
 
   return (

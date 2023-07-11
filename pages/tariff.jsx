@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
-import axios from "axios";
+import { axiosClient } from "class/axiosConfig.js";
 import Link from "next/link";
-import Swal from "sweetalert2";
 import FeatherIcon from "feather-icons-react";
+import { QuestionAlert } from "class/AlertManage.js";
 import Loading from "components/loading/loading";
 import TariffHeader from "components/dashboard/tariff/tariffHeader";
 import TariffListTable from "components/dashboard/tariff/tariffListTable";
@@ -37,10 +37,10 @@ const Tariff = () => {
 
   //get departments -> In Tariff Header
   const getDepartments = () => {
-    let UrlGetDep = `https://irannobat.ir:8444/api/Center/GetDepartments/${CenterID}`;
+    let UrlGetDep = `Center/GetDepartments/${CenterID}`;
     setIsLoading(true);
 
-    axios.get(UrlGetDep).then(function (response) {
+    axiosClient.get(UrlGetDep).then(function (response) {
       setIsLoading(false);
       setDepartmentsData(response.data);
       // console.log("departments", departmentsData);
@@ -70,10 +70,10 @@ const Tariff = () => {
   const getServices = (DepID, PerFullName) => {
     activeDepId = DepID;
     activeDepName = PerFullName;
-    let url = `https://irannobat.ir:8444/api/CenterServicessInfo/getByDepID/${CenterID}/${DepID}`;
+    let url = `CenterServicessInfo/getByDepID/${CenterID}/${DepID}`;
     setIsLoading(true);
 
-    axios.get(url).then(function (response) {
+    axiosClient.get(url).then(function (response) {
       console.log("services", response.data.ServicesInfo);
       setIsLoading(false);
       if (response.data.ServicesInfo.length > 0) {
@@ -88,42 +88,34 @@ const Tariff = () => {
   };
 
   //return to default services
-  const getDefaultServices = (DepID, PerFullName) => {
-    Swal.fire({
-      title: "بازگشت به تنظیمات مرکز!",
-      text: "آیا از بازگشت به تنظیمات مرکز مطمئن هستید؟",
-      icon: "warning",
-      showCancelButton: true,
-      allowOutsideClick: true,
-      confirmButtonColor: "#0db1ca",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "بله",
-      cancelButtonText: "خیر",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        let defaultUrl =
-          "https://irannobat.ir:8444/api/CenterServicessInfo/SyncToDefault";
+  const getDefaultServices = async (DepID, PerFullName) => {
+    let result = await QuestionAlert(
+      "بازگشت به تنظیمات مرکز!",
+      "آیا از بازگشت به تنظیمات مرکز مطمئن هستید؟"
+    );
 
-        let data = {
-          CenterID: CenterID,
-          ModalityID: DepID,
-          ModalityName: PerFullName,
-        };
+    if (result) {
+      let defaultUrl = "CenterServicessInfo/SyncToDefault";
 
-        axios
-          .post(defaultUrl, data)
-          .then((response) => {
-            setIsLoading(false);
+      let data = {
+        CenterID: CenterID,
+        ModalityID: DepID,
+        ModalityName: PerFullName,
+      };
 
-            console.log("defaultServices", response.data);
-            setServices(response.data.ServicesInfo);
-          })
-          .catch((error) => {
-            console.log(error);
-            setIsLoading(true);
-          });
-      }
-    });
+      await axiosClient
+        .post(defaultUrl, data)
+        .then((response) => {
+          setIsLoading(false);
+
+          console.log("defaultServices", response.data);
+          setServices(response.data.ServicesInfo);
+        })
+        .catch((error) => {
+          console.log(error);
+          setIsLoading(true);
+        });
+    }
   };
 
   //Add service
@@ -133,7 +125,7 @@ const Tariff = () => {
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
 
-    let url = "https://irannobat.ir:8444/api/CenterServicessInfo/AddService";
+    let url = "CenterServicessInfo/AddService";
     let addData = {
       CenterID: CenterID,
       DepID: activeDepId,
@@ -155,8 +147,8 @@ const Tariff = () => {
       SS: formProps.salamatShare,
       SA: formProps.arteshShare,
     };
-    console.log("addData", addData);
-    axios
+
+    axiosClient
       .post(url, addData)
       .then((response) => {
         setServices([...services, response.data]);
@@ -178,8 +170,7 @@ const Tariff = () => {
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
 
-    let url =
-      "https://irannobat.ir:8444/api/CenterServicessInfo/EditServiceTariff";
+    let url = "CenterServicessInfo/EditServiceTariff";
 
     let editData = {
       CenterID: CenterID,
@@ -203,7 +194,7 @@ const Tariff = () => {
       SA: formProps.arteshShare,
     };
 
-    axios
+    axiosClient
       .put(url, editData)
       .then((response) => {
         // console.log("reponese", response.data);
@@ -237,36 +228,29 @@ const Tariff = () => {
   };
 
   // Delete service
-  const deleteService = (id) => {
-    Swal.fire({
-      title: "حذف سرویس!",
-      text: "آیا از حذف سرویس مطمئن هستید",
-      icon: "warning",
-      showCancelButton: true,
-      allowOutsideClick: true,
-      confirmButtonColor: "#0db1ca",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "بله",
-      cancelButtonText: "خیر",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        let data = {
-          CenterID: CenterID,
-          DepID: activeDepId,
-          ServiceID: id,
-        };
-        let url = `https://irannobat.ir:8444/api/CenterServicessInfo/DeleteService`;
+  const deleteService = async (id) => {
+    let result = await QuestionAlert(
+      "حذف سرویس!",
+      "آیا از حذف سرویس مطمئن هستید"
+    );
 
-        axios
-          .delete(url, { data })
-          .then(function () {
-            setServices(services.filter((a) => a._id !== id));
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      }
-    });
+    if (result) {
+      let data = {
+        CenterID: CenterID,
+        DepID: activeDepId,
+        ServiceID: id,
+      };
+      let url = `CenterServicessInfo/DeleteService`;
+
+      await axiosClient
+        .delete(url, { data })
+        .then(function () {
+          setServices(services.filter((a) => a._id !== id));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   };
 
   // ----------------------------------------------------------------
@@ -285,7 +269,7 @@ const Tariff = () => {
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
 
-    let url = "https://irannobat.ir:8444/api/CenterServicessInfo/AddLoeing";
+    let url = "CenterServicessInfo/AddLoeing";
 
     let addData = {
       CenterID: CenterID,
@@ -293,8 +277,8 @@ const Tariff = () => {
       LoeingCode: formProps.loeingCode,
       Name: formProps.loeingName,
     };
-    // console.log(addData);
-    axios
+
+    axiosClient
       .post(url, addData)
       .then((response) => {
         SetLoeingData([...loeingData, response.data]);
@@ -319,44 +303,37 @@ const Tariff = () => {
   };
 
   // Delete loeing
-  const deleteLoeing = (id) => {
-    Swal.fire({
-      title: "حذف لوئینگ!",
-      text: "آیا از حذف خدمت لوئینگ مطمئن هستید",
-      icon: "warning",
-      showCancelButton: true,
-      allowOutsideClick: true,
-      confirmButtonColor: "#0db1ca",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "بله",
-      cancelButtonText: "خیر",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        let deleteData = {
-          CenterID: CenterID,
-          ServiceID: activeServiceId,
-          LoeingID: id,
-        };
-        let url = `https://irannobat.ir:8444/api/CenterServicessInfo/DeleteLoeing`;
+  const deleteLoeing = async (id) => {
+    let result = await QuestionAlert(
+      "حذف لوئینگ!",
+      "آیا از حذف خدمت لوئینگ مطمئن هستید"
+    );
 
-        axios
-          .delete(url, { data: deleteData })
-          .then(function () {
-            SetLoeingData(loeingData.filter((a) => a._id !== id));
+    if (result) {
+      let deleteData = {
+        CenterID: CenterID,
+        ServiceID: activeServiceId,
+        LoeingID: id,
+      };
+      let url = `CenterServicessInfo/DeleteLoeing`;
 
-            //decreasing the loeing count
-            let count = $("#loeingCount" + activeServiceId).html();
-            count = parseInt(count);
-            count--;
-            $("#loeingCount" + activeServiceId).html(count);
+      await axiosClient
+        .delete(url, { data: deleteData })
+        .then(function () {
+          SetLoeingData(loeingData.filter((a) => a._id !== id));
 
-            getServices(activeDepId, activeDepName);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      }
-    });
+          //decreasing the loeing count
+          let count = $("#loeingCount" + activeServiceId).html();
+          count = parseInt(count);
+          count--;
+          $("#loeingCount" + activeServiceId).html(count);
+
+          getServices(activeDepId, activeDepName);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   };
 
   //Edit loeing
@@ -366,7 +343,7 @@ const Tariff = () => {
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
 
-    let url = "https://irannobat.ir:8444/api/CenterServicessInfo/EditLoeing";
+    let url = "CenterServicessInfo/EditLoeing";
 
     let editData = {
       CenterID: CenterID,
@@ -376,10 +353,9 @@ const Tariff = () => {
       LoeingID: formProps.loeingId,
     };
 
-    axios
+    axiosClient
       .put(url, editData)
       .then((response) => {
-        // console.log("reponese", response.data);
         updateLoeingItem(formProps.loeingId, response.data);
         $("#editLoeingModal").modal("hide");
         $("#loeingModal").modal("show");
@@ -422,8 +398,7 @@ const Tariff = () => {
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
 
-    let url =
-      "https://irannobat.ir:8444/api/CenterServicessInfo/EditServiceTariffByValue/Tariff/k";
+    let url = "CenterServicessInfo/EditServiceTariffByValue/Tariff/k";
     let data = {
       CenterID: CenterID,
       ModalityID: activeDepId,
@@ -433,7 +408,7 @@ const Tariff = () => {
       GKH: parseInt(formProps.gkh),
     };
 
-    await axios
+    await axiosClient
       .put(url, data)
       .then((response) => {
         setIsLoading(false);
@@ -456,15 +431,14 @@ const Tariff = () => {
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
 
-    let url = `https://irannobat.ir:8444/api/CenterServicessInfo/EditServiceTariffByValue/${formProps.applyPriceOptions}/price`;
+    let url = `CenterServicessInfo/EditServiceTariffByValue/${formProps.applyPriceOptions}/price`;
     let data = {
       CenterID: CenterID,
       ModalityID: activeDepId,
       Price: parseInt(formProps.price),
     };
-    // console.log("sentData: ", data, url);
 
-    await axios
+    await axiosClient
       .put(url, data)
       .then((response) => {
         setIsLoading(false);
@@ -487,14 +461,14 @@ const Tariff = () => {
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
 
-    let url = `https://irannobat.ir:8444/api/CenterServicessInfo/EditServiceTariffByValue/${formProps.applyPercentOptions}/percent`;
+    let url = `CenterServicessInfo/EditServiceTariffByValue/${formProps.applyPercentOptions}/percent`;
     let data = {
       CenterID: CenterID,
       ModalityID: activeDepId,
       Percent: formProps.percent,
     };
 
-    await axios
+    await axiosClient
       .put(url, data)
       .then((response) => {
         setIsLoading(false);
@@ -520,7 +494,7 @@ const Tariff = () => {
               href="#"
               data-bs-toggle="modal"
               data-bs-target="#addTariffModal"
-              className="btn btn-primary btn-add media-md-w-100 media-font-12"
+              className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
             >
               <i className="me-1">
                 <FeatherIcon icon="plus-square" />
@@ -534,7 +508,7 @@ const Tariff = () => {
               href="#"
               data-bs-toggle="modal"
               data-bs-target="#tariffCalcModal"
-              className="btn btn-primary btn-add media-md-w-100 media-font-12"
+              className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
             >
               <i className="me-1">
                 <FeatherIcon icon="percent" />
@@ -546,7 +520,7 @@ const Tariff = () => {
           <div className="media-md-w-100">
             <Link
               href="#"
-              className="btn btn-primary btn-add media-md-w-100 media-font-12"
+              className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
               onClick={() => getDefaultServices(activeDepId, activeDepName)}
             >
               <i className="me-1 ">

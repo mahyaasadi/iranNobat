@@ -34,12 +34,8 @@ const WarningAlert = (Title, Text) => {
   });
 };
 
-const QuestionDeleteAlert = (Title, Text, url, data) => {
-  console.log("url", url);
-  console.log("data", { data });
-  console.log("click");
-
-  Swal.fire({
+const QuestionAlert = async (Title, Text) => {
+  const promise = await Swal.fire({
     title: Title,
     text: Text,
     icon: "question",
@@ -49,24 +45,11 @@ const QuestionDeleteAlert = (Title, Text, url, data) => {
     cancelButtonColor: "#d33",
     confirmButtonText: "بله",
     cancelButtonText: "خیر",
-  }).then((result) => {
-    if (result.isConfirmed) {
-      axios
-        .delete(url, { data })
-        .then(function (response) {
-          return response;
-          //   console.log("clicked");
-        })
-        .catch(function (error) {
-          return error;
-        });
-    } else {
-      return false;
-    }
   });
+  return promise.isConfirmed;
 };
 
 module.exports.ErrorAlert = ErrorAlert;
 module.exports.SuccessAlert = SuccessAlert;
 module.exports.WarningAlert = WarningAlert;
-module.exports.QuestionDeleteAlert = QuestionDeleteAlert;
+module.exports.QuestionAlert = QuestionAlert;

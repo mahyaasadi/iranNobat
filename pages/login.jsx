@@ -3,7 +3,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import { axiosClient } from "class/axiosConfig.js";
 import { ErrorAlert } from "class/AlertManage.js";
 import Loading from "components/loading/loading";
 import Logo from "public/assets/img/irannobatLogo.png";
@@ -26,8 +26,8 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    await axios
-      .post("https://irannobat.ir:8444/api/AdminUser/Login", {
+    await axiosClient
+      .post("AdminUser/Login", {
         UserName: document.getElementById("UserName").value,
         Password: document.getElementById("Password").value,
       })

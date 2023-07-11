@@ -1,28 +1,30 @@
 import PrescriptionsListTable from "components/dashboard/prescription/prescriptionHistory/prescriptionsListTable";
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import Link from "next/link";
-import axios from "axios";
+import { axiosClient } from "class/axiosConfig.js";
 import Cookies from "js-cookie";
 import FeatherIcon from "feather-icons-react";
 import Loading from "components/loading/Loading";
-import EditPrescriptionModal from "components/dashboard/prescription/prescriptionHistory/editPrescriptionModal";
 
 let CenterID = Cookies.get("CenterID");
 
 const PrescriptionHistory = () => {
+  const router = useRouter();
+  // console.log(router.query);
+
   const [prescriptionsList, setPrescriptionsList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   //get prescriptions list
   const getPrescriptionsList = () => {
-    let url = "https://irannobat.ir:8444/api/BimehTamin/CenterPrescription";
+    let url = "BimehTamin/CenterPrescription";
     let data = { CenterID: CenterID };
     setIsLoading(true);
 
-    axios
+    axiosClient
       .post(url, data)
       .then((response) => {
-        // console.log(response.data);
         setPrescriptionsList(response.data.result);
         setIsLoading(false);
       })
@@ -37,24 +39,6 @@ const PrescriptionHistory = () => {
     <>
       <div className="page-wrapper">
         <div className="content container-fluid">
-          <div className="page-header">
-            <div className="row align-items-center">
-              {/* <div className="col-md-12 d-flex justify-content-end">
-                <Link
-                  href="#"
-                  data-bs-toggle="modal"
-                  data-bs-target="#addproduct"
-                  className="btn btn-primary btn-add"
-                >
-                  <i className="me-1">
-                    <FeatherIcon icon="plus-square" />
-                  </i>{" "}
-                  Add New
-                </Link>
-              </div> */}
-            </div>
-          </div>
-
           {/* <!-- Prescriptions List --> */}
           <div className="row">
             <div className="col-sm-12">
@@ -123,8 +107,6 @@ const PrescriptionHistory = () => {
           </div>
         </div>
       </div>
-
-      <EditPrescriptionModal />
     </>
   );
 };

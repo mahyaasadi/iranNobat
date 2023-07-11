@@ -1,11 +1,11 @@
-import axios from "axios";
 import { useState, useEffect } from "react";
-import FeatherIcon from "feather-icons-react";
+import axios from "axios";
 import Select from "react-select";
+import SelectField from "components/commonComponents/selectfield";
+import FeatherIcon from "feather-icons-react";
 import PrescriptionType from "components/dashboard/prescription/prescriptionType";
 import ServiceType from "components/dashboard/prescription/serviceType";
 import TaminSrvSerach from "components/dashboard/prescription/TaminSrvSerach";
-import SelectField from "components/commonComponents/selectfield";
 
 const PrescriptionCard = ({
   lists,
@@ -42,8 +42,6 @@ const PrescriptionCard = ({
     axios
       .post(url)
       .then((response) => {
-        // console.log(response.data.res.data);
-
         let selectInstructionData = [];
         for (let i = 0; i < response.data.res.data.length; i++) {
           const item = response.data.res.data[i];
@@ -66,8 +64,6 @@ const PrescriptionCard = ({
     axios
       .post(url)
       .then((response) => {
-        // console.log(response.data.res.data);
-
         let selectAmountData = [];
         for (let i = 0; i < response.data.res.data.length; i++) {
           const item = response.data.res.data[i];
@@ -99,6 +95,7 @@ const PrescriptionCard = ({
       border: "1px solid #E6E9F4",
     }),
   };
+
   return (
     <>
       <div>
@@ -280,4 +277,5 @@ const PrescriptionCard = ({
     </>
   );
 };
+
 export default PrescriptionCard;

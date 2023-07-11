@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
-import axios from "axios";
+import { axiosClient } from "class/axiosConfig.js";
 import Loading from "components/loading/loading";
 import { SuccessAlert } from "class/AlertManage.js";
 import DepartmentsList from "components/dashboard/departments/departmentsList";
@@ -37,13 +37,13 @@ const Departments = () => {
 
     console.log("selectedDepartments", selectedDepartments);
 
-    let url = "https://irannobat.ir:8444/api/Center/SetDepartments";
+    let url = "Center/SetDepartments";
     let PostData = {
       CenterID: CenterID,
       Departments: departmentsData,
     };
 
-    axios
+    axiosClient
       .post(url, PostData)
       .then((response) =>
         SuccessAlert("موفق !", "ذخیره اطلاعات با موفقیت انجام گردید")
@@ -56,8 +56,8 @@ const Departments = () => {
 
   //get departments
   const getDepartments = () => {
-    let UrlGetDep = `https://irannobat.ir:8444/api/Center/GetDepartments/${CenterID}`;
-    axios.get(UrlGetDep).then(function (response) {
+    let UrlGetDep = `Center/GetDepartments/${CenterID}`;
+    axiosClient.get(UrlGetDep).then(function (response) {
       if (response.data) {
         setIsLoading(false);
         setDepartmentsData(response.data);
@@ -68,9 +68,9 @@ const Departments = () => {
   };
 
   function getModality() {
-    let url = "https://irannobat.ir:8444/api/Modality/getAll";
+    let url = "Modality/getAll";
     setIsLoading(true);
-    axios.get(url).then(function (response) {
+    axiosClient.get(url).then(function (response) {
       setIsLoading(false);
       setDepartmentsData(response.data);
     });

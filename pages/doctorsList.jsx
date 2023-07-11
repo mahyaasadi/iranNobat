@@ -1,10 +1,10 @@
-"use client"; //This is a client component
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import FeatherIcon from "feather-icons-react";
 import axios from "axios";
+import { axiosClient } from "class/axiosConfig.js";
 import Cookies from "js-cookie";
-import Swal from "sweetalert2";
+import { QuestionAlert } from "class/AlertManage.js";
 import Loading from "components/loading/loading";
 import DoctorsListTable from "components/dashboard/doctors/doctorsListTable/doctorsListTable";
 import AddDoctorModal from "components/dashboard/doctors/addDoctorModal/addDoctorModal";
@@ -33,10 +33,8 @@ const DoctorsList = () => {
 
   //get doctors list
   const getDoctorsData = () => {
-    axios
-      .get(
-        `https://irannobat.ir:8444/api/CenterProfile/getCenterPhysician/${CenterID}`
-      )
+    axiosClient
+      .get(`CenterProfile/getCenterPhysician/${CenterID}`)
       .then(function (response) {
         setDoctorsList(response.data);
         setIsLoading(false);
@@ -56,7 +54,7 @@ const DoctorsList = () => {
   const addPhysician = (e) => {
     e.preventDefault();
 
-    let url = "https://irannobat.ir:8444/api/CenterProfile/AddPhysician";
+    let url = "CenterProfile/AddPhysician";
     let data = {
       CenterID: CenterID,
       Name: name,
@@ -64,7 +62,7 @@ const DoctorsList = () => {
       Spe: specialty,
     };
 
-    axios
+    axiosClient
       .post(url, data)
       .then((response) => {
         setDoctorsList([...doctorsList, response.data]);
@@ -80,7 +78,7 @@ const DoctorsList = () => {
   const editPhysician = (e) => {
     e.preventDefault();
 
-    let url = "https://irannobat.ir:8444/api/CenterProfile/UpdatePhysician";
+    let url = "CenterProfile/UpdatePhysician";
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
     let Data = {
@@ -91,7 +89,7 @@ const DoctorsList = () => {
       Spe: formProps.EditDoctorSpe,
     };
 
-    axios
+    axiosClient
       .put(url, Data)
       .then((response) => {
         updateItem(formProps.EditDoctorID, response.data);
@@ -123,35 +121,28 @@ const DoctorsList = () => {
   };
 
   // Delete Physician
-  const deletePhysician = (id) => {
-    Swal.fire({
-      title: "حذف پزشک !",
-      text: "آیا از حذف پزشک مطمئن هستید",
-      icon: "warning",
-      showCancelButton: true,
-      allowOutsideClick: true,
-      confirmButtonColor: "#0db1ca",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "بله",
-      cancelButtonText: "خیر",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        let url = "https://irannobat.ir:8444/api/CenterProfile/DeletePhysician";
-        let data = {
-          CenterID: CenterID,
-          PhysicianID: id,
-        };
+  const deletePhysician = async (id) => {
+    let result = await QuestionAlert(
+      "حذف پزشک !",
+      "آیا از حذف پزشک مطمئن هستید"
+    );
 
-        axios
-          .delete(url, { data })
-          .then(function () {
-            setDoctorsList(doctorsList.filter((a) => a._id !== id));
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      }
-    });
+    if (result) {
+      let url = "CenterProfile/DeletePhysician";
+      let data = {
+        CenterID: CenterID,
+        PhysicianID: id,
+      };
+
+      await axiosClient
+        .delete(url, { data })
+        .then(function () {
+          setDoctorsList(doctorsList.filter((a) => a._id !== id));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   };
 
   return (

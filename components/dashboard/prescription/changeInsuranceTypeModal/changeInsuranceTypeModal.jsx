@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import { axiosClient } from "class/axiosConfig.js";
 import Cookies from "js-cookie";
 import Select from "react-select";
 import SelectField from "components/commonComponents/selectfield";
@@ -15,9 +15,9 @@ const ChangeInsuranceTypeModal = ({
 
   //get insuranceType optionsList
   const getInsuranceList = () => {
-    let url = `https://irannobat.ir:8444/api/Patient/getInsuranceType/${CenterID}`;
+    let url = `Patient/getInsuranceType/${CenterID}`;
 
-    axios
+    axiosClient
       .get(url)
       .then((response) => {
         // console.log(response.data);

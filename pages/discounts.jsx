@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import axios from "axios";
+import { axiosClient } from "class/axiosConfig.js";
 import Cookies from "js-cookie";
 import FeatherIcon from "feather-icons-react";
-import Swal from "sweetalert2";
+import { QuestionAlert } from "class/AlertManage.js";
 import Loading from "components/loading/loading";
 import discountPercentDataClass from "class/discountPercentDataClass";
 import DiscountsListTable from "components/dashboard/discounts/discountsListTable/discountsListTable";
@@ -42,8 +42,8 @@ const Discounts = () => {
 
   //get discounts list
   const getDiscountsData = () => {
-    axios
-      .get(`https://irannobat.ir:8444/api/CenterDiscount/getAll/${CenterID}`)
+    axiosClient
+      .get(`CenterDiscount/getAll/${CenterID}`)
       .then(function (response) {
         // console.log(response.data);
         setDiscountsList(response.data);
@@ -64,7 +64,7 @@ const Discounts = () => {
   const addDiscount = (e) => {
     e.preventDefault();
 
-    let url = "https://irannobat.ir:8444/api/CenterDiscount/add";
+    let url = "CenterDiscount/add";
     let data = {
       CenterID: CenterID,
       Name: discountName,
@@ -73,7 +73,7 @@ const Discounts = () => {
       Percent: parseInt(SelectDiscountPercent),
     };
 
-    axios
+    axiosClient
       .post(url, data)
       .then((response) => {
         setDiscountsList([...discountsList, response.data]);
@@ -86,42 +86,32 @@ const Discounts = () => {
   };
 
   // Delete Discount
-  const deleteDiscount = (id) => {
-    Swal.fire({
-      title: "حذف تخفیف!",
-      text: "آیا از حذف مطمئن هستید",
-      icon: "warning",
-      showCancelButton: true,
-      allowOutsideClick: true,
-      confirmButtonColor: "#0db1ca",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "بله",
-      cancelButtonText: "خیر",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        let data = {
-          CenterID: CenterID,
-          DiscountID: id,
-        };
-        let url = `https://irannobat.ir:8444/api/CenterDiscount/delete/${id}`;
+  const deleteDiscount = async (id) => {
+    let result = await QuestionAlert("حذف تخفیف!", "آیا از حذف مطمئن هستید");
 
-        axios
-          .delete(url, { data })
-          .then(function () {
-            setDiscountsList(discountsList.filter((a) => a._id !== id));
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      }
-    });
+    if (result) {
+      let data = {
+        CenterID: CenterID,
+        DiscountID: id,
+      };
+      let url = `CenterDiscount/delete/${id}`;
+
+      await axiosClient
+        .delete(url, { data })
+        .then(function () {
+          setDiscountsList(discountsList.filter((a) => a._id !== id));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   };
 
   // Edit Discount
   const editDiscount = (e) => {
     e.preventDefault();
 
-    let url = "https://irannobat.ir:8444/api/CenterDiscount/update";
+    let url = "CenterDiscount/update";
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
 
@@ -134,7 +124,7 @@ const Discounts = () => {
       Percent: parseInt(formProps.EditDiscountPercent),
     };
 
-    axios
+    axiosClient
       .put(url, Data)
       .then((response) => {
         updateItem(formProps.EditDiscountID, response.data);
@@ -169,7 +159,6 @@ const Discounts = () => {
     <>
       <div className="page-wrapper">
         <div className="content container-fluid">
-          {/* <!-- Page Header --> */}
           <div className="page-header">
             <div className="row align-items-center">
               <div className="col-md-12 d-flex justify-content-end">

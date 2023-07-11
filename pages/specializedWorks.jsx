@@ -1,17 +1,13 @@
-"use client"; //This is a client component
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import FeatherIcon from "feather-icons-react";
-import axios from "axios";
+import { axiosClient } from "class/axiosConfig.js";
 import Cookies from "js-cookie";
-import Swal from "sweetalert2";
+import { QuestionAlert } from "class/AlertManage.js";
 import Loading from "components/loading/loading";
 import SpecializedWorksListTable from "components/dashboard/specializedWorks/specializedWorksListTable";
 import AddSpeWorkModal from "components/dashboard/specializedWorks/addspeWorkModal/addSpeWorkModal";
 import EditSpeWorkModal from "components/dashboard/specializedWorks/editSpeWorkModal/editSpeWorkModal";
-import "public/assets/css/font-awesome.min.css";
-import "public/assets/css/feathericon.min.css";
-import "public/assets/css/style.css";
 
 let CenterID = Cookies.get("CenterID");
 
@@ -36,10 +32,8 @@ const SpecializedWorks = () => {
 
   //get specializedWorks list
   const getSpecializedWorks = () => {
-    axios
-      .get(
-        `https://irannobat.ir:8444/api/CenterProfile/getCenterSpecializedWorks/${CenterID}`
-      )
+    axiosClient
+      .get(`CenterProfile/getCenterSpecializedWorks/${CenterID}`)
       .then(function (response) {
         setSpeWorks(response.data);
         setIsLoading(false);
@@ -59,7 +53,7 @@ const SpecializedWorks = () => {
   const addSpeWork = (e) => {
     e.preventDefault();
 
-    let url = "https://irannobat.ir:8444/api/CenterProfile/AddSpecializedWorks";
+    let url = "CenterProfile/AddSpecializedWorks";
     let data = {
       CenterID: CenterID,
       Name: name,
@@ -67,7 +61,7 @@ const SpecializedWorks = () => {
       EngName: engName,
     };
 
-    axios
+    axiosClient
       .post(url, data)
       .then((response) => {
         setSpeWorks([...speWorks, response.data]);
@@ -83,8 +77,7 @@ const SpecializedWorks = () => {
   const editSpeWorks = (e) => {
     e.preventDefault();
 
-    let url =
-      "https://irannobat.ir:8444/api/CenterProfile/UpdateSpecializedWorks";
+    let url = "CenterProfile/UpdateSpecializedWorks";
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
     let Data = {
@@ -95,7 +88,7 @@ const SpecializedWorks = () => {
       EngName: formProps.EditSpeWorkEngName,
     };
 
-    axios
+    axiosClient
       .put(url, Data)
       .then((response) => {
         updateItem(formProps.EditSpeWorkID, response.data);
@@ -127,35 +120,28 @@ const SpecializedWorks = () => {
   };
 
   // Delete SpeWork
-  const deleteSpeWork = (id) => {
-    Swal.fire({
-      title: "حذف کار تخصصی !",
-      text: "آیا از حذف کار تخصصی مطمئن هستید",
-      icon: "warning",
-      showCancelButton: true,
-      allowOutsideClick: true,
-      confirmButtonColor: "#0db1ca",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "بله",
-      cancelButtonText: "خیر",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        let data = {
-          CenterID: CenterID,
-          SpecializedWorksID: id,
-        };
-        let url =
-          "https://irannobat.ir:8444/api/CenterProfile/DeleteSpecializedWorks";
-        axios
-          .delete(url, { data })
-          .then(function (response) {
-            setSpeWorks(speWorks.filter((a) => a._id !== id));
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      }
-    });
+  const deleteSpeWork = async (id) => {
+    let result = await QuestionAlert(
+      "حذف کار تخصصی !",
+      "آیا از حذف کار تخصصی مطمئن هستید"
+    );
+
+    if (result) {
+      let data = {
+        CenterID: CenterID,
+        SpecializedWorksID: id,
+      };
+      let url = "CenterProfile/DeleteSpecializedWorks";
+
+      await axiosClient
+        .delete(url, { data })
+        .then(function (response) {
+          setSpeWorks(speWorks.filter((a) => a._id !== id));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   };
 
   return (

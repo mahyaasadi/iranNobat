@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
+// import Router from "next/router";
+// import { useRouter } from "next/router";
 import FeatherIcon from "feather-icons-react";
 import { Row, Col, Card, Media } from "react-bootstrap";
 import DataTable from "react-data-table-component";
@@ -17,6 +19,8 @@ const PrescriptionsListTable = ({ data }) => {
       return 0;
     }
   };
+
+  // console.log(data);
 
   const columns = [
     {
@@ -62,13 +66,14 @@ const PrescriptionsListTable = ({ data }) => {
       name: "عملیات ها",
       selector: (row) => row.action,
       sortable: true,
-      cell: () => (
+      cell: (row) => (
         <div className="actions">
           <Link
+            href={{
+              pathname: "/prescription",
+              query: { id: row.head_EPRSC_ID, pid: row.NID },
+            }}
             className="text-black"
-            href="#"
-            data-bs-toggle="modal"
-            data-bs-target="#editPrescriptionModal"
           >
             <i className="me-1">
               <FeatherIcon icon="edit-3" />
