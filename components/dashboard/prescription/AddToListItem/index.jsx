@@ -1,4 +1,12 @@
-const AddToListItem = ({ SrvName, SrvCode, Img }) => {
+const AddToListItem = ({
+  SrvName,
+  SrvCode,
+  Img,
+  SrvTypeDes,
+  SrvQty,
+  TimesADay,
+  DrugInstruction,
+}) => {
   return (
     <div className="card PrescItem" id="{response.data.res.info.checkCode}">
       <div className="card-body">
@@ -6,9 +14,24 @@ const AddToListItem = ({ SrvName, SrvCode, Img }) => {
           <div className="col-auto">
             <img src={Img} height="30" />
           </div>
-          <div className="col">
-            {SrvCode} | {SrvName}
+          <div className="row col">
+            <div className="col d-flex gap-2">
+              <p>{SrvCode}</p>
+              <p>|</p>
+              <p>{SrvName}</p>
+            </div>
+            <div className="d-flex gap-4 mt-2">
+              <div className="srvTypeInfo">نوع نسخه : {SrvTypeDes}</div>
+              <div className="srvTypeInfo">
+                مقدار : {SrvQty}
+              </div>
+              <div className="srvTypeInfo">
+                تعداد مصرف در روز : {TimesADay}
+              </div>
+              <div className="srvTypeInfo">دستور مصرف : {DrugInstruction}</div>
+            </div>
           </div>
+
           <div className="col-auto">
             <button
               type="button"

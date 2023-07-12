@@ -6,6 +6,7 @@ import FeatherIcon from "feather-icons-react";
 import PrescriptionType from "components/dashboard/prescription/prescriptionType";
 import ServiceType from "components/dashboard/prescription/serviceType";
 import TaminSrvSerach from "components/dashboard/prescription/TaminSrvSerach";
+import SmallLoader from "components/loading/smallLoader";
 
 const PrescriptionCard = ({
   lists,
@@ -20,9 +21,11 @@ const PrescriptionCard = ({
   registerEpresc,
   FUSelectInstructionType,
   FUSelectDrugAmount,
+  ActiveSerach
 }) => {
   const [drugInstructionList, setDrugInstructionList] = useState([]);
   const [drugAmountList, setDrugAmountList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   function QtyChange(ac) {
     let qty = $("#QtyInput").val();
@@ -36,6 +39,21 @@ const PrescriptionCard = ({
     }
     $("#QtyInput").val(qty);
   }
+
+  const handleSerachKeyUp = () => {
+    let inputCount = $("#srvSerachInput").val().length;
+    setIsLoading(true);
+    if (inputCount > 2) {
+      setTimeout(() => {
+        $("#BtnServiceSearch").click();
+        setIsLoading(false);
+      }, 100);
+    } else {
+      $("#srvSerachInput").val() == "";
+      setIsLoading(false);
+      $(".SearchDiv").hide();
+    }
+  };
 
   const getDrugInstructionsList = () => {
     let url = "https://irannobat.ir:8444/api/TaminEprsc/DrugInstruction";
@@ -141,7 +159,7 @@ const PrescriptionCard = ({
               </ul>
               <hr />
               <form className="w-100 pt-2" onSubmit={SearchTaminSrv}>
-                <div className="input-group mb-3">
+                <div className="input-group mb-3 inputServiceContainer">
                   <label className="lblAbs font-12">
                     نام / کد خدمت یا دارو
                   </label>
@@ -150,6 +168,7 @@ const PrescriptionCard = ({
                     id="srvSerachInput"
                     name="srvSerachInput"
                     className="form-control rounded-right w-50 padding-right-2"
+                    onKeyUp={handleSerachKeyUp}
                   />
 
                   <select
@@ -172,21 +191,37 @@ const PrescriptionCard = ({
                     })}
                   </select>
                   <button
-                    className="btn btn-primary rounded-left w-10"
-                    id="basic-addon1"
+                    className="btn btn-primary rounded-left w-10 disNone"
+                    id="BtnActiveSearch"
+                    onClick={ActiveSerach}
+                    type="button"
                   >
-                    <i className="fe fe-search"></i>
+                      <i className="fe fe-close"></i>
+                  </button>
+                  <button
+                    className="btn btn-primary rounded-left w-10"
+                    id="BtnServiceSearch"
+                  >
+                    {isLoading ? (
+                      <SmallLoader />
+                    ) : (
+                      <i className="fe fe-search"></i>
+                    )}
                   </button>
                 </div>
-              </form>
 
-              {/* tamin search */}
-              <div className="col-12 SearchDiv">
-                <TaminSrvSerach
-                  data={TaminSrvSerachList}
-                  SelectSrvSearch={SelectSrvSearch}
-                />
-              </div>
+                {/* tamin search */}
+                <div className="col-12 SearchDiv">
+                  <TaminSrvSerach
+                    data={TaminSrvSerachList}
+                    SelectSrvSearch={SelectSrvSearch}
+                  />
+                </div>
+
+                {/* <div className="unsuccessfullSearch">
+                  <p>no data</p>
+                </div> */}
+              </form>
 
               <div className="d-flex align-items-center gap-2 media-flex-column">
                 <div className="col-auto media-w-100">
@@ -250,7 +285,7 @@ const PrescriptionCard = ({
                 </div>
               </div>
 
-              <div className="d-flex align-items-center gap-2 media-flex-column media-gap">
+              <div className="d-flex align-items-center gap-2 media-flex-column media-gap mt-2">
                 <div className="col-md-8 media-w-100">
                   <label className="lblAbs margin-top-25 font-12">
                     توضیحات

@@ -31,7 +31,6 @@ const Header = () => {
   const [dropdown1, setdropdown1] = useState(false);
 
   const handletheme = () => {
-
     document.body.classList.toggle("darkmode");
     settask(!task);
     settask1(!task1);
@@ -74,7 +73,7 @@ const Header = () => {
   return (
     <>
       {/* Header */}
-      <div className="header">
+      <div className="content-header">
         {/* Logo */}
         <div className="header-left">
           <Link href="/dashboard" className="logo">
@@ -119,110 +118,6 @@ const Header = () => {
               </i>
             </Link>
           </li>
-
-          {/* Notifications */}
-          {/* <li className="nav-item dropdown noti-nav">
-            <Link
-              href="#"
-              className="dropdown-toggle nav-link"
-              data-bs-toggle="dropdown"
-            >
-              <FeatherIcon icon="bell" /> <span className="badge" />
-            </Link>
-            <div className="dropdown-menu notifications">
-              <div className="topnav-dropdown-header">
-                <span className="notification-title">Notifications</span>
-                <Link href="#" className="clear-noti">
-                  <FeatherIcon icon="more-vertical" />
-                </Link>
-              </div>
-              <div className="noti-content">
-                <ul className="notification-list">
-                  <li className="notification-message">
-                    <Link href="#">
-                      <div className="media d-flex">
-                        <span className="avatar">
-                          <img className="avatar-img" alt="" src="" />
-                        </span>
-                        <div className="media-body">
-                          <h6>
-                            Travis Tremble{" "}
-                            <span className="notification-time">18.30 PM</span>
-                          </h6>
-                          <p className="noti-details">
-                            Sent a amount of $210 for his Appointment{" "}
-                            <span className="noti-title">Dr.Ruby perin </span>
-                          </p>
-                        </div>
-                      </div>
-                    </Link>
-                  </li>
-                  <li className="notification-message">
-                    <Link href="#">
-                      <div className="media d-flex">
-                        <span className="avatar">
-                          <img className="avatar-img" alt="" src="" />
-                        </span>
-                        <div className="media-body">
-                          <h6>
-                            Travis Tremble{" "}
-                            <span className="notification-time">
-                              12 Min Ago
-                            </span>
-                          </h6>
-                          <p className="noti-details">
-                            {" "}
-                            has booked her appointment to{" "}
-                            <span className="noti-title">Dr. Hendry Watt</span>
-                          </p>
-                        </div>
-                      </div>
-                    </Link>
-                  </li>
-                  <li className="notification-message">
-                    <Link href="#">
-                      <div className="media d-flex">
-                        <div className="avatar">
-                          <img className="avatar-img" alt="" src="" />
-                        </div>
-                        <div className="media-body">
-                          <h6>
-                            Travis Tremble{" "}
-                            <span className="notification-time">6 Min Ago</span>
-                          </h6>
-                          <p className="noti-details">
-                            {" "}
-                            Sent a amount $210 for his Appointment{" "}
-                            <span className="noti-title">Dr.Maria Dyen</span>
-                          </p>
-                        </div>
-                      </div>
-                    </Link>
-                  </li>
-                  <li className="notification-message">
-                    <Link href="#">
-                      <div className="media d-flex">
-                        <div className="avatar avatar-sm">
-                          <img className="avatar-img" alt="" src="" />
-                        </div>
-                        <div className="media-body">
-                          <h6>
-                            Travis Tremble{" "}
-                            <span className="notification-time">8.30 AM</span>
-                          </h6>
-                          <p className="noti-details">
-                            {" "}
-                            Send a message to his doctor
-                          </p>
-                        </div>
-                      </div>
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </li> */}
-          {/* /Notifications */}
 
           {/* <!-- User Menu --> */}
           <li className="nav-item dropdown has-arrow">

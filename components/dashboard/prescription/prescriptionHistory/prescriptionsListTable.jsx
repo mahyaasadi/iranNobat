@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
-// import Router from "next/router";
-// import { useRouter } from "next/router";
 import FeatherIcon from "feather-icons-react";
 import { Row, Col, Card, Media } from "react-bootstrap";
 import DataTable from "react-data-table-component";
@@ -19,8 +17,6 @@ const PrescriptionsListTable = ({ data }) => {
       return 0;
     }
   };
-
-  // console.log(data);
 
   const columns = [
     {

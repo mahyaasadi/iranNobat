@@ -57,6 +57,7 @@ const Prescription = () => {
   const [TaminSrvSerachList, setTaminSrvSerachList] = useState([]);
   const [PrescriptionItemsData, SetPrescriptionItemsData] = useState([]);
   const [taminHeaderList, settaminHeaderList] = useState(TaminPrescType);
+  const [eprscData, setEprscData] = useState([]);
   const [TaminServiceTypeList, setTaminServiceTypeList] =
     useState(TaminServiceType);
 
@@ -73,6 +74,17 @@ const Prescription = () => {
     SelectedAmount = amount;
   };
 
+  const ActiveSerach = ()=>{
+    ActiveSrvCode=null;
+      $("#BtnServiceSearch").show();
+    $("#BtnActiveSearch").hide();
+    $("#srvSerachInput").prop("readonly",false);
+
+    $("#srvSerachInput").val('');
+    $("#srvSerachInput").focus();
+
+
+  }
   // search in selected services
   const SelectSrvSearch = (name, code, TaminCode, type, paraTarefCode) => {
     ActiveSrvName = name;
@@ -85,7 +97,11 @@ const Prescription = () => {
       : (ActiveSrvCode = code);
 
     $("#srvSerachInput").val(name);
+    $("#BtnServiceSearch").hide();
+    $("#BtnActiveSearch").show();
     $(".SearchDiv").hide();
+    $("#srvSerachInput").prop("readonly",true);
+
   };
 
   //get patient info
@@ -152,27 +168,32 @@ const Prescription = () => {
       .catch((error) => console.log(error));
   };
 
+  //search services
   const SearchTaminSrv = (e) => {
     e.preventDefault();
-    setIsLoading(true);
 
-    let formData = new FormData(e.target);
-    const formProps = Object.fromEntries(formData);
-    let data = {
-      Text: formProps.srvSerachInput,
-      srvType: ActiveServiceTypeID,
-    };
+    if (!ActiveSrvCode) {
+      setIsLoading(true);
 
-    axiosClient
-      .post("TaminServices/SearchSrv", data)
-      .then(function (response) {
-        // console.log(response.data);
-        setTaminSrvSerachList(response.data);
-        $(".SearchDiv").show();
-      })
-      .catch(function (response) {
-        console.log(response);
-      });
+      let formData = new FormData(e.target);
+      const formProps = Object.fromEntries(formData);
+      let data = {
+        Text: formProps.srvSerachInput,
+        srvType: ActiveServiceTypeID,
+      };
+
+      axiosClient
+        .post("TaminServices/SearchSrv", data)
+        .then(function (response) {
+          // console.log(response.data);
+          setTaminSrvSerachList(response.data);
+          $(".SearchDiv").show();
+          // document.getElementByClassname("unsuccessfullSearch").display = hidden;
+        })
+        .catch(function (response) {
+          console.log(response);
+        });
+    }
   };
 
   // add to list function
@@ -411,6 +432,7 @@ const Prescription = () => {
         .post(url, data)
         .then((response) => {
           console.log(response.data);
+          setEprscData(reponse.data);
         })
         .catch((error) => console.log(error));
     }
@@ -418,7 +440,6 @@ const Prescription = () => {
 
   useEffect(() => {
     // getEprscData();
-    // getPatientInfo();
     if (ActivePatientID) {
       $("#frmPatientInfoBtnSubmit").click();
     }
@@ -443,6 +464,7 @@ const Prescription = () => {
 
             <div className="col-xxl-9 col-xl-8 col-lg-6 col-12">
               <PrescriptionCard
+              ActiveSerach={ActiveSerach}
                 registerEpresc={registerEpresc}
                 SelectSrvSearch={SelectSrvSearch}
                 SearchTaminSrv={SearchTaminSrv}

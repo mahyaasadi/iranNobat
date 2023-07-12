@@ -1,18 +1,19 @@
-import PrescriptionsListTable from "components/dashboard/prescription/prescriptionHistory/prescriptionsListTable";
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import Link from "next/link";
 import { axiosClient } from "class/axiosConfig.js";
+import Link from "next/link";
 import Cookies from "js-cookie";
 import FeatherIcon from "feather-icons-react";
 import Loading from "components/loading/Loading";
+import PrescriptionsListTable from "components/dashboard/prescription/prescriptionHistory/prescriptionsListTable";
+import DatePicker from "components/commonComponents/datepicker/DatePicker";
 
 let CenterID = Cookies.get("CenterID");
-
+let dateFrom,dateTo = null;
+const SetDate=(f,t)=>{
+  dateFrom=f;
+  dateTo=t;
+}
 const PrescriptionHistory = () => {
-  const router = useRouter();
-  // console.log(router.query);
-
   const [prescriptionsList, setPrescriptionsList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -39,17 +40,41 @@ const PrescriptionHistory = () => {
     <>
       <div className="page-wrapper">
         <div className="content container-fluid">
-          {/* <!-- Prescriptions List --> */}
           <div className="row">
             <div className="col-sm-12">
               <div className="card">
                 <div className="card-header border-bottom-0">
-                  <div className="row align-items-center">
-                    <div className="col ">
-                      <p className="card-title presc-card-title">سوابق نسخه</p>
+                  <form>
+                    <div className="row">
+                      <div className="col-md-12 col-lg-5 mt-3">
+                        <DatePicker SetDate={SetDate}/>
+                      </div>
+                      <div className="col-9 col-sm-9 col-md-9 col-lg-5 mt-3">
+                        <div className="input-group">
+                          <label className="lblAbs font-12 ">
+                            جستجو طبق کد ملی
+                          </label>
+                          <input
+                            type="text"
+                            name="nationalCode"
+                            required
+                            className="form-control rounded"
+                          />
+                        </div>
+                      </div>
+                      <div className="col-3 col-sm-3 col-md-3 col-lg-2 mt-3">
+                        <button
+                          className="btn btn-primary rounded w-100"
+                          id=""
+                        >
+                          <i class="fe fe-search"></i>
+                        </button>
+                      </div>
                     </div>
-                  </div>
+                  </form>
                 </div>
+{/* <hr /> */}
+                {/* <!-- Prescriptions List --> */}
                 {isLoading ? (
                   <Loading />
                 ) : (
@@ -58,51 +83,6 @@ const PrescriptionHistory = () => {
               </div>
 
               <div id="tablepagination" className="dataTables_wrapper"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* <!-- Add Modal --> */}
-      <div
-        className="modal fade contentmodal"
-        id="addproduct"
-        tabIndex="-1"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content doctor-profile">
-            <div className="modal-header">
-              <h3 className="mb-0">Add Product</h3>
-              <button
-                type="button"
-                className="close-btn"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              >
-                <i>
-                  <FeatherIcon icon="x-circle" />
-                </i>
-              </button>
-            </div>
-            <div className="modal-body">
-              <form action="/admin/pharmacy-list">
-                <div className="add-wrap">
-                  <div className="form-group form-focus">
-                    <input type="text" className="form-control floating" />
-                    <label className="focus-label">
-                      Product Name <span className="text-danger">*</span>
-                    </label>
-                  </div>
-
-                  <div className="form-group form-focus">
-                    <input type="text" className="form-control floating" />
-                    <label className="focus-label">
-                      Price <span className="text-danger">*</span>
-                    </label>
-                  </div>
-                </div>
-              </form>
             </div>
           </div>
         </div>
