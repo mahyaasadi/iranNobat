@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import Select from "react-select";
 import SelectField from "components/commonComponents/selectfield";
@@ -7,6 +7,11 @@ import PrescriptionType from "components/dashboard/prescription/prescriptionType
 import ServiceType from "components/dashboard/prescription/serviceType";
 import TaminSrvSerach from "components/dashboard/prescription/TaminSrvSerach";
 import SmallLoader from "components/loading/smallLoader";
+import useComponentVisible, {
+  ref,
+  isComponentVisible,
+  setIsComponentVisible,
+} from "class/useComponentVisible.jsx";
 
 const PrescriptionCard = ({
   lists,
@@ -21,11 +26,12 @@ const PrescriptionCard = ({
   registerEpresc,
   FUSelectInstructionType,
   FUSelectDrugAmount,
-  ActiveSerach
+  ActiveSerach,
 }) => {
   const [drugInstructionList, setDrugInstructionList] = useState([]);
   const [drugAmountList, setDrugAmountList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  // const { ref, isComponentVisible } = useComponentVisible(true);
 
   function QtyChange(ac) {
     let qty = $("#QtyInput").val();
@@ -64,7 +70,7 @@ const PrescriptionCard = ({
         for (let i = 0; i < response.data.res.data.length; i++) {
           const item = response.data.res.data[i];
           let obj = {
-            value: item.drugInstId,
+            value: item.drugInstId + ";" + item.drugInstConcept,
             label: item.drugInstConcept,
           };
           selectInstructionData.push(obj);
@@ -113,6 +119,17 @@ const PrescriptionCard = ({
       border: "1px solid #E6E9F4",
     }),
   };
+
+  // useEffect(() => {
+  //   window.onclick = function (e) {
+  //     let searchDiv = document.getElementById("searchDiv");
+  //     // let searchDiv = $("#searchDiv");
+  //     if (e.target == searchDiv) {
+  //       searchDiv.style.display = "none";
+  //       $("body").css("overflow", "auto");
+  //     }
+  //   };
+  // }, []);
 
   return (
     <>
@@ -190,13 +207,15 @@ const PrescriptionCard = ({
                       );
                     })}
                   </select>
+
+                  {/* search buttons */}
                   <button
                     className="btn btn-primary rounded-left w-10 disNone"
                     id="BtnActiveSearch"
                     onClick={ActiveSerach}
                     type="button"
                   >
-                      <i className="fe fe-close"></i>
+                    <i className="fe fe-close"></i>
                   </button>
                   <button
                     className="btn btn-primary rounded-left w-10"
@@ -211,12 +230,15 @@ const PrescriptionCard = ({
                 </div>
 
                 {/* tamin search */}
-                <div className="col-12 SearchDiv">
+
+                {/* {isComponentVisible && ( */}
+                <div ref={ref} className="col-12 SearchDiv" id="searchDiv">
                   <TaminSrvSerach
                     data={TaminSrvSerachList}
                     SelectSrvSearch={SelectSrvSearch}
                   />
                 </div>
+                {/* )} */}
 
                 {/* <div className="unsuccessfullSearch">
                   <p>no data</p>

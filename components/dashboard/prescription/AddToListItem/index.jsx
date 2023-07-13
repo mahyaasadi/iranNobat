@@ -7,6 +7,17 @@ const AddToListItem = ({
   TimesADay,
   DrugInstruction,
 }) => {
+  let Drug = null;
+  console.log(TimesADay);
+  if (TimesADay !== "-") {
+    Drug = (
+      <>
+        <div className="srvTypeInfo">تعداد مصرف در روز : {TimesADay}</div>
+        <div className="srvTypeInfo">دستور مصرف : {DrugInstruction}</div>
+      </>
+    );
+  }
+
   return (
     <div className="card PrescItem" id="{response.data.res.info.checkCode}">
       <div className="card-body">
@@ -22,13 +33,8 @@ const AddToListItem = ({
             </div>
             <div className="d-flex gap-4 mt-2">
               <div className="srvTypeInfo">نوع نسخه : {SrvTypeDes}</div>
-              <div className="srvTypeInfo">
-                مقدار : {SrvQty}
-              </div>
-              <div className="srvTypeInfo">
-                تعداد مصرف در روز : {TimesADay}
-              </div>
-              <div className="srvTypeInfo">دستور مصرف : {DrugInstruction}</div>
+              <div className="srvTypeInfo">تعداد : {SrvQty}</div>
+              {Drug}
             </div>
           </div>
 

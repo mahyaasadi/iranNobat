@@ -8766,7 +8766,7 @@ ul li .active {
   position: absolute;
   color: gray;
   padding: 0 8px;
-  z-index: 15;
+  z-index: 9;
   margin-top: -0.5rem !important;
   margin-right: 1rem !important;
 }
@@ -8795,6 +8795,10 @@ ul li .active {
 
 .margin-top-1 {
   margin-top: 1em
+}
+
+.margin-bottom-3 {
+  margin-bottom: 3em;
 }
 
 .margin-top-left {
@@ -8949,8 +8953,7 @@ ul li .active {
 }
 
 .datePickerHeader {
-  background-color: #c7e6f2 !important;
-  color: #1B5A90 !important;
+  background-color: #1B5A90 !important;
 }
 
 .datePickerLbl {

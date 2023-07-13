@@ -5,9 +5,15 @@ import "react-calendar-datetime-picker/dist/index.css";
 
 const DatePicker = ({ SetDate }) => {
   const setDateLocal = (value) => {
-    let dt = value?.from?.year.toString() + value?.from?.month.toString() + value?.from?.day.toString();
-    let df = value?.to?.year.toString() + value?.to?.month.toString() + value?.to?.day.toString();
-    SetDate(df,tf)
+    let dateFrom =
+      value?.from?.year.toString() +
+      value?.from?.month.toString() +
+      value?.from?.day.toString();
+    let dateTo =
+      value?.to?.year.toString() +
+      value?.to?.month.toString() +
+      value?.to?.day.toString();
+    SetDate(dateFrom, dateTo);
   };
   return (
     <>

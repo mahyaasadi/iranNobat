@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { axiosClient } from "class/axiosConfig.js";
-import Link from "next/link";
 import Cookies from "js-cookie";
-import FeatherIcon from "feather-icons-react";
 import Loading from "components/loading/Loading";
 import PrescriptionsListTable from "components/dashboard/prescription/prescriptionHistory/prescriptionsListTable";
 import DatePicker from "components/commonComponents/datepicker/DatePicker";
 
 let CenterID = Cookies.get("CenterID");
-let dateFrom,dateTo = null;
-const SetDate=(f,t)=>{
-  dateFrom=f;
-  dateTo=t;
-}
+let dateFrom,
+  dateTo = null;
+
+const SetDate = (f, t) => {
+  dateFrom = f;
+  dateTo = t;
+};
+
 const PrescriptionHistory = () => {
   const [prescriptionsList, setPrescriptionsList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -26,6 +27,7 @@ const PrescriptionHistory = () => {
     axiosClient
       .post(url, data)
       .then((response) => {
+        console.log(response.data);
         setPrescriptionsList(response.data.result);
         setIsLoading(false);
       })
@@ -43,13 +45,14 @@ const PrescriptionHistory = () => {
           <div className="row">
             <div className="col-sm-12">
               <div className="card">
-                <div className="card-header border-bottom-0">
+                <div className="card-header border-bottom-0 margin-top-1 margin-bottom-3">
                   <form>
                     <div className="row">
-                      <div className="col-md-12 col-lg-5 mt-3">
-                        <DatePicker SetDate={SetDate}/>
+                      <div className="col-md-12 col-lg-3 mt-3">
+                        <DatePicker SetDate={SetDate} />
                       </div>
-                      <div className="col-9 col-sm-9 col-md-9 col-lg-5 mt-3">
+
+                      <div className="col-md-12 col-9 col-sm-9 col-md-9 col-lg-3 mt-3">
                         <div className="input-group">
                           <label className="lblAbs font-12 ">
                             جستجو طبق کد ملی
@@ -62,18 +65,30 @@ const PrescriptionHistory = () => {
                           />
                         </div>
                       </div>
-                      <div className="col-3 col-sm-3 col-md-3 col-lg-2 mt-3">
-                        <button
-                          className="btn btn-primary rounded w-100"
-                          id=""
-                        >
-                          <i class="fe fe-search"></i>
+
+                      <div className="col-md-12 col-9 col-sm-9 col-md-9 col-lg-3 mt-3">
+                        <div className="input-group">
+                          <label className="lblAbs font-12 ">
+                            جستجو طبق نام بیمار
+                          </label>
+                          <input
+                            type="text"
+                            name="patientName"
+                            required
+                            className="form-control rounded"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="col-md-12 col-3 col-sm-3 col-md-3 col-lg-3 mt-3">
+                        <button className="btn btn-primary rounded w-100" id="">
+                          <i className="fe fe-search"></i>
                         </button>
                       </div>
                     </div>
                   </form>
                 </div>
-{/* <hr /> */}
+
                 {/* <!-- Prescriptions List --> */}
                 {isLoading ? (
                   <Loading />

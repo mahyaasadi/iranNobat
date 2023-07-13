@@ -3,13 +3,13 @@ import "components/loading/smallLoader.css";
 const SmallLoader = () => {
   return (
     <>
-      <div class="center-body">
-        <div class="loader-circle-99">
-          <div class="center"></div>
-          <div class="circle"></div>
-          <div class="circle"></div>
-          <div class="circle"></div>
-          <div class="circle"></div>
+      <div className="center-body">
+        <div className="loader-circle-99">
+          <div className="center"></div>
+          <div className="circle"></div>
+          <div className="circle"></div>
+          <div className="circle"></div>
+          <div className="circle"></div>
         </div>
       </div>
     </>

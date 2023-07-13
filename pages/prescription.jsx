@@ -65,26 +65,28 @@ const Prescription = () => {
 
   // Drug instruction & amount
   let SelectedInstruction,
-    SelectedAmount = "";
+    SelectedAmount,
+    SelectedAmountName = "";
 
   const FUSelectInstructionType = (instruction) => {
     SelectedInstruction = instruction;
   };
   const FUSelectDrugAmount = (amount) => {
-    SelectedAmount = amount;
+    let arr = amount.split(";");
+    SelectedAmount = amount[0];
+    SelectedAmountName = amount[1];
   };
 
-  const ActiveSerach = ()=>{
-    ActiveSrvCode=null;
-      $("#BtnServiceSearch").show();
+  const ActiveSerach = () => {
+    ActiveSrvCode = null;
+    $("#BtnServiceSearch").show();
     $("#BtnActiveSearch").hide();
-    $("#srvSerachInput").prop("readonly",false);
+    $("#srvSerachInput").prop("readonly", false);
 
-    $("#srvSerachInput").val('');
+    $("#srvSerachInput").val("");
     $("#srvSerachInput").focus();
+  };
 
-
-  }
   // search in selected services
   const SelectSrvSearch = (name, code, TaminCode, type, paraTarefCode) => {
     ActiveSrvName = name;
@@ -100,8 +102,7 @@ const Prescription = () => {
     $("#BtnServiceSearch").hide();
     $("#BtnActiveSearch").show();
     $(".SearchDiv").hide();
-    $("#srvSerachInput").prop("readonly",true);
-
+    $("#srvSerachInput").prop("readonly", true);
   };
 
   //get patient info
@@ -185,7 +186,6 @@ const Prescription = () => {
       axiosClient
         .post("TaminServices/SearchSrv", data)
         .then(function (response) {
-          // console.log(response.data);
           setTaminSrvSerachList(response.data);
           $(".SearchDiv").show();
           // document.getElementByClassname("unsuccessfullSearch").display = hidden;
@@ -207,6 +207,8 @@ const Prescription = () => {
         SrvName: ActiveSrvName,
         SrvCode: ActiveSrvCode,
         Img: ActivePrscImg,
+        Qty: $("#QtyInput").val(),
+        SelectedAmountName: SelectedAmountName,
       };
 
       let prescData = null;
@@ -258,11 +260,13 @@ const Prescription = () => {
 
       addPrescriptionitems.push(prescData);
       addPrescriptionSrvNameitems.push(onlyVisitPrescData);
-      console.log(addPrescriptionitems);
+      // console.log(addPrescriptionitems);
+      console.log("prescData", prescData);
       ActiveSrvCode = null;
       $("#srvSerachInput").val("");
       $("#QtyInput").val("1");
       SetPrescriptionItemsData([...PrescriptionItemsData, prescItems]);
+      console.log("PrescriptionItemsData", PrescriptionItemsData);
     }
   };
 
@@ -336,7 +340,6 @@ const Prescription = () => {
     }
   };
 
-  //
   const responseObj = {
     status: 200,
     family: "SUCCESSFUL",
@@ -417,7 +420,6 @@ const Prescription = () => {
       },
     ],
   };
-  //
 
   //get prescription data by headId to edit
   const getEprscData = () => {
@@ -431,8 +433,9 @@ const Prescription = () => {
       axiosClient
         .post(url, data)
         .then((response) => {
-          console.log(response.data);
-          setEprscData(reponse.data);
+          console.log(response.data.data);
+          // setEprscData(response.data);
+          SetPrescriptionItemsData(response.data.data);
         })
         .catch((error) => console.log(error));
     }
@@ -440,10 +443,11 @@ const Prescription = () => {
 
   useEffect(() => {
     // getEprscData();
+    SetPrescriptionItemsData(responseObj.data);
     if (ActivePatientID) {
       $("#frmPatientInfoBtnSubmit").click();
     }
-    SetPrescriptionItemsData(responseObj.data);
+    // getEprscData();
   }, [prescriptionHeadID]);
 
   return (
@@ -464,7 +468,7 @@ const Prescription = () => {
 
             <div className="col-xxl-9 col-xl-8 col-lg-6 col-12">
               <PrescriptionCard
-              ActiveSerach={ActiveSerach}
+                ActiveSerach={ActiveSerach}
                 registerEpresc={registerEpresc}
                 SelectSrvSearch={SelectSrvSearch}
                 SearchTaminSrv={SearchTaminSrv}
