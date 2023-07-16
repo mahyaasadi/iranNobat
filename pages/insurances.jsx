@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Head from "next/head"
 import FeatherIcon from "feather-icons-react";
 import { axiosClient } from "class/axiosConfig.js";
 import Cookies from "js-cookie";
 import Loading from "components/loading/loading";
-import SelectField from "components/commonComponents/selectfield";
 import InsuranceListTable from "components/dashboard/insurances/insuranceListTable/insuranceListTable";
 import AddInsuranceModal from "components/dashboard/insurances/addInsuranceModal/addInsuranceModal";
 import EditInsuranceModal from "components/dashboard/insurances/editInsuranceModal/editInsuranceModal";
@@ -155,6 +155,9 @@ const Insurance = () => {
 
   return (
     <>
+    <Head>
+        <title>بیمه های تحت پوشش</title>
+      </Head>
       <div className="page-wrapper">
         <div className="content container-fluid">
           <div className="page-header">

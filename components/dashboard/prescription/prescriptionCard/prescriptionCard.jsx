@@ -27,6 +27,7 @@ const PrescriptionCard = ({
   FUSelectInstructionType,
   FUSelectDrugAmount,
   ActiveSerach,
+  FUSelectAmountArray
 }) => {
   const [drugInstructionList, setDrugInstructionList] = useState([]);
   const [drugAmountList, setDrugAmountList] = useState([]);
@@ -96,6 +97,7 @@ const PrescriptionCard = ({
             label: item.drugAmntConcept,
           };
           selectAmountData.push(obj);
+          FUSelectAmountArray(selectAmountData)
         }
         // console.log("selectAmountData", selectAmountData);
         setDrugAmountList(selectAmountData);
@@ -130,6 +132,29 @@ const PrescriptionCard = ({
   //     }
   //   };
   // }, []);
+
+
+  // const componentRef = useRef();
+
+  // useEffect(() => {
+  //   document.addEventListener("click", handleClick);
+  //   return () => document.removeEventListener("click", handleClick);
+  //   function handleClick(e) {
+  //     if (componentRef && componentRef.current) {
+  //       const ref = componentRef.current
+  //       if (!ref.contains(e.target)) {
+  //         (
+  //           <div ref={ref} className="col-12 SearchDiv" id="searchDiv">
+  //             <TaminSrvSerach
+  //               data={TaminSrvSerachList}
+  //               SelectSrvSearch={SelectSrvSearch}
+  //             />
+  //           </div>
+  //         )
+  //       }
+  //     }
+  //   }
+  // }, [])
 
   return (
     <>
@@ -230,7 +255,6 @@ const PrescriptionCard = ({
                 </div>
 
                 {/* tamin search */}
-
                 {/* {isComponentVisible && ( */}
                 <div ref={ref} className="col-12 SearchDiv" id="searchDiv">
                   <TaminSrvSerach
@@ -288,8 +312,8 @@ const PrescriptionCard = ({
                     id="drugInsSelect"
                     options={drugInstructionList}
                     placeholder={" "}
-                    onChangeValue={(value) =>
-                      FUSelectInstructionType(value?.value)
+                    onChangeValue={(value, label) =>
+                      FUSelectInstructionType(value?.value, label?.label)
                     }
                   />
                 </div>

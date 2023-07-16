@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Head from 'next/head'
 import Cookies from "js-cookie";
 import { axiosClient } from "class/axiosConfig.js";
 import FeatherIcon from "feather-icons-react";
@@ -151,6 +152,9 @@ const Certifications = () => {
 
   return (
     <>
+    <Head>
+        <title>مجوزها</title>
+      </Head>
       <div className="page-wrapper">
         <div className="content container-fluid">
           {/* <!-- Page Header --> */}

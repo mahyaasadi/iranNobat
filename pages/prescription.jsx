@@ -66,15 +66,30 @@ const Prescription = () => {
   // Drug instruction & amount
   let SelectedInstruction,
     SelectedAmount,
-    SelectedAmountName = "";
+    SelectedAmountName,
+    SelectedInstructionLbl = "";
 
-  const FUSelectInstructionType = (instruction) => {
+  // let selectAmountArray = []
+  // const FUSelectAmountArray = (amountArray) => {
+  //   selectAmountArray = amountArray
+  //   console.log(amountArray);
+  // }
+
+  const FUSelectInstructionType = (instruction, instructionLbl) => {
     SelectedInstruction = instruction;
+    SelectedInstructionLbl = instructionLbl;
+    console.log(SelectedInstructionLbl)
   };
   const FUSelectDrugAmount = (amount) => {
-    let arr = amount.split(";");
-    SelectedAmount = amount[0];
-    SelectedAmountName = amount[1];
+    // SelectedAmount = amount
+    // let arr = amount.split(";");
+    // SelectedAmount = amount[0];
+    // SelectedAmountName = amount[1];
+    
+    // FUSelectAmountArray()
+    // selectAmountArray.split(";");
+    // SelectedAmount = selectAmountArray[0];
+    // SelectedAmountName = selectAmountArray[1];
   };
 
   const ActiveSerach = () => {
@@ -481,6 +496,7 @@ const Prescription = () => {
                 FuAddToListItem={FuAddToListItem}
                 FUSelectInstructionType={FUSelectInstructionType}
                 FUSelectDrugAmount={FUSelectDrugAmount}
+                // FUSelectAmountArray={FUSelectAmountArray}
               />
 
               <PrescriptionItems data={PrescriptionItemsData} />

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import FeatherIcon from "feather-icons-react";
-import axios from "axios";
+import Head from "next/head";
 import { axiosClient } from "class/axiosConfig.js";
 import Cookies from "js-cookie";
 import { QuestionAlert } from "class/AlertManage.js";
@@ -147,6 +147,9 @@ const DoctorsList = () => {
 
   return (
     <>
+      <Head>
+        <title>پزشکان</title>
+      </Head>
       <div className="page-wrapper">
         <div className="content container-fluid">
           {/* <!-- Page Header --> */}

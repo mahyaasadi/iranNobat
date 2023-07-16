@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Head from "next/head"
 import { axiosClient } from "class/axiosConfig.js";
 import Cookies from "js-cookie";
 import FeatherIcon from "feather-icons-react";
@@ -157,6 +158,9 @@ const Discounts = () => {
 
   return (
     <>
+    <Head>
+        <title>تخفیفات</title>
+      </Head>
       <div className="page-wrapper">
         <div className="content container-fluid">
           <div className="page-header">

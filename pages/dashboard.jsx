@@ -1,11 +1,8 @@
-// "use client"; //This is a client component
 import { useState, useEffect } from "react";
-import Link from "next/link";
+import Head from 'next/head'
 import { axiosClient } from "class/axiosConfig.js";
 import Cookies from "js-cookie";
-import FeatherIcon from "feather-icons-react";
 import Select from "react-select";
-import Image from "next/image";
 import JDate from "jalali-date";
 import Loading from "components/loading/loading";
 import OverviewStats from "components/dashboard/overview/overviewStats";
@@ -56,6 +53,9 @@ const Dashboard = () => {
 
   return (
     <>
+      <Head>
+        <title>داشبورد من</title>
+      </Head>
       <div className="main-wrapper">
         <div className="page-wrapper">
           <div className="content container-fluid pb-0">

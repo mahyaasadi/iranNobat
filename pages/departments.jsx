@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
+import Head from 'next/head'
 import { axiosClient } from "class/axiosConfig.js";
 import Loading from "components/loading/loading";
 import { SuccessAlert } from "class/AlertManage.js";
@@ -86,33 +87,38 @@ const Departments = () => {
   }, []);
 
   return (
-    <div className="departments-container">
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <div className="checkbox-group">
-          <div className="submitHeader">
-            <div className="checkbox-group-legend">
-              بخش مورد نظر را انتخاب نمایید
-            </div>
+    <>
+      <Head>
+        <title>انتخاب بخش</title>
+      </Head>
+      <div className="departments-container">
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <div className="checkbox-group">
+            <div className="submitHeader">
+              <div className="checkbox-group-legend">
+                بخش مورد نظر را انتخاب نمایید
+              </div>
 
-            <form
-              className="SubmitDepartmentForm"
-              onSubmit={SubmitFrmSetDepartment}
-            >
-              <div className="box-container">
-                <DepartmentsList departmentsData={departmentsData} />
-              </div>
-              <div className="submitDepartments-btn">
-                <button className="btn btn-primary submitDepartments">
-                  ثبت
-                </button>
-              </div>
-            </form>
+              <form
+                className="SubmitDepartmentForm"
+                onSubmit={SubmitFrmSetDepartment}
+              >
+                <div className="box-container">
+                  <DepartmentsList departmentsData={departmentsData} />
+                </div>
+                <div className="submitDepartments-btn">
+                  <button className="btn btn-primary submitDepartments">
+                    ثبت
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 };
 export default Departments;

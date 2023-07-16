@@ -1,10 +1,10 @@
 import "components/loading/loading.css";
 
-const SmallLoader = () => {
+const ExtraSmallLoader = () => {
   return (
     <>
       <div className="center-body">
-        <div className="loader-circle-99">
+        <div className="loader-circle-99 loader-circle-90">
           <div className="center"></div>
           <div className="circle"></div>
           <div className="circle"></div>
@@ -15,4 +15,4 @@ const SmallLoader = () => {
     </>
   );
 };
-export default SmallLoader;
+export default ExtraSmallLoader;
