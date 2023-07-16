@@ -8,14 +8,15 @@ const AddToListItem = ({
   DrugInstruction,
 }) => {
   let Drug = null;
-  console.log(TimesADay);
-  if (TimesADay !== "-") {
+  if (TimesADay) {
     Drug = (
       <>
         <div className="srvTypeInfo">تعداد مصرف در روز : {TimesADay}</div>
         <div className="srvTypeInfo">دستور مصرف : {DrugInstruction}</div>
       </>
     );
+  } else {
+    <div></div>;
   }
 
   return (
@@ -31,6 +32,7 @@ const AddToListItem = ({
               <p>|</p>
               <p>{SrvName}</p>
             </div>
+            <hr />
             <div className="d-flex gap-4 mt-2">
               <div className="srvTypeInfo">نوع نسخه : {SrvTypeDes}</div>
               <div className="srvTypeInfo">تعداد : {SrvQty}</div>
@@ -41,13 +43,13 @@ const AddToListItem = ({
           <div className="col-auto">
             <button
               type="button"
-              className="btn btn-outline-primary btn-rounded"
+              className="btn btn-outline-primary btn-rounded-md margin-left-4 "
             >
               <i className="fe fe-star"></i>
             </button>
             <button
               type="button"
-              className="btn btn-outline-danger btn-rounded"
+              className="btn btn-outline-danger btn-rounded-md"
               //   onClick="DeleteCheckService()"
             >
               <i className="fe fe-trash"></i>

@@ -1,6 +1,6 @@
 import FeatherIcon from "feather-icons-react";
 import Image from "next/image";
-import SmallLoader from "components/loading/smallLoader"
+import ExtraSmallLoader from "components/loading/extraSmallLoader";
 import { eventsAccepted, payment, talking } from "components/imagePath";
 
 const OverviewStats = ({ stats }) => {
@@ -17,7 +17,13 @@ const OverviewStats = ({ stats }) => {
               <div className="dash-count">
                 <h5 className="dash-title">تعداد درخواست ها</h5>
                 <div className="dash-counts">
-                  <p>{stats.Total === undefined ? <SmallLoader /> : stats.Total}</p>
+                  <p>
+                    {stats.Total === undefined ? (
+                      <ExtraSmallLoader />
+                    ) : (
+                      stats.Total
+                    )}
+                  </p>
                 </div>
               </div>
             </div>

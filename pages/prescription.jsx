@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { axiosClient } from "class/axiosConfig.js";
 import Cookies from "js-cookie";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import Loading from "components/loading/loading";
 import { taminPrescriptionCreator } from "class/taminPrescriptionCreator.js";
@@ -31,9 +32,9 @@ let ActiveSrvCode,
   ActiveParaCode = null;
 
 const changePrescId = (Sid, Img, name, id) => {
-  prescId = id;
   ActiveServiceTypeID = Sid;
   ActivePrscName = name;
+  prescId = id;
   if (Img !== undefined) {
     ActivePrscImg = Img;
   }
@@ -58,38 +59,43 @@ const Prescription = () => {
   const [PrescriptionItemsData, SetPrescriptionItemsData] = useState([]);
   const [taminHeaderList, settaminHeaderList] = useState(TaminPrescType);
   const [eprscData, setEprscData] = useState([]);
+  const [selectAmountArray, setSelectAmountArray] = useState([]);
+  const [selectInstructionArray, setSelectInstructionArray] = useState([]);
   const [TaminServiceTypeList, setTaminServiceTypeList] =
     useState(TaminServiceType);
-
   let insuranceType = null;
 
   // Drug instruction & amount
   let SelectedInstruction,
+    SelectedInstructionLbl,
     SelectedAmount,
-    SelectedAmountName,
-    SelectedInstructionLbl = "";
+    SelectedAmountLbl = "";
 
-  // let selectAmountArray = []
-  // const FUSelectAmountArray = (amountArray) => {
-  //   selectAmountArray = amountArray
-  //   console.log(amountArray);
-  // }
-
-  const FUSelectInstructionType = (instruction, instructionLbl) => {
-    SelectedInstruction = instruction;
-    SelectedInstructionLbl = instructionLbl;
-    console.log(SelectedInstructionLbl)
+  // get amount options full list
+  const FUSelectAmountArray = (amountArray) => {
+    setSelectAmountArray(amountArray);
   };
+
+  // set the selected value for drug amount
   const FUSelectDrugAmount = (amount) => {
-    // SelectedAmount = amount
-    // let arr = amount.split(";");
-    // SelectedAmount = amount[0];
-    // SelectedAmountName = amount[1];
-    
-    // FUSelectAmountArray()
-    // selectAmountArray.split(";");
-    // SelectedAmount = selectAmountArray[0];
-    // SelectedAmountName = selectAmountArray[1];
+    SelectedAmount = amount;
+    let amountObj = selectAmountArray.find((o) => o.value === SelectedAmount);
+    SelectedAmountLbl = amountObj.label;
+    // console.log(SelectedAmount, SelectedAmountLbl);
+  };
+
+  // get instruction options full list
+  const FUSelectInstructionArray = (instructionArray) => {
+    setSelectInstructionArray(instructionArray);
+  };
+
+  const FUSelectInstructionType = (instruction) => {
+    SelectedInstruction = instruction;
+    let instructionObj = selectInstructionArray.find(
+      (o) => o.value === SelectedInstruction
+    );
+    SelectedInstructionLbl = instructionObj.label;
+    // console.log(SelectedInstruction, SelectedInstructionLbl);
   };
 
   const ActiveSerach = () => {
@@ -203,6 +209,7 @@ const Prescription = () => {
         .then(function (response) {
           setTaminSrvSerachList(response.data);
           $(".SearchDiv").show();
+          console.log(response.data);
           // document.getElementByClassname("unsuccessfullSearch").display = hidden;
         })
         .catch(function (response) {
@@ -223,8 +230,12 @@ const Prescription = () => {
         SrvCode: ActiveSrvCode,
         Img: ActivePrscImg,
         Qty: $("#QtyInput").val(),
-        SelectedAmountName: SelectedAmountName,
+        DrugInstruction: SelectedInstructionLbl,
+        TimesADay: SelectedAmountLbl,
+        PrescType: ActivePrscName,
       };
+
+      console.log("added", prescItems);
 
       let prescData = null;
       if (prescId == 1) {
@@ -275,13 +286,12 @@ const Prescription = () => {
 
       addPrescriptionitems.push(prescData);
       addPrescriptionSrvNameitems.push(onlyVisitPrescData);
-      // console.log(addPrescriptionitems);
-      console.log("prescData", prescData);
+      SetPrescriptionItemsData([...PrescriptionItemsData, prescItems]);
+      console.log("PrescriptionItemsData", PrescriptionItemsData);
+
       ActiveSrvCode = null;
       $("#srvSerachInput").val("");
       $("#QtyInput").val("1");
-      SetPrescriptionItemsData([...PrescriptionItemsData, prescItems]);
-      console.log("PrescriptionItemsData", PrescriptionItemsData);
     }
   };
 
@@ -467,6 +477,9 @@ const Prescription = () => {
 
   return (
     <>
+      <Head>
+        <title>نسخه نویسی</title>
+      </Head>
       <div className="page-wrapper">
         <div className="content container-fluid">
           <div className="row">
@@ -496,7 +509,9 @@ const Prescription = () => {
                 FuAddToListItem={FuAddToListItem}
                 FUSelectInstructionType={FUSelectInstructionType}
                 FUSelectDrugAmount={FUSelectDrugAmount}
-                // FUSelectAmountArray={FUSelectAmountArray}
+                FUSelectAmountArray={FUSelectAmountArray}
+                FUSelectInstructionArray={FUSelectInstructionArray}
+                ActiveSrvCode={ActiveSrvCode}
               />
 
               <PrescriptionItems data={PrescriptionItemsData} />

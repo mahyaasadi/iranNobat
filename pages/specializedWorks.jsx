@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import Head from "next/head";
 import FeatherIcon from "feather-icons-react";
 import { axiosClient } from "class/axiosConfig.js";
 import Cookies from "js-cookie";
@@ -146,6 +147,9 @@ const SpecializedWorks = () => {
 
   return (
     <>
+      <Head>
+        <title>کارهای تخصصی</title>
+      </Head>
       <div className="page-wrapper">
         <div className="content container-fluid">
           <div className="page-header">

@@ -1715,13 +1715,13 @@ button.bg-danger:hover {
 }
 
 .btn-outline-primary {
-  color: #0ce0ff;
-  border-color: #0ce0ff;
+  color: #0db1ca;
+  border-color: #0db1ca;
 }
 
 .btn-outline-primary:hover {
-  background-color: #0ce0ff;
-  border-color: #0ce0ff;
+  background-color: #0db1ca;
+  border-color: #0db1ca;
 }
 
 .btn-outline-primary:focus,
@@ -1731,15 +1731,15 @@ button.bg-danger:hover {
 
 .btn-outline-primary.disabled,
 .btn-outline-primary:disabled {
-  color: #0ce0ff;
+  color: #0db1ca;
   background-color: transparent;
 }
 
 .btn-outline-primary:not(:disabled):not(.disabled):active,
 .btn-outline-primary:not(:disabled):not(.disabled).active,
 .show>.btn-outline-primary.dropdown-toggle {
-  background-color: #0ce0ff;
-  border-color: #0ce0ff;
+  background-color: #0db1ca;
+  border-color: #0db1ca;
 }
 
 .btn-outline-primary:not(:disabled):not(.disabled):active:focus,
@@ -8751,6 +8751,10 @@ ul li .active {
   border-radius: 15px;
 }
 
+.btn-rounded-md {
+  border-radius: 10px !important;
+}
+
 .visitBtn {
   border: 1px solid #0db1ca;
   color: #1B5A90;
@@ -8972,6 +8976,10 @@ ul li .active {
   position: absolute;
   top: 0.75rem;
   left: 1rem
+}
+
+.calenderModalContainer {
+  width: 400px !important;
 }
 
 @media (max-width: 768px) {

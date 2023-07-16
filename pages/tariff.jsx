@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { axiosClient } from "class/axiosConfig.js";
 import Link from "next/link";
+import Head from "next/head";
 import FeatherIcon from "feather-icons-react";
 import { QuestionAlert } from "class/AlertManage.js";
 import Loading from "components/loading/loading";
@@ -484,118 +485,124 @@ const Tariff = () => {
   };
 
   return (
-    <div className="page-wrapper">
-      <div className="content container-fluid">
-        <TariffHeader data={departmentsData} getServices={getServices} />
+    <>
+      <Head>
+        <title>تعرفه بخش ها</title>
+      </Head>
 
-        <div className="tariff-btn-container">
-          <div className="media-md-w-100">
-            <Link
-              href="#"
-              data-bs-toggle="modal"
-              data-bs-target="#addTariffModal"
-              className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
-            >
-              <i className="me-1">
-                <FeatherIcon icon="plus-square" />
-              </i>{" "}
-              سرویس جدید
-            </Link>
+      <div className="page-wrapper">
+        <div className="content container-fluid">
+          <TariffHeader data={departmentsData} getServices={getServices} />
+
+          <div className="tariff-btn-container">
+            <div className="media-md-w-100">
+              <Link
+                href="#"
+                data-bs-toggle="modal"
+                data-bs-target="#addTariffModal"
+                className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
+              >
+                <i className="me-1">
+                  <FeatherIcon icon="plus-square" />
+                </i>{" "}
+                سرویس جدید
+              </Link>
+            </div>
+
+            <div className="media-md-w-100">
+              <Link
+                href="#"
+                data-bs-toggle="modal"
+                data-bs-target="#tariffCalcModal"
+                className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
+              >
+                <i className="me-1">
+                  <FeatherIcon icon="percent" />
+                </i>{" "}
+                اعمال محاسبات
+              </Link>
+            </div>
+
+            <div className="media-md-w-100">
+              <Link
+                href="#"
+                className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
+                onClick={() => getDefaultServices(activeDepId, activeDepName)}
+              >
+                <i className="me-1 ">
+                  <FeatherIcon icon="refresh-cw" />
+                </i>{" "}
+                بازگشت به تنظیمات مرکز
+              </Link>
+            </div>
           </div>
 
-          <div className="media-md-w-100">
-            <Link
-              href="#"
-              data-bs-toggle="modal"
-              data-bs-target="#tariffCalcModal"
-              className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
-            >
-              <i className="me-1">
-                <FeatherIcon icon="percent" />
-              </i>{" "}
-              اعمال محاسبات
-            </Link>
-          </div>
-
-          <div className="media-md-w-100">
-            <Link
-              href="#"
-              className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
-              onClick={() => getDefaultServices(activeDepId, activeDepName)}
-            >
-              <i className="me-1 ">
-                <FeatherIcon icon="refresh-cw" />
-              </i>{" "}
-              بازگشت به تنظیمات مرکز
-            </Link>
-          </div>
-        </div>
-
-        {/* <!--  services Table --> */}
-        <div className="row">
-          <div className="col-sm-12">
-            <div className="card">
-              <div className="card-header border-bottom-0">
-                <div className="row align-items-center">
-                  <div className="col">
-                    <h5 className="card-title">لیست سرویس ها</h5>
-                  </div>
-                  <div className="col-auto d-flex flex-wrap">
-                    <div className="form-custom me-2">
-                      <div
-                        id="tableSearch"
-                        className="dataTables_wrapper"
-                      ></div>
+          {/* <!--  services Table --> */}
+          <div className="row">
+            <div className="col-sm-12">
+              <div className="card">
+                <div className="card-header border-bottom-0">
+                  <div className="row align-items-center">
+                    <div className="col">
+                      <h5 className="card-title">لیست سرویس ها</h5>
+                    </div>
+                    <div className="col-auto d-flex flex-wrap">
+                      <div className="form-custom me-2">
+                        <div
+                          id="tableSearch"
+                          className="dataTables_wrapper"
+                        ></div>
+                      </div>
                     </div>
                   </div>
                 </div>
+
+                {isLoading ? (
+                  <Loading />
+                ) : (
+                  <div className="col-sm-12 font-size-12">
+                    <TariffListTable
+                      data={services}
+                      updateService={updateService}
+                      deleteService={deleteService}
+                      SetLoeingModalData={SetLoeingModalData}
+                    />
+                  </div>
+                )}
               </div>
 
-              {isLoading ? (
-                <Loading />
-              ) : (
-                <div className="col-sm-12 font-size-12">
-                  <TariffListTable
-                    data={services}
-                    updateService={updateService}
-                    deleteService={deleteService}
-                    SetLoeingModalData={SetLoeingModalData}
-                  />
-                </div>
-              )}
+              <div id="tablepagination" className="dataTables_wrapper"></div>
             </div>
-
-            <div id="tablepagination" className="dataTables_wrapper"></div>
           </div>
         </div>
+
+        <TariffCalcModal
+          applyKCalculations={applyKCalculations}
+          data={editedServices}
+          isLoading={isLoading}
+          calculationsOptions={calculationsOptions}
+          applyPercentCalculations={applyPercentCalculations}
+          applyPriceCalculations={applyPriceCalculations}
+        />
+
+        <AddTariffModal addService={addService} />
+
+        <EditTariffModal data={editedServices} editService={editService} />
+
+        <LoeingModal
+          data={loeingData}
+          addLoeing={addLoeing}
+          Service={activeServiceId}
+          ServiceName={activeServiceName}
+          deleteLoeing={deleteLoeing}
+          updateLoeing={updateLoeing}
+        />
+
+        <AddLoeingModal data={loeingData} addLoeing={addLoeing} />
+
+        <EditLoeingModal data={editedLoeing} editLoeing={editLoeing} />
       </div>
-
-      <TariffCalcModal
-        applyKCalculations={applyKCalculations}
-        data={editedServices}
-        isLoading={isLoading}
-        calculationsOptions={calculationsOptions}
-        applyPercentCalculations={applyPercentCalculations}
-        applyPriceCalculations={applyPriceCalculations}
-      />
-
-      <AddTariffModal addService={addService} />
-
-      <EditTariffModal data={editedServices} editService={editService} />
-
-      <LoeingModal
-        data={loeingData}
-        addLoeing={addLoeing}
-        Service={activeServiceId}
-        ServiceName={activeServiceName}
-        deleteLoeing={deleteLoeing}
-        updateLoeing={updateLoeing}
-      />
-
-      <AddLoeingModal data={loeingData} addLoeing={addLoeing} />
-
-      <EditLoeingModal data={editedLoeing} editLoeing={editLoeing} />
-    </div>
+    </>
   );
 };
 

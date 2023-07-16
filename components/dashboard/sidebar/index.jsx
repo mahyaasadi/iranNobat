@@ -35,7 +35,7 @@ const Sidebar = () => {
               <li className="submenu">
                 <a href="#">
                   <i>
-                    <FeatherIcon icon="triangle" className="width-15" />
+                    <FeatherIcon icon="settings" className="width-15" />
                   </i>
                   <span> تنظیمات مرکز</span>
                   <span className="menu-arrow"></span>
@@ -157,7 +157,7 @@ const Sidebar = () => {
               <li className="submenu">
                 <a href="#">
                   <i>
-                    <FeatherIcon icon="check-square" className="width-15" />
+                    <FeatherIcon icon="file" className="width-15" />
                   </i>
                   <span>نسخه نویسی</span>
                   <span className="menu-arrow"></span>
@@ -184,7 +184,6 @@ const Sidebar = () => {
                   </li>
                 </ul>
               </li>
-
             </ul>
           </div>
         </div>

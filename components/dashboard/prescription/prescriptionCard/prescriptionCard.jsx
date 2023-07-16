@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import axios from "axios";
+import { axiosClient } from "class/axiosConfig";
 import Select from "react-select";
 import SelectField from "components/commonComponents/selectfield";
 import FeatherIcon from "feather-icons-react";
@@ -7,11 +7,6 @@ import PrescriptionType from "components/dashboard/prescription/prescriptionType
 import ServiceType from "components/dashboard/prescription/serviceType";
 import TaminSrvSerach from "components/dashboard/prescription/TaminSrvSerach";
 import SmallLoader from "components/loading/smallLoader";
-import useComponentVisible, {
-  ref,
-  isComponentVisible,
-  setIsComponentVisible,
-} from "class/useComponentVisible.jsx";
 
 const PrescriptionCard = ({
   lists,
@@ -27,12 +22,13 @@ const PrescriptionCard = ({
   FUSelectInstructionType,
   FUSelectDrugAmount,
   ActiveSerach,
-  FUSelectAmountArray
+  FUSelectAmountArray,
+  FUSelectInstructionArray,
+  ActiveSrvCode,
 }) => {
   const [drugInstructionList, setDrugInstructionList] = useState([]);
   const [drugAmountList, setDrugAmountList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  // const { ref, isComponentVisible } = useComponentVisible(true);
 
   function QtyChange(ac) {
     let qty = $("#QtyInput").val();
@@ -47,13 +43,14 @@ const PrescriptionCard = ({
     $("#QtyInput").val(qty);
   }
 
+  // search recommendation
   const handleSerachKeyUp = () => {
     let inputCount = $("#srvSerachInput").val().length;
     setIsLoading(true);
     if (inputCount > 2) {
       setTimeout(() => {
-        $("#BtnServiceSearch").click();
         setIsLoading(false);
+        $("#BtnServiceSearch").click();
       }, 100);
     } else {
       $("#srvSerachInput").val() == "";
@@ -62,22 +59,41 @@ const PrescriptionCard = ({
     }
   };
 
+  const handleOnFocus = () => {
+    if (ActiveSrvCode !== null) {
+      $(".SearchDiv").show();
+    }
+  };
+  const handleOnBlur = (e) => {
+    // e.stopPropagation();
+    setTimeout(() => {
+      $(".SearchDiv").hide();
+    }, 100);
+  };
+
+  const handleActiveSrvCode = (e) => {
+    // e.preventDefault();
+    ActiveSrvCode = null;
+    console.log(ActiveSrvCode);
+  };
+
   const getDrugInstructionsList = () => {
-    let url = "https://irannobat.ir:8444/api/TaminEprsc/DrugInstruction";
-    axios
+    let url = "TaminEprsc/DrugInstruction";
+    axiosClient
       .post(url)
       .then((response) => {
         let selectInstructionData = [];
         for (let i = 0; i < response.data.res.data.length; i++) {
           const item = response.data.res.data[i];
           let obj = {
-            value: item.drugInstId + ";" + item.drugInstConcept,
+            value: item.drugInstId,
             label: item.drugInstConcept,
           };
           selectInstructionData.push(obj);
         }
         // console.log("selectInstructionData", selectInstructionData);
         setDrugInstructionList(selectInstructionData);
+        FUSelectInstructionArray(selectInstructionData);
       })
       .catch((error) => {
         console.log(error);
@@ -85,8 +101,8 @@ const PrescriptionCard = ({
   };
 
   const getDrugAmountList = () => {
-    let url = "https://irannobat.ir:8444/api/TaminEprsc/DrugAmount";
-    axios
+    let url = "TaminEprsc/DrugAmount";
+    axiosClient
       .post(url)
       .then((response) => {
         let selectAmountData = [];
@@ -96,11 +112,12 @@ const PrescriptionCard = ({
             value: item.drugAmntId,
             label: item.drugAmntConcept,
           };
+
           selectAmountData.push(obj);
-          FUSelectAmountArray(selectAmountData)
         }
         // console.log("selectAmountData", selectAmountData);
         setDrugAmountList(selectAmountData);
+        FUSelectAmountArray(selectAmountData);
       })
       .catch((error) => {
         console.log(error);
@@ -121,40 +138,6 @@ const PrescriptionCard = ({
       border: "1px solid #E6E9F4",
     }),
   };
-
-  // useEffect(() => {
-  //   window.onclick = function (e) {
-  //     let searchDiv = document.getElementById("searchDiv");
-  //     // let searchDiv = $("#searchDiv");
-  //     if (e.target == searchDiv) {
-  //       searchDiv.style.display = "none";
-  //       $("body").css("overflow", "auto");
-  //     }
-  //   };
-  // }, []);
-
-
-  // const componentRef = useRef();
-
-  // useEffect(() => {
-  //   document.addEventListener("click", handleClick);
-  //   return () => document.removeEventListener("click", handleClick);
-  //   function handleClick(e) {
-  //     if (componentRef && componentRef.current) {
-  //       const ref = componentRef.current
-  //       if (!ref.contains(e.target)) {
-  //         (
-  //           <div ref={ref} className="col-12 SearchDiv" id="searchDiv">
-  //             <TaminSrvSerach
-  //               data={TaminSrvSerachList}
-  //               SelectSrvSearch={SelectSrvSearch}
-  //             />
-  //           </div>
-  //         )
-  //       }
-  //     }
-  //   }
-  // }, [])
 
   return (
     <>
@@ -206,11 +189,14 @@ const PrescriptionCard = ({
                     نام / کد خدمت یا دارو
                   </label>
                   <input
+                    onFocus={handleOnFocus}
+                    onBlur={handleOnBlur}
+                    onKeyUp={handleSerachKeyUp}
                     type="text"
+                    autoComplete="off"
                     id="srvSerachInput"
                     name="srvSerachInput"
                     className="form-control rounded-right w-50 padding-right-2"
-                    onKeyUp={handleSerachKeyUp}
                   />
 
                   <select
@@ -254,9 +240,11 @@ const PrescriptionCard = ({
                   </button>
                 </div>
 
-                {/* tamin search */}
-                {/* {isComponentVisible && ( */}
-                <div ref={ref} className="col-12 SearchDiv" id="searchDiv">
+                <div
+                  className="col-12 SearchDiv"
+                  id="searchDiv"
+                  onBlur={handleActiveSrvCode}
+                >
                   <TaminSrvSerach
                     data={TaminSrvSerachList}
                     SelectSrvSearch={SelectSrvSearch}

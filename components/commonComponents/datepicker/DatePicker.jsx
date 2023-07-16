@@ -27,6 +27,7 @@ const DatePicker = ({ SetDate }) => {
           local="fa"
           inputClass="datePickerInput rounded font-12"
           headerClass="datePickerHeader"
+          calenderModalClass="calenderModalContainer"
           placeholder="&nbsp;"
           inputName="date"
         />

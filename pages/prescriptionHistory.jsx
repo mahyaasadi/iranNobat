@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { axiosClient } from "class/axiosConfig.js";
 import Cookies from "js-cookie";
+import Head from "next/head";
 import Loading from "components/loading/Loading";
 import PrescriptionsListTable from "components/dashboard/prescription/prescriptionHistory/prescriptionsListTable";
 import DatePicker from "components/commonComponents/datepicker/DatePicker";
@@ -40,6 +41,9 @@ const PrescriptionHistory = () => {
 
   return (
     <>
+      <Head>
+        <title>سوابق نسخه</title>
+      </Head>
       <div className="page-wrapper">
         <div className="content container-fluid">
           <div className="row">
@@ -52,7 +56,7 @@ const PrescriptionHistory = () => {
                         <DatePicker SetDate={SetDate} />
                       </div>
 
-                      <div className="col-md-12 col-9 col-sm-9 col-md-9 col-lg-3 mt-3">
+                      <div className="col-md-12  col-md-9 col-lg-3 mt-3">
                         <div className="input-group">
                           <label className="lblAbs font-12 ">
                             جستجو طبق کد ملی
@@ -66,7 +70,7 @@ const PrescriptionHistory = () => {
                         </div>
                       </div>
 
-                      <div className="col-md-12 col-9 col-sm-9 col-md-9 col-lg-3 mt-3">
+                      <div className="col-md-12  col-md-9 col-lg-3 mt-3">
                         <div className="input-group">
                           <label className="lblAbs font-12 ">
                             جستجو طبق نام بیمار
@@ -80,7 +84,7 @@ const PrescriptionHistory = () => {
                         </div>
                       </div>
 
-                      <div className="col-md-12 col-3 col-sm-3 col-md-3 col-lg-3 mt-3">
+                      <div className="col-md-12 col-md-12 col-lg-3 mt-3">
                         <button className="btn btn-primary rounded w-100" id="">
                           <i className="fe fe-search"></i>
                         </button>
