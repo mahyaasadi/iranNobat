@@ -27,13 +27,13 @@ const AddToListItem = ({
             <img src={Img} height="30" />
           </div>
           <div className="row col">
-            <div className="col d-flex gap-2">
+            <div className="col d-flex gap-2 marginb-1">
               <p>{SrvCode}</p>
               <p>|</p>
               <p>{SrvName}</p>
             </div>
             <hr />
-            <div className="d-flex gap-4 mt-2">
+            <div className="d-flex gap-2 mt-2">
               <div className="srvTypeInfo">نوع نسخه : {SrvTypeDes}</div>
               <div className="srvTypeInfo">تعداد : {SrvQty}</div>
               {Drug}

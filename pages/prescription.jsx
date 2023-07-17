@@ -210,7 +210,7 @@ const Prescription = () => {
           setTaminSrvSerachList(response.data);
           $(".SearchDiv").show();
           console.log(response.data);
-          // document.getElementByClassname("unsuccessfullSearch").display = hidden;
+          setIsLoading(false)
         })
         .catch(function (response) {
           console.log(response);
@@ -467,7 +467,6 @@ const Prescription = () => {
   };
 
   useEffect(() => {
-    // getEprscData();
     SetPrescriptionItemsData(responseObj.data);
     if (ActivePatientID) {
       $("#frmPatientInfoBtnSubmit").click();

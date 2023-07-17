@@ -310,7 +310,7 @@ const PrescriptionCard = ({
                   <label className="lblDrugIns font-12">تعداد در وعده</label>
                   <SelectField
                     styles={colourStyles}
-                    className="w-100 font-12 text-center"
+                    className="w-100 font-12 text-center prescForm"
                     id="drugAmountSelect"
                     options={drugAmountList}
                     placeholder={" "}
@@ -319,14 +319,14 @@ const PrescriptionCard = ({
                 </div>
               </div>
 
-              <div className="d-flex align-items-center gap-2 media-flex-column media-gap mt-2">
+              <div className="d-flex align-items-center gap-2 media-flex-column media-gap margin-top-1">
                 <div className="col-md-8 media-w-100">
                   <label className="lblAbs margin-top-25 font-12">
                     توضیحات
                   </label>
                   <input
                     type="text"
-                    className="mt-2 form-control rounded padding-right-2"
+                    className="form-control rounded padding-right-2"
                     id="eprscItemDescription"
                   />
                 </div>

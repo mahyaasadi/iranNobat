@@ -428,6 +428,9 @@ p:last-child {
   align-items: center !important;
 }
 
+.jusstify-between {
+  justify-content: space-between;
+}
 
 /*-----------------
 	2. Table
@@ -631,6 +634,10 @@ table.table td h2.table-avatar a>img {
 
 .margin-right-1 {
   margin-right: 1em;
+}
+
+.marginb-1 {
+  margin-bottom: 1rem
 }
 
 @media (min-width: 768px) {
@@ -8806,8 +8813,13 @@ ul li .active {
 }
 
 .margin-top-left {
-  margin-top: -0.25rem !important;
+  margin-top: 0 !important;
   margin-right: 4rem !important;
+}
+
+.chatIconSize {
+  width: 24px !important;
+  height: 18px !important;
 }
 
 .inputRounded {
@@ -8919,8 +8931,14 @@ ul li .active {
 }
 
 .srvTypeInfo {
-  color: darkSlateGray;
   font-size: 12px;
+  align-items: center;
+  display: flex;
+  color: #1B5A90;
+  font-size: 12px;
+  border: 1px solid #1B5A90;
+  border-radius: 30px;
+  padding: 8px 15px;
 }
 
 .presHistorySearchSection {
@@ -8982,6 +9000,21 @@ ul li .active {
   width: 400px !important;
 }
 
+.creditBox {
+  justify-content: center;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  width: 25%;
+  border: 1px solid lightgray;
+  border-radius: 0.25rem;
+}
+
+.smsCard {
+  height: 50vh;
+  margin: auto;
+}
+
 @media (max-width: 768px) {
   .prescript-header {
     display: flex;
@@ -9034,10 +9067,6 @@ ul li .active {
 
   .media-w-100 {
     width: 100%;
-  }
-
-  .prescForm {
-    margin-bottom: 0 !important;
   }
 
   .media-gap {
