@@ -33,7 +33,7 @@ const AddToListItem = ({
               <p>{SrvName}</p>
             </div>
             <hr />
-            <div className="d-flex gap-2 mt-2">
+            <div className="d-flex gap-2 mt-2 flex-wrap">
               <div className="srvTypeInfo">نوع نسخه : {SrvTypeDes}</div>
               <div className="srvTypeInfo">تعداد : {SrvQty}</div>
               {Drug}

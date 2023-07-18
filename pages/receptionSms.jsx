@@ -21,17 +21,17 @@ const ReceptionSms = () => {
   const getPanelCredit = () => {
     let url = "Sms/getCredit";
     let data = { CenterID };
-    setIsLoading(true);
+    setCreditIsLoading(true);
 
     axiosClient
       .post(url, data)
       .then((response) => {
         setRemainingCredit(parseInt(response.data[1]));
-        setIsLoading(false);
+        setCreditIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
-        setIsLoading(false);
+        setCreditIsLoading(false);
       });
   };
 
@@ -90,7 +90,7 @@ const ReceptionSms = () => {
           <div className="page-header d-flex jusstify-between">
             <div className="creditBox gap-2">
               اعتبار باقیمانده پیامک :
-              {isLoading ? (
+              {creditIsLoading ? (
                 <ExtraSmallLoader />
               ) : (
                 <div>{remainingCredit.toLocaleString()} ریال</div>

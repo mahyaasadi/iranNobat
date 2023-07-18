@@ -64,15 +64,13 @@ const PrescriptionCard = ({
       $(".SearchDiv").show();
     }
   };
-  const handleOnBlur = (e) => {
-    // e.stopPropagation();
+  const handleOnBlur = () => {
     setTimeout(() => {
       $(".SearchDiv").hide();
-    }, 100);
+    }, 200);
   };
 
-  const handleActiveSrvCode = (e) => {
-    // e.preventDefault();
+  const handleActiveSrvCode = () => {
     ActiveSrvCode = null;
     console.log(ActiveSrvCode);
   };
@@ -91,13 +89,11 @@ const PrescriptionCard = ({
           };
           selectInstructionData.push(obj);
         }
-        // console.log("selectInstructionData", selectInstructionData);
+
         setDrugInstructionList(selectInstructionData);
         FUSelectInstructionArray(selectInstructionData);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => console.log(error))
   };
 
   const getDrugAmountList = () => {
@@ -112,16 +108,14 @@ const PrescriptionCard = ({
             value: item.drugAmntId,
             label: item.drugAmntConcept,
           };
-
           selectAmountData.push(obj);
         }
-        // console.log("selectAmountData", selectAmountData);
+
         setDrugAmountList(selectAmountData);
         FUSelectAmountArray(selectAmountData);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => console.log(error)
+      );
   };
 
   useEffect(() => {
@@ -257,7 +251,7 @@ const PrescriptionCard = ({
                 </div> */}
               </form>
 
-              <div className="d-flex align-items-center gap-2 media-flex-column">
+              <div className="d-flex align-items-center gap-2 media-flex-column flex-wrap">
                 <div className="col-auto media-w-100">
                   <label className="lblAbs margin-top-left font-12">
                     تعداد
@@ -321,7 +315,7 @@ const PrescriptionCard = ({
 
               <div className="d-flex align-items-center gap-2 media-flex-column media-gap margin-top-1">
                 <div className="col-md-8 media-w-100">
-                  <label className="lblAbs margin-top-25 font-12">
+                  <label className="lblAbs font-12">
                     توضیحات
                   </label>
                   <input
