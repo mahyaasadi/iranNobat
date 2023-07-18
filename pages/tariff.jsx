@@ -44,7 +44,6 @@ const Tariff = () => {
     axiosClient.get(UrlGetDep).then(function (response) {
       setIsLoading(false);
       setDepartmentsData(response.data);
-      // console.log("departments", departmentsData);
     });
   };
 
@@ -60,7 +59,7 @@ const Tariff = () => {
     try {
       getDepartments();
       // setting nav[0] as default clicked
-      setTimeout(() => clickNav(), 3000);
+      setTimeout(() => clickNav(), 2000);
     } catch (error) {
       console.log(error);
       setIsLoading(true);

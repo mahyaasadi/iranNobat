@@ -5,7 +5,7 @@ import SelectField from "components/commonComponents/selectfield";
 import FeatherIcon from "feather-icons-react";
 import PrescriptionType from "components/dashboard/prescription/prescriptionType";
 import ServiceType from "components/dashboard/prescription/serviceType";
-import TaminSrvSerach from "components/dashboard/prescription/TaminSrvSerach";
+import TaminSrvSearch from "components/dashboard/prescription/TaminSrvSearch";
 import SmallLoader from "components/loading/smallLoader";
 
 const PrescriptionCard = ({
@@ -15,16 +15,18 @@ const PrescriptionCard = ({
   ChangeActiveServiceTypeID,
   ServiceList,
   SearchTaminSrv,
-  TaminSrvSerachList,
+  TaminSrvSearchList,
   SelectSrvSearch,
   FuAddToListItem,
   registerEpresc,
   FUSelectInstructionType,
   FUSelectDrugAmount,
-  ActiveSerach,
+  ActiveSearch,
   FUSelectAmountArray,
   FUSelectInstructionArray,
   ActiveSrvCode,
+  handleOnBlur,
+  handleOnFocus,
 }) => {
   const [drugInstructionList, setDrugInstructionList] = useState([]);
   const [drugAmountList, setDrugAmountList] = useState([]);
@@ -44,8 +46,8 @@ const PrescriptionCard = ({
   }
 
   // search recommendation
-  const handleSerachKeyUp = () => {
-    let inputCount = $("#srvSerachInput").val().length;
+  const handleSearchKeyUp = () => {
+    let inputCount = $("#srvSearchInput").val().length;
     setIsLoading(true);
     if (inputCount > 2) {
       setTimeout(() => {
@@ -53,26 +55,10 @@ const PrescriptionCard = ({
         $("#BtnServiceSearch").click();
       }, 100);
     } else {
-      $("#srvSerachInput").val() == "";
+      $("#srvSearchInput").val() == "";
       setIsLoading(false);
       $(".SearchDiv").hide();
     }
-  };
-
-  const handleOnFocus = () => {
-    if (ActiveSrvCode !== null) {
-      $(".SearchDiv").show();
-    }
-  };
-  const handleOnBlur = () => {
-    setTimeout(() => {
-      $(".SearchDiv").hide();
-    }, 200);
-  };
-
-  const handleActiveSrvCode = () => {
-    ActiveSrvCode = null;
-    console.log(ActiveSrvCode);
   };
 
   const getDrugInstructionsList = () => {
@@ -89,11 +75,11 @@ const PrescriptionCard = ({
           };
           selectInstructionData.push(obj);
         }
-
+        console.log(selectInstructionData);
         setDrugInstructionList(selectInstructionData);
         FUSelectInstructionArray(selectInstructionData);
       })
-      .catch((error) => console.log(error))
+      .catch((error) => console.log(error));
   };
 
   const getDrugAmountList = () => {
@@ -114,8 +100,7 @@ const PrescriptionCard = ({
         setDrugAmountList(selectAmountData);
         FUSelectAmountArray(selectAmountData);
       })
-      .catch((error) => console.log(error)
-      );
+      .catch((error) => console.log(error));
   };
 
   useEffect(() => {
@@ -185,11 +170,11 @@ const PrescriptionCard = ({
                   <input
                     onFocus={handleOnFocus}
                     onBlur={handleOnBlur}
-                    onKeyUp={handleSerachKeyUp}
+                    onKeyUp={handleSearchKeyUp}
                     type="text"
                     autoComplete="off"
-                    id="srvSerachInput"
-                    name="srvSerachInput"
+                    id="srvSearchInput"
+                    name="srvSearchInput"
                     className="form-control rounded-right w-50 padding-right-2"
                   />
 
@@ -217,7 +202,7 @@ const PrescriptionCard = ({
                   <button
                     className="btn btn-primary rounded-left w-10 disNone"
                     id="BtnActiveSearch"
-                    onClick={ActiveSerach}
+                    onClick={ActiveSearch}
                     type="button"
                   >
                     <i className="fe fe-close"></i>
@@ -234,13 +219,9 @@ const PrescriptionCard = ({
                   </button>
                 </div>
 
-                <div
-                  className="col-12 SearchDiv"
-                  id="searchDiv"
-                  onBlur={handleActiveSrvCode}
-                >
-                  <TaminSrvSerach
-                    data={TaminSrvSerachList}
+                <div className="col-12 SearchDiv" id="searchDiv">
+                  <TaminSrvSearch
+                    data={TaminSrvSearchList}
                     SelectSrvSearch={SelectSrvSearch}
                   />
                 </div>
@@ -294,8 +275,9 @@ const PrescriptionCard = ({
                     id="drugInsSelect"
                     options={drugInstructionList}
                     placeholder={" "}
-                    onChangeValue={(value, label) =>
-                      FUSelectInstructionType(value?.value, label?.label)
+                    // required
+                    onChangeValue={(value) =>
+                      FUSelectInstructionType(value?.valuel)
                     }
                   />
                 </div>
@@ -308,6 +290,7 @@ const PrescriptionCard = ({
                     id="drugAmountSelect"
                     options={drugAmountList}
                     placeholder={" "}
+                    // required
                     onChangeValue={(value) => FUSelectDrugAmount(value?.value)}
                   />
                 </div>
@@ -315,9 +298,7 @@ const PrescriptionCard = ({
 
               <div className="d-flex align-items-center gap-2 media-flex-column media-gap margin-top-1">
                 <div className="col-md-8 media-w-100">
-                  <label className="lblAbs font-12">
-                    توضیحات
-                  </label>
+                  <label className="lblAbs font-12">توضیحات</label>
                   <input
                     type="text"
                     className="form-control rounded padding-right-2"

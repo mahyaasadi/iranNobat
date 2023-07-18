@@ -1,7 +1,7 @@
 // import { forEach } from "public/assets/plugins/fontawesome/js/v4-shims";
 // import PrescriptionType from "../PrescriptionType";
 // import ServiceType from "../serviceType";
-// import TaminSrvSerach from "../TaminSrvSerach";
+// import TaminSrvSearch from "../TaminSrvSearch";
 // import { map } from "jquery";
 
 // const Header = ({
@@ -10,7 +10,7 @@
 //   onSelect,
 //   changePrescId,
 //   SearchTaminSrv,
-//   TaminSrvSerachList,
+//   TaminSrvSearchList,
 //   SelectSrvSearch,
 //   FuAddToListItem,
 // }) => {
@@ -90,8 +90,8 @@
 //           </button>
 //         </div>
 //         <div className="col-12 SearchDiv">
-//           <TaminSrvSerach
-//             data={TaminSrvSerachList}
+//           <TaminSrvSearch
+//             data={TaminSrvSearchList}
 //             SelectSrvSearch={SelectSrvSearch}
 //           />
 //         </div>

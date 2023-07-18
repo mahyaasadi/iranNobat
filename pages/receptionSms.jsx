@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 import FeatherIcon from "feather-icons-react";
 import Loading from "components/loading/loading";
 import ExtraSmallLoader from "components/loading/extraSmallLoader";
-import { ErrorAlert, SuccessAlert, WarningAlert } from "class/AlertManage.js";
+import { ErrorAlert, SuccessAlert } from "class/AlertManage.js";
 import SendMessagesListTable from "components/dashboard/receptionSms/sendMessagesListTable";
 
 let CenterID = Cookies.get("CenterID");
@@ -43,7 +43,7 @@ const ReceptionSms = () => {
     axiosClient
       .post(url, data)
       .then((response) => {
-        console.log("sendMessages", response.data);
+        // console.log("sendMessages", response.data);
         setSendMessages(response.data);
         setIsLoading(false);
       })
@@ -87,8 +87,8 @@ const ReceptionSms = () => {
       </Head>
       <div className="page-wrapper">
         <div className="content container-fluid">
-          <div className="page-header d-flex jusstify-between">
-            <div className="creditBox gap-2">
+          <div className="page-header d-flex justify-between receptionSmsHeader">
+            <div className="creditBox col-xxl-3 col-xl-4 col-md-5 col-8 gap-2">
               اعتبار باقیمانده پیامک :
               {creditIsLoading ? (
                 <ExtraSmallLoader />
@@ -97,7 +97,9 @@ const ReceptionSms = () => {
               )}
             </div>
 
-            <div className="btn btn-primary font-14">راهنمایی دریافت نوبت</div>
+            <div className="btn btn-primary font-14 col-xxl-2 col-xl-3 col-md-4 col-8">
+              راهنمایی دریافت نوبت
+            </div>
           </div>
 
           {/* send Messages List */}

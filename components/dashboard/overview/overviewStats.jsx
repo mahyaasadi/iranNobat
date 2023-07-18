@@ -14,14 +14,14 @@ const OverviewStats = ({ stats }) => {
               <span className="dash-widget-icon bg-totalReq">
                 <FeatherIcon icon="users" />
               </span>
-              <div className="dash-count">
+              <div className="dash-count mt-1">
                 <h5 className="dash-title">تعداد درخواست ها</h5>
                 <div className="dash-counts">
                   <p>
                     {stats.Total === undefined ? (
                       <ExtraSmallLoader />
                     ) : (
-                      stats.Total
+                      stats.Total.toLocaleString()
                     )}
                   </p>
                 </div>
@@ -41,11 +41,12 @@ const OverviewStats = ({ stats }) => {
               </span>
               <div className="dash-count">
                 <h5 className="dash-title">در حال مکالمه</h5>
-                <div className="dash-counts">
-                  <p>{stats.Talking === undefined ? (
+                <div className="dash-counts mt-1">
+                  <p>
+                    {stats.Talking === undefined ? (
                       <ExtraSmallLoader />
                     ) : (
-                      stats.Talking
+                      stats.Talking.toLocaleString()
                     )}
                   </p>
                 </div>
@@ -65,12 +66,12 @@ const OverviewStats = ({ stats }) => {
               </span>
               <div className="dash-count">
                 <h5 className="dash-title">در انتظار پرداخت</h5>
-                <div className="dash-counts">
+                <div className="dash-counts mt-1">
                   <p>
-                  {stats.WaitingForPayment === undefined ? (
+                    {stats.WaitingForPayment === undefined ? (
                       <ExtraSmallLoader />
                     ) : (
-                      stats.WaitingForPayment
+                      stats.WaitingForPayment.toLocaleString()
                     )}
                   </p>
                 </div>
@@ -90,12 +91,12 @@ const OverviewStats = ({ stats }) => {
               </span>
               <div className="dash-count">
                 <h5 className="dash-title">نوبت های داده شده</h5>
-                <div className="dash-counts">
+                <div className="dash-counts mt-1">
                   <p>
-                  {stats.TurnGiven === undefined ? (
+                    {stats.TurnGiven === undefined ? (
                       <ExtraSmallLoader />
                     ) : (
-                      stats.TurnGiven
+                      stats.TurnGiven.toLocaleString()
                     )}
                   </p>
                 </div>
@@ -109,3 +110,4 @@ const OverviewStats = ({ stats }) => {
 };
 
 export default OverviewStats;
+

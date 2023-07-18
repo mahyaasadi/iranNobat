@@ -428,7 +428,7 @@ p:last-child {
   align-items: center !important;
 }
 
-.jusstify-between {
+.justify-between {
   justify-content: space-between;
 }
 
@@ -9005,19 +9005,38 @@ ul li .active {
   padding: 6px;
   display: flex;
   align-items: center;
-  width: 25%;
+  /* width: 25%; */
   border: 1px solid lightgray;
   border-radius: 0.25rem;
 }
 
+.smsCardContainer {
+  height: 55vh;
+}
+
 .smsCard {
-  height: 50vh;
   margin: auto;
+  position: relative;
+  top: 4rem;
 }
 
 .flex-wrap {
   flex-wrap: wrap;
 }
+
+.smsPanelTitle {
+  font-weight: 700;
+}
+
+.smsPanelInput {
+  padding: 18px 30px 18px !important;
+}
+
+.seperatorLine {
+  height: 1px;
+  background-color: lightgrey;
+}
+
 @media (max-width: 768px) {
   .prescript-header {
     display: flex;
@@ -9049,6 +9068,21 @@ ul li .active {
     flex-wrap: nowrap;
     overflow-x: scroll;
     overflow-y: hidden;
+  }
+
+  .prescMediaBtn {
+    justify-content: flex-end;
+    display: flex;
+    margin-top: 3rem;
+    width: 100% !important;
+  }
+
+  .receptionSmsHeader {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
   }
 }
 

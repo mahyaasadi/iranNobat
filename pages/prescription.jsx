@@ -31,15 +31,6 @@ let ActiveSrvCode,
   ActiveInsuranceID,
   ActiveParaCode = null;
 
-const changePrescId = (Sid, Img, name, id) => {
-  ActiveServiceTypeID = Sid;
-  ActivePrscName = name;
-  prescId = id;
-  if (Img !== undefined) {
-    ActivePrscImg = Img;
-  }
-};
-
 const ChangeActiveServiceTypeID = (id) => {
   ActiveServiceTypeID = id;
 };
@@ -55,14 +46,14 @@ const Prescription = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [patientsInfo, setPatientsInfo] = useState([]);
-  const [TaminSrvSerachList, setTaminSrvSerachList] = useState([]);
+  const [TaminSrvSearchList, setTaminSrvSearchList] = useState([]);
   const [PrescriptionItemsData, SetPrescriptionItemsData] = useState([]);
-  const [taminHeaderList, settaminHeaderList] = useState(TaminPrescType);
-  const [eprscData, setEprscData] = useState([]);
   const [selectAmountArray, setSelectAmountArray] = useState([]);
   const [selectInstructionArray, setSelectInstructionArray] = useState([]);
+  const [taminHeaderList, settaminHeaderList] = useState(TaminPrescType);
   const [TaminServiceTypeList, setTaminServiceTypeList] =
     useState(TaminServiceType);
+
   let insuranceType = null;
 
   // Drug instruction & amount
@@ -81,12 +72,13 @@ const Prescription = () => {
     SelectedAmount = amount;
     let amountObj = selectAmountArray.find((o) => o.value === SelectedAmount);
     SelectedAmountLbl = amountObj.label;
-    // console.log(SelectedAmount, SelectedAmountLbl);
+    console.log(amountObj);
   };
 
   // get instruction options full list
   const FUSelectInstructionArray = (instructionArray) => {
     setSelectInstructionArray(instructionArray);
+    console.log(instructionArray);
   };
 
   const FUSelectInstructionType = (instruction) => {
@@ -95,17 +87,20 @@ const Prescription = () => {
       (o) => o.value === SelectedInstruction
     );
     SelectedInstructionLbl = instructionObj.label;
-    // console.log(SelectedInstruction, SelectedInstructionLbl);
+    console.log(instructionObj);
+
+    // FUSelectInstructionArray()
+    // console.log(instructionObj);
   };
 
-  const ActiveSerach = () => {
+  const ActiveSearch = () => {
     ActiveSrvCode = null;
     $("#BtnServiceSearch").show();
     $("#BtnActiveSearch").hide();
-    $("#srvSerachInput").prop("readonly", false);
+    $("#srvSearchInput").prop("readonly", false);
 
-    $("#srvSerachInput").val("");
-    $("#srvSerachInput").focus();
+    $("#srvSearchInput").val("");
+    $("#srvSearchInput").focus();
   };
 
   // search in selected services
@@ -119,11 +114,11 @@ const Prescription = () => {
       ? (ActiveSrvCode = TaminCode)
       : (ActiveSrvCode = code);
 
-    $("#srvSerachInput").val(name);
+    $("#srvSearchInput").val(name);
     $("#BtnServiceSearch").hide();
     $("#BtnActiveSearch").show();
     $(".SearchDiv").hide();
-    $("#srvSerachInput").prop("readonly", true);
+    $("#srvSearchInput").prop("readonly", true);
   };
 
   //get patient info
@@ -155,11 +150,39 @@ const Prescription = () => {
       });
   };
 
+  const handleOnFocus = () => {
+    console.log(ActiveSrvCode);
+    if (ActiveSrvCode !== null && $("#srvSearchInput").val().length > 2) {
+      $(".SearchDiv").show();
+    }
+  };
+
+  const handleOnBlur = () => {
+    setTimeout(() => {
+      $(".SearchDiv").hide();
+    }, 200);
+  };
+
   // Change Insurance Type
   const selectInsuranceType = (type) => {
     insuranceType = type;
   };
 
+  const changePrescId = (Sid, Img, name, id) => {
+    ActiveServiceTypeID = Sid;
+    ActivePrscName = name;
+    prescId = id;
+    if (ActiveSrvCode) {
+      ActiveSearch();
+    } else {
+      if ($("#srvSearchInput").val().length > 0) {
+        $("#srvSearchInput").val("");
+      }
+    }
+    if (Img !== undefined) {
+      ActivePrscImg = Img;
+    }
+  };
   const changeInsuranceType = (e) => {
     e.preventDefault();
 
@@ -193,24 +216,23 @@ const Prescription = () => {
   //search services
   const SearchTaminSrv = (e) => {
     e.preventDefault();
-
-    if (!ActiveSrvCode) {
+    if (ActiveSrvCode == null) {
       setIsLoading(true);
 
       let formData = new FormData(e.target);
       const formProps = Object.fromEntries(formData);
       let data = {
-        Text: formProps.srvSerachInput,
+        Text: formProps.srvSearchInput,
         srvType: ActiveServiceTypeID,
       };
 
       axiosClient
         .post("TaminServices/SearchSrv", data)
         .then(function (response) {
-          setTaminSrvSerachList(response.data);
-          $(".SearchDiv").show();
           console.log(response.data);
-          setIsLoading(false)
+          setTaminSrvSearchList(response.data);
+          $(".SearchDiv").show();
+          setIsLoading(false);
         })
         .catch(function (response) {
           console.log(response);
@@ -234,9 +256,6 @@ const Prescription = () => {
         TimesADay: SelectedAmountLbl,
         PrescType: ActivePrscName,
       };
-
-      console.log("added", prescItems);
-
       let prescData = null;
       if (prescId == 1) {
         prescData = {
@@ -287,10 +306,9 @@ const Prescription = () => {
       addPrescriptionitems.push(prescData);
       addPrescriptionSrvNameitems.push(onlyVisitPrescData);
       SetPrescriptionItemsData([...PrescriptionItemsData, prescItems]);
-      console.log("PrescriptionItemsData", PrescriptionItemsData);
 
-      ActiveSrvCode = null;
-      $("#srvSerachInput").val("");
+      // ActiveSrvCode = null;
+      ActiveSearch();
       $("#QtyInput").val("1");
     }
   };
@@ -459,7 +477,6 @@ const Prescription = () => {
         .post(url, data)
         .then((response) => {
           console.log(response.data.data);
-          // setEprscData(response.data);
           SetPrescriptionItemsData(response.data.data);
         })
         .catch((error) => console.log(error));
@@ -495,11 +512,11 @@ const Prescription = () => {
 
             <div className="col-xxl-9 col-xl-8 col-lg-6 col-12">
               <PrescriptionCard
-                ActiveSerach={ActiveSerach}
+                ActiveSearch={ActiveSearch}
                 registerEpresc={registerEpresc}
                 SelectSrvSearch={SelectSrvSearch}
                 SearchTaminSrv={SearchTaminSrv}
-                TaminSrvSerachList={TaminSrvSerachList}
+                TaminSrvSearchList={TaminSrvSearchList}
                 ServiceList={TaminServiceTypeList}
                 lists={taminHeaderList}
                 onSelect={selectPrescriptionType}
@@ -510,7 +527,8 @@ const Prescription = () => {
                 FUSelectDrugAmount={FUSelectDrugAmount}
                 FUSelectAmountArray={FUSelectAmountArray}
                 FUSelectInstructionArray={FUSelectInstructionArray}
-                ActiveSrvCode={ActiveSrvCode}
+                handleOnFocus={handleOnFocus}
+                handleOnBlur={handleOnBlur}
               />
 
               <PrescriptionItems data={PrescriptionItemsData} />
@@ -523,5 +541,3 @@ const Prescription = () => {
 };
 
 export default Prescription;
-
-// 0011066504
