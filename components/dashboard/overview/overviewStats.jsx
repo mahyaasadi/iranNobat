@@ -42,7 +42,12 @@ const OverviewStats = ({ stats }) => {
               <div className="dash-count">
                 <h5 className="dash-title">در حال مکالمه</h5>
                 <div className="dash-counts">
-                  <p>{stats.Talking === undefined ? 0 : stats.Talking}</p>
+                  <p>{stats.Talking === undefined ? (
+                      <ExtraSmallLoader />
+                    ) : (
+                      stats.Talking
+                    )}
+                  </p>
                 </div>
               </div>
             </div>
@@ -62,9 +67,11 @@ const OverviewStats = ({ stats }) => {
                 <h5 className="dash-title">در انتظار پرداخت</h5>
                 <div className="dash-counts">
                   <p>
-                    {stats.WaitingForPayment === undefined
-                      ? 0
-                      : stats.WaitingForPayment}
+                  {stats.WaitingForPayment === undefined ? (
+                      <ExtraSmallLoader />
+                    ) : (
+                      stats.WaitingForPayment
+                    )}
                   </p>
                 </div>
               </div>
@@ -84,7 +91,13 @@ const OverviewStats = ({ stats }) => {
               <div className="dash-count">
                 <h5 className="dash-title">نوبت های داده شده</h5>
                 <div className="dash-counts">
-                  <p>{stats.TurnGiven === undefined ? 0 : stats.TurnGiven}</p>
+                  <p>
+                  {stats.TurnGiven === undefined ? (
+                      <ExtraSmallLoader />
+                    ) : (
+                      stats.TurnGiven
+                    )}
+                  </p>
                 </div>
               </div>
             </div>

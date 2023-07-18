@@ -9015,6 +9015,9 @@ ul li .active {
   margin: auto;
 }
 
+.flex-wrap {
+  flex-wrap: wrap;
+}
 @media (max-width: 768px) {
   .prescript-header {
     display: flex;

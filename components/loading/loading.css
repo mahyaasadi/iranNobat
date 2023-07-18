@@ -225,7 +225,7 @@
   position: relative;
   width: 20px;
   height: 20px;
-  margin: 0 auto;
+  margin: 0;
 }
 
 .loader-circle-90 .center {
