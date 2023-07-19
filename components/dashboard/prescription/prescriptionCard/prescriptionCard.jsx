@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { axiosClient } from "class/axiosConfig";
 import Select from "react-select";
 import SelectField from "components/commonComponents/selectfield";
+import RequiredSelect from "components/commonComponents/selectfield";
 import FeatherIcon from "feather-icons-react";
 import PrescriptionType from "components/dashboard/prescription/prescriptionType";
 import ServiceType from "components/dashboard/prescription/serviceType";
@@ -75,7 +76,6 @@ const PrescriptionCard = ({
           };
           selectInstructionData.push(obj);
         }
-        console.log(selectInstructionData);
         setDrugInstructionList(selectInstructionData);
         FUSelectInstructionArray(selectInstructionData);
       })
@@ -96,7 +96,6 @@ const PrescriptionCard = ({
           };
           selectAmountData.push(obj);
         }
-
         setDrugAmountList(selectAmountData);
         FUSelectAmountArray(selectAmountData);
       })
@@ -275,9 +274,9 @@ const PrescriptionCard = ({
                     id="drugInsSelect"
                     options={drugInstructionList}
                     placeholder={" "}
-                    // required
+                    required
                     onChangeValue={(value) =>
-                      FUSelectInstructionType(value?.valuel)
+                      FUSelectInstructionType(value?.value)
                     }
                   />
                 </div>
@@ -290,7 +289,7 @@ const PrescriptionCard = ({
                     id="drugAmountSelect"
                     options={drugAmountList}
                     placeholder={" "}
-                    // required
+                    required
                     onChangeValue={(value) => FUSelectDrugAmount(value?.value)}
                   />
                 </div>

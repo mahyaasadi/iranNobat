@@ -29,7 +29,8 @@ let ActiveSrvCode,
   ActivePatientTel,
   ActiveSrvTypePrsc,
   ActiveInsuranceID,
-  ActiveParaCode = null;
+  ActiveParaCode,
+  ActivePatientID = null;
 
 const ChangeActiveServiceTypeID = (id) => {
   ActiveServiceTypeID = id;
@@ -42,7 +43,7 @@ const selectPrescriptionType = () => {
 const Prescription = () => {
   const Router = useRouter();
   const prescriptionHeadID = Router.query.id;
-  let ActivePatientID = Router.query.pid;
+  ActivePatientID = Router.query.pid;
 
   const [isLoading, setIsLoading] = useState(true);
   const [patientsInfo, setPatientsInfo] = useState([]);
@@ -72,13 +73,11 @@ const Prescription = () => {
     SelectedAmount = amount;
     let amountObj = selectAmountArray.find((o) => o.value === SelectedAmount);
     SelectedAmountLbl = amountObj.label;
-    console.log(amountObj);
   };
 
   // get instruction options full list
   const FUSelectInstructionArray = (instructionArray) => {
     setSelectInstructionArray(instructionArray);
-    console.log(instructionArray);
   };
 
   const FUSelectInstructionType = (instruction) => {
@@ -87,10 +86,6 @@ const Prescription = () => {
       (o) => o.value === SelectedInstruction
     );
     SelectedInstructionLbl = instructionObj.label;
-    console.log(instructionObj);
-
-    // FUSelectInstructionArray()
-    // console.log(instructionObj);
   };
 
   const ActiveSearch = () => {
@@ -140,7 +135,7 @@ const Prescription = () => {
       .post(url, data)
       .then((response) => {
         setIsLoading(false);
-        // console.log(response.data);
+        console.log(response.data);
         ActiveInsuranceID = response.data.user.Insurance;
         setPatientsInfo(response.data.user);
         $("#patientInfoSection").show("");
@@ -151,7 +146,7 @@ const Prescription = () => {
   };
 
   const handleOnFocus = () => {
-    console.log(ActiveSrvCode);
+    // console.log(ActiveSrvCode);
     if (ActiveSrvCode !== null && $("#srvSearchInput").val().length > 2) {
       $(".SearchDiv").show();
     }
@@ -193,8 +188,10 @@ const Prescription = () => {
     let data = {
       CenterID: CenterID,
       IID: formProps.insuranceTypeOptions,
-      NID: ActivePatientID,
+      NID: formProps.patientNID,
     };
+
+    console.log(data);
 
     axiosClient
       .post(url, data)
@@ -243,73 +240,79 @@ const Prescription = () => {
   // add to list function
   const FuAddToListItem = (e) => {
     e.preventDefault();
-
-    if (ActiveSrvCode == null || ActiveSrvName == null) {
-      ErrorAlert("خطا", "خدمتی انتخاب نشده است");
+    if (prescId == 1 && SelectedInstruction == null) {
+      ErrorAlert("خطا", "در اقلام دارویی زمان مصرف باید انتخاب گردد");
+    } else if (prescId == 1 && SelectedAmount == null) {
+      ErrorAlert("خطا", "در اقلام دارویی  تعداد در وعده باید انتخاب گردد");
     } else {
-      let prescItems = {
-        SrvName: ActiveSrvName,
-        SrvCode: ActiveSrvCode,
-        Img: ActivePrscImg,
-        Qty: $("#QtyInput").val(),
-        DrugInstruction: SelectedInstructionLbl,
-        TimesADay: SelectedAmountLbl,
-        PrescType: ActivePrscName,
-      };
-      let prescData = null;
-      if (prescId == 1) {
-        prescData = {
-          srvId: {
-            srvType: {
-              srvType: ActiveSrvTypePrsc,
-            },
-            srvCode: ActiveSrvCode,
-          },
-          srvQty: parseInt($("#QtyInput").val()),
-          timesAday: {
-            drugAmntId: SelectedAmount,
-          },
-          repeat: null,
-          drugInstruction: {
-            drugInstId: SelectedInstruction,
-          },
-          dose: "",
-        };
+      if (ActiveSrvCode == null || ActiveSrvName == null) {
+        ErrorAlert("خطا", "خدمتی انتخاب نشده است");
       } else {
-        let parTarefGrp = null;
-
-        if (ActiveParaCode === undefined) {
-          parTarefGrp = null;
+        let prescItems = {
+          SrvName: ActiveSrvName,
+          SrvCode: ActiveSrvCode,
+          Img: ActivePrscImg,
+          Qty: $("#QtyInput").val(),
+          DrugInstruction: SelectedInstructionLbl,
+          TimesADay: SelectedAmountLbl,
+          PrescType: ActivePrscName,
+        };
+        let prescData = null;
+        if (prescId == 1) {
+          prescData = {
+            srvId: {
+              srvType: {
+                srvType: ActiveSrvTypePrsc,
+              },
+              srvCode: ActiveSrvCode,
+            },
+            srvQty: parseInt($("#QtyInput").val()),
+            timesAday: {
+              drugAmntId: SelectedAmount,
+            },
+            repeat: null,
+            drugInstruction: {
+              drugInstId: SelectedInstruction,
+            },
+            dose: "",
+          };
         } else {
-          parTarefGrp = {
-            parGrpCode: ActiveParaCode,
+          let parTarefGrp = null;
+
+          if (ActiveParaCode === undefined) {
+            parTarefGrp = null;
+          } else {
+            parTarefGrp = {
+              parGrpCode: ActiveParaCode,
+            };
+          }
+
+          prescData = {
+            srvId: {
+              srvType: {
+                srvType: ActiveSrvTypePrsc,
+              },
+              srvCode: ActiveSrvCode,
+              parTarefGrp: parTarefGrp,
+            },
+            srvQty: parseInt($("#QtyInput").val()),
           };
         }
 
-        prescData = {
-          srvId: {
-            srvType: {
-              srvType: ActiveSrvTypePrsc,
-            },
-            srvCode: ActiveSrvCode,
-            parTarefGrp: parTarefGrp,
-          },
-          srvQty: parseInt($("#QtyInput").val()),
+        let onlyVisitPrescData = {
+          Name: ActiveSrvName,
+          Code: ActiveSrvCode,
         };
+
+        addPrescriptionitems.push(prescData);
+        addPrescriptionSrvNameitems.push(onlyVisitPrescData);
+        SetPrescriptionItemsData([...PrescriptionItemsData, prescItems]);
+
+        ActiveSearch();
+        $("#QtyInput").val("1");
+        SelectedAmount = null;
+        SelectedInstruction = null;
       }
-
-      let onlyVisitPrescData = {
-        Name: ActiveSrvName,
-        Code: ActiveSrvCode,
-      };
-
-      addPrescriptionitems.push(prescData);
-      addPrescriptionSrvNameitems.push(onlyVisitPrescData);
-      SetPrescriptionItemsData([...PrescriptionItemsData, prescItems]);
-
-      // ActiveSrvCode = null;
-      ActiveSearch();
-      $("#QtyInput").val("1");
     }
   };
 
@@ -531,7 +534,9 @@ const Prescription = () => {
                 handleOnBlur={handleOnBlur}
               />
 
-              <PrescriptionItems data={PrescriptionItemsData} />
+              <div className="prescList">
+                <PrescriptionItems data={PrescriptionItemsData} />
+              </div>
             </div>
           </div>
         </div>

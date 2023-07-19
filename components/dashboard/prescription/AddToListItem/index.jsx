@@ -21,7 +21,7 @@ const AddToListItem = ({
 
   return (
     <>
-      <div className="addPrescItemsContainer">
+      <div dir="rtl">
         <div className="card PrescItem" id="{response.data.res.info.checkCode}">
           <div className="card-body">
             <div className="row">
