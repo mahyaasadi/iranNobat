@@ -33,53 +33,59 @@ const AddDoctorModal = ({
           </div>
           <div className="modal-body">
             <form onSubmit={addPhysician} id="frmAddPhysician">
-              <div className="add-wrap">
-                <div className="form-group form-focus">
-                  <input
-                    type="text"
-                    id="AddPhysicianName"
-                    className="form-control floating"
-                    value={name}
-                    onChange={handleNameInput}
-                    required
-                  />
-                  <label className="focus-label">
-                    نام پزشک <span className="text-danger">*</span>
+                <div className="form-group">
+                  <label className="lblAbs font-12">
+                    نام پزشک<span className="text-danger">*</span>
                   </label>
-                </div>
-                <div className="form-group form-focus">
-                  <input
-                    type="text"
-                    id="AddPhysicianTitle"
-                    className="form-control floating"
-                    value={title}
-                    onChange={handleTitleInput}
-                    required
-                  />
-                  <label className="focus-label">
-                    عنوان <span className="text-danger">*</span>
-                  </label>
-                </div>
-                <div className="form-group form-focus">
-                  <input
-                    type="text"
-                    id="AddPhysicianSpe"
-                    className="form-control floating"
-                    value={specialty}
-                    onChange={handleSpecialtyInput}
-                    required
-                  />
-                  <label className="focus-label">
-                    تخصص <span className="text-danger">*</span>
-                  </label>
+                    <div className="col p-0">
+                      <input
+                        type="text"
+                        id="AddPhysicianName"
+                        className="form-control floating inputPadding rounded"
+                        value={name}
+                        onChange={handleNameInput}
+                        required
+                      />
+                    </div>
                 </div>
 
+                <div className="form-group">
+                  <label className="lblAbs font-12">
+                    عنوان <span className="text-danger">*</span>
+                  </label>
+                    <div className="col p-0">
+                      <input
+                        type="text"
+                        id="AddPhysicianTitle"
+                        className="form-control floating inputPadding rounded"
+                        value={title}
+                        onChange={handleTitleInput}
+                        required
+                      />
+                    </div>
+                </div>
+
+                <div className="form-group">
+                  <label className="lblAbs font-12">
+                     تخصص <span className="text-danger">*</span>
+                  </label>
+                    <div className="col p-0">
+                      <input
+                        type="text"
+                        id="AddPhysicianSpe"
+                        className="form-control floating inputPadding rounded"
+                        value={specialty}
+                        onChange={handleSpecialtyInput}
+                        required
+                      />
+                    </div>
+                </div>
+               
                 <div className="submit-section">
-                  <button type="submit" className="btn btn-primary btn-save">
-                    ثبت تغییرات
+                  <button type="submit" className="btn btn-primary rounded btn-save">
+                    ثبت 
                   </button>
                 </div>
-              </div>
             </form>
           </div>
         </div>

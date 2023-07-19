@@ -7,7 +7,7 @@ const ErrorAlert = (Title, Text) => {
     text: Text,
     icon: "error",
     allowOutsideClick: true,
-    confirmButtonColor: "#3085d6",
+    confirmButtonColor: "#1B5A90",
     confirmButtonText: "تایید",
   });
 };
@@ -18,7 +18,7 @@ const SuccessAlert = (Title, Text) => {
     text: Text,
     icon: "success",
     allowOutsideClick: true,
-    confirmButtonColor: "#3085d6",
+    confirmButtonColor: "#1B5A90",
     confirmButtonText: "تایید",
   });
 };
@@ -29,7 +29,7 @@ const WarningAlert = (Title, Text) => {
     text: Text,
     icon: "warning",
     allowOutsideClick: true,
-    confirmButtonColor: "#3085d6",
+    confirmButtonColor: "#1B5A90",
     confirmButtonText: "تایید",
   });
 };
@@ -41,7 +41,7 @@ const QuestionAlert = async (Title, Text) => {
     icon: "question",
     showCancelButton: true,
     allowOutsideClick: true,
-    confirmButtonColor: "#0db1ca",
+    confirmButtonColor: "#1B5A90",
     cancelButtonColor: "#d33",
     confirmButtonText: "بله",
     cancelButtonText: "خیر",

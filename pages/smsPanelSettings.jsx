@@ -79,7 +79,7 @@ const SmsPanelSettings = () => {
                           type="text"
                           name="smsPanelUserName"
                           required
-                          className="form-control smsPanelInput rounded"
+                          className="form-control inputPadding rounded"
                           defaultValue={panelData.userName}
                         />
                       </div>
@@ -89,7 +89,7 @@ const SmsPanelSettings = () => {
                           type={eye ? "password" : "text"}
                           name="smsPanelPassword"
                           required
-                          className="form-control smsPanelInput rounded"
+                          className="form-control inputPadding rounded"
                           defaultValue={panelData.Password}
                         />
                         <span

@@ -32,49 +32,46 @@ const EditMessageModal = ({
           </div>
           <div className="modal-body">
             <form onSubmit={editMessage}>
-              <div className="add-wrap">
-                <div className="form-group form-focus">
+                <div className="form-group">
                   <input
                     type="hidden"
                     className="form-control floating"
                     name="EditMessageID"
                     value={data._id}
                   />
+                  <label className="lblAbs font-12">
+                    عنوان پیام<span className="text-danger">*</span>
+                  </label>
                   <input
                     type="text"
-                    className="form-control floating"
+                    className="form-control floating inputPadding rounded"
                     name="EditMessageTitle"
                     defaultValue={data.Title}
                     key={data.Title}
                     required
                   />
-                  <label className="focus-label">
-                    عنوان پیام<span className="text-danger">*</span>
-                  </label>
                 </div>
 
-                <div className="form-group form-focus">
+                <div className="form-group ">
+                  <label className="lblAbs font-12">
+                    پیام<span className="text-danger">*</span>
+                  </label>
                   <textarea
                     type="textarea"
-                    className="form-control floating"
+                    className="form-control floating rounded"
                     name="EditMessageText"
                     defaultValue={data.Text}
                     key={data.Text}
                     required
-                  ></textarea>
-
-                  <label className="focus-label">
-                    پیام<span className="text-danger">*</span>
-                  </label>
+                  >
+                  </textarea>
                 </div>
 
                 <div className="submit-section">
-                  <button type="submit" className="btn btn-primary btn-save">
+                  <button type="submit" className="btn btn-primary btn-save rounded">
                     ثبت تغییرات
                   </button>
                 </div>
-                
-              </div>
             </form>
           </div>
         </div>

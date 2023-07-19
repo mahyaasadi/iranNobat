@@ -12,6 +12,16 @@ const TariffCalcModal = ({
   applyPercentCalculations,
   applyPriceCalculations,
 }) => {
+  const colourStyles = {
+    menu: (provided) => ({ ...provided, zIndex: 9999 }),
+    control: (styles) => ({
+      ...styles,
+      minHeight: 43,
+      borderRadius: 20,
+      border: "1px solid #E6E9F4",
+    }),
+  };
+
   return (
     <>
       <div
@@ -40,9 +50,9 @@ const TariffCalcModal = ({
               <div className="card-header tariffCalcModal">
                 <ul
                   role="tablist"
-                  className="nav nav-tabs nav-tabs-bottom"
+                  className="nav nav-tabs nav-tabs-bottom tabs-scroll font-13 padding-bottom-md"
                 >
-                  <li className="nav-item">
+                  <li className="nav-item text-center">
                     <a
                       href="#tab-1"
                       data-bs-toggle="tab"
@@ -51,12 +61,12 @@ const TariffCalcModal = ({
                       محاسبه بر اساس K
                     </a>
                   </li>
-                  <li className="nav-item">
+                  <li className="nav-item text-center">
                     <a href="#tab-2" data-bs-toggle="tab" className="nav-link">
                       محاسبه بر اساس مبلغ
                     </a>
                   </li>
-                  <li className="nav-item">
+                  <li className="nav-item text-center">
                     <a href="#tab-3" data-bs-toggle="tab" className="nav-link">
                       محاسبه بر اساس درصد
                     </a>
@@ -76,7 +86,7 @@ const TariffCalcModal = ({
                       className="tariffCalcForm"
                       onSubmit={applyKCalculations}
                     >
-                      <div className="form-group form-focus w-50">
+                      <div className="form-group col-9 col-xl-10">
                         <input
                           type="hidden"
                           className="form-control floating"
@@ -86,56 +96,56 @@ const TariffCalcModal = ({
                           defaultValue={data._id}
                         />
 
+                        <label className="lblAbs font-12">
+                          K فنی-خصوصی <span className="text-danger">*</span>
+                        </label>
                         <input
+                          className="form-control floating inputPadding rounded"
                           type="number"
-                          className="form-control floating"
                           required
                           name="pkf"
                         />
-                        <label className="focus-label">
-                          K فنی-خصوصی <span className="text-danger">*</span>
-                        </label>
                       </div>
 
-                      <div className="form-group form-focus w-50">
+                      <div className="form-group col-9 col-xl-10">
+                        <label className="lblAbs font-12">
+                          K حرفه ای-خصوصی <span className="text-danger">*</span>
+                        </label>
                         <input
+                          className="form-control floating inputPadding rounded"
                           type="number"
-                          className="form-control floating"
                           required
                           name="pkh"
                         />
-                        <label className="focus-label">
-                          K حرفه ای-خصوصی <span className="text-danger">*</span>
-                        </label>
                       </div>
 
-                      <div className="form-group form-focus w-50">
+                      <div className="form-group col-9 col-xl-10">
+                        <label className="lblAbs font-12">
+                          K فنی-دولتی <span className="text-danger">*</span>
+                        </label>
                         <input
+                          className="form-control floating inputPadding rounded"
                           type="number"
-                          className="form-control floating"
                           required
                           name="gkf"
                         />
-                        <label className="focus-label">
-                          K فنی-دولتی <span className="text-danger">*</span>
-                        </label>
                       </div>
 
-                      <div className="form-group form-focus w-50">
+                      <div className="form-group col-9 col-xl-10">
+                        <label className="lblAbs font-12">
+                          K فنی-دولتی <span className="text-danger">*</span>
+                        </label>
                         <input
+                          className="form-control floating inputPadding rounded"
                           type="number"
-                          className="form-control floating"
                           required
                           name="gkh"
                         />
-                        <label className="focus-label">
-                          K حرفه ای-دولتی <span className="text-danger">*</span>
-                        </label>
                       </div>
 
                       {isLoading ? (
                         <button
-                          className="btn btn-primary btn-save mt-4"
+                          className="btn btn-primary btn-save mt-4 rounded"
                           type="button"
                           disabled
                         >
@@ -150,7 +160,7 @@ const TariffCalcModal = ({
                         <div className="submit-section calcSubmit-btn">
                           <button
                             type="submit"
-                            className="btn btn-primary btn-save mt-4"
+                            className="btn btn-primary btn-save mt-4 rounded"
                           >
                             ثبت
                           </button>
@@ -165,32 +175,38 @@ const TariffCalcModal = ({
                       className="tariffCalcForm"
                       onSubmit={applyPriceCalculations}
                     >
-                      <div className="form-group form-focus w-50">
+                      <div className="form-group col-9 col-xl-10">
+                        <label className="lblAbs font-12">
+                          K فنی-دولتی <span className="text-danger">*</span>
+                        </label>
                         <input
+                          className="form-control floating inputPadding rounded marginb-md1"
                           type="text"
-                          className="form-control floating"
                           required
                           name="price"
                           placeholder="مبلغ مورد نظر را وارد نمایید"
                         />
-                        <label className="focus-label">
-                          مبلغ<span className="text-danger">*</span>
-                        </label>
 
-                        <Select
-                          className="select mt-3"
-                          options={calculationsOptions}
-                          required
-                          name="applyPriceOptions"
-                          placeholder="روش اعمال"
-                          id="long-value-select"
-                          instanceId="long-value-select"
-                        />
+                        <div className="col media-w-100 font-12">
+                          <label className="lblDrugIns margin-top-right font-12">
+                            روش اعمال<span className="text-danger">*</span>
+                          </label>
+                          <Select
+                            styles={colourStyles}
+                            className="select mt-3"
+                            options={calculationsOptions}
+                            required
+                            name="applyPriceOptions"
+                            placeholder=""
+                            id="long-value-select"
+                            instanceId="long-value-select"
+                          />
+                        </div>
                       </div>
 
                       {isLoading ? (
                         <button
-                          className="btn btn-primary btn-save mt-4"
+                          className="btn btn-primary btn-save mt-4 rounded"
                           type="button"
                           disabled
                         >
@@ -205,7 +221,7 @@ const TariffCalcModal = ({
                         <div className="submit-section calcSubmit-btn">
                           <button
                             type="submit"
-                            className="btn btn-primary btn-save mt-4"
+                            className="btn btn-primary btn-save mt-4 rounded"
                           >
                             ثبت
                           </button>
@@ -220,32 +236,38 @@ const TariffCalcModal = ({
                       className="tariffCalcForm"
                       onSubmit={applyPercentCalculations}
                     >
-                      <div className="form-group form-focus w-50">
+                      <div className="form-group col-9 col-xl-10">
+                        <label className="lblAbs font-12">
+                          درصد<span className="text-danger">*</span>
+                        </label>
                         <input
+                          className="form-control floating inputPadding rounded marginb-md1"
                           type="text"
-                          className="form-control floating"
                           required
                           name="percent"
                           placeholder="درصد مورد نظر را وارد نمایید"
                         />
-                        <label className="focus-label">
-                          درصد<span className="text-danger">*</span>
-                        </label>
 
-                        <Select
-                          className="select mt-3"
-                          name="applyPercentOptions"
-                          options={calculationsOptions}
-                          placeholder="روش اعمال"
-                          required
-                          id="long-value-select"
-                          instanceId="long-value-select"
-                        />
+                        <div className="col media-w-100 font-12">
+                          <label className="lblDrugIns margin-top-right font-12">
+                            روش اعمال<span className="text-danger">*</span>
+                          </label>
+                          <Select
+                            styles={colourStyles}
+                            className="select mt-3"
+                            name="applyPercentOptions"
+                            options={calculationsOptions}
+                            placeholder=""
+                            required
+                            id="long-value-select"
+                            instanceId="long-value-select"
+                          />
+                        </div>
                       </div>
 
                       {isLoading ? (
                         <button
-                          className="btn btn-primary btn-save mt-4"
+                          className="btn btn-primary btn-save mt-4 rounded"
                           type="button"
                           disabled
                         >
@@ -260,7 +282,7 @@ const TariffCalcModal = ({
                         <div className="submit-section calcSubmit-btn">
                           <button
                             type="submit"
-                            className="btn btn-primary btn-save mt-4"
+                            className="btn btn-primary btn-save mt-4 rounded"
                           >
                             ثبت
                           </button>
@@ -268,10 +290,8 @@ const TariffCalcModal = ({
                       )}
                     </form>
                   </div>
-
                 </div>
               </div>
-              
             </div>
           </div>
         </div>

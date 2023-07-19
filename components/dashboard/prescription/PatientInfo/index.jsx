@@ -97,6 +97,7 @@ const PatientInfo = ({
             <ChangeInsuranceTypeModal
               changeInsuranceType={changeInsuranceType}
               selectInsuranceType={selectInsuranceType}
+              data={data}
             />
 
             <EditPhoneNumberModal />

@@ -608,6 +608,10 @@ table.table td h2.table-avatar a>img {
   padding-bottom: 10px;
 }
 
+.padding-bottom-md {
+  padding-bottom: 0.5rem;
+}
+
 @media (max-width: 768px) {
 
   .dashboard-header {
@@ -638,6 +642,10 @@ table.table td h2.table-avatar a>img {
 
 .marginb-1 {
   margin-bottom: 1rem
+}
+
+.marginb-md1 {
+  margin-bottom: 1.5rem
 }
 
 @media (min-width: 768px) {
@@ -8628,27 +8636,27 @@ ul li .active {
 }
 
 .edit-icon {
-  background-color: #e4ede5;
-  border: 1px solid #e4ede5;
+  border: 1px solid #7ea38d;
   border-radius: 4px;
-  padding: 6px 5px 6px 5px;
+  padding: 0.25rem 0.5rem;
 }
 
 .edit-icon:hover {
-  border: 1px solid #5c806b;
-  transition: all 0.4s ease-in-out
+  transition: all 0.4s ease-in-out;
+  background-color: #9fc4af;
+  color: white
 }
 
 .trash-icon {
-  background-color: #fceded;
-  border: 1px solid #fceded;
+  border: 1px solid #ef3737;
   border-radius: 4px;
-  padding: 6px 5px 6px 5px;
+  padding: 0.25rem 0.5rem;
 }
 
 .trash-icon:hover {
-  border: 1px solid #e06f69;
-  transition: all 0.4s ease-in-out
+  transition: all 0.4s ease-in-out;
+  background-color: #ef3737;
+  color: white
 }
 
 /* --------------- prescription page ------------ */
@@ -8815,6 +8823,10 @@ ul li .active {
 .margin-top-left {
   margin-top: 0 !important;
   margin-right: 4rem !important;
+}
+
+.margin-top-right {
+  margin-top: -0.5rem !important;
 }
 
 .chatIconSize {
@@ -8997,7 +9009,7 @@ ul li .active {
 }
 
 .calenderModalContainer {
-  width: 400px !important;
+  width: 290px !important;
 }
 
 .creditBox {
@@ -9011,7 +9023,8 @@ ul li .active {
 }
 
 .smsCardContainer {
-  height: 55vh;
+  height: auto;
+  padding-bottom: 10rem;
 }
 
 .smsCard {
@@ -9028,13 +9041,27 @@ ul li .active {
   font-weight: 700;
 }
 
-.smsPanelInput {
+.inputPadding {
   padding: 18px 30px 18px !important;
 }
 
 .seperatorLine {
   height: 1px;
   background-color: lightgrey;
+}
+
+.prescList {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 45vh;
+  direction: initial;
+}
+
+.tabs-scroll {
+  flex-wrap: nowrap;
+  display: flex;
+  overflow-x: scroll;
+  overflow-y: hidden;
 }
 
 @media (max-width: 768px) {
@@ -9073,7 +9100,7 @@ ul li .active {
   .prescMediaBtn {
     justify-content: flex-end;
     display: flex;
-    margin-top: 3rem;
+    margin-top: 2rem;
     width: 100% !important;
   }
 
@@ -9119,4 +9146,28 @@ ul li .active {
     flex-wrap: nowrap;
     padding-bottom: 0.75rem;
   }
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #e9f1f7;
+  border-radius: 10px
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #1B5A90;
+  border-radius: 10px;
+  opacity: 0.9;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #1B5A90;
+  opacity: 1;
 }

@@ -33,53 +33,53 @@ const AddSpeWorkModal = ({
           </div>
           <div className="modal-body">
             <form onSubmit={addSpeWork} id="frmAddSpeWork">
-              <div className="add-wrap">
-                <div className="form-group form-focus">
-                  <input
-                    type="text"
-                    id="AddSpeName"
-                    className="form-control floating"
-                    value={name}
-                    onChange={handleNameInput}
-                    required
-                  />
-                  <label className="focus-label">
-                    نام پزشک <span className="text-danger">*</span>
+                <div className="form-group ">
+                  <label className="lblAbs font-12">
+                     نام پزشک <span className="text-danger">*</span>
                   </label>
+                    <input
+                      className="form-control floating inputPadding rounded"
+                      type="text"
+                      id="AddSpeName"
+                      value={name}
+                      onChange={handleNameInput}
+                      required
+                    />
                 </div>
-                <div className="form-group form-focus">
-                  <input
-                    type="text"
-                    id="AddSpeTitle"
-                    className="form-control floating"
-                    value={title}
-                    onChange={handleTitleInput}
-                    required
-                  />
-                  <label className="focus-label">
+
+                <div className="form-group ">
+                  <label className="lblAbs font-12">
                     عنوان <span className="text-danger">*</span>
                   </label>
+                    <input
+                      className="form-control floating inputPadding rounded"
+                      type="text"
+                      id="AddSpeTitle"
+                      value={title}
+                      onChange={handleTitleInput}
+                      required
+                    />
                 </div>
-                <div className="form-group form-focus">
-                  <input
-                    type="text"
-                    id="AddSpeEngName"
-                    className="form-control floating"
-                    value={engName}
-                    onChange={handleEngNameInput}
-                    required
-                  />
-                  <label className="focus-label">
-                    تخصص <span className="text-danger">*</span>
+
+                <div className="form-group ">
+                  <label className="lblAbs font-12">
+                   تخصص <span className="text-danger">*</span>
                   </label>
+                    <input
+                      className="form-control floating inputPadding rounded"
+                      type="text"
+                      id="AddSpeEngName"
+                      value={engName}
+                      onChange={handleEngNameInput}
+                      required
+                    />
                 </div>
 
                 <div className="submit-section">
-                  <button type="submit" className="btn btn-primary btn-save">
-                    ثبت تغییرات
+                  <button type="submit" className="btn btn-primary btn-save rounded">
+                    ثبت 
                   </button>
                 </div>
-              </div>
             </form>
           </div>
         </div>

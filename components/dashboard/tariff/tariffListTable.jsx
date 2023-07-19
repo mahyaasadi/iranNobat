@@ -100,12 +100,12 @@ const TariffListTable = ({
           >
             <button
               type="submit"
-              className="loeing-btn-container"
+              className="btn btn-sm btn-outline-primary"
               onClick={() =>
                 SetLoeingModalData(row["Tamin-Loeing"], row._id, row.Service)
               }
             >
-              <div className="loeing-btn">
+              <div className=" ">
                 <p className="loeing-text">
                   {" "}
                   لوئینگ تامین{" "}

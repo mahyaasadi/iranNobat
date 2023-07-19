@@ -31,7 +31,7 @@ const SelectField = ({
         </label>
         <Select
           styles={colourStyles}
-          options={options}
+          options={props.options || options}
           state={state}
           placeholder={placeholder}
           width="100%"

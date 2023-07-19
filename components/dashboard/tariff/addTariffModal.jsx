@@ -29,229 +29,209 @@ const AddTariffModal = ({ addService }) => {
 
             <div className="modal-body">
               <form onSubmit={addService}>
-                <div className="add-wrap">
-                  <div className="d-flex gap-2">
-                    <div className="form-group form-focus w-25">
-                      <input
-                        type="text"
-                        className="form-control floating"
-                        required
-                        name="serviceId"
-                      />
-                      <label className="focus-label">
-                        شناسه <span className="text-danger">*</span>
-                      </label>
-                    </div>
-
-                    <div className="form-group form-focus w-75">
-                      <input
-                        type="text"
-                        className="form-control floating"
-                        required
-                        name="serviceName"
-                      />
-                      <label className="focus-label">
-                        نام <span className="text-danger">*</span>
-                      </label>
-                    </div>
+                <div className="d-flex gap-2">
+                  <div className="form-group w-25">
+                    <label className="lblAbs font-12">
+                      شناسه <span className="text-danger">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control floating inputPadding rounded"
+                      required
+                      name="serviceId"
+                    />
                   </div>
-                  <div className="d-flex gap-2">
-                    <div className="form-group form-focus w-50">
-                      <input
-                        type="text"
-                        className="form-control floating"
-                        name="total_K"
-                      />
-                      <label className="focus-label">ضریب K</label>
-                    </div>
-                    <div className="form-group form-focus w-50">
-                      <input
-                        type="text"
-                        className="form-control floating"
-                        name="tech_K"
-                      />
-                      <label className="focus-label">ضریب K فنی</label>
-                    </div>
-
-                    <div className="form-group form-focus w-50">
-                      <input
-                        type="text"
-                        className="form-control floating"
-                        name="pro_K"
-                      />
-                      <label className="focus-label">ضریب K حرفه ای</label>
-                    </div>
+                  <div className="form-group w-75">
+                    <label className="lblAbs font-12">
+                      نام <span className="text-danger">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control floating inputPadding rounded"
+                      required
+                      name="serviceName"
+                    />
                   </div>
+                </div>
 
-                  {/*  */}
-                  <div className="row">
-                    <div className="col">
-                      <div className="form-group form-focus">
-                        <input
-                          type="number"
-                          className="form-control floating"
-                          // required
-                          name="ptk_price"
-                        />
-                        <label className="focus-label">مبلغ K فنی-خصوصی </label>
-                      </div>
-                    </div>
-
-                    <div className="col">
-                      <div className="form-group form-focus">
-                        <input
-                          type="number"
-                          className="form-control floating"
-                          // required
-                          name="ppk_price"
-                        />
-                        <label className="focus-label p-1">
-                          مبلغ K حرفه ای-خصوصی
-                        </label>
-                      </div>
-                    </div>
-
-                    <div className="col">
-                      <div className="form-group form-focus">
-                        <input
-                          type="number"
-                          className="form-control floating"
-                          // required
-                          name="gtk_price"
-                        />
-                        <label className="focus-label p-1">
-                          مبلغ K فنی-دولتی
-                        </label>
-                      </div>
-                    </div>
-
-                    <div className="col">
-                      <div className="form-group form-focus">
-                        <input
-                          type="number"
-                          className="form-control floating"
-                          // required
-                          name="gpk_price"
-                        />
-                        <label className="focus-label p-1">
-                          مبلغ K حرفه ای-دولتی{" "}
-                        </label>
-                      </div>
-                    </div>
+                <div className="d-flex gap-2">
+                  <div className="form-group w-50">
+                    <label className="lblAbs font-12">ضریب K</label>
+                    <input
+                      type="text"
+                      className="form-control floating inputPadding rounded"
+                      name="total_K"
+                    />
                   </div>
-
-                  {/*  */}
-
-                  <div className="row">
-                    <div className="col">
-                      <div className="form-group form-focus">
-                        <input
-                          type="number"
-                          className="form-control floating"
-                          required
-                          name="govTariff"
-                        />
-                        <label className="focus-label">
-                          تعرفه دولتی<span className="text-danger">*</span>
-                        </label>
-                      </div>
-                    </div>
-
-                    <div className="col">
-                      <div className="form-group form-focus">
-                        <input
-                          type="number"
-                          className="form-control floating"
-                          required
-                          name="privateTariff"
-                        />
-                        <label className="focus-label">
-                          تعرفه خصوصی<span className="text-danger">*</span>
-                        </label>
-                      </div>
-                    </div>
-
-                    <div className="col">
-                      <div className="form-group form-focus">
-                        <input
-                          type="number"
-                          className="form-control floating"
-                          // required
-                          name="freeTariff"
-                        />
-                        <label className="focus-label">تعرفه آزاد</label>
-                      </div>
-                    </div>
+                  <div className="form-group w-50">
+                    <label className="lblAbs font-12">ضریب فنی K</label>
+                    <input
+                      type="text"
+                      className="form-control floating inputPadding rounded"
+                      name="tech_K"
+                    />
                   </div>
-
-                  <div className="d-flex gap-2">
-                    <div className="form-group form-focus w-50">
+                  <div className="form-group w-50">
+                    <label className="lblAbs font-12">ضریب حرفه ای K</label>
+                    <input
+                      type="text"
+                      className="form-control floating inputPadding rounded"
+                      name="pro_K"
+                    />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col">
+                    <div className="form-group">
+                      <label className="lblAbs font-12">مبلغ K فنی-خصوصی</label>
                       <input
                         type="number"
-                        className="form-control floating"
-                        // required
-                        name="patientCost"
+                        className="form-control floating inputPadding rounded"
+                        name="ptk_price"
                       />
-                      <label className="focus-label">
-                        سهم بیمار خدمات و تامین{" "}
-                        <span className="text-danger">*</span>
-                      </label>
                     </div>
-
-                    <div className="form-group form-focus w-50">
+                  </div>
+                  <div className="col">
+                    <div className="form-group">
+                      <label className="lblAbs font-12">
+                        مبلغ K حرفه ای-خصوصی
+                      </label>
                       <input
                         type="number"
-                        className="form-control floating"
-                        // required
-                        name="arteshPatientCost"
+                        className="form-control floating inputPadding rounded"
+                        name="ppk_price"
                       />
-                      <label className="focus-label">
-                        سهم بیمار ارتش <span className="text-danger">*</span>
+                    </div>
+                  </div>
+                  <div className="col">
+                    <div className="form-group">
+                      <label className="lblAbs font-12">مبلغ K فنی-دولتی</label>
+                      <input
+                        type="number"
+                        className="form-control floating inputPadding rounded"
+                        name="gtk_price"
+                      />
+                    </div>
+                  </div>
+                  <div className="col">
+                    <div className="form-group">
+                      <label className="lblAbs font-12">
+                        مبلغ K حرفه ای-دولتی{" "}
                       </label>
+                      <input
+                        type="number"
+                        className="form-control floating inputPadding rounded"
+                        name="gpk_price"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col">
+                    <div className="form-group ">
+                      <label className="lblAbs font-12">
+                        تعرفه دولتی<span className="text-danger">*</span>
+                      </label>
+                      <input
+                        type="number"
+                        className="form-control floating inputPadding rounded"
+                        required
+                        name="govTariff"
+                      />
                     </div>
                   </div>
 
-                  <div className="row">
-                    <div className="col">
-                      <div className="form-group form-focus">
-                        <input
-                          type="number"
-                          className="form-control floating"
-                          name="taminShare"
-                        />
-                        <label className="focus-label">سهم تامین</label>
-                      </div>
-                    </div>
-
-                    <div className="col">
-                      <div className="form-group form-focus">
-                        <input
-                          type="number"
-                          className="form-control floating"
-                          name="salamatShare"
-                        />
-                        <label className="focus-label">سهم سلامت</label>
-                      </div>
-                    </div>
-
-                    <div className="col">
-                      {" "}
-                      <div className="form-group form-focus">
-                        <input
-                          type="number"
-                          className="form-control floating"
-                          name="arteshShare"
-                        />
-                        <label className="focus-label">سهم ارتش</label>
-                      </div>
+                  <div className="col">
+                    <div className="form-group ">
+                      <label className="lblAbs font-12">
+                        تعرفه خصوصی<span className="text-danger">*</span>
+                      </label>
+                      <input
+                        type="number"
+                        className="form-control floating inputPadding rounded"
+                        required
+                        name="privateTariff"
+                      />
                     </div>
                   </div>
 
-                  <div className="submit-section">
-                    <button type="submit" className="btn btn-primary btn-save">
-                      ثبت تغییرات
-                    </button>
+                  <div className="col">
+                    <div className="form-group">
+                      <label className="lblAbs font-12">تعرفه آزاد</label>
+                      <input
+                        type="number"
+                        className="form-control floating inputPadding rounded"
+                        name="freeTariff"
+                      />
+                    </div>
                   </div>
+                </div>
+
+                <div className="d-flex gap-2">
+                  <div className="form-group w-50">
+                    <label className="lblAbs font-12">
+                      سهم بیمار خدمات و تامین{" "}
+                      <span className="text-danger">*</span>
+                    </label>
+                    <input
+                      type="number"
+                      className="form-control floating inputPadding rounded"
+                      name="patientCost"
+                    />
+                  </div>
+
+                  <div className="form-group w-50">
+                    <label className="lblAbs font-12">
+                      سهم بیمار ارتش <span className="text-danger">*</span>
+                    </label>
+                    <input
+                      type="number"
+                      className="form-control floating inputPadding rounded"
+                      name="arteshPatientCost"
+                    />
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col">
+                    <div className="form-group">
+                      <label className="lblAbs font-12">سهم تامین</label>
+                      <input
+                        type="number"
+                        className="form-control floating inputPadding rounded"
+                        name="taminShare"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col">
+                    <div className="form-group">
+                      <label className="lblAbs font-12">سهم سلامت</label>
+                      <input
+                        type="number"
+                        className="form-control floating inputPadding rounded"
+                        name="salamatShare"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col">
+                    <div className="form-group">
+                      <label className="lblAbs font-12">سهم ارتش</label>
+                      <input
+                        type="number"
+                        className="form-control floating inputPadding rounded"
+                        name="arteshShare"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="submit-section">
+                  <button type="submit" className="btn btn-primary btn-save rounded">
+                    ثبت تغییرات
+                  </button>
                 </div>
               </form>
             </div>

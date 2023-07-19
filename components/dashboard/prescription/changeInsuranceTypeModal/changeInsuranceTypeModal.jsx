@@ -10,6 +10,7 @@ let CenterID = Cookies.get("CenterID");
 const ChangeInsuranceTypeModal = ({
   changeInsuranceType,
   selectInsuranceType,
+  data
 }) => {
   const [insuranceOptionsList, setInsuranceOptionsList] = useState([]);
 
@@ -67,6 +68,11 @@ const ChangeInsuranceTypeModal = ({
             <div className="modal-body">
               <form onSubmit={changeInsuranceType}>
                 <div className="form-group form-focus">
+                  <input
+                    type="hidden"
+                    name="patientNID"
+                    value={data.NationalID}
+                  />
                   <Select
                     className="select mt-3"
                     options={insuranceOptionsList}

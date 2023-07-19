@@ -32,41 +32,40 @@ const AddMessageModal = ({
           </div>
           <div className="modal-body">
             <form onSubmit={addMessage}>
-              <div className="add-wrap">
-                <div className="form-group form-focus">
+                <div className="form-group">
+                  <label className="lblAbs font-12">
+                    عنوان پیام <span className="text-danger">*</span>
+                  </label>
                   <input
                     type="text"
+                    className="form-control floating inputPadding rounded"
                     id="AddMessageTitle"
-                    className="form-control floating"
                     value={messageTitle}
                     onChange={handleMessageTitleInput}
                     required
                   />
-                  <label className="focus-label">
-                    عنوان پیام <span className="text-danger">*</span>
-                  </label>
                 </div>
 
-                <div className="form-group form-focus">
+                <div className="form-group">
+                  <label className="lblAbs font-12">
+                      پیام <span className="text-danger">*</span>
+                  </label>
                   <textarea
                     type="text"
+                    className="form-control floating inputPadding rounded"
                     id="AddMessageText"
-                    className="form-control floating"
                     value={messageText}
                     onChange={handleMessageTextInput}
                     required
-                  ></textarea>
-                  <label className="focus-label">
-                    پیام <span className="text-danger">*</span>
-                  </label>
+                  >
+                  </textarea>
                 </div>
 
                 <div className="submit-section">
-                  <button type="submit" className="btn btn-primary btn-save">
+                  <button type="submit" className="btn btn-primary btn-save rounded">
                     ثبت تغییرات
                   </button>
                 </div>
-              </div>
             </form>
           </div>
         </div>

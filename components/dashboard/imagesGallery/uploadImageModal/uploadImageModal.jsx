@@ -33,30 +33,29 @@ const UploadImageModal = ({ uploadImage }) => {
           </div>
           <div className="modal-body">
             <form onSubmit={uploadImage}>
-              <div className="add-wrap">
-                <div className="form-group form-focus">
+                <div className="form-group ">
+                  <label className="lblAbs font-12">
+                    عنوان<span className="text-danger">*</span>
+                  </label>
                   <input
+                    className="form-control floating inputPadding rounded"
                     type="text"
                     name="Title"
                     id="Title"
-                    className="form-control floating"
                     required
                   />
-                  <label className="focus-label">
-                    عنوان<span className="text-danger">*</span>
-                  </label>
                 </div>
 
-                <div className="form-group form-focus">
-                  <input
-                    type="text"
-                    name="Des"
-                    className="form-control floating"
-                    required
-                  />
-                  <label className="focus-label">
+                <div className="form-group ">
+                   <label className="lblAbs font-12">
                     توضیحات<span className="text-danger">*</span>
                   </label>
+                  <input
+                    className="form-control floating inputPadding rounded"
+                    type="text"
+                    name="Des"
+                    required
+                  />
                 </div>
 
                 <div className="change-photo-btn">
@@ -87,10 +86,9 @@ const UploadImageModal = ({ uploadImage }) => {
 
                 <div className="submit-section">
                   <button type="submit" className="btn btn-primary btn-save">
-                    ثبت تغییرات
+                    ثبت 
                   </button>
                 </div>
-              </div>
             </form>
           </div>
         </div>

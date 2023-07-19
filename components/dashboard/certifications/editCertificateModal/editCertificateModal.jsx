@@ -28,73 +28,74 @@ const EditCertificateModal = ({ data, editCertificate }) => {
           </div>
           <div className="modal-body">
             <form onSubmit={editCertificate}>
-              <div className="add-wrap">
-                <div className="form-group form-focus">
+                <div className="form-group">
                   <input
                     type="hidden"
                     className="form-control floating"
                     name="EditCertificateID"
                     value={data._id}
                   />
+  
+                  <label className="lblAbs font-12">
+                      نام شرکت <span className="text-danger">*</span>
+                  </label>
                   <input
+                    className="form-control floating inputPadding rounded"
                     type="text"
-                    className="form-control floating"
                     name="EditCompanyName"
                     defaultValue={data.Company}
                     key={data.Company}
                     required
                   />
-                  <label className="focus-label">
-                    نام شرکت <span className="text-danger">*</span>
-                  </label>
                 </div>
-                <div className="form-group form-focus">
+
+                <div className="form-group ">
+                  <label className="lblAbs font-12">
+                    لینک <span className="text-danger">*</span>
+                  </label>
                   <input
+                    className="form-control floating inputPadding rounded"
                     type="text"
-                    className="form-control floating"
                     name="EditCertificateLink"
                     defaultValue={data.Link}
                     key={data.Link}
                     required
                   />
-                  <label className="focus-label">
-                    لینک <span className="text-danger">*</span>
-                  </label>
                 </div>
-                <div className="form-group form-focus">
+
+                <div className="form-group ">
+                   <label className="lblAbs font-12">
+                    عنوان مجوز <span className="text-danger">*</span>
+                  </label>
                   <input
+                    className="form-control floating inputPadding rounded"
                     type="text"
                     name="EditCertificateName"
-                    className="form-control floating"
                     defaultValue={data.Name}
                     key={data.Name}
                     required
                   />
-                  <label className="focus-label">
-                    عنوان مجوز <span className="text-danger">*</span>
-                  </label>
                 </div>
-                <div className="form-group form-focus">
+
+                <div className="form-group ">
+                  <label className="lblAbs font-12">
+                    سال صدور <span className="text-danger">*</span>
+                  </label>
                   <input
+                    className="form-control floating inputPadding rounded"
                     type="number"
-                    // min="1380"
-                    // pattern="[0-9]*"
                     name="EditCertificateYear"
-                    className="form-control floating"
                     defaultValue={data.Year}
                     key={data.Year}
                     required
                   />
-                  <label className="focus-label">
-                    سال صدور <span className="text-danger">*</span>
-                  </label>
                 </div>
+
                 <div className="submit-section">
-                  <button type="submit" className="btn btn-primary btn-save">
+                  <button type="submit" className="btn btn-primary btn-save rounded">
                     ثبت تغییرات
                   </button>
                 </div>
-              </div>
             </form>
           </div>
         </div>

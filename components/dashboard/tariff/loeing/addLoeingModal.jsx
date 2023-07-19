@@ -30,7 +30,7 @@ const AddLoeingModal = ({ data, addLoeing }) => {
 
             <div className="modal-body">
               <form onSubmit={addLoeing}>
-                <div className="form-group form-focus">
+                <div className="form-group ">
                   <input
                     type="hidden"
                     className="form-control floating"
@@ -38,31 +38,31 @@ const AddLoeingModal = ({ data, addLoeing }) => {
                     name="loeingId"
                   />
 
+                  <label className="lblAbs font-12">
+                    کد لوئینگ <span className="text-danger">*</span>
+                  </label>
                   <input
                     type="text"
-                    className="form-control floating"
+                    className="form-control floating inputPadding rounded"
                     required
                     name="loeingCode"
                   />
-                  <label className="focus-label">
-                    کد لوئینگ <span className="text-danger">*</span>
-                  </label>
                 </div>
 
-                <div className="form-group form-focus">
+                <div className="form-group ">
+                  <label className="lblAbs font-12">
+                    نام خدمت لوئینگ <span className="text-danger">*</span>
+                  </label>
                   <textarea
                     type="text"
-                    className="form-control floating"
+                    className="form-control floating inputPadding rounded"
                     required
                     name="loeingName"
                   ></textarea>
-                  <label className="focus-label">
-                    نام خدمت لوئینگ <span className="text-danger">*</span>
-                  </label>
                 </div>
 
                 <div className="submit-section">
-                  <button type="submit" className="btn btn-primary btn-save">
+                  <button type="submit" className="btn btn-primary btn-save rounded">
                     ثبت
                   </button>
                 </div>
