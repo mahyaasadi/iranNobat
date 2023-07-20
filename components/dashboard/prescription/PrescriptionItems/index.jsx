@@ -1,6 +1,6 @@
 import AddToListItem from "components/dashboard/Prescription/AddToListItem";
 
-const PrescriptionItems = ({ data }) => {
+const PrescriptionItems = ({ data, SetPrescriptionItemsData }) => {
   return data.map((srv, index) => {
     // console.log("srv", srv);
     return (
@@ -17,6 +17,9 @@ const PrescriptionItems = ({ data }) => {
         SrvTypeDes={
           srv.PrescType ? srv.PrescType : srv["srvId"]["srvType"]["srvTypeDes"]
         }
+        // DeleteService={DeleteService}
+        SetPrescriptionItemsData={SetPrescriptionItemsData}
+        data={data}
       />
     );
   });

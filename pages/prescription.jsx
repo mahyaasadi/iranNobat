@@ -31,6 +31,7 @@ let ActiveSrvCode,
   ActiveInsuranceID,
   ActiveParaCode,
   ActivePatientID = null;
+let count = 0
 
 const ChangeActiveServiceTypeID = (id) => {
   ActiveServiceTypeID = id;
@@ -299,6 +300,10 @@ const Prescription = () => {
           };
         }
 
+        count = $("#srvItemCount").html();
+        count = parseInt(count);
+        count++;
+
         let onlyVisitPrescData = {
           Name: ActiveSrvName,
           Code: ActiveSrvCode,
@@ -532,10 +537,14 @@ const Prescription = () => {
                 FUSelectInstructionArray={FUSelectInstructionArray}
                 handleOnFocus={handleOnFocus}
                 handleOnBlur={handleOnBlur}
+                count={count}
               />
 
               <div className="prescList">
-                <PrescriptionItems data={PrescriptionItemsData} />
+                <PrescriptionItems
+                  data={PrescriptionItemsData}
+                  SetPrescriptionItemsData={SetPrescriptionItemsData}
+                />
               </div>
             </div>
           </div>
