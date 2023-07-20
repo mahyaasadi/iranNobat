@@ -50,8 +50,8 @@ const Login = () => {
     <>
       {/* Main Wrapper */}
       <div className="row">
-        {/* Login Banner */}
-        <div className="col-md-6 login-bg">
+      {/* Login Banner */}
+      <div className="col-md-6 login-bg">
           <div className="login-banner">
             <Image
               src={Logo}

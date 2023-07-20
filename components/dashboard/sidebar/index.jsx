@@ -151,6 +151,15 @@ const Sidebar = () => {
                       انتخاب بخش
                     </Link>
                   </li>
+                  <li
+                    className={
+                      router.pathname == "/monthlySchedule" ? "active" : ""
+                    }
+                  >
+                    <Link href="/monthlySchedule" className="font-12">
+                      برنامه ماهیانه
+                    </Link>
+                  </li>
                 </ul>
               </li>
 
