@@ -1,10 +1,26 @@
+import {useState} from "react"
 import Head from "next/head";
 import FeatherIcon from "feather-icons-react";
 import JDate from "jalali-date";
+import moment from 'jalali-moment'
 
-const jdate = new JDate();
 
 const MonthlySchedule = () => {
+  let jdate = new JDate();
+  const [date, setDate] = useState(jdate.format("MMMM YYY"))
+
+  const handleNextMonth = () => {
+    for(let i = 0; i > 0; i++) {
+      let nextMonth = moment().locale('fa').add(1, 'month').format('MMMM YYYY');
+      console.log(nextMonth);
+      setDate(nextMonth);
+    }
+  }
+  
+  // const handleLastMonth = () => {
+  //   let lastMonth = jdate.format("MMMM YYY")--;
+  //   return lastMonth;
+  // }
   return (
     <>
       <Head>
@@ -15,11 +31,11 @@ const MonthlySchedule = () => {
           <div className="card">
             <div className="card-body cardBodyPadding">
               <div className="monthContainer align-items-center gap-4">
-                <button className="btn">
+                <button className="btn" onClick={handleNextMonth}>
                   <i className="fa fa-angle-right"></i>
                 </button>
-                {jdate.format("MMMM YYY")}
-                <button className="btn">
+                {date}
+                <button className="btn" >
                   <i className="fa fa-angle-left"></i>
                 </button>
               </div>
