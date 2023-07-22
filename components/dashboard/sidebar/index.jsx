@@ -81,7 +81,14 @@ const Sidebar = () => {
                       router.pathname == "/imagesGallery" ? "active" : ""
                     }
                   >
-                    <Link href="/imagesGallery" className="font-12">
+                    <Link
+                      href="/imagesGallery"
+                      className={
+                        router.pathname == "/imagesGallery"
+                          ? "subdrop font-12"
+                          : "font-12"
+                      }
+                    >
                       گالری تصاویر
                     </Link>
                   </li>
@@ -158,6 +165,15 @@ const Sidebar = () => {
                   >
                     <Link href="/monthlySchedule" className="font-12">
                       برنامه ماهیانه
+                    </Link>
+                  </li>
+                  <li
+                    className={
+                      router.pathname == "/serviceGroupDetails" ? "active" : ""
+                    }
+                  >
+                    <Link href="/serviceGroupDetails" className="font-12">
+                      گروه بندی سرویس ها
                     </Link>
                   </li>
                 </ul>

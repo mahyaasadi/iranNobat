@@ -1,7 +1,6 @@
 import Head from "next/head";
 import FeatherIcon from "feather-icons-react";
 import JDate from "jalali-date";
-import "components/dashboard/scheduleTimetable/scheduleStyle.css";
 
 const jdate = new JDate();
 

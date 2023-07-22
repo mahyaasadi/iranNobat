@@ -4,6 +4,7 @@ import NavLink from "./NavLink";
 import TabContent from "./TabContent";
 
 const TariffHeader = ({ data, getServices, addService }) => {
+  let counter = 1;
   return (
     <>
       <div className="departmentsCategory w-100">
@@ -12,9 +13,25 @@ const TariffHeader = ({ data, getServices, addService }) => {
             <ul className="nav nav-tabs nav-tabs-solid media-tariff-hedaer">
               {data.map((nav, index) => {
                 if (nav.Checked) {
-                  return (
-                    <NavLink key={index} data={nav} getServices={getServices} />
-                  );
+                  if (counter++ === 1) {
+                    return (
+                      <NavLink
+                        activeClass="active"
+                        key={index}
+                        data={nav}
+                        getServices={getServices}
+                      />
+                    );
+                  } else {
+                    return (
+                      <NavLink
+                        activeClass=""
+                        key={index}
+                        data={nav}
+                        getServices={getServices}
+                      />
+                    );
+                  }
                 }
               })}
             </ul>

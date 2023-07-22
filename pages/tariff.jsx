@@ -47,19 +47,9 @@ const Tariff = () => {
     });
   };
 
-  //setting nav[0] as the default clicked one
-  const clickNav = () => {
-    let nav = $(".ServiceNav");
-    if (nav) {
-      nav[0].click();
-    }
-  };
-
   useEffect(() => {
     try {
       getDepartments();
-      // setting nav[0] as default clicked
-      setTimeout(() => clickNav(), 2000);
     } catch (error) {
       console.log(error);
       setIsLoading(true);
@@ -74,7 +64,7 @@ const Tariff = () => {
     setIsLoading(true);
 
     axiosClient.get(url).then(function (response) {
-      console.log("services", response.data.ServicesInfo);
+      console.log("services", response.data);
       setIsLoading(false);
       if (response.data.ServicesInfo.length > 0) {
         setServices(response.data.ServicesInfo);
@@ -197,7 +187,6 @@ const Tariff = () => {
     axiosClient
       .put(url, editData)
       .then((response) => {
-        // console.log("reponese", response.data);
         updateItem(formProps.serviceId, response.data);
         $("#editTariffModal").modal("hide");
       })
@@ -412,7 +401,6 @@ const Tariff = () => {
       .put(url, data)
       .then((response) => {
         setIsLoading(false);
-        // console.log("response", response.data);
         setServices(response.data.ServicesInfo);
         $("#tariffCalcModal").modal("hide");
         e.target.reset();
@@ -442,7 +430,6 @@ const Tariff = () => {
       .put(url, data)
       .then((response) => {
         setIsLoading(false);
-        // console.log("response", response.data);
         setServices(response.data.ServicesInfo);
         $("#tariffCalcModal").modal("hide");
         e.target.reset();
@@ -472,7 +459,6 @@ const Tariff = () => {
       .put(url, data)
       .then((response) => {
         setIsLoading(false);
-        // console.log("response", response.data);
         setServices(response.data.ServicesInfo);
         $("#tariffCalcModal").modal("hide");
         e.target.reset();
@@ -563,6 +549,7 @@ const Tariff = () => {
                     <TariffListTable
                       data={services}
                       updateService={updateService}
+                      // updateServiceGroup={updateServiceGroup}
                       deleteService={deleteService}
                       SetLoeingModalData={SetLoeingModalData}
                     />

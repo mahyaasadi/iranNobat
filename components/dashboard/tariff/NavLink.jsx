@@ -1,12 +1,19 @@
 import FeatherIcon from "feather-icons-react";
 import Image from "next/image";
+import { useEffect } from "react";
 
-const NavLink = ({ data, getServices }) => {
+const NavLink = ({ data, getServices, activeClass }) => {
+  useEffect(() => {
+    if (activeClass == "active") {
+      getServices(data._id, data.PerFullName);
+    }
+  }, []);
+
   return (
     <>
       <li className="nav-item">
         <a
-          className="nav-link ServiceNav"
+          className={"nav-link ServiceNav " + activeClass}
           href={"#Tab" + data._id}
           data-bs-toggle="tab"
           onClick={() => getServices(data._id, data.PerFullName)}

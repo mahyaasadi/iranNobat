@@ -6,11 +6,9 @@ const AddToListItem = ({
   SrvQty,
   TimesADay,
   DrugInstruction,
-  // DeleteService,
   SetPrescriptionItemsData,
-  data
+  data,
 }) => {
-
   let Drug = null;
   if (TimesADay) {
     Drug = (
@@ -25,8 +23,8 @@ const AddToListItem = ({
 
   const DeleteService = (id) => {
     SetPrescriptionItemsData(data.filter((a) => a.SrvCode !== id));
-    console.log(id)
-  }
+    console.log(id);
+  };
 
   return (
     <>

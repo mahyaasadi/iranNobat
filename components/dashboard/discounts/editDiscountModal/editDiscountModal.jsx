@@ -84,7 +84,6 @@ const EditDiscountModal = ({
                   </label>
                   <input
                     className="form-control floating inputPadding rounded"
-                    name="EditDiscountName"
                     name="EditDiscountDes"
                     defaultValue={data.Des}
                     onChange={handleDescriptionInput}

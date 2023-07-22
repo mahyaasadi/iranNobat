@@ -31,7 +31,7 @@ let ActiveSrvCode,
   ActiveInsuranceID,
   ActiveParaCode,
   ActivePatientID = null;
-let count = 0
+let count = 0;
 
 const ChangeActiveServiceTypeID = (id) => {
   ActiveServiceTypeID = id;
@@ -104,7 +104,7 @@ const Prescription = () => {
     ActiveSrvName = name;
     ActiveSrvTypePrsc = type;
     ActiveParaCode = paraTarefCode;
-    console.log("ActiveParaCode", ActiveParaCode);
+    // console.log("ActiveParaCode", ActiveParaCode);
 
     ActiveInsuranceID == "2"
       ? (ActiveSrvCode = TaminCode)
@@ -147,7 +147,6 @@ const Prescription = () => {
   };
 
   const handleOnFocus = () => {
-    // console.log(ActiveSrvCode);
     if (ActiveSrvCode !== null && $("#srvSearchInput").val().length > 2) {
       $(".SearchDiv").show();
     }
@@ -227,7 +226,7 @@ const Prescription = () => {
       axiosClient
         .post("TaminServices/SearchSrv", data)
         .then(function (response) {
-          console.log(response.data);
+          // console.log(response.data);
           setTaminSrvSearchList(response.data);
           $(".SearchDiv").show();
           setIsLoading(false);
@@ -238,9 +237,11 @@ const Prescription = () => {
     }
   };
 
+  console.log("Presc list", PrescriptionItemsData);
   // add to list function
   const FuAddToListItem = (e) => {
     e.preventDefault();
+
     if (prescId == 1 && SelectedInstruction == null) {
       ErrorAlert("خطا", "در اقلام دارویی زمان مصرف باید انتخاب گردد");
     } else if (prescId == 1 && SelectedAmount == null) {
@@ -258,6 +259,20 @@ const Prescription = () => {
           TimesADay: SelectedAmountLbl,
           PrescType: ActivePrscName,
         };
+
+        console.log("added item", prescItems);
+
+        if (addPrescriptionitems.length > 0) {
+          if (
+            addPrescriptionitems.find(
+              ({ srvId }) => srvId.srvCode === ActiveSrvCode
+            )
+          ) {
+            ErrorAlert("خطا", "سرویس انتخابی تکراری می باشد");
+            return false;
+          }
+        }
+
         let prescData = null;
         if (prescId == 1) {
           prescData = {
@@ -312,6 +327,8 @@ const Prescription = () => {
         addPrescriptionitems.push(prescData);
         addPrescriptionSrvNameitems.push(onlyVisitPrescData);
         SetPrescriptionItemsData([...PrescriptionItemsData, prescItems]);
+
+        console.log("addPrescriptionitems", addPrescriptionitems);
 
         ActiveSearch();
         $("#QtyInput").val("1");

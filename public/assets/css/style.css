@@ -432,6 +432,10 @@ p:last-child {
   justify-content: space-between;
 }
 
+.margint-5 {
+  margin-top: 5rem;
+}
+
 /*-----------------
 	2. Table
 -----------------------*/
@@ -4184,18 +4188,9 @@ html.menu-opened body {
   justify-content: center
 }
 
-@media (min-width: 1024px) {
-  .departments-container {
-    width: calc(100% - 100px);
-    padding-bottom: 5em;
-  }
-}
-
-@media (max-width: 1024px) {
-  .departments-container {
-    width: 100%;
-    padding-bottom: 5em
-  }
+.departments-container {
+  width: 100%;
+  padding-bottom: 5em;
 }
 
 .submitDepartments {
@@ -4204,24 +4199,6 @@ html.menu-opened body {
 
 .submitDepartments-btn {
   margin-top: 5em;
-}
-
-.checkbox-group {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 600px;
-  user-select: none;
-  padding-top: 9em;
-
-  &>* {
-    margin: .5rem 0.5rem;
-  }
 }
 
 @media (min-width: 1024px) {
@@ -4245,16 +4222,23 @@ html.menu-opened body {
 }
 
 .checkbox-group-legend {
-  font-size: 1.25rem;
-  font-weight: 700;
+  font-size: 17px;
+  font-weight: 500;
   color: #0f3675;
   text-align: center;
   line-height: 1.125;
   margin-bottom: 3rem;
 }
 
+.checkbox-group {
+  direction: ltr;
+  height: 60rem;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
 .checkbox-wrapper {
-  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2), 0 3px 3px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.2), 0 1px 4px 0 rgba(0, 0, 0, 0.10);
   border-radius: 0.5rem;
 }
 
@@ -4296,7 +4280,6 @@ html.menu-opened body {
 
   &:focus+.checkbox-tile {
     border-color: #0743a3;
-    box-shadow: 0 5px 10px rgba(#000, 0.1), 0 0 0 4px #b5c9fc;
 
     &:before {
       transform: scale(1);
@@ -4314,7 +4297,6 @@ html.menu-opened body {
   border-radius: 0.5rem;
   border: 2px solid #b5bfd9;
   background-color: #fff;
-  box-shadow: 0 5px 10px rgba(#000, 0.1);
   transition: 0.15s ease;
   cursor: pointer;
   position: relative;
@@ -8718,8 +8700,17 @@ ul li .active {
   font-size: 14px;
 }
 
+.font-17 {
+  font-size: 17px !important;
+  font-weight: 500;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
 .GetPatientInput {
-  /* padding-left: 100px; */
   text-align: center
 }
 
@@ -9138,6 +9129,87 @@ ul li .active {
   }
 }
 
+/* monthly schedule */
+
+.timeTable {
+  border: 1px solid lightgray;
+  border-radius: 30px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1),
+    0px 10px 20px rgba(0, 0, 0, 0.02),
+    0px 20px 20px rgba(0, 0, 0, 0.05),
+    0px 30px 20px rgba(0, 0, 0, 0.05);
+  overflow-x: auto;
+}
+
+.timeTableHeader {
+  padding: 20px 15px;
+  font-weight: 200;
+  font-size: 15px;
+  color: #425b6b;
+}
+
+.cardBodyPadding {
+  padding: 3.5rem !important
+}
+
+.cells {
+  border: 1px solid #a5bbc9;
+  padding: 3rem 3rem;
+  position: relative;
+}
+
+.cells .scheduleFeatures {
+  visibility: hidden;
+}
+
+.cells:hover .scheduleFeatures {
+  visibility: visible;
+}
+
+.cells:hover {
+  background-color: #c5d8e3;
+}
+
+.scheduleFeatures {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+.noRightBorder {
+  border-right: none;
+}
+
+.noLeftBorder {
+  border-left: none;
+}
+
+.noBottomBorder {
+  border-bottom: none
+}
+
+.tableHeader {
+  /* background-color: #1B5A90; */
+}
+
+.monthContainer {
+  display: flex;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+tr {
+  text-align: center;
+}
+
+/*  */
 @media (max-width: 1200px) {
   .nav-tabs-scroll {
     overflow-x: scroll;

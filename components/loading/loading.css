@@ -8,7 +8,7 @@
   margin: auto;
   top: 0;
   left: 0;
-  bottom: 0;
+  bottom: 8rem;
   right: 0;
 }
 
@@ -31,7 +31,7 @@
   border: 0;
 }
 
-.loading:not(:required):after {
+/* .loading:not(:required):after {
   content: "";
   display: block;
   font-size: 10px;
@@ -60,9 +60,9 @@
     rgba(44, 122, 125, 0.75) -1.1em -1.1em 0 0,
     rgba(44, 122, 125, 0.75) 0 -1.5em 0 0,
     rgba(44, 122, 125, 0.75) 1.1em -1.1em 0 0;
-}
+} */
 
-@-webkit-keyframes spinner {
+/* @-webkit-keyframes spinner {
   0% {
     -webkit-transform: rotate(0deg);
     -moz-transform: rotate(0deg);
@@ -132,7 +132,7 @@
     -o-transform: rotate(360deg);
     transform: rotate(360deg);
   }
-}
+} */
 
 /* small loader */
 .loader-circle-99 {
