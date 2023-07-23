@@ -28,7 +28,6 @@ const PrescriptionCard = ({
   ActiveSrvCode,
   handleOnBlur,
   handleOnFocus,
-  count,
 }) => {
   const [drugInstructionList, setDrugInstructionList] = useState([]);
   const [drugAmountList, setDrugAmountList] = useState([]);
@@ -157,7 +156,6 @@ const PrescriptionCard = ({
                       onSelect={onSelect}
                       changePrescId={changePrescId}
                       ChangeActiveServiceTypeID={ChangeActiveServiceTypeID}
-                      count={count}
                     />
                   );
                 })}

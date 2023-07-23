@@ -1,25 +1,22 @@
 import AddToListItem from "components/dashboard/Prescription/AddToListItem";
 
-const PrescriptionItems = ({ data, SetPrescriptionItemsData }) => {
+const PrescriptionItems = ({ data, SetPrescriptionItemsData, DeleteService }) => {
   return data.map((srv, index) => {
     // console.log("srv", srv);
     return (
       <AddToListItem
         key={index}
-        SrvName={srv.SrvName ? srv.SrvName : srv["srvId"]["srvName"]}
-        SrvCode={srv.SrvCode ? srv.SrvCode : srv["srvId"]["srvCode"]}
-        Img={srv.Img}
-        SrvQty={srv.Qty ? srv.Qty : srv["srvQty"]}
-        TimesADay={srv.TimesADay ? srv.TimesADay : srv["timesAday"]}
-        DrugInstruction={
-          srv.DrugInstruction ? srv.DrugInstruction : srv["drugInstruction"]
-        }
-        SrvTypeDes={
-          srv.PrescType ? srv.PrescType : srv["srvId"]["srvType"]["srvTypeDes"]
-        }
-        // DeleteService={DeleteService}
-        SetPrescriptionItemsData={SetPrescriptionItemsData}
         data={data}
+        SrvName={srv.SrvName}
+        SrvCode={srv.SrvCode}
+        Img={srv.Img}
+        SrvQty={srv.Qty}
+        TimesADay={srv.TimesADay}
+        DrugInstruction={srv.DrugInstruction}
+        SrvTypeDes={srv.PrescType}
+        SetPrescriptionItemsData={SetPrescriptionItemsData}
+        DeleteService={DeleteService}
+        prescId={srv.prescId}
       />
     );
   });

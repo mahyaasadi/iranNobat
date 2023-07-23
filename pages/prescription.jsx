@@ -31,7 +31,7 @@ let ActiveSrvCode,
   ActiveInsuranceID,
   ActiveParaCode,
   ActivePatientID = null;
-let count = 0;
+let count = null;
 
 const ChangeActiveServiceTypeID = (id) => {
   ActiveServiceTypeID = id;
@@ -167,6 +167,10 @@ const Prescription = () => {
     ActiveServiceTypeID = Sid;
     ActivePrscName = name;
     prescId = id;
+
+    count = $("#srvItemCountId" + prescId).html();
+    console.log("count", count);
+
     if (ActiveSrvCode) {
       ActiveSearch();
     } else {
@@ -178,6 +182,7 @@ const Prescription = () => {
       ActivePrscImg = Img;
     }
   };
+
   const changeInsuranceType = (e) => {
     e.preventDefault();
 
@@ -237,105 +242,195 @@ const Prescription = () => {
     }
   };
 
-  console.log("Presc list", PrescriptionItemsData);
-  // add to list function
-  const FuAddToListItem = (e) => {
-    e.preventDefault();
-
-    if (prescId == 1 && SelectedInstruction == null) {
+  const prescItemCreator = async (
+    prescId,
+    Instruction,
+    Amount,
+    SrvCode,
+    SrvName,
+    Qty,
+    PrscImg,
+    InstructionLbl,
+    AmountLbl,
+    PrscName,
+    SrvTypePrsc,
+    ParaCode
+  ) => {
+    if (prescId == 1 && Instruction == null) {
       ErrorAlert("خطا", "در اقلام دارویی زمان مصرف باید انتخاب گردد");
-    } else if (prescId == 1 && SelectedAmount == null) {
+      return false;
+    } else if (prescId == 1 && Amount == null) {
       ErrorAlert("خطا", "در اقلام دارویی  تعداد در وعده باید انتخاب گردد");
+      return false;
     } else {
-      if (ActiveSrvCode == null || ActiveSrvName == null) {
+      if (SrvCode == null || SrvName == null) {
         ErrorAlert("خطا", "خدمتی انتخاب نشده است");
       } else {
         let prescItems = {
-          SrvName: ActiveSrvName,
-          SrvCode: ActiveSrvCode,
-          Img: ActivePrscImg,
+          SrvName: SrvName,
+          SrvCode: SrvCode,
+          Img: PrscImg,
           Qty: $("#QtyInput").val(),
-          DrugInstruction: SelectedInstructionLbl,
-          TimesADay: SelectedAmountLbl,
-          PrescType: ActivePrscName,
+          DrugInstruction: InstructionLbl,
+          TimesADay: AmountLbl,
+          PrescType: PrscName,
+          prescId
         };
-
-        console.log("added item", prescItems);
-
         if (addPrescriptionitems.length > 0) {
           if (
-            addPrescriptionitems.find(
-              ({ srvId }) => srvId.srvCode === ActiveSrvCode
-            )
+            addPrescriptionitems.find(({ srvId }) => srvId.srvCode === SrvCode)
           ) {
             ErrorAlert("خطا", "سرویس انتخابی تکراری می باشد");
             return false;
           }
         }
-
         let prescData = null;
         if (prescId == 1) {
           prescData = {
             srvId: {
               srvType: {
-                srvType: ActiveSrvTypePrsc,
+                srvType: SrvTypePrsc,
               },
-              srvCode: ActiveSrvCode,
+              srvCode: SrvCode,
             },
             srvQty: parseInt($("#QtyInput").val()),
             timesAday: {
-              drugAmntId: SelectedAmount,
+              drugAmntId: Amount,
             },
             repeat: null,
             drugInstruction: {
-              drugInstId: SelectedInstruction,
+              drugInstId: Instruction,
             },
             dose: "",
           };
         } else {
           let parTarefGrp = null;
 
-          if (ActiveParaCode === undefined) {
+          if (ParaCode === undefined) {
             parTarefGrp = null;
           } else {
             parTarefGrp = {
-              parGrpCode: ActiveParaCode,
+              parGrpCode: ParaCode,
             };
           }
 
           prescData = {
             srvId: {
               srvType: {
-                srvType: ActiveSrvTypePrsc,
+                srvType: SrvTypePrsc,
               },
-              srvCode: ActiveSrvCode,
+              srvCode: SrvCode,
               parTarefGrp: parTarefGrp,
             },
             srvQty: parseInt($("#QtyInput").val()),
           };
         }
-
-        count = $("#srvItemCount").html();
+        count = $("#srvItemCountId" + prescId).html();
+        if (count == "") {
+          count = 0;
+        }
         count = parseInt(count);
         count++;
+        // console.log(count);
+        // if (PrescriptionItemsData.length !== 0) {
+        //   count = PrescriptionItemsData.length;
+        // }
+        $("#srvItemCountId" + prescId).html(count);
+        console.log(count);
+        return { prescData, prescItems };
+      }
+    }
+  };
 
-        let onlyVisitPrescData = {
-          Name: ActiveSrvName,
-          Code: ActiveSrvCode,
-        };
+  const DeleteService = (id, prescId) => {
+    SetPrescriptionItemsData(
+      PrescriptionItemsData.filter((a) => a.SrvCode !== id)
+    );
 
+    count = $("#srvItemCountId" + prescId).html();
+    if (count == "") {
+      count = 0;
+    }
+    count = parseInt(count);
+    count--;
+    // if (PrescriptionItemsData.length !== 0) {
+    //   count = PrescriptionItemsData.length;
+    // }
+    $("#srvItemCountId" + prescId).html(count);
+    console.log(count);
+  };
+
+  // add to list function
+  const FuAddToListItem = async (e) => {
+    e.preventDefault();
+    let { prescData, prescItems } = await prescItemCreator(
+      prescId,
+      SelectedInstruction,
+      SelectedAmount,
+      ActiveSrvCode,
+      ActiveSrvName,
+      $("#QtyInput").val(),
+      ActivePrscImg,
+      SelectedInstructionLbl,
+      SelectedAmountLbl,
+      ActivePrscName,
+      ActiveSrvTypePrsc,
+      ActiveParaCode
+    );
+    if (prescData) {
+      let onlyVisitPrescData = {
+        Name: ActiveSrvName,
+        Code: ActiveSrvCode,
+      };
+      addPrescriptionitems.push(prescData);
+      addPrescriptionSrvNameitems.push(onlyVisitPrescData);
+      SetPrescriptionItemsData([...PrescriptionItemsData, prescItems]);
+      ActiveSearch();
+      $("#QtyInput").val("1");
+      SelectedAmount = null;
+      SelectedInstruction = null;
+    }
+  };
+
+  const updatePrescriptionAddItem = async (obj) => {
+    obj.data.map(async (presc) => {
+      let drugAmntId = presc.drugAmntId;
+      let drugAmntLbl = selectAmountArray.find((o) => o.value === drugAmntId);
+      if (drugAmntLbl) {
+        drugAmntLbl = drugAmntLbl.label;
+      }
+      let drugInstId = presc.drugInstId;
+      let InstructionLbl = selectInstructionArray.find(
+        (o) => o.value === drugInstId
+      );
+      if (InstructionLbl) {
+        InstructionLbl = InstructionLbl.label;
+      }
+      console.log(drugAmntLbl);
+
+      let { prescData, prescItems } = await prescItemCreator(
+        presc.srvId.srvType.prescTypeId,
+        drugInstId,
+        drugAmntId,
+        presc.srvId.srvCode,
+        presc.srvId.srvName,
+        presc.srvQty,
+        "",
+        InstructionLbl,
+        drugAmntLbl,
+        presc.srvId.srvType.srvTypeDes,
+        presc.srvId.srvType.srvType,
+        presc.srvId.parTarefGrp.parGrpCode
+      );
+      if (prescData) {
         addPrescriptionitems.push(prescData);
-        addPrescriptionSrvNameitems.push(onlyVisitPrescData);
         SetPrescriptionItemsData([...PrescriptionItemsData, prescItems]);
-
-        console.log("addPrescriptionitems", addPrescriptionitems);
-
         ActiveSearch();
         $("#QtyInput").val("1");
         SelectedAmount = null;
         SelectedInstruction = null;
       }
-    }
+    });
   };
 
   // only Visit
@@ -509,13 +604,19 @@ const Prescription = () => {
   };
 
   useEffect(() => {
-    SetPrescriptionItemsData(responseObj.data);
+    updatePrescriptionAddItem(responseObj);
     if (ActivePatientID) {
       $("#frmPatientInfoBtnSubmit").click();
     }
+    // window.onbeforeunload = function () {
+    //   return 'Changes you made may not be saved';
+    // }
     // getEprscData();
   }, [prescriptionHeadID]);
 
+  useEffect(() => {
+    console.log("Presc list", PrescriptionItemsData);
+  }, [PrescriptionItemsData]);
   return (
     <>
       <Head>
@@ -554,13 +655,15 @@ const Prescription = () => {
                 FUSelectInstructionArray={FUSelectInstructionArray}
                 handleOnFocus={handleOnFocus}
                 handleOnBlur={handleOnBlur}
-                count={count}
               />
 
               <div className="prescList">
                 <PrescriptionItems
                   data={PrescriptionItemsData}
                   SetPrescriptionItemsData={SetPrescriptionItemsData}
+                  count={count}
+                  prescId={prescId}
+                  DeleteService={DeleteService}
                 />
               </div>
             </div>

@@ -8,6 +8,8 @@ const AddToListItem = ({
   DrugInstruction,
   SetPrescriptionItemsData,
   data,
+  DeleteService,
+  prescId
 }) => {
   let Drug = null;
   if (TimesADay) {
@@ -21,10 +23,7 @@ const AddToListItem = ({
     <div></div>;
   }
 
-  const DeleteService = (id) => {
-    SetPrescriptionItemsData(data.filter((a) => a.SrvCode !== id));
-    console.log(id);
-  };
+ 
 
   return (
     <>
@@ -59,7 +58,7 @@ const AddToListItem = ({
                 <button
                   type="button"
                   className="btn btn-outline-danger btn-rounded"
-                  onClick={() => DeleteService(SrvCode)}
+                  onClick={() => DeleteService(SrvCode, prescId)}
                 >
                   <i className="fe fe-trash"></i>
                 </button>

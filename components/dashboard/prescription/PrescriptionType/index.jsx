@@ -1,5 +1,4 @@
-
-const PrescriptionType = ({ img, name, active, id, changePrescId, count }) => {
+const PrescriptionType = ({ img, name, active, id, changePrescId }) => {
   const Select = () => {
     $(".prescService").hide();
     let prescTypeId = $(".prescTypeId" + id);
@@ -46,7 +45,6 @@ const PrescriptionType = ({ img, name, active, id, changePrescId, count }) => {
   return (
     <>
       <li className="nav-item">
-
         <a
           className={"nav-link " + active}
           href={"#bottom-tab" + id}
@@ -55,11 +53,10 @@ const PrescriptionType = ({ img, name, active, id, changePrescId, count }) => {
           onClick={Select}
         >
           <img src={img} height="20" /> &nbsp;
-          {name}
-          <div id="srvItemCount">{count}</div>
+          {name}{" "}
           <span
             className="badge badge-primary"
-            id="badge_TaminPrescTypeID1"
+            id={"srvItemCountId" + id}
           ></span>
         </a>
       </li>
@@ -68,3 +65,4 @@ const PrescriptionType = ({ img, name, active, id, changePrescId, count }) => {
 };
 
 export default PrescriptionType;
+
