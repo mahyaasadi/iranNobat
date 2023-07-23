@@ -20,11 +20,13 @@ import "public/assets/plugins/fontawesome/css/fontawesome.min.css";
 import "public/assets/plugins/fontawesome/css/all.min.css";
 import "public/assets/css/font-awesome.min.css";
 import "public/assets/css/style.css";
+import { useRouter } from "next/router";
 
 let user = null;
 let centerId = null;
 
 const Header = () => {
+  let router = useRouter();
   const [task, settask] = useState(true);
   const [task1, settask1] = useState(true);
   const [dropdown, setdropdown] = useState(false);
@@ -46,33 +48,37 @@ const Header = () => {
 
   useEffect(() => {
     let data = { Token: sessionStorage.getItem("SEID") };
-    axios
-      .post("https://irannobat.ir:8444/api/AdminUser/getUserByToken", data)
-      .then(function (response) {
-        user = response.data;
-        let centerId = user.CenterID;
-        Cookies.set("CenterID", centerId);
-        document.getElementById("avatar").setAttribute("src", user.Avatar);
-        document.getElementById("avatar").setAttribute("srcSet", user.Avatar);
-        document
-          .getElementById("dropdownAvatar")
-          .setAttribute("src", user.Avatar);
-        document
-          .getElementById("dropdownAvatar")
-          .setAttribute("srcSet", user.Avatar);
-        document.getElementById("userName").innerHTML = user.FullName;
-        if ((user.Admin = true)) {
-          document.getElementById("role").innerHTML = "ادمین";
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+
+    if (data) {
+      axios
+        .post("https://irannobat.ir:8444/api/AdminUser/getUserByToken", data)
+        .then(function (response) {
+          user = response.data;
+          let centerId = user.CenterID;
+          Cookies.set("CenterID", centerId);
+          document.getElementById("avatar").setAttribute("src", user.Avatar);
+          document.getElementById("avatar").setAttribute("srcSet", user.Avatar);
+          document
+            .getElementById("dropdownAvatar")
+            .setAttribute("src", user.Avatar);
+          document
+            .getElementById("dropdownAvatar")
+            .setAttribute("srcSet", user.Avatar);
+          document.getElementById("userName").innerHTML = user.FullName;
+          if ((user.Admin = true)) {
+            document.getElementById("role").innerHTML = "ادمین";
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } else {
+      router.push("/login");
+    }
   }, []);
 
   return (
     <>
-      {/* Header */}
       <div className="content-header">
         {/* Logo */}
         <div className="header-left">
@@ -99,7 +105,6 @@ const Header = () => {
 
         {/* Header Menu */}
         <ul className="nav nav-tabs user-menu">
-          {/* Flag */}
           <li className="nav-item">
             <Link href="#" id="dark-mode-toggle" className="dark-mode-toggle">
               <i

@@ -10,7 +10,7 @@ const TariffHeader = ({ data, getServices, addService }) => {
       <div className="departmentsCategory w-100">
         <div className="categoryCard">
           <div className="card-body w-100">
-            <ul className="nav nav-tabs nav-tabs-solid media-tariff-hedaer">
+            <ul className="nav nav-tabs nav-tabs-bottom nav-tabs-scroll font-14 padding-bottom-md">
               {data.map((nav, index) => {
                 if (nav.Checked) {
                   if (counter++ === 1) {

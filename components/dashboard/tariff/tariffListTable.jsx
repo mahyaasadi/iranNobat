@@ -140,7 +140,7 @@ const TariffListTable = ({
       },
       {
         name: "نام خدمت",
-        selector: (row) => row.Service,
+        selector: (row) => row.Service.substr(0, 60) + " ...",
         sortable: true,
         width: "auto",
       },

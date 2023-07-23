@@ -7,12 +7,7 @@ import { tableCustomStyles } from "components/commonComponents/customTableStyle/
 import numberWithCommas from "class/numberWithComma";
 import { useRouter } from "next/router";
 
-const ServiceGroupListTable = ({
-  data,
-  updateService,
-  deleteService,
-  SetLoeingModalData,
-}) => {
+const ServiceGroupListTable = ({ data, updateGroup }) => {
   const columns = [
     {
       name: "نام گروه",
@@ -22,7 +17,7 @@ const ServiceGroupListTable = ({
     },
     {
       name: "مدت زمان",
-      selector: (row) => row.POT,
+      selector: (row) => row.POT ? (row.POT + " دقیقه ") : "-",
       sortable: true,
       width: "auto",
     },
@@ -34,8 +29,12 @@ const ServiceGroupListTable = ({
     },
     {
       name: "رنگ",
-      selector: (row) => row.color,
       sortable: true,
+      cell: (row) => (
+        <div
+          style={{ "background-color": row.Color, padding: "5px 50px", "border-radius": "5px" }}
+        ></div>
+      ),
       width: "auto",
     },
     {
@@ -57,9 +56,9 @@ const ServiceGroupListTable = ({
           <Link
             className="text-black"
             href="#"
-            // onClick={() => updateService(row)}
+            onClick={() => updateGroup(row)}
             data-bs-toggle="modal"
-            data-bs-target="#editServiceGroupModal"
+            data-bs-target="#editSrvGroupModal"
           >
             <i className="">
               <FeatherIcon icon="edit-3" />

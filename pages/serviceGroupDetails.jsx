@@ -11,6 +11,7 @@ import TariffListTable from "components/dashboard/tariff/tariffListTable";
 import ServiceGroupListTable from "components/dashboard/serviceGroupDetails/serviceGroupListTable";
 import EditServiceGroupModal from "components/dashboard/serviceGroupDetails/editServiceGroupModal";
 import EditServiceModal from "components/dashboard/serviceGroupDetails/editServiceModal";
+import serviceGroupDifDataClass from "class/serviceGroupDifDataClass";
 
 let CenterID = Cookies.get("CenterID");
 let activeServiceId = null;
@@ -27,10 +28,18 @@ const ServiceGroupDetails = () => {
   const [groupDetail, setGroupDetail] = useState([]);
   const [editedGroupDetail, setEditedGroupDetail] = useState([]);
   const [srvGroupList, setSrvGroupList] = useState([]);
+  const [srvGroupDifOptions, setSrvGroupDifOptions] = useState(
+    serviceGroupDifDataClass
+  );
 
-  let selectSrvGroupName = "";
+  let selectSrvGroupName,
+    selectSrvGroupDif = "";
   const FUSelectSrvGroupName = (srvGroupName) => {
     selectSrvGroupName = srvGroupName;
+  };
+
+  const FUSelectSrvGroupDif = (srvGroupDif) => {
+    selectSrvGroupDif = srvGroupDif;
   };
 
   //get departments -> In Tariff Header
@@ -114,6 +123,7 @@ const ServiceGroupDetails = () => {
           Service: formProps.ServiceName,
           CenterGroup: selectSrvGroupName,
         });
+
         $("#editServiceModal").modal("hide");
       })
       .catch((error) => {
@@ -139,6 +149,60 @@ const ServiceGroupDetails = () => {
   };
 
   const updateServiceGroup = (data) => {
+    setEditedGroupDetail(data);
+  };
+
+  //Edit Group
+  const editGroup = (e) => {
+    e.preventDefault();
+
+    let formData = new FormData(e.target);
+    const formProps = Object.fromEntries(formData);
+
+    let url = "CenterServicessInfo/EditGroup ";
+
+    let data = {
+      CenterID: CenterID,
+      GroupID: formProps.editGroupId,
+      Name: formProps.editGroupName,
+      POT: formProps.editGroupPOT,
+      Dif: formProps.editGroupDif,
+      Color: formProps.editGroupColor,
+    };
+
+    console.log("edit data", data);
+    setIsLoading(true);
+    axiosClient
+      .put(url, data)
+      .then((response) => {
+        updateGroupItem(formProps.editGroupId, data);
+        $("#editSrvGroupModal").modal("hide");
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
+  };
+
+  const updateGroupItem = (id, newArr) => {
+    console.log(groupDetail);
+    let index = groupDetail.findIndex((x) => x._id === id);
+    let g = groupDetail[index];
+    g = newArr;
+
+    if (index === -1) {
+      // handle error
+      console.log("no match");
+    } else
+      setGroupDetail([
+        ...groupDetail.slice(0, index),
+        g,
+        ...groupDetail.slice(index + 1),
+      ]);
+  };
+
+  const updateGroup = (data) => {
     setEditedGroupDetail(data);
   };
 
@@ -192,7 +256,10 @@ const ServiceGroupDetails = () => {
                   ) : (
                     <div className="flex-col">
                       <div className="col-sm-12">
-                        <ServiceGroupListTable data={groupDetail} />
+                        <ServiceGroupListTable
+                          data={groupDetail}
+                          updateGroup={updateGroup}
+                        />
                       </div>
                       <div className="col d-flex justify-between align-items-center margint-5 marginb-1">
                         <p className="card-title font-17">لیست سرویس ها</p>
@@ -212,7 +279,6 @@ const ServiceGroupDetails = () => {
                       <div className="col-sm-12">
                         <TariffListTable
                           data={services}
-                          //   groupDetail={editedGroupDetail}
                           updateServiceGroup={updateServiceGroup}
                           //   deleteService={deleteService}
                         />
@@ -227,7 +293,12 @@ const ServiceGroupDetails = () => {
           </div>
         </div>
 
-        <EditServiceGroupModal />
+        <EditServiceGroupModal
+          groupDetail={editedGroupDetail}
+          editGroup={editGroup}
+          srvGroupDifOptions={srvGroupDifOptions}
+          FUSelectSrvGroupDif={FUSelectSrvGroupDif}
+        />
 
         <EditServiceModal
           groupDetail={editedGroupDetail}

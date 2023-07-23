@@ -38,6 +38,10 @@ const Login = () => {
           JSON.stringify(response.data.UserSecretKey)
         );
         router.push("/dashboard");
+        console.log(response.data);
+        // if (response === undefined) {
+        //   ErrorAlert("خطا", "ارتباط با سرور برقرار نیست");
+        // }
       })
       .catch(function (error) {
         setIsLoading(true);
@@ -50,8 +54,8 @@ const Login = () => {
     <>
       {/* Main Wrapper */}
       <div className="row">
-      {/* Login Banner */}
-      <div className="col-md-6 login-bg">
+        {/* Login Banner */}
+        <div className="col-md-6 login-bg">
           <div className="login-banner">
             <Image
               src={Logo}

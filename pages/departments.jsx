@@ -94,35 +94,32 @@ const Departments = () => {
       <div className="page-wrapper font-13">
         <div className="content container-fluid">
           <div className="departments-container">
+            <div className="checkbox-group-legend">
+              بخش مورد نظر را انتخاب نمایید
+            </div>
+
             {isLoading ? (
               <Loading />
             ) : (
-              <div className="checkbox-group">
-                <div className="submitHeader">
-                  <div className="checkbox-group-legend">
-                    بخش مورد نظر را انتخاب نمایید
-                  </div>
-
-                  <form
-                    className="SubmitDepartmentForm"
-                    onSubmit={SubmitFrmSetDepartment}
-                  >
-                    <div className="box-container">
-                      <DepartmentsList departmentsData={departmentsData} />
-                    </div>
-                    <div className="submitDepartments-btn">
-                      <button className="btn btn-primary submitDepartments">
-                        ثبت
-                      </button>
-                    </div>
-                  </form>
-                </div>
+            <form
+                className="SubmitDepartmentForm"
+                onSubmit={SubmitFrmSetDepartment}
+              >
+              <div className="box-container">
+                <DepartmentsList departmentsData={departmentsData} />
               </div>
-            )}
+              <div className="submitDepartments-btn">
+                <button className="btn btn-primary submitDepartments">
+                  ثبت
+                </button>
+              </div>
+            </form>
+          )}  
           </div>
-        </div>
+    
       </div>
-    </>
-  );
+    </div>
+  </>
+);
 };
 export default Departments;
