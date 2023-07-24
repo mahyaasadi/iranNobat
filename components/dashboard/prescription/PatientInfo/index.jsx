@@ -87,7 +87,7 @@ const PatientInfo = ({
 
             <div className="appointmentBtn">
               <button
-                className="btn btn-primary w-100 font-13 appointmentBtn-radius"
+                className="btn btn-primary w-100 font-13 rounded"
                 onClick={getAppointment}
               >
                 دریافت نوبت

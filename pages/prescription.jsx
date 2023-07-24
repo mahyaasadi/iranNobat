@@ -19,9 +19,9 @@ import {
 let CenterID = Cookies.get("CenterID");
 let prescId = 1;
 let ActiveServiceTypeID = "01";
+let ActivePrscName = "دارو";
 let addPrescriptionitems = [];
 let addPrescriptionSrvNameitems = [];
-let ActivePrscName = "دارو";
 
 let ActiveSrvCode,
   ActiveSrvName,
@@ -30,8 +30,8 @@ let ActiveSrvCode,
   ActiveSrvTypePrsc,
   ActiveInsuranceID,
   ActiveParaCode,
-  ActivePatientID = null;
-let count = null;
+  ActivePatientID,
+  count = null;
 
 const ChangeActiveServiceTypeID = (id) => {
   ActiveServiceTypeID = id;
@@ -104,7 +104,6 @@ const Prescription = () => {
     ActiveSrvName = name;
     ActiveSrvTypePrsc = type;
     ActiveParaCode = paraTarefCode;
-    // console.log("ActiveParaCode", ActiveParaCode);
 
     ActiveInsuranceID == "2"
       ? (ActiveSrvCode = TaminCode)
@@ -136,7 +135,7 @@ const Prescription = () => {
       .post(url, data)
       .then((response) => {
         setIsLoading(false);
-        console.log(response.data);
+        // console.log(response.data);
         ActiveInsuranceID = response.data.user.Insurance;
         setPatientsInfo(response.data.user);
         $("#patientInfoSection").show("");
@@ -147,7 +146,7 @@ const Prescription = () => {
   };
 
   const handleOnFocus = () => {
-    if (ActiveSrvCode !== null && $("#srvSearchInput").val().length > 2) {
+    if (ActiveSrvCode === null && $("#srvSearchInput").val().length > 2) {
       $(".SearchDiv").show();
     }
   };
@@ -155,7 +154,7 @@ const Prescription = () => {
   const handleOnBlur = () => {
     setTimeout(() => {
       $(".SearchDiv").hide();
-    }, 200);
+    }, 300);
   };
 
   // Change Insurance Type
@@ -170,6 +169,7 @@ const Prescription = () => {
 
     count = $("#srvItemCountId" + prescId).html();
     console.log("count", count);
+    $(".unsuccessfullSearch").hide();
 
     if (ActiveSrvCode) {
       ActiveSearch();
@@ -231,10 +231,14 @@ const Prescription = () => {
       axiosClient
         .post("TaminServices/SearchSrv", data)
         .then(function (response) {
-          // console.log(response.data);
+          console.log(response.data);
           setTaminSrvSearchList(response.data);
           $(".SearchDiv").show();
+          $(".unsuccessfullSearch").hide();
           setIsLoading(false);
+          if (response.data.length === 0) {
+            $(".unsuccessfullSearch").show();
+          }
         })
         .catch(function (response) {
           console.log(response);
@@ -274,16 +278,17 @@ const Prescription = () => {
           DrugInstruction: InstructionLbl,
           TimesADay: AmountLbl,
           PrescType: PrscName,
-          prescId
+          prescId,
         };
-        if (addPrescriptionitems.length > 0) {
-          if (
-            addPrescriptionitems.find(({ srvId }) => srvId.srvCode === SrvCode)
-          ) {
-            ErrorAlert("خطا", "سرویس انتخابی تکراری می باشد");
-            return false;
-          }
+
+        if (
+          addPrescriptionitems.length > 0 &&
+          addPrescriptionitems.find(({ srvId }) => srvId.srvCode === SrvCode)
+        ) {
+          ErrorAlert("خطا", "سرویس انتخابی تکراری می باشد");
+          return false;
         }
+
         let prescData = null;
         if (prescId == 1) {
           prescData = {
@@ -336,33 +341,16 @@ const Prescription = () => {
         //   count = PrescriptionItemsData.length;
         // }
         $("#srvItemCountId" + prescId).html(count);
-        console.log(count);
+        // console.log(count);
         return { prescData, prescItems };
       }
     }
   };
 
-  const DeleteService = (id, prescId) => {
-    SetPrescriptionItemsData(
-      PrescriptionItemsData.filter((a) => a.SrvCode !== id)
-    );
-
-    count = $("#srvItemCountId" + prescId).html();
-    if (count == "") {
-      count = 0;
-    }
-    count = parseInt(count);
-    count--;
-    // if (PrescriptionItemsData.length !== 0) {
-    //   count = PrescriptionItemsData.length;
-    // }
-    $("#srvItemCountId" + prescId).html(count);
-    console.log(count);
-  };
-
   // add to list function
   const FuAddToListItem = async (e) => {
     e.preventDefault();
+
     let { prescData, prescItems } = await prescItemCreator(
       prescId,
       SelectedInstruction,
@@ -377,6 +365,7 @@ const Prescription = () => {
       ActiveSrvTypePrsc,
       ActiveParaCode
     );
+
     if (prescData) {
       let onlyVisitPrescData = {
         Name: ActiveSrvName,
@@ -396,6 +385,7 @@ const Prescription = () => {
     obj.data.map(async (presc) => {
       let drugAmntId = presc.drugAmntId;
       let drugAmntLbl = selectAmountArray.find((o) => o.value === drugAmntId);
+
       if (drugAmntLbl) {
         drugAmntLbl = drugAmntLbl.label;
       }
@@ -422,6 +412,7 @@ const Prescription = () => {
         presc.srvId.srvType.srvType,
         presc.srvId.parTarefGrp.parGrpCode
       );
+
       if (prescData) {
         addPrescriptionitems.push(prescData);
         SetPrescriptionItemsData([...PrescriptionItemsData, prescItems]);
@@ -448,7 +439,7 @@ const Prescription = () => {
         SrvNames: [],
         prescTypeName: "ویزیت",
       };
-      console.log(Data);
+      // console.log(Data);
 
       axiosClient
         .post(url, Data)
@@ -480,7 +471,8 @@ const Prescription = () => {
         SrvNames: addPrescriptionSrvNameitems,
         prescTypeName: ActivePrscName,
       };
-      console.log(Data);
+
+      // console.log(Data);
 
       axiosClient
         .post(url, Data)
@@ -616,7 +608,9 @@ const Prescription = () => {
 
   useEffect(() => {
     console.log("Presc list", PrescriptionItemsData);
+    $(".unsuccessfullSearch").hide();
   }, [PrescriptionItemsData]);
+
   return (
     <>
       <Head>
@@ -663,7 +657,6 @@ const Prescription = () => {
                   SetPrescriptionItemsData={SetPrescriptionItemsData}
                   count={count}
                   prescId={prescId}
-                  DeleteService={DeleteService}
                 />
               </div>
             </div>

@@ -46,7 +46,7 @@ const PrescriptionType = ({ img, name, active, id, changePrescId }) => {
     <>
       <li className="nav-item">
         <a
-          className={"nav-link " + active}
+          className={"nav-link media-nav-link " + active}
           href={"#bottom-tab" + id}
           id={"prescTypeId" + id}
           data-bs-toggle="tab"

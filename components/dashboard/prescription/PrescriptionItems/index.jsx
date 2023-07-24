@@ -14,9 +14,8 @@ const PrescriptionItems = ({ data, SetPrescriptionItemsData, DeleteService }) =>
         TimesADay={srv.TimesADay}
         DrugInstruction={srv.DrugInstruction}
         SrvTypeDes={srv.PrescType}
-        SetPrescriptionItemsData={SetPrescriptionItemsData}
-        DeleteService={DeleteService}
         prescId={srv.prescId}
+        SetPrescriptionItemsData={SetPrescriptionItemsData}
       />
     );
   });

@@ -224,11 +224,10 @@ const PrescriptionCard = ({
                     SelectSrvSearch={SelectSrvSearch}
                   />
                 </div>
-                {/* )} */}
 
-                {/* <div className="unsuccessfullSearch">
-                  <p>no data</p>
-                </div> */}
+                <div className="unsuccessfullSearch">
+                  <p>موردی یافت نشد!</p>
+                </div>
               </form>
 
               <div className="d-flex align-items-center gap-2 media-flex-column flex-wrap">
