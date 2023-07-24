@@ -7,17 +7,17 @@ import moment from "jalali-moment";
 const MonthlySchedule = () => {
   let jdate = new JDate();
   const [date, setDate] = useState(moment().locale("fa").format("MMMM YYYY"));
+    // console.log(date);
 
   const handleNextMonth = () => {
-    setDate(moment().locale("fa").add(1, "month").format("MMMM YYYY"));
+    setDate(moment().locale("fa").add(1, "months").format("MMMM YYYY"));
     console.log(date);
-    // setDate(nextMonth);
   };
 
-  // const handleLastMonth = () => {
-  //   let lastMonth = jdate.format("MMMM YYY")--;
-  //   return lastMonth;
-  // }
+  const handleLastMonth = () => {
+    setDate(moment().locale("fa").subtract(1, "months").format("MMMM YYYY"));
+    console.log(date);
+  };
   return (
     <>
       <Head>
@@ -32,7 +32,7 @@ const MonthlySchedule = () => {
                   <i className="fa fa-angle-right"></i>
                 </button>
                 {date}
-                <button className="btn">
+                <button className="btn" onClick={handleLastMonth}>
                   <i className="fa fa-angle-left"></i>
                 </button>
               </div>

@@ -145,7 +145,7 @@ const ImagesGallery = () => {
                   href="#"
                   data-bs-toggle="modal"
                   data-bs-target="#uploadImageModal"
-                  className="btn btn-primary btn-add"
+                  className="btn btn-primary btn-add font-14"
                 >
                   <i className="me-1">
                     <FeatherIcon icon="plus-square" />
@@ -162,7 +162,7 @@ const ImagesGallery = () => {
                 <div className="card-header border-bottom-0">
                   <div className="row align-items-center">
                     <div className="col">
-                      <h5 className="card-title">گالری تصاویر</h5>
+                      <h5 className="card-title font-16">گالری تصاویر</h5>
                     </div>
                     <div className="col-auto d-flex flex-wrap">
                       <div className="form-custom me-2">

@@ -3,6 +3,7 @@ import Link from "next/link";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
+import { tableCustomStyles } from "components/commonComponents/customTableStyle/tableStyle.jsx";
 
 const LoeingModal = ({
   data,
@@ -75,7 +76,7 @@ const LoeingModal = ({
             <div className="modal-header">
               <div className="loeing-header">
                 <h6 className="mb-1">لوئینگ های سرویس کد {Service}</h6>
-                <span className="ServiceName">{ServiceName}</span>
+                <span className="ServiceName font-13">{ServiceName}</span>
               </div>
               <button
                 type="button"
@@ -96,7 +97,7 @@ const LoeingModal = ({
                   href="#"
                   data-bs-toggle="modal"
                   data-bs-target="#addLoeingModal"
-                  className="btn btn-primary btn-add"
+                  className="btn btn-primary font-14"
                 >
                   <i className="me-1">
                     <FeatherIcon icon="plus-square" />
@@ -111,9 +112,10 @@ const LoeingModal = ({
                     <DataTable
                       noHeader
                       defaultSortField="id"
-                      defaultSortAsc={false}
                       pagination
                       highlightOnHover
+                      defaultSortAsc={false}
+                      customStyles={tableCustomStyles}
                     />
                   </DataTableExtensions>
                 </div>

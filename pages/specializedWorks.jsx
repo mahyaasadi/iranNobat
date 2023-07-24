@@ -148,7 +148,7 @@ const SpecializedWorks = () => {
   return (
     <>
       <Head>
-        <title>کارهای تخصصی</title>
+        <title>کارهای تخصصی مرکز</title>
       </Head>
       <div className="page-wrapper">
         <div className="content container-fluid">
@@ -159,7 +159,7 @@ const SpecializedWorks = () => {
                   href="#"
                   data-bs-toggle="modal"
                   data-bs-target="#addSpeWorkModal"
-                  className="btn btn-primary btn-add"
+                  className="btn btn-primary btn-add font-14"
                 >
                   <i className="me-1">
                     <FeatherIcon icon="plus-square" />
@@ -177,7 +177,7 @@ const SpecializedWorks = () => {
                 <div className="card-header border-bottom-0">
                   <div className="row align-items-center">
                     <div className="col">
-                      <h5 className="card-title">لیست کارهای تخصصی مرکز</h5>
+                      <p className="card-title font-16">لیست کارهای تخصصی مرکز</p>
                     </div>
                     <div className="col-auto d-flex flex-wrap">
                       <div className="form-custom me-2">

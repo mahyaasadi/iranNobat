@@ -32,34 +32,34 @@ const EditPhoneNumberModal = () => {
 
             <div className="modal-body">
               <form>
-                 <div className="form-group form-focus">
+                <div className="form-group">
+                  <label className="lblAbs font-12">
+                    شماره همراه فعلی <span className="text-danger">*</span>
+                  </label>
                   <input
+                    className="form-control floating inputPadding rounded"
                     type="text"
-                    className="form-control floating"
-                    // value={name}
-                    // onChange={handleNameInput}
+                    // value={}
+                    // onChange={}
                     required
                   />
-                  <label className="focus-label">
-                     شماره همراه فعلی <span className="text-danger">*</span>
-                  </label>
                 </div>
 
-                 <div className="form-group form-focus">
+                <div className="form-group">
+                  <label className="lblAbs font-12">
+                    شماره همراه جدید <span className="text-danger">*</span>
+                  </label>
                   <input
+                    className="form-control floating inputPadding rounded"
                     type="text"
-                    className="form-control floating"
-                    // value={name}
-                    // onChange={handleNameInput}
+                    // value={}
+                    // onChange={}
                     required
                   />
-                  <label className="focus-label">
-                     شماره همراه جدید <span className="text-danger">*</span>
-                  </label>
                 </div>
 
                 <div className="submit-section">
-                  <button type="submit" className="btn btn-primary btn-save">
+                  <button type="submit" className="btn btn-primary btn-save rounded">
                     ثبت تغییرات
                   </button>
                 </div>

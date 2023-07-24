@@ -12,8 +12,8 @@ const AddTariffModal = ({ addService }) => {
         aria-hidden="true"
       >
         <div className="modal-dialog modal-dialog-centered modal-xl">
-          <div className="modal-content">
-            <div className="modal-header">
+          <div className="modal-content media-modal-content">
+            <div className="modal-header media-modal-header">
               <h5 className="mb-0">سرویس جدید</h5>
               <button
                 type="button"
@@ -27,60 +27,74 @@ const AddTariffModal = ({ addService }) => {
               </button>
             </div>
 
-            <div className="modal-body">
+            <div className="modal-body media-modal-body">
               <form onSubmit={addService}>
-                <div className="d-flex gap-2">
-                  <div className="form-group w-25">
-                    <label className="lblAbs font-12">
-                      شناسه <span className="text-danger">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control floating inputPadding rounded"
-                      required
-                      name="serviceId"
-                    />
+                <div className="row media-flex-col">
+                  <div className="col-lg-4 col">
+                    <div className="form-group">
+                      <label className="lblAbs font-12">
+                        شناسه <span className="text-danger">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control floating inputPadding rounded"
+                        required
+                        name="serviceId"
+                      />
+                    </div>
                   </div>
-                  <div className="form-group w-75">
-                    <label className="lblAbs font-12">
-                      نام <span className="text-danger">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control floating inputPadding rounded"
-                      required
-                      name="serviceName"
-                    />
+
+                  <div className="col-lg-8 col">
+                    <div className="form-group">
+                      <label className="lblAbs font-12">
+                        نام <span className="text-danger">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control floating inputPadding rounded"
+                        required
+                        name="serviceName"
+                      />
+                    </div>
                   </div>
                 </div>
 
-                <div className="d-flex gap-2">
-                  <div className="form-group w-50">
-                    <label className="lblAbs font-12">ضریب K</label>
-                    <input
-                      type="text"
-                      className="form-control floating inputPadding rounded"
-                      name="total_K"
-                    />
+                <div className="row media-flex-col">
+                  <div className="col">
+                    <div className="form-group">
+                      <label className="lblAbs font-12">ضریب K</label>
+                      <input
+                        type="text"
+                        className="form-control floating inputPadding rounded"
+                        name="total_K"
+                      />
+                    </div>
                   </div>
-                  <div className="form-group w-50">
-                    <label className="lblAbs font-12">ضریب فنی K</label>
-                    <input
-                      type="text"
-                      className="form-control floating inputPadding rounded"
-                      name="tech_K"
-                    />
+
+                  <div className="col">
+                    <div className="form-group">
+                      <label className="lblAbs font-12">ضریب فنی K</label>
+                      <input
+                        type="text"
+                        className="form-control floating inputPadding rounded"
+                        name="tech_K"
+                      />
+                    </div>
                   </div>
-                  <div className="form-group w-50">
-                    <label className="lblAbs font-12">ضریب حرفه ای K</label>
-                    <input
-                      type="text"
-                      className="form-control floating inputPadding rounded"
-                      name="pro_K"
-                    />
+
+                  <div className="col">
+                    <div className="form-group">
+                      <label className="lblAbs font-12">ضریب حرفه ای K</label>
+                      <input
+                        type="text"
+                        className="form-control floating inputPadding rounded"
+                        name="pro_K"
+                      />
+                    </div>
                   </div>
                 </div>
-                <div className="row">
+
+                <div className="row media-flex-col">
                   <div className="col">
                     <div className="form-group">
                       <label className="lblAbs font-12">مبلغ K فنی-خصوصی</label>
@@ -127,7 +141,7 @@ const AddTariffModal = ({ addService }) => {
                   </div>
                 </div>
 
-                <div className="row">
+                <div className="row media-flex-col">
                   <div className="col">
                     <div className="form-group ">
                       <label className="lblAbs font-12">
@@ -168,32 +182,36 @@ const AddTariffModal = ({ addService }) => {
                   </div>
                 </div>
 
-                <div className="d-flex gap-2">
-                  <div className="form-group w-50">
-                    <label className="lblAbs font-12">
-                      سهم بیمار خدمات و تامین{" "}
-                      <span className="text-danger">*</span>
-                    </label>
-                    <input
-                      type="number"
-                      className="form-control floating inputPadding rounded"
-                      name="patientCost"
-                    />
+                <div className="row media-flex-col">
+                  <div className="col">
+                    <div className="form-group">
+                      <label className="lblAbs font-12">
+                        سهم بیمار خدمات و تامین{" "}
+                        <span className="text-danger">*</span>
+                      </label>
+                      <input
+                        type="number"
+                        className="form-control floating inputPadding rounded"
+                        name="patientCost"
+                      />
+                    </div>
                   </div>
 
-                  <div className="form-group w-50">
-                    <label className="lblAbs font-12">
-                      سهم بیمار ارتش <span className="text-danger">*</span>
-                    </label>
-                    <input
-                      type="number"
-                      className="form-control floating inputPadding rounded"
-                      name="arteshPatientCost"
-                    />
+                  <div className="col">
+                    <div className="form-group">
+                      <label className="lblAbs font-12">
+                        سهم بیمار ارتش <span className="text-danger">*</span>
+                      </label>
+                      <input
+                        type="number"
+                        className="form-control floating inputPadding rounded"
+                        name="arteshPatientCost"
+                      />
+                    </div>
                   </div>
                 </div>
 
-                <div className="row">
+                <div className="row media-flex-col">
                   <div className="col">
                     <div className="form-group">
                       <label className="lblAbs font-12">سهم تامین</label>
@@ -229,7 +247,10 @@ const AddTariffModal = ({ addService }) => {
                 </div>
 
                 <div className="submit-section">
-                  <button type="submit" className="btn btn-primary btn-save rounded">
+                  <button
+                    type="submit"
+                    className="btn btn-primary btn-save rounded"
+                  >
                     ثبت تغییرات
                   </button>
                 </div>

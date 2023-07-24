@@ -63,7 +63,7 @@ const TariffListTable = ({
         selector: (row) =>
           row.PatientCost ? numberWithCommas(row.PatientCost) : "",
         sortable: true,
-        width: "150px",
+        width: "190px",
       },
       {
         name: "س . ب . ارتش",

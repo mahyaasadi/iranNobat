@@ -24,7 +24,7 @@ const SelectField = ({
     }),
   };
   return (
-    <div className="form-group">
+    <>
       <div className="form-group form-focus">
         <label className="form-name">
           {label} {isRequired && <span className="star-red">*</span>}
@@ -43,7 +43,7 @@ const SelectField = ({
         />
         {error && <p className="error-message">{errorMessage}</p>}
       </div>
-    </div>
+    </>
   );
 };
 export default SelectField;

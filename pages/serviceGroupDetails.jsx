@@ -8,10 +8,11 @@ import { QuestionAlert } from "class/AlertManage.js";
 import Loading from "components/loading/loading";
 import TariffHeader from "components/dashboard/tariff/tariffHeader";
 import TariffListTable from "components/dashboard/tariff/tariffListTable";
-import ServiceGroupListTable from "components/dashboard/serviceGroupDetails/serviceGroupListTable";
-import EditServiceGroupModal from "components/dashboard/serviceGroupDetails/editServiceGroupModal";
-import EditServiceModal from "components/dashboard/serviceGroupDetails/editServiceModal";
 import serviceGroupDifDataClass from "class/serviceGroupDifDataClass";
+import ServiceGroupListTable from "components/dashboard/serviceGroupDetails/serviceGroupListTable/serviceGroupListTable";
+import EditServiceGroupModal from "components/dashboard/serviceGroupDetails/editServiceGroupModal/editServiceGroupModal";
+import EditServiceModal from "components/dashboard/serviceGroupDetails/editServiceModal/editServiceModal";
+import AddSrvGroupModal from "components/dashboard/serviceGroupDetails/addSrvGroupModal/addSrvGroupModal";
 
 let CenterID = Cookies.get("CenterID");
 let activeServiceId = null;
@@ -96,6 +97,40 @@ const ServiceGroupDetails = () => {
     });
   };
 
+  //Add SrvGroup
+  const addGroup = (e) => {
+    e.preventDefault();
+
+    let url = "CenterServicessInfo/addGroup";
+    let formData = new FormData(e.target);
+    const formProps = Object.fromEntries(formData);
+
+    let data = {
+      CenterID: CenterID,
+      Name: formProps.addGroupName,
+      POT: formProps.addGroupPOT,
+      Color: formProps.addGroupColor,
+      Dif: formProps.addGroupDif,
+    };
+
+    $("#addSrvGroupModal").modal("hide");
+    setIsLoading(true);
+    console.log("data", data);
+
+    axiosClient
+      .post(url, data)
+      .then((response) => {
+        console.log(response.data);
+        setGroupDetail([...groupDetail, response.data]);
+        e.target.reset();
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
+  };
+
   //edit service
   const editServiceGroup = (e) => {
     e.preventDefault();
@@ -171,6 +206,7 @@ const ServiceGroupDetails = () => {
     };
 
     console.log("edit data", data);
+
     setIsLoading(true);
     axiosClient
       .put(url, data)
@@ -206,6 +242,32 @@ const ServiceGroupDetails = () => {
     setEditedGroupDetail(data);
   };
 
+  //delete SrvGroup
+  const deleteSrvGroup = async (id) => {
+    let result = await QuestionAlert(
+      "حذف گروه !",
+      "آیا از حذف گروه خدمت مطمئن هستید؟"
+    );
+
+    if (result) {
+      let url = "CenterServicessInfo/DeleteGroup";
+      let data = {
+        CenterID: CenterID,
+        GroupID: id,
+      };
+
+      console.log(data);
+
+      await axiosClient
+        .delete(url, { data })
+        .then((response) => {
+          console.log(response.data);
+          setGroupDetail(groupDetail.filter((a) => a._id !== id));
+        })
+        .catch((error) => console.log(error));
+    }
+  };
+
   return (
     <>
       <Head>
@@ -221,7 +283,7 @@ const ServiceGroupDetails = () => {
               <Link
                 href="#"
                 data-bs-toggle="modal"
-                data-bs-target="#addTariffModal"
+                data-bs-target="#addSrvGroupModal"
                 className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
               >
                 <i className="me-1">
@@ -239,15 +301,7 @@ const ServiceGroupDetails = () => {
                 <div className="card-header border-bottom-0">
                   <div className="row align-items-center">
                     <div className="col marginb-1">
-                      <p className="card-title font-17">لیست گروه ها</p>
-                    </div>
-                    <div className="col-auto d-flex flex-wrap">
-                      <div className="form-custom me-2">
-                        <div
-                          id="tableSearch"
-                          className="dataTables_wrapper"
-                        ></div>
-                      </div>
+                      <p className="card-title font-16">لیست گروه ها</p>
                     </div>
                   </div>
 
@@ -259,10 +313,11 @@ const ServiceGroupDetails = () => {
                         <ServiceGroupListTable
                           data={groupDetail}
                           updateGroup={updateGroup}
+                          deleteSrvGroup={deleteSrvGroup}
                         />
                       </div>
-                      <div className="col d-flex justify-between align-items-center margint-5 marginb-1">
-                        <p className="card-title font-17">لیست سرویس ها</p>
+                      <div className="col d-flex justify-between align-items-center margint-5 marginb-1 media-srvHeader">
+                        <p className="card-title font-16">لیست سرویس ها</p>
                         <Link
                           href="#"
                           data-bs-toggle="modal"
@@ -280,7 +335,6 @@ const ServiceGroupDetails = () => {
                         <TariffListTable
                           data={services}
                           updateServiceGroup={updateServiceGroup}
-                          //   deleteService={deleteService}
                         />
                       </div>
                     </div>
@@ -292,6 +346,13 @@ const ServiceGroupDetails = () => {
             </div>
           </div>
         </div>
+
+        <AddSrvGroupModal
+          data={groupDetail}
+          addGroup={addGroup}
+          srvGroupDifOptions={srvGroupDifOptions}
+          FUSelectSrvGroupDif={FUSelectSrvGroupDif}
+        />
 
         <EditServiceGroupModal
           groupDetail={editedGroupDetail}

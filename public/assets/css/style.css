@@ -4269,7 +4269,6 @@ html.menu-opened body {
 
   &:checked+.checkbox-tile {
     border-color: #0743a3;
-    box-shadow: 0 5px 10px rgba(#000, 0.1);
     color: #0743a3;
 
     &:before {
@@ -4279,7 +4278,10 @@ html.menu-opened body {
       border-color: #0743a3;
     }
 
-    .checkbox-icon,
+    .checkbox-icon {
+      color: #0743a3;
+    }
+
     .checkbox-label {
       color: #0743a3;
     }
@@ -4288,7 +4290,7 @@ html.menu-opened body {
   &:focus+.checkbox-tile {
     border-color: #0743a3;
 
-    &:before {
+    :before {
       transform: scale(1);
       opacity: 1;
     }
@@ -4307,7 +4309,7 @@ html.menu-opened body {
   transition: 0.15s ease;
   cursor: pointer;
   position: relative;
-  width: 30em;
+  width: 30vw;
 
   &:before {
     content: "";
@@ -8704,7 +8706,11 @@ ul li .active {
 }
 
 .font-14 {
-  font-size: 14px;
+  font-size: 14px !important;
+}
+
+.font-16 {
+  font-size: 16px !important
 }
 
 .font-17 {
@@ -8769,12 +8775,12 @@ ul li .active {
 }
 
 .visitBtn {
-  border: 1px solid #0db1ca;
+  border: 1px solid #1B5A90;
   color: #1B5A90;
 }
 
 .visitBtn:hover {
-  background-color: #0db1ca;
+  background-color: #1B5A90;
   color: white
 }
 
@@ -8844,7 +8850,7 @@ ul li .active {
 
 #patientInfoSection {
   display: none;
-  height: 53vh;
+  height: 50vh;
 }
 
 .themecolor {
@@ -8892,10 +8898,6 @@ ul li .active {
   margin-top: 2.5rem !important
 }
 
-.appointmentBtn-radius {
-  border-radius: 8px;
-}
-
 .editPhone-icon {
   position: absolute;
   top: 0.5em;
@@ -8933,6 +8935,17 @@ ul li .active {
   position: absolute;
   width: 97%;
   z-index: 999;
+  background-color: white;
+}
+
+.unsuccessfullSearch {
+  font-size: 13px !important;
+  border: 1px solid #e6e9f4;
+  border-radius: 20px;
+  padding: 6px 2rem;
+  color: gray;
+  position: relative;
+  z-index: 90;
   background-color: white;
 }
 
@@ -9048,16 +9061,6 @@ ul li .active {
   cursor: pointer;
 }
 
-/* .srvColorPadding::-webkit-color-swatch {
-  border-radius: 15px;
-  border: none;
-}
-
-.srvColorPadding:-moz-color-swatch {
-  border-radius: 15px;
-  border: none;
-} */
-
 .seperatorLine {
   height: 1px;
   background-color: lightgrey;
@@ -9073,7 +9076,7 @@ ul li .active {
 .tabs-scroll {
   flex-wrap: nowrap;
   display: flex;
-  overflow-x: scroll;
+  overflow-x: auto;
   overflow-y: hidden;
 }
 
@@ -9117,6 +9120,17 @@ ul li .active {
     align-items: center;
     gap: 1rem;
   }
+
+  .media-srvHeader {
+    flex-direction: column-reverse;
+    gap: 1rem;
+    align-items: initial !important;
+  }
+
+  .media-nav-link {
+    display: flex;
+    gap: 0.5rem;
+  }
 }
 
 @media (max-width: 992px) {
@@ -9126,6 +9140,28 @@ ul li .active {
 
   .prescript-header {
     margin-bottom: 2rem
+  }
+
+  .media-flex-col {
+    flex-direction: column;
+  }
+
+  .media-modal-content {
+    direction: ltr;
+    height: 80vh;
+    overflow-y: auto;
+  }
+
+  .media-modal-header {
+    direction: rtl;
+  }
+
+  .media-modal-body {
+    direction: rtl
+  }
+
+  .checkbox-tile {
+    width: 60vw;
   }
 }
 
@@ -9154,6 +9190,7 @@ ul li .active {
     0px 20px 20px rgba(0, 0, 0, 0.05),
     0px 30px 20px rgba(0, 0, 0, 0.05);
   overflow-x: auto;
+  width: 85%
 }
 
 .timeTableHeader {
@@ -9164,7 +9201,11 @@ ul li .active {
 }
 
 .cardBodyPadding {
-  padding: 3.5rem !important
+  padding: 3.5rem !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .cells {
@@ -9179,16 +9220,18 @@ ul li .active {
 
 .cells:hover .scheduleFeatures {
   visibility: visible;
+
 }
 
 .cells:hover {
   background-color: #c5d8e3;
+  color: #1B5A90;
 }
 
 .scheduleFeatures {
   position: absolute;
   top: 0px;
-  left: 0px;
+  left: -3px;
 }
 
 .noRightBorder {
@@ -9227,9 +9270,10 @@ tr {
 /*  */
 @media (max-width: 1200px) {
   .nav-tabs-scroll {
-    overflow-x: scroll;
-    overflow-y: hidden;
     display: flex;
+    /* justify-content: center; */
+    overflow-x: auto;
+    overflow-y: hidden;
     flex-wrap: nowrap;
     padding-bottom: 0.75rem;
   }
@@ -9237,7 +9281,7 @@ tr {
 
 ::-webkit-scrollbar {
   width: 6px;
-  height: 6px
+  height: 5px
 }
 
 /* Track */

@@ -86,7 +86,7 @@ const TariffCalcModal = ({
                       className="tariffCalcForm"
                       onSubmit={applyKCalculations}
                     >
-                      <div className="form-group col-9 col-xl-10">
+                      <div className="form-group col-12 col-xl-10">
                         <input
                           type="hidden"
                           className="form-control floating"
@@ -107,7 +107,7 @@ const TariffCalcModal = ({
                         />
                       </div>
 
-                      <div className="form-group col-9 col-xl-10">
+                      <div className="form-group col-12 col-xl-10">
                         <label className="lblAbs font-12">
                           K حرفه ای-خصوصی <span className="text-danger">*</span>
                         </label>
@@ -119,7 +119,7 @@ const TariffCalcModal = ({
                         />
                       </div>
 
-                      <div className="form-group col-9 col-xl-10">
+                      <div className="form-group col-12 col-xl-10">
                         <label className="lblAbs font-12">
                           K فنی-دولتی <span className="text-danger">*</span>
                         </label>
@@ -131,7 +131,7 @@ const TariffCalcModal = ({
                         />
                       </div>
 
-                      <div className="form-group col-9 col-xl-10">
+                      <div className="form-group col-12 col-xl-10">
                         <label className="lblAbs font-12">
                           K فنی-دولتی <span className="text-danger">*</span>
                         </label>
@@ -175,7 +175,7 @@ const TariffCalcModal = ({
                       className="tariffCalcForm"
                       onSubmit={applyPriceCalculations}
                     >
-                      <div className="form-group col-9 col-xl-10">
+                      <div className="form-group col-12 col-xl-10">
                         <label className="lblAbs font-12">
                           K فنی-دولتی <span className="text-danger">*</span>
                         </label>
@@ -236,7 +236,7 @@ const TariffCalcModal = ({
                       className="tariffCalcForm"
                       onSubmit={applyPercentCalculations}
                     >
-                      <div className="form-group col-9 col-xl-10">
+                      <div className="form-group col-12 col-xl-10">
                         <label className="lblAbs font-12">
                           درصد<span className="text-danger">*</span>
                         </label>

@@ -170,7 +170,7 @@ const Discounts = () => {
                   href="#"
                   data-bs-toggle="modal"
                   data-bs-target="#addDiscountModal"
-                  className="btn btn-primary btn-add"
+                  className="btn btn-primary btn-add font-14"
                 >
                   <i className="me-1">
                     <FeatherIcon icon="plus-square" />
@@ -188,7 +188,7 @@ const Discounts = () => {
                 <div className="card-header border-bottom-0">
                   <div className="row align-items-center">
                     <div className="col">
-                      <h5 className="card-title">لیست تخفیفات پذیرش</h5>
+                      <h5 className="card-title font-16">لیست تخفیفات پذیرش</h5>
                     </div>
                     <div className="col-auto d-flex flex-wrap">
                       <div className="form-custom me-2">

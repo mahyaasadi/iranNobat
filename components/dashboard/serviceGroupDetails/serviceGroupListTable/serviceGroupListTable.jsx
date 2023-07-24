@@ -7,7 +7,7 @@ import { tableCustomStyles } from "components/commonComponents/customTableStyle/
 import numberWithCommas from "class/numberWithComma";
 import { useRouter } from "next/router";
 
-const ServiceGroupListTable = ({ data, updateGroup }) => {
+const ServiceGroupListTable = ({ data, updateGroup, deleteSrvGroup }) => {
   const columns = [
     {
       name: "نام گروه",
@@ -17,7 +17,7 @@ const ServiceGroupListTable = ({ data, updateGroup }) => {
     },
     {
       name: "مدت زمان",
-      selector: (row) => row.POT ? (row.POT + " دقیقه ") : "-",
+      selector: (row) => (row.POT ? row.POT + " دقیقه " : "-"),
       sortable: true,
       width: "auto",
     },
@@ -32,7 +32,11 @@ const ServiceGroupListTable = ({ data, updateGroup }) => {
       sortable: true,
       cell: (row) => (
         <div
-          style={{ "background-color": row.Color, padding: "5px 50px", "border-radius": "5px" }}
+          style={{
+            backgroundColor: row.Color,
+            padding: "5px 50px",
+            borderRadius: "5px",
+          }}
         ></div>
       ),
       width: "auto",
@@ -46,7 +50,7 @@ const ServiceGroupListTable = ({ data, updateGroup }) => {
           <Link
             className="text-danger"
             href="#"
-            // onClick={() => deleteService(row._id)}
+            onClick={() => deleteSrvGroup(row._id)}
           >
             <i className="">
               <FeatherIcon icon="trash-2" />

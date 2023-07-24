@@ -1,8 +1,12 @@
-import { useState } from "react";
 import FeatherIcon from "feather-icons-react";
 import SelectField from "components/commonComponents/selectfield";
 
-const EditServiceGroupModal = ({ groupDetail, editGroup, srvGroupDifOptions, FUSelectSrvGroupDif }) => {
+const EditServiceGroupModal = ({
+  groupDetail,
+  editGroup,
+  srvGroupDifOptions,
+  FUSelectSrvGroupDif,
+}) => {
   const colourStyles = {
     menu: (provided) => ({ ...provided, zIndex: 9999 }),
     control: (styles) => ({
@@ -60,7 +64,7 @@ const EditServiceGroupModal = ({ groupDetail, editGroup, srvGroupDifOptions, FUS
 
               <div className="form-group">
                 <label className="lblAbs font-12">
-                  مدت زمان  (دقیقه)<span className="text-danger"> *</span>
+                  مدت زمان (دقیقه)<span className="text-danger"> *</span>
                 </label>
                 <input
                   className="form-control floating inputPadding rounded"
