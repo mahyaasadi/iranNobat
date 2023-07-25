@@ -182,6 +182,27 @@ const Sidebar = () => {
               <li className="submenu">
                 <a href="#">
                   <i>
+                    <FeatherIcon icon="users" className="width-15" />
+                  </i>
+                  <span>مدیریت کاربران مرکز</span>
+                  <span className="menu-arrow"></span>
+                </a>
+                <ul className="hidden hiddenSidebar">
+                  <li
+                    className={
+                      router.pathname == "/centerUsers" ? "active" : ""
+                    }
+                  >
+                    <Link href="/centerUsers" className="font-12">
+                      کاربران مرکز 
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+
+              <li className="submenu">
+                <a href="#">
+                  <i>
                     <FeatherIcon icon="file" className="width-15" />
                   </i>
                   <span>نسخه نویسی</span>

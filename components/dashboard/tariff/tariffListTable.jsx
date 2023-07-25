@@ -190,7 +190,7 @@ const TariffListTable = ({
   };
 
   return (
-    <div className="card-body p-0">
+    <div className="card-body p-4">
       <div className="table-responsive">
         <DataTableExtensions {...tableData}>
           <DataTable
@@ -199,6 +199,8 @@ const TariffListTable = ({
             defaultSortAsc={false}
             pagination
             highlightOnHover
+            paginationPerPage="20"
+            // direction="ltr"
             customStyles={tableCustomStyles}
           />
         </DataTableExtensions>

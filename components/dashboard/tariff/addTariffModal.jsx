@@ -2,7 +2,16 @@ import FeatherIcon from "feather-icons-react";
 import SelectField from "components/commonComponents/selectfield";
 import Link from "next/link";
 
-const AddTariffModal = ({ addService }) => {
+const AddTariffModal = ({ addService, srvGroupList, FUSelectSrvGroupName }) => {
+  const colourStyles = {
+    menu: (provided) => ({ ...provided, zIndex: 9999 }),
+    control: (styles) => ({
+      ...styles,
+      minHeight: 43,
+      borderRadius: 20,
+      border: "1px solid #E6E9F4",
+    }),
+  };
   return (
     <>
       <div
@@ -30,7 +39,7 @@ const AddTariffModal = ({ addService }) => {
             <div className="modal-body media-modal-body">
               <form onSubmit={addService}>
                 <div className="row media-flex-col">
-                  <div className="col-lg-4 col">
+                  <div className="col-lg-2 col">
                     <div className="form-group">
                       <label className="lblAbs font-12">
                         شناسه <span className="text-danger">*</span>
@@ -44,10 +53,10 @@ const AddTariffModal = ({ addService }) => {
                     </div>
                   </div>
 
-                  <div className="col-lg-8 col">
+                  <div className="col-lg-6 col">
                     <div className="form-group">
                       <label className="lblAbs font-12">
-                        نام <span className="text-danger">*</span>
+                        نام خدمت <span className="text-danger">*</span>
                       </label>
                       <input
                         type="text"
@@ -56,6 +65,25 @@ const AddTariffModal = ({ addService }) => {
                         name="serviceName"
                       />
                     </div>
+                  </div>
+
+                  <div className="col-lg-4 col">
+                    <label className="lblDrugIns font-12">
+                      نام گروه<span className="text-danger">*</span>
+                    </label>
+                    <SelectField
+                      styles={colourStyles}
+                      options={srvGroupList}
+                      errorMessage={""}
+                      error={false}
+                      label={true}
+                      placeholder={"نام گروه را انتخاب کنید"}
+                      required
+                      name="srvGroupName"
+                      onChangeValue={(value) =>
+                        FUSelectSrvGroupName(value?.value)
+                      }
+                    />
                   </div>
                 </div>
 
@@ -251,7 +279,7 @@ const AddTariffModal = ({ addService }) => {
                     type="submit"
                     className="btn btn-primary btn-save rounded"
                   >
-                    ثبت تغییرات
+                    ثبت
                   </button>
                 </div>
               </form>

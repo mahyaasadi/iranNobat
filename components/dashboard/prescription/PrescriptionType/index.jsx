@@ -65,4 +65,3 @@ const PrescriptionType = ({ img, name, active, id, changePrescId }) => {
 };
 
 export default PrescriptionType;
-

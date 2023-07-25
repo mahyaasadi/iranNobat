@@ -1,5 +1,4 @@
-"use client";
-import React from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import FeatherIcon from "feather-icons-react";
 import DataTable from "react-data-table-component";
@@ -7,55 +6,51 @@ import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import { tableCustomStyles } from "components/commonComponents/customTableStyle/tableStyle.jsx";
 
-const DoctorsListTable = ({ data, deletePhysician, updatePhysician }) => {
+const UsersListTable = ({ data }) => {
   const columns = [
     {
-      name: "نام پزشک",
-      selector: (row) => row.Name,
+      name: "نام و نام خانوادگی",
+      selector: (row) => row.FullName,
       sortable: true,
-      width: "auto",
+      width: "250px",
     },
     {
-      name: "عنوان",
-      selector: (row) => row.Title,
+      name: "نام مستعار",
+      selector: (row) => row.NickName,
       sortable: true,
-      width: "auto",
+      width: "350px",
     },
     {
-      name: "تخصص",
-      selector: (row) => row.Spe,
+      name: "نام کاربری",
+      selector: (row) => row.User,
       sortable: true,
       width: "auto",
     },
     {
       name: "عملیات ها",
-      selector: (row) => row._id,
+      selector: (row) => row.action,
       sortable: true,
-
-      cell: (row) => (
+      cell: () => (
         <div className="actions">
           <Link
-            dir="ltr"
-            href="#"
             className="text-black"
-            onClick={() => updatePhysician(row)}
+            href="#"
             data-bs-toggle="modal"
-            data-bs-target="#editPhysicianModal"
+            data-bs-target="#editModal"
           >
             <i className="me-1">
               <FeatherIcon icon="edit-3" />
-            </i>
+            </i>{" "}
           </Link>
-
           <Link
-            dir="ltr"
-            href="#"
             className="text-danger"
-            onClick={() => deletePhysician(row._id)}
+            href="#"
+            data-bs-toggle="modal"
+            data-bs-target="#deleteModal"
           >
             <i className="me-1">
               <FeatherIcon icon="trash-2" />
-            </i>
+            </i>{" "}
           </Link>
         </div>
       ),
@@ -86,4 +81,4 @@ const DoctorsListTable = ({ data, deletePhysician, updatePhysician }) => {
   );
 };
 
-export default DoctorsListTable;
+export default UsersListTable;

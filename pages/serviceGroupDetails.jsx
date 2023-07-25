@@ -13,6 +13,7 @@ import ServiceGroupListTable from "components/dashboard/serviceGroupDetails/serv
 import EditServiceGroupModal from "components/dashboard/serviceGroupDetails/editServiceGroupModal/editServiceGroupModal";
 import EditServiceModal from "components/dashboard/serviceGroupDetails/editServiceModal/editServiceModal";
 import AddSrvGroupModal from "components/dashboard/serviceGroupDetails/addSrvGroupModal/addSrvGroupModal";
+import AddTariffModal from "components/dashboard/tariff/addTariffModal";
 
 let CenterID = Cookies.get("CenterID");
 let activeServiceId = null;
@@ -128,6 +129,53 @@ const ServiceGroupDetails = () => {
       .catch((error) => {
         console.log(error);
         setIsLoading(false);
+      });
+  };
+
+  // add service
+  const addService = (e) => {
+    e.preventDefault();
+
+    let formData = new FormData(e.target);
+    const formProps = Object.fromEntries(formData);
+
+    let url = "CenterServicessInfo/AddService";
+    let addData = {
+      CenterID: CenterID,
+      DepID: activeDepId,
+      ServiceID: formProps.serviceId,
+      Service: formProps.serviceName,
+      CenterGroup: formProps.groupName,
+      Total_K: formProps.total_K,
+      Technical_K: formProps.tech_K,
+      Professional_K: formProps.pro_K,
+      GovernmentalTariff: formProps.govTariff,
+      PrivateTariff: formProps.privateTariff,
+      FreeTariff: formProps.freeTariff,
+      PatientCost: formProps.patientCost,
+      ArteshPatientCost: formProps.arteshPatientCost,
+      PrivateTechnicalK_Price: formProps.ptk_price,
+      PrivateProfessionalK_Price: formProps.ppk_price,
+      GovernmentalTechnicalK_Price: formProps.gtk_price,
+      GovernmentalProfessionalK_Price: formProps.gpk_price,
+      ST: formProps.taminShare,
+      SS: formProps.salamatShare,
+      SA: formProps.arteshShare,
+    };
+
+    console.log(addData);
+    axiosClient
+      .post(url, addData)
+      .then((response) => {
+        setServices([...services, response.data]);
+        setIsLoading(false);
+        console.log("added", response.data);
+        $("#addTariffModal").modal("hide");
+        e.target.reset();
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(true);
       });
   };
 
@@ -268,6 +316,32 @@ const ServiceGroupDetails = () => {
     }
   };
 
+  //delete Service
+  const deleteService = async (id) => {
+    let result = await QuestionAlert(
+      "حذف سرویس!",
+      "آیا از حذف سرویس مطمئن هستید"
+    );
+
+    if (result) {
+      let data = {
+        CenterID: CenterID,
+        DepID: activeDepId,
+        ServiceID: id,
+      };
+      let url = `CenterServicessInfo/DeleteService`;
+
+      await axiosClient
+        .delete(url, { data })
+        .then(function () {
+          setServices(services.filter((a) => a._id !== id));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+  };
+
   return (
     <>
       <Head>
@@ -317,24 +391,27 @@ const ServiceGroupDetails = () => {
                         />
                       </div>
                       <div className="col d-flex justify-between align-items-center margint-5 marginb-1 media-srvHeader">
-                        <p className="card-title font-16">لیست سرویس ها</p>
-                        <Link
-                          href="#"
-                          data-bs-toggle="modal"
-                          data-bs-target="#addTariffModal"
-                          className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
-                        >
-                          <i className="me-1">
-                            <FeatherIcon icon="plus-square" />
-                          </i>{" "}
-                          سرویس جدید
-                        </Link>
+                        <p className="card-title font-16">لیست خدمات</p>
+                        <div className="media-md-w-100">
+                          <Link
+                            href="#"
+                            data-bs-toggle="modal"
+                            data-bs-target="#addTariffModal"
+                            className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
+                          >
+                            <i className="me-1">
+                              <FeatherIcon icon="plus-square" />
+                            </i>{" "}
+                            سرویس جدید
+                          </Link>
+                        </div>
                       </div>
 
                       <div className="col-sm-12">
                         <TariffListTable
                           data={services}
                           updateServiceGroup={updateServiceGroup}
+                          deleteService={deleteService}
                         />
                       </div>
                     </div>
@@ -346,6 +423,12 @@ const ServiceGroupDetails = () => {
             </div>
           </div>
         </div>
+
+        <AddTariffModal
+          addService={addService}
+          srvGroupList={srvGroupList}
+          FUSelectSrvGroupName={FUSelectSrvGroupName}
+        />
 
         <AddSrvGroupModal
           data={groupDetail}

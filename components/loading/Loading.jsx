@@ -8,8 +8,9 @@ const Loading = () => {
       <Image
         src={loading}
         width="140"
+        max-width="140"
         height="140"
-        alt="loading"  
+        alt="loading"
       />
     </div>
   );

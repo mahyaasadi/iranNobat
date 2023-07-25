@@ -11,8 +11,8 @@ let CenterID = Cookies.get("CenterID");
 
 const SmsPanelSettings = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [eye, setEye] = useState(true);
   const [panelData, setPanelData] = useState([]);
+  const [eye, setEye] = useState(true);
 
   const onEyeClick = () => setEye(!eye);
 

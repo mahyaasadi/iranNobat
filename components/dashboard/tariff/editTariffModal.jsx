@@ -2,7 +2,26 @@ import FeatherIcon from "feather-icons-react";
 import SelectField from "components/commonComponents/selectfield";
 import Link from "next/link";
 
-const EditTariffModal = ({ data, editService }) => {
+const EditTariffModal = ({
+  data,
+  editService,
+  srvGroupList,
+  FUSelectSrvGroupName,
+}) => {
+  const selectedSrvGroupName = {
+    value: data.CenterGroup,
+    label: data.CenterGroup,
+  };
+
+  const colourStyles = {
+    menu: (provided) => ({ ...provided, zIndex: 9999 }),
+    control: (styles) => ({
+      ...styles,
+      minHeight: 43,
+      borderRadius: 20,
+      border: "1px solid #E6E9F4",
+    }),
+  };
   return (
     <>
       <div
@@ -30,7 +49,7 @@ const EditTariffModal = ({ data, editService }) => {
             <div className="modal-body media-modal-body">
               <form onSubmit={editService}>
                 <div className="row media-flex-col">
-                  <div className="col col-lg-4">
+                  <div className="col col-lg-2">
                     <div className="form-group">
                       <label className="lblAbs font-12">
                         شناسه <span className="text-danger">*</span>
@@ -46,7 +65,7 @@ const EditTariffModal = ({ data, editService }) => {
                     </div>
                   </div>
 
-                  <div className="col col-lg-8">
+                  <div className="col col-lg-6">
                     <div className="form-group">
                       <label className="lblAbs font-12">
                         نام <span className="text-danger">*</span>
@@ -60,6 +79,27 @@ const EditTariffModal = ({ data, editService }) => {
                         key={data.Service}
                       />
                     </div>
+                  </div>
+
+                  <div className="col-lg-4 col">
+                    <label className="lblDrugIns font-12">
+                      نام گروه<span className="text-danger">*</span>
+                    </label>
+                    <SelectField
+                      styles={colourStyles}
+                      options={srvGroupList}
+                      errorMessage={""}
+                      error={false}
+                      label={true}
+                      placeholder={"نام گروه را انتخاب کنید"}
+                      required
+                      name="srvGroupName"
+                      onChangeValue={(value) =>
+                        FUSelectSrvGroupName(value?.value)
+                      }
+                      defaultValue={selectedSrvGroupName}
+                      key={data.CenterGroup}
+                    />
                   </div>
                 </div>
 

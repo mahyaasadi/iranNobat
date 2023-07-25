@@ -80,11 +80,16 @@ const ServiceGroupListTable = ({ data, updateGroup, deleteSrvGroup }) => {
   };
 
   return (
-    <div className="card-body p-0">
+    <div className="card-body p-4">
       <div className="table-responsive">
         <DataTableExtensions {...tableData}>
           <DataTable
             noHeader
+            noDataComponent={
+              <div style={{ padding: "24px", fontSize: "13px" }}>
+                موردی برای نمایش وجود ندارد.
+              </div>
+            }
             defaultSortField="id"
             defaultSortAsc={false}
             pagination

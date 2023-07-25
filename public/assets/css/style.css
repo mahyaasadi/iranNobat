@@ -652,6 +652,10 @@ table.table td h2.table-avatar a>img {
   margin-bottom: 1.5rem
 }
 
+.marginb-med {
+  margin-bottom: 1.25rem;
+}
+
 @media (min-width: 768px) {
   .dashboard-selector {
     width: 25%;
@@ -2032,7 +2036,7 @@ button.bg-danger:hover {
 }
 
 .card .card-header .card-title {
-  margin-bottom: 0;
+  margin-bottom: 1.5rem;
 }
 
 .modal-footer.text-left {
@@ -9208,20 +9212,27 @@ ul li .active {
   align-items: center;
 }
 
+.calendar-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .cells {
   border: 1px solid #a5bbc9;
   padding: 3rem 3rem;
   position: relative;
 }
 
-.cells .scheduleFeatures {
+/* .cells .scheduleFeatures {
   visibility: hidden;
 }
 
 .cells:hover .scheduleFeatures {
   visibility: visible;
 
-}
+} */
 
 .cells:hover {
   background-color: #c5d8e3;
@@ -9267,7 +9278,93 @@ tr {
   text-align: center;
 }
 
-/*  */
+/* calendar */
+
+.rmdp-wrapper {
+  box-shadow: 0 0 0 !important;
+}
+
+.rmdp-day-picker {
+  padding-bottom: 3rem !important;
+}
+
+.rmdp-header {
+  width: 100% !important;
+  display: flex !important;
+  justify-content: center !important;
+  margin-top: 2rem !important;
+  font-size: 22px !important;
+}
+
+.rmdp-month-picker::before {
+  display: none !important;
+}
+
+.rmdp-month-picker::after {
+  display: flex !important;
+}
+
+.rmdp-month-picker {
+  /* display: none !important; */
+  /* right: 27rem !important;
+  direction: ltr !important;
+  overflow-y: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  width: 15% !important;
+  height: 41vh !important; */
+}
+
+.rmdp-ym {
+  display: grid !important;
+}
+
+.rmdp-week-day {
+  padding: 3rem !important;
+  width: 100% !important;
+  color: #1B5A90 !important;
+}
+
+.rmdp-ym {
+  border-radius: 10% !important;
+}
+
+.rmdp-day span {
+  border-radius: 10% !important;
+}
+
+.rmdp-day {
+  padding: 4rem !important;
+  border: 1px solid #cfdee6;
+  border-radius: 10%;
+}
+
+.rmdp-day.rmdp-today span {
+  background-color: #0db1ca !important
+}
+
+.scheduleFeatures {
+  visibility: visible;
+}
+
+.rmdp-day.rmdp-selected span:not(.highlight) {
+  background-color: #1B5A90 !important;
+}
+
+.rmdp-day.rmdp-selected span:not(.highlight) .scheduleFeatures {
+  visibility: visible;
+}
+
+.rmdp-day:not(.rmdp-disabled):not(.rmdp-day-hidden) span:hover {
+  background-color: #1B5A90 !important
+}
+
+.rmdp-day.rmdp-selected .scheduleFeatures {
+  visibility: hidden;
+}
+
+
+/* srcollbar */
 @media (max-width: 1200px) {
   .nav-tabs-scroll {
     display: flex;

@@ -15,6 +15,7 @@ import LoeingModal from "components/dashboard/tariff/loeing/loeingModal";
 import AddLoeingModal from "components/dashboard/tariff/loeing/addLoeingModal";
 import EditLoeingModal from "components/dashboard/tariff/loeing/editLoeingModal";
 import applyCalculationsDataClass from "class/applyCalculationsDataClass";
+import serviceGroupDifDataClass from "class/serviceGroupDifDataClass";
 
 let CenterID = Cookies.get("CenterID");
 let activeServiceId = null;
@@ -35,6 +36,16 @@ const Tariff = () => {
   const [calculationsOptions, setCalculationsOptions] = useState(
     applyCalculationsDataClass
   );
+  const [srvGroupList, setSrvGroupList] = useState([]);
+
+  const [srvGroupDifOptions, setSrvGroupDifOptions] = useState(
+    serviceGroupDifDataClass
+  );
+
+  let selectSrvGroupName = "";
+  const FUSelectSrvGroupName = (srvGroupName) => {
+    selectSrvGroupName = srvGroupName;
+  };
 
   //get departments -> In Tariff Header
   const getDepartments = () => {
@@ -68,6 +79,18 @@ const Tariff = () => {
       setIsLoading(false);
       if (response.data.ServicesInfo.length > 0) {
         setServices(response.data.ServicesInfo);
+
+        //srvGroupName Options
+        let selectServiceGroup = [];
+        for (let i = 0; i < response.data.GroupDetail.length; i++) {
+          const item = response.data.GroupDetail[i];
+          let obj = {
+            value: item.Name,
+            label: item.Name,
+          };
+          selectServiceGroup.push(obj);
+        }
+        setSrvGroupList(selectServiceGroup);
       } else if (
         !response.data.ServiceInfo ||
         response.data.ServicesInfo.length === 0
@@ -121,6 +144,7 @@ const Tariff = () => {
       DepID: activeDepId,
       ServiceID: formProps.serviceId,
       Service: formProps.serviceName,
+      CenterGroup: formProps.srvGroupName,
       Total_K: formProps.total_K,
       Technical_K: formProps.tech_K,
       Professional_K: formProps.pro_K,
@@ -138,6 +162,7 @@ const Tariff = () => {
       SA: formProps.arteshShare,
     };
 
+    console.log(addData);
     axiosClient
       .post(url, addData)
       .then((response) => {
@@ -167,6 +192,7 @@ const Tariff = () => {
       DepID: activeDepId,
       ServiceID: formProps.serviceId,
       Service: formProps.serviceName,
+      CenterGroup: formProps.srvGroupName,
       Total_K: formProps.total_K,
       Technical_K: formProps.tech_K,
       Professional_K: formProps.pro_K,
@@ -549,7 +575,6 @@ const Tariff = () => {
                     <TariffListTable
                       data={services}
                       updateService={updateService}
-                      // updateServiceGroup={updateServiceGroup}
                       deleteService={deleteService}
                       SetLoeingModalData={SetLoeingModalData}
                     />
@@ -571,9 +596,18 @@ const Tariff = () => {
           applyPriceCalculations={applyPriceCalculations}
         />
 
-        <AddTariffModal addService={addService} />
+        <AddTariffModal
+          addService={addService}
+          srvGroupList={srvGroupList}
+          FUSelectSrvGroupName={FUSelectSrvGroupName}
+        />
 
-        <EditTariffModal data={editedServices} editService={editService} />
+        <EditTariffModal
+          data={editedServices}
+          editService={editService}
+          srvGroupList={srvGroupList}
+          FUSelectSrvGroupName={FUSelectSrvGroupName}
+        />
 
         <LoeingModal
           data={loeingData}

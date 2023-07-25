@@ -79,7 +79,7 @@ const EditServiceModal = ({
                   required
                   name="srvGroupName"
                   onChangeValue={(value) => FUSelectSrvGroupName(value?.value)}
-                  key={groupDetail.CenterGroup}
+                  key={groupDetail.Service}
                   defaultValue={selectedSrvGroupName}
                 />
 
