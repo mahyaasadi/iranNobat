@@ -341,6 +341,9 @@ const Prescription = () => {
         //   count = PrescriptionItemsData.length;
         // }
         $("#srvItemCountId" + prescId).html(count);
+        // if (count === 0) {
+        //   $("#srvItemCountId" + prescId).hide();
+        // }
         // console.log(count);
         return { prescData, prescItems };
       }

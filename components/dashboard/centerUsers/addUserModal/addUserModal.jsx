@@ -1,9 +1,9 @@
 import FeatherIcon from "feather-icons-react";
-import { useForm, Controller } from "react-hook-form";
 
-const AddUserModal = ({ eye, onEyeClick }) => {
-  const { control } = useForm();
-
+const AddUserModal = ({ eye, onEyeClick, addUser }) => {
+  // const handleRadioButton = () => {
+  //   $(this).removeAttr("checked");
+  // };
   return (
     <div
       className="modal fade contentmodal"
@@ -27,7 +27,7 @@ const AddUserModal = ({ eye, onEyeClick }) => {
             </button>
           </div>
           <div className="modal-body">
-            <form>
+            <form onSubmit={addUser}>
               <div className="form-group">
                 <label className="lblAbs font-12">
                   نام و نام خانوادگی<span className="text-danger">*</span>
@@ -41,7 +41,6 @@ const AddUserModal = ({ eye, onEyeClick }) => {
                   />
                 </div>
               </div>
-
               <div className="form-group">
                 <label className="lblAbs font-12">
                   نام مستعار <span className="text-danger">*</span>
@@ -55,7 +54,6 @@ const AddUserModal = ({ eye, onEyeClick }) => {
                   />
                 </div>
               </div>
-
               <div className="form-group">
                 <label className="lblAbs font-12">
                   کد ملی <span className="text-danger">*</span>
@@ -69,7 +67,6 @@ const AddUserModal = ({ eye, onEyeClick }) => {
                   />
                 </div>
               </div>
-
               <div className="form-group">
                 <label className="lblAbs font-12">
                   شماره موبایل<span className="text-danger">*</span>
@@ -83,7 +80,6 @@ const AddUserModal = ({ eye, onEyeClick }) => {
                   />
                 </div>
               </div>
-
               <div className="input-group marginb-med">
                 <label className="lblAbs font-12">
                   نام کاربری <span className="text-danger">*</span>
@@ -100,13 +96,13 @@ const AddUserModal = ({ eye, onEyeClick }) => {
                   />
                 </div>
               </div>
-
               <div className="input-group marginb-med">
                 <label className="lblAbs font-12">رمز عبور</label>
                 <input
                   type={eye ? "password" : "text"}
                   name="userPassword"
                   required
+                  autoComplete="true"
                   className="form-control inputPadding rounded"
                 />
                 <span
@@ -116,13 +112,13 @@ const AddUserModal = ({ eye, onEyeClick }) => {
                   }`}
                 />
               </div>
-
               <div className="input-group marginb-med">
                 <label className="lblAbs font-12">تکرار رمز عبور</label>
                 <input
                   type={eye ? "password" : "text"}
-                  name="userPassword"
+                  name="repeatUserPassword"
                   required
+                  autoComplete="true"
                   className="form-control inputPadding rounded"
                 />
                 <span
@@ -132,7 +128,44 @@ const AddUserModal = ({ eye, onEyeClick }) => {
                   }`}
                 />
               </div>
+              <hr />
+              {/*  */}
+              {/* <fieldset className="fieldsetPadding">
+                <p className="text-secondary font-13">انتخاب نقش</p>
+                <div className="d-flex gap-2 align-items-center">
+                  <input
+                    type="checkbox"
+                    id="coding"
+                    name="interest"
+                    value="coding"
+                  />
+                  <div><p>Coding</p></div>
+                  <input
+                    type="checkbox"
+                    id="music"
+                    name="interest"
+                    value="music"
+                  />
+                  <div><p>Music</p></div>
+                </div>
+              </fieldset> */}
 
+              <div className="roleCheckbox">
+                <label className="lblRole font-12">سطح دسترسی</label>
+                <div className="radio_container">
+                  <input type="checkbox" name="radio" id="adminRole" />
+                  <label className="Checkboxlabel" for="adminRole">
+                    ادمین
+                  </label>
+                  <span className="vertical-line"></span>
+                  <input type="checkbox" name="radio" id="secretaryRole" />
+                  <label className="Checkboxlabel" for="secretaryRole">
+                    منشی
+                  </label>
+                </div>
+              </div>
+
+              {/*  */}
               <div className="submit-section">
                 <button
                   type="submit"

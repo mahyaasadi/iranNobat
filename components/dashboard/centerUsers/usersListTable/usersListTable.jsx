@@ -6,7 +6,12 @@ import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import { tableCustomStyles } from "components/commonComponents/customTableStyle/tableStyle.jsx";
 
-const UsersListTable = ({ data }) => {
+// const [activeState, setActiveState] = useState("active");
+// const toggleActivate = () => {
+//   setActiveState(!active);
+// };
+
+const UsersListTable = ({ data, updateUserInfo }) => {
   const columns = [
     {
       name: "نام و نام خانوادگی",
@@ -30,24 +35,23 @@ const UsersListTable = ({ data }) => {
       name: "عملیات ها",
       selector: (row) => row.action,
       sortable: true,
-      cell: () => (
+      cell: (row) => (
         <div className="actions">
+          <button className="btn btn-sm btn-outline-primary" type="button">
+            {/* {activeState} */}activate
+          </button>
           <Link
             className="text-black"
             href="#"
             data-bs-toggle="modal"
-            data-bs-target="#editModal"
+            data-bs-target="#editUserModal"
+            onClick={() => updateUserInfo(row)}
           >
             <i className="me-1">
               <FeatherIcon icon="edit-3" />
             </i>{" "}
           </Link>
-          <Link
-            className="text-danger"
-            href="#"
-            data-bs-toggle="modal"
-            data-bs-target="#deleteModal"
-          >
+          <Link className="text-danger" href="#">
             <i className="me-1">
               <FeatherIcon icon="trash-2" />
             </i>{" "}
@@ -69,6 +73,11 @@ const UsersListTable = ({ data }) => {
         <DataTableExtensions {...tableData}>
           <DataTable
             noHeader
+            noDataComponent={
+              <div style={{ padding: "24px", fontSize: "13px" }}>
+                موردی برای نمایش وجود ندارد.
+              </div>
+            }
             defaultSortField="id"
             defaultSortAsc={false}
             pagination

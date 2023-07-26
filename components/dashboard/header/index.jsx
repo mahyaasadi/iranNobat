@@ -5,22 +5,15 @@ import axios from "axios";
 import Image from "next/image";
 import Cookies from "js-cookie";
 import FeatherIcon from "feather-icons-react";
-import {
-  avatar01,
-  avatar02,
-  avatar03,
-  avatar05,
-  avatar06,
-  logo,
-  logoSmall,
-} from "components/imagepath";
+import { useRouter } from "next/router";
 import "public/assets/css/bootstrap.min.css";
 import "public/assets/css/feathericon.min.css";
 import "public/assets/plugins/fontawesome/css/fontawesome.min.css";
 import "public/assets/plugins/fontawesome/css/all.min.css";
 import "public/assets/css/font-awesome.min.css";
 import "public/assets/css/style.css";
-import { useRouter } from "next/router";
+import { avatar01, logo, logoSmall } from "components/imagepath";
+import { ErrorAlert } from "class/AlertManage.js";
 
 let user = null;
 let centerId = null;
@@ -56,25 +49,32 @@ const Header = () => {
           user = response.data;
           let centerId = user.CenterID;
           Cookies.set("CenterID", centerId);
+
+          document.getElementById("userName").innerHTML = user.FullName;
           document.getElementById("avatar").setAttribute("src", user.Avatar);
           document.getElementById("avatar").setAttribute("srcSet", user.Avatar);
+
           document
             .getElementById("dropdownAvatar")
             .setAttribute("src", user.Avatar);
+
           document
             .getElementById("dropdownAvatar")
             .setAttribute("srcSet", user.Avatar);
-          document.getElementById("userName").innerHTML = user.FullName;
+
           if ((user.Admin = true)) {
             document.getElementById("role").innerHTML = "ادمین";
           }
         })
         .catch(function (error) {
           console.log(error);
+          // router.push("/");
+          // ErrorAlert("خطا", "ارتباط با سرور در حال حاضر امکان پذیر نمی باشد!")
         });
-    } else {
-      router.push("/login");
     }
+    // else {
+    //   router.push("/login");
+    // }
   }, []);
 
   return (
@@ -138,10 +138,11 @@ const Header = () => {
                   className="rounded-circle"
                   width="30"
                   height="30"
-                  alt="Ryan Taylor"
+                  alt="Admin"
                 />
               </span>
             </a>
+
             <div className="dropdown-menu">
               <div className="user-header">
                 <div className="avatar avatar-sm">

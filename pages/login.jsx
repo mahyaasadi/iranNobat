@@ -46,6 +46,7 @@ const Login = () => {
       .catch(function (error) {
         setIsLoading(true);
         console.log(error);
+        // if ()
         ErrorAlert("خطا", "اطلاعات اشتباه وارد شده است");
       });
   };

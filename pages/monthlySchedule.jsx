@@ -1,11 +1,15 @@
 import { useState } from "react";
 import Head from "next/head";
+import Link from "next/link";
 import FeatherIcon from "feather-icons-react";
 import JDate from "jalali-date";
 import moment from "jalali-moment";
-import { Calendar } from "react-multi-date-picker";
+import { Calendar, DateObject } from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
+import { Modal, Button } from "react-bootstrap";
+import DatePanel from "react-multi-date-picker/plugins/date_panel";
+import multiColors from "react-multi-date-picker/plugins/colors";
 
 const MonthlySchedule = () => {
   // let jdate = new JDate();
@@ -471,23 +475,104 @@ const MonthlySchedule = () => {
   //     </div>
   //   </>
   // );
+
+  const dateObject = new DateObject();
+  const toDateObject = (day) => new DateObject(dateObject).setDay(day);
+
+  const colors = {
+    green: [2, 10, 17].map(toDateObject),
+    blue: [5, 6, 14].map(toDateObject),
+    red: [13, 19, 25].map(toDateObject),
+    yellow: [15, 22, 28].map(toDateObject),
+  };
+
+  const initialProps = {
+    value: [...colors.green, ...colors.blue, ...colors.red, ...colors.yellow],
+    multiple: true,
+  };
+
+  const [props, setProps] = useState(initialProps);
+  const isRTL = ["fa", "ar"].includes(props.locale?.name?.split?.("_")?.[1]);
+
   const [value, setValue] = useState(new Date());
-  console.log(value);
+  console.log("value : ", value);
+  const handleModal = () => {
+    // $("#addUserModal").modal("show");
+    // <Link
+    //   href="#"
+    //   data-bs-toggle="modal"
+    //   data-bs-target="#addUserModal"
+    //   className="btn btn-primary btn-add font-14 media-font-12"
+    // ></Link>;
+
+    $(".scheduleFeatures").toggle();
+  };
+
+  const [showModal, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   return (
     <>
       <div className="page-wrapper">
         <div className="content container-fluid">
+          {/*  */}
+          {/* <div
+            className="d-flex align-items-center justify-content-center"
+            style={{ height: "100vh" }}
+          >
+            <Button variant="primary" onClick={handleShow}>
+              Launch demo modal
+            </Button>
+          </div> */}
+          <Modal show={showModal} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Modal heading</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              Woohoo, you're reading this text in a modal!
+              {/* {} */}
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Close
+              </Button>
+              <Button variant="primary" onClick={handleClose}>
+                Save Changes
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
           <div className="card">
             <div className="card-body calendar-body p-0">
               <Calendar
+                {...props}
+                plugins={[
+                  <DatePanel
+                    position={isRTL ? "left" : "right"}
+                    sort="date"
+                    eachDaysInRange={
+                      !props.onlyMonthPicker && !props.onlyYearPicker
+                    }
+                  />,
+                ]}
                 calendar={persian}
                 locale={persian_fa}
                 monthYearSeparator="|"
                 value={value}
                 onChange={setValue}
+                // onClick={handleShow}
+                // onPropsChange={}
               >
+                <div
+                  className="btn btn-primary"
+                  style={{ margin: "5px" }}
+                  onClick={handleShow}
+                >
+                  نمایش شیفت ها
+                </div>
                 <div className="scheduleFeatures">
-                  <i className="d-flex   flex-column">
+                  <i className="d-flex flex-column">
                     <button className="btn">
                       <FeatherIcon icon="settings" />
                     </button>
@@ -505,3 +590,4 @@ const MonthlySchedule = () => {
   );
 };
 export default MonthlySchedule;
+

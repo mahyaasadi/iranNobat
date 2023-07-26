@@ -11,6 +11,7 @@ const Loading = () => {
         max-width="140"
         height="140"
         alt="loading"
+        priority={true}
       />
     </div>
   );

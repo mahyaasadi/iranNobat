@@ -8,14 +8,17 @@ import { QuestionAlert } from "class/AlertManage.js";
 import Loading from "components/loading/loading";
 import UsersListTable from "components/dashboard/centerUsers/usersListTable/usersListTable";
 import AddUserModal from "components/dashboard/centerUsers/addUserModal/addUserModal";
+import EditUserModal from "components/dashboard/centerUsers/editUserModal/editUserModal";
 
 let CenterID = Cookies.get("CenterID");
+let ActiveUserID = null;
 
 const CenterUsers = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState([]);
-
+  const [editedUserData, setEditedUserData] = useState([]);
   const [eye, setEye] = useState(true);
+
   const onEyeClick = () => setEye(!eye);
 
   // Get users data
@@ -37,7 +40,9 @@ const CenterUsers = () => {
   };
 
   // Add new user
-  const addUser = () => {
+  const addUser = (e) => {
+    e.preventDefault();
+
     let url = "AdminUser/addUser";
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
@@ -48,15 +53,39 @@ const CenterUsers = () => {
       NickName: formProps.userNickName,
       NID: formProps.userNID,
       Tel: formProps.userTel,
-      User: formProps.addUsername,
-      //   UserID: "61f11ac0facb9758665e01",
+      User: formProps.userPassword,
       // Admin: "true",
       // Secretary: null,
     };
     setIsLoading(true);
+    console.log(data);
 
     axiosClient
       .post(url, data)
+      .then((response) => {
+        console.log(response.data);
+
+        $("#addUserModal").modal("hide");
+        setIsLoading(false);
+        e.target.reset();
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
+  };
+
+  //Activate user
+  const activateUser = () => {
+    let url = "AdminUser/ActiveUser";
+    // let data = {
+    //   UserID:
+    // }
+
+    setIsLoading(true);
+
+    axiosClient
+      .put(url, data)
       .then((response) => {
         console.log(response.data);
         setIsLoading(false);
@@ -66,6 +95,58 @@ const CenterUsers = () => {
         setIsLoading(false);
       });
   };
+
+  //edit user info
+  const editUserInfo = (e) => {
+    e.preventDefault();
+
+    let url = "AdminUser/updateUser";
+    let formData = new FormData(e.target);
+    const formProps = Object.fromEntries(formData);
+    ActiveUserID = formProps.editUserId;
+    let data = {
+      CenterID,
+      UserID: ActiveUserID,
+      // User: "09122718342",
+      // Admin: "true",
+      FullName: formProps.editUserFullName,
+      // Secretary: null,
+      // NickName: "پشتیبانی فنی",
+      // NID: "0011066504",
+      // Tel: "09122718342"
+    };
+
+    axiosClient
+      .put(url, data)
+      .then((response) => {
+        updateItem(formProps.editUserId, response.data);
+        $("#editDiscountModal").modal("hide");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const updateItem = (id, newArr) => {
+    let index = userData.findIndex((x) => x._id === id);
+
+    let g = userData[index];
+    g = newArr;
+    if (index === -1) {
+      // handle error
+      console.log("no match");
+    } else
+      setUserData([
+        ...userData.slice(0, index),
+        g,
+        ...userData.slice(index + 1),
+      ]);
+  };
+
+  const updateUserInfo = (data) => {
+    setEditedUserData(data);
+  };
+
   useEffect(() => {
     getCenterUsers();
   }, []);
@@ -77,7 +158,6 @@ const CenterUsers = () => {
       </Head>
       <div className="page-wrapper">
         <div className="content container-fluid">
-          {/* <!-- Page Header --> */}
           <div className="page-header">
             <div className="row align-items-center">
               <div className="col-md-12 d-flex justify-content-end">
@@ -107,8 +187,13 @@ const CenterUsers = () => {
                   </div>
                 </div>
 
-                {isLoading ? <Loading /> : (
-                    <UsersListTable data={userData} />
+                {isLoading ? (
+                  <Loading />
+                ) : (
+                  <UsersListTable
+                    data={userData}
+                    updateUserInfo={updateUserInfo}
+                  />
                 )}
               </div>
 
@@ -117,7 +202,9 @@ const CenterUsers = () => {
           </div>
         </div>
 
-        <AddUserModal eye={eye} onEyeClick={onEyeClick}/>
+        <AddUserModal eye={eye} onEyeClick={onEyeClick} addUser={addUser} />
+
+        <EditUserModal data={editedUserData} editUserInfo={editUserInfo} />
       </div>
     </>
   );
