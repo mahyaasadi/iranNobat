@@ -90,8 +90,6 @@ const AddUserModal = ({ eye, onEyeClick, addUser }) => {
                     name="addUsername"
                     className="form-control floating inputPadding rounded"
                     required
-                    defaultValue=""
-                    placeholder=" "
                     autoComplete="false"
                   />
                 </div>
@@ -107,9 +105,8 @@ const AddUserModal = ({ eye, onEyeClick, addUser }) => {
                 />
                 <span
                   onClick={onEyeClick}
-                  className={`fa toggle-password" ${
-                    eye ? "fa-eye-slash" : "fa-eye"
-                  }`}
+                  className={`fa toggle-password" ${eye ? "fa-eye-slash" : "fa-eye"
+                    }`}
                 />
               </div>
               <div className="input-group marginb-med">
@@ -123,9 +120,8 @@ const AddUserModal = ({ eye, onEyeClick, addUser }) => {
                 />
                 <span
                   onClick={onEyeClick}
-                  className={`fa toggle-password" ${
-                    eye ? "fa-eye-slash" : "fa-eye"
-                  }`}
+                  className={`fa toggle-password" ${eye ? "fa-eye-slash" : "fa-eye"
+                    }`}
                 />
               </div>
               <hr />
@@ -153,12 +149,12 @@ const AddUserModal = ({ eye, onEyeClick, addUser }) => {
               <div className="roleCheckbox">
                 <label className="lblRole font-12">سطح دسترسی</label>
                 <div className="radio_container">
-                  <input type="checkbox" name="radio" id="adminRole" />
+                  <input type="checkbox" name="adminRole" id="adminRole" />
                   <label className="Checkboxlabel" for="adminRole">
                     ادمین
                   </label>
                   <span className="vertical-line"></span>
-                  <input type="checkbox" name="radio" id="secretaryRole" />
+                  <input type="checkbox" name="secretaryRole" id="secretaryRole" />
                   <label className="Checkboxlabel" for="secretaryRole">
                     منشی
                   </label>

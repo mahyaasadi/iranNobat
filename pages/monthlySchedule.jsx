@@ -479,20 +479,20 @@ const MonthlySchedule = () => {
   const dateObject = new DateObject();
   const toDateObject = (day) => new DateObject(dateObject).setDay(day);
 
-  const colors = {
-    green: [2, 10, 17].map(toDateObject),
-    blue: [5, 6, 14].map(toDateObject),
-    red: [13, 19, 25].map(toDateObject),
-    yellow: [15, 22, 28].map(toDateObject),
-  };
+  // const colors = {
+  //   green: [2, 10, 17].map(toDateObject),
+  //   blue: [5, 6, 14].map(toDateObject),
+  //   red: [13, 19, 25].map(toDateObject),
+  //   yellow: [15, 22, 28].map(toDateObject),
+  // };
 
-  const initialProps = {
-    value: [...colors.green, ...colors.blue, ...colors.red, ...colors.yellow],
-    multiple: true,
-  };
+  // const initialProps = {
+  //   value: [...colors.green, ...colors.blue, ...colors.red, ...colors.yellow],
+  //   multiple: true,
+  // };
 
-  const [props, setProps] = useState(initialProps);
-  const isRTL = ["fa", "ar"].includes(props.locale?.name?.split?.("_")?.[1]);
+  // const [props, setProps] = useState(initialProps);
+  // const isRTL = ["fa", "ar"].includes(props.locale?.name?.split?.("_")?.[1]);
 
   const [value, setValue] = useState(new Date());
   console.log("value : ", value);
@@ -516,15 +516,6 @@ const MonthlySchedule = () => {
     <>
       <div className="page-wrapper">
         <div className="content container-fluid">
-          {/*  */}
-          {/* <div
-            className="d-flex align-items-center justify-content-center"
-            style={{ height: "100vh" }}
-          >
-            <Button variant="primary" onClick={handleShow}>
-              Launch demo modal
-            </Button>
-          </div> */}
           <Modal show={showModal} onHide={handleClose}>
             <Modal.Header closeButton>
               <Modal.Title>Modal heading</Modal.Title>
@@ -546,16 +537,6 @@ const MonthlySchedule = () => {
           <div className="card">
             <div className="card-body calendar-body p-0">
               <Calendar
-                {...props}
-                plugins={[
-                  <DatePanel
-                    position={isRTL ? "left" : "right"}
-                    sort="date"
-                    eachDaysInRange={
-                      !props.onlyMonthPicker && !props.onlyYearPicker
-                    }
-                  />,
-                ]}
                 calendar={persian}
                 locale={persian_fa}
                 monthYearSeparator="|"
@@ -563,25 +544,36 @@ const MonthlySchedule = () => {
                 onChange={setValue}
                 // onClick={handleShow}
                 // onPropsChange={}
-              >
-                <div
-                  className="btn btn-primary"
-                  style={{ margin: "5px" }}
-                  onClick={handleShow}
-                >
-                  نمایش شیفت ها
-                </div>
-                <div className="scheduleFeatures">
-                  <i className="d-flex flex-column">
-                    <button className="btn">
-                      <FeatherIcon icon="settings" />
-                    </button>
-                    <button className="btn">
-                      <FeatherIcon icon="copy" />
-                    </button>
-                  </i>
-                </div>
-              </Calendar>
+                mapDays={({ date }) => {
+                  const newDate = new DateObject(date).convert(persian, persian_fa)
+
+                  return {
+                    children: (
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          padding: "0 10px",
+                          fontSize: "11px",
+                        }}
+                      >
+                        <div style={{ textAlign: "center" }}>{newDate.format("D")}</div>
+                        <div className="scheduleFeatures" >
+                          <i className="d-flex flex-column">
+                            <button className="btn featureBtn" onClick={handleShow}>
+                              <FeatherIcon icon="settings" />
+                            </button>
+                            <button className="btn featureBtn">
+                              <FeatherIcon icon="copy" />
+                            </button>
+                          </i>
+                        </div>
+
+                      </div>
+                    ),
+                  };
+                }}
+              />
             </div>
           </div>
         </div>

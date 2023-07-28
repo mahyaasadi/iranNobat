@@ -47,6 +47,7 @@ const CenterUsers = () => {
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
 
+    console.log(formProps)
     let data = {
       CenterID,
       FullName: formProps.userFullName,
@@ -54,8 +55,8 @@ const CenterUsers = () => {
       NID: formProps.userNID,
       Tel: formProps.userTel,
       User: formProps.userPassword,
-      // Admin: "true",
-      // Secretary: null,
+      Admin: formProps.adminRole,
+      Secretary: formProps.secretaryRole,
     };
     setIsLoading(true);
     console.log(data);
