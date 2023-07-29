@@ -6,11 +6,6 @@ import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import { tableCustomStyles } from "components/commonComponents/customTableStyle/tableStyle.jsx";
 
-// const [activeState, setActiveState] = useState("active");
-// const toggleActivate = () => {
-//   setActiveState(!active);
-// };
-
 const UsersListTable = ({ data, updateUserInfo }) => {
   const columns = [
     {

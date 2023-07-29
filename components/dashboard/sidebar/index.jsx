@@ -184,7 +184,7 @@ const Sidebar = () => {
                   <i>
                     <FeatherIcon icon="users" className="width-15" />
                   </i>
-                  <span>مدیریت کاربران مرکز</span>
+                  <span>مدیریت کاربران</span>
                   <span className="menu-arrow"></span>
                 </a>
                 <ul className="hidden hiddenSidebar">

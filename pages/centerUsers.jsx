@@ -17,6 +17,10 @@ const CenterUsers = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState([]);
   const [editedUserData, setEditedUserData] = useState([]);
+  // const [activeState, setActiveState] = useState("active");
+  // const toggleActivate = () => {
+  //   setActiveState(!active);
+  // };
   const [eye, setEye] = useState(true);
 
   const onEyeClick = () => setEye(!eye);
@@ -47,14 +51,16 @@ const CenterUsers = () => {
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
 
-    console.log(formProps)
+    console.log(formProps);
     let data = {
       CenterID,
       FullName: formProps.userFullName,
       NickName: formProps.userNickName,
       NID: formProps.userNID,
       Tel: formProps.userTel,
-      User: formProps.userPassword,
+      User: formProps.addUserName,
+      // Password: formProps.addUserPassword,
+      // repeat: ? formProps.repeatUserPassword,
       Admin: formProps.adminRole,
       Secretary: formProps.secretaryRole,
     };
@@ -76,25 +82,60 @@ const CenterUsers = () => {
       });
   };
 
-  //Activate user
-  const activateUser = () => {
-    let url = "AdminUser/ActiveUser";
-    // let data = {
-    //   UserID:
-    // }
+  // Activate user
+  const activateUser = async () => {
+    let result = await QuestionAlert(
+      "فعال سازی کاربر!",
+      "؟آیا از فعال سازی کاربر مطمئن هستید"
+    );
 
-    setIsLoading(true);
+    if (result) {
+      let url = "AdminUser/ActiveUser";
+      // let data = {
+      //   UserID: ActiveUserID,
+      // };
 
-    axiosClient
-      .put(url, data)
-      .then((response) => {
-        console.log(response.data);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setIsLoading(false);
-      });
+      setIsLoading(true);
+
+      await axiosClient
+        .put(url, data)
+        .then((response) => {
+          console.log(response.data);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          setIsLoading(false);
+        });
+    }
+  };
+
+  // Deactivate user
+  const deActivateUser = async () => {
+    let result = await QuestionAlert(
+      "غیر فعال سازی کاربر!",
+      "؟آیا از غیر فعال سازی کاربر مطمئن هستید"
+    );
+
+    if (result) {
+      let url = "AdminUser/deActiveUser";
+      // let data = {
+      //   UserID: ActiveUserID,
+      // };
+
+      setIsLoading(true);
+
+      await axiosClient
+        .put(url, data)
+        .then((response) => {
+          console.log(response.data);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          setIsLoading(false);
+        });
+    }
   };
 
   //edit user info
@@ -108,13 +149,15 @@ const CenterUsers = () => {
     let data = {
       CenterID,
       UserID: ActiveUserID,
-      // User: "09122718342",
-      // Admin: "true",
       FullName: formProps.editUserFullName,
-      // Secretary: null,
-      // NickName: "پشتیبانی فنی",
-      // NID: "0011066504",
-      // Tel: "09122718342"
+      NickName: formProps.editUserNickName,
+      NID: formProps.editUserNID,
+      Tel: formProps.editUserTel,
+      User: formProps.editUserName,
+      // Password: formProps.editUserPassword,
+      // repeat: ? formProps.editRepaetUserPassword
+      Admin: formProps.adminRole,
+      Secretary: formProps.secretaryRole,
     };
 
     axiosClient
@@ -205,7 +248,7 @@ const CenterUsers = () => {
 
         <AddUserModal eye={eye} onEyeClick={onEyeClick} addUser={addUser} />
 
-        <EditUserModal data={editedUserData} editUserInfo={editUserInfo} />
+        <EditUserModal data={editedUserData} editUserInfo={editUserInfo} eye={eye} onEyeClick={onEyeClick}/>
       </div>
     </>
   );

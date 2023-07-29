@@ -87,7 +87,7 @@ const AddUserModal = ({ eye, onEyeClick, addUser }) => {
                 <div className="col p-0">
                   <input
                     type="text"
-                    name="addUsername"
+                    name="addUserName"
                     className="form-control floating inputPadding rounded"
                     required
                     autoComplete="false"
@@ -98,15 +98,16 @@ const AddUserModal = ({ eye, onEyeClick, addUser }) => {
                 <label className="lblAbs font-12">رمز عبور</label>
                 <input
                   type={eye ? "password" : "text"}
-                  name="userPassword"
+                  name="addUserPassword"
                   required
                   autoComplete="true"
                   className="form-control inputPadding rounded"
                 />
                 <span
                   onClick={onEyeClick}
-                  className={`fa toggle-password" ${eye ? "fa-eye-slash" : "fa-eye"
-                    }`}
+                  className={`fa toggle-password" ${
+                    eye ? "fa-eye-slash" : "fa-eye"
+                  }`}
                 />
               </div>
               <div className="input-group marginb-med">
@@ -120,32 +121,12 @@ const AddUserModal = ({ eye, onEyeClick, addUser }) => {
                 />
                 <span
                   onClick={onEyeClick}
-                  className={`fa toggle-password" ${eye ? "fa-eye-slash" : "fa-eye"
-                    }`}
+                  className={`fa toggle-password" ${
+                    eye ? "fa-eye-slash" : "fa-eye"
+                  }`}
                 />
               </div>
               <hr />
-              {/*  */}
-              {/* <fieldset className="fieldsetPadding">
-                <p className="text-secondary font-13">انتخاب نقش</p>
-                <div className="d-flex gap-2 align-items-center">
-                  <input
-                    type="checkbox"
-                    id="coding"
-                    name="interest"
-                    value="coding"
-                  />
-                  <div><p>Coding</p></div>
-                  <input
-                    type="checkbox"
-                    id="music"
-                    name="interest"
-                    value="music"
-                  />
-                  <div><p>Music</p></div>
-                </div>
-              </fieldset> */}
-
               <div className="roleCheckbox">
                 <label className="lblRole font-12">سطح دسترسی</label>
                 <div className="radio_container">
@@ -154,14 +135,17 @@ const AddUserModal = ({ eye, onEyeClick, addUser }) => {
                     ادمین
                   </label>
                   <span className="vertical-line"></span>
-                  <input type="checkbox" name="secretaryRole" id="secretaryRole" />
+                  <input
+                    type="checkbox"
+                    name="secretaryRole"
+                    id="secretaryRole"
+                  />
                   <label className="Checkboxlabel" for="secretaryRole">
                     منشی
                   </label>
                 </div>
               </div>
 
-              {/*  */}
               <div className="submit-section">
                 <button
                   type="submit"

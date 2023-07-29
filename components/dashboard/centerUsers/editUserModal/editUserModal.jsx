@@ -1,6 +1,6 @@
 import FeatherIcon from "feather-icons-react";
 
-const EditUserModal = ({ data, editUserInfo }) => {
+const EditUserModal = ({ data, editUserInfo, eye, onEyeClick }) => {
   return (
     <div
       className="modal fade contentmodal"
@@ -46,47 +46,136 @@ const EditUserModal = ({ data, editUserInfo }) => {
                 />
               </div>
 
-              {/* <div className="form-group ">
+              <div className="form-group">
                 <label className="lblAbs font-12">
-                  لینک <span className="text-danger">*</span>
+                  نام مستعار <span className="text-danger">*</span>
                 </label>
+                <div className="col p-0">
+                  <input
+                    type="text"
+                    name="editUserNickName"
+                    className="form-control floating inputPadding rounded"
+                    required
+                    defaultValue={data.NickName}
+                    key={data.NickName}
+                  />
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label className="lblAbs font-12">
+                  کد ملی <span className="text-danger">*</span>
+                </label>
+                <div className="col p-0">
+                  <input
+                    type="number"
+                    name="editUserNID"
+                    className="form-control floating inputPadding rounded"
+                    required
+                    defaultValue={data.NID}
+                    key={data.NID}
+                  />
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label className="lblAbs font-12">
+                  شماره موبایل<span className="text-danger">*</span>
+                </label>
+                <div className="col p-0">
+                  <input
+                    type="number"
+                    name="editUserTel"
+                    className="form-control floating inputPadding rounded"
+                    required
+                    defaultValue={data.Tel}
+                    key={data.Tel}
+                  />
+                </div>
+              </div>
+
+              <div className="input-group marginb-med">
+                <label className="lblAbs font-12">
+                  نام کاربری <span className="text-danger">*</span>
+                </label>
+                <div className="col p-0">
+                  <input
+                    type="text"
+                    name="editUserName"
+                    className="form-control floating inputPadding rounded"
+                    required
+                    autoComplete="false"
+                    defaultValue={data.User}
+                    key={data.User}
+                  />
+                </div>
+              </div>
+
+              <div className="input-group marginb-med">
+                <label className="lblAbs font-12">رمز عبور</label>
                 <input
-                  className="form-control floating inputPadding rounded"
-                  type="text"
-                  name="editUser"
-                  //   defaultValue={data.Link}
-                  //   key={data.Link}
+                  type={eye ? "password" : "text"}
+                  className="form-control inputPadding rounded"
                   required
+                  name="editUserPassword"
+                  autoComplete="true"
+                  // defaultValue={data.User}
+                  // key={data.User}
+                />
+                <span
+                  onClick={onEyeClick}
+                  className={`fa toggle-password" ${
+                    eye ? "fa-eye-slash" : "fa-eye"
+                  }`}
                 />
               </div>
 
-              <div className="form-group ">
-                <label className="lblAbs font-12">
-                  عنوان مجوز <span className="text-danger">*</span>
-                </label>
+              <div className="input-group marginb-med">
+                <label className="lblAbs font-12">تکرار رمز عبور</label>
                 <input
-                  className="form-control floating inputPadding rounded"
-                  type="text"
-                  name="editUser"
-                  //   defaultValue={data.Name}
-                  //   key={data.Name}
+                  type={eye ? "password" : "text"}
+                  name="editRepaetUserPassword"
                   required
+                  autoComplete="true"
+                  className="form-control inputPadding rounded"
+                  // defaultValue={data.User}
+                  // key={data.User}
+                />
+                <span
+                  onClick={onEyeClick}
+                  className={`fa toggle-password" ${
+                    eye ? "fa-eye-slash" : "fa-eye"
+                  }`}
                 />
               </div>
+              <hr />
 
-              <div className="form-group ">
-                <label className="lblAbs font-12">
-                  سال صدور <span className="text-danger">*</span>
-                </label>
-                <input
-                  className="form-control floating inputPadding rounded"
-                  type="number"
-                  name="editUser"
-                  //   defaultValue={data.Year}
-                  //   key={data.Year}
-                  required
-                />
-              </div> */}
+              <div className="roleCheckbox">
+                <label className="lblRole font-12">سطح دسترسی</label>
+                <div className="radio_container">
+                  <input
+                    type="checkbox"
+                    name="editAdminRole"
+                    id="adminRole"
+                    // defaultValue={data.Admin}
+                    // key={data.Admin}
+                  />
+                  <label className="Checkboxlabel" for="adminRole">
+                    ادمین
+                  </label>
+                  <span className="vertical-line"></span>
+                  <input
+                    type="checkbox"
+                    name="editSecretaryRole"
+                    id="secretaryRole"
+                    // defaultValue={data.Secretary}
+                    // key={data.Secretary}
+                  />
+                  <label className="Checkboxlabel" for="secretaryRole">
+                    منشی
+                  </label>
+                </div>
+              </div>
 
               <div className="submit-section">
                 <button
