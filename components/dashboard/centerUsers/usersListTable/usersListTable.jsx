@@ -6,7 +6,7 @@ import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import { tableCustomStyles } from "components/commonComponents/customTableStyle/tableStyle.jsx";
 
-const UsersListTable = ({ data, updateUserInfo }) => {
+const UsersListTable = ({ data, updateUserInfo, activateUser, deActivateUser, activeState, toggleActiveState }) => {
   const columns = [
     {
       name: "نام و نام خانوادگی",
@@ -32,8 +32,26 @@ const UsersListTable = ({ data, updateUserInfo }) => {
       sortable: true,
       cell: (row) => (
         <div className="actions">
-          <button className="btn btn-sm btn-outline-primary" type="button">
-            {/* {activeState} */}activate
+          <button
+            className="btn btn-sm btn-outline-primary font-13"
+            type="button"
+            onClick={() => {
+              toggleActiveState(row._id)
+            }}
+          >
+            {activeState == true ? (
+              <div>
+                <i className="d-flex align-items-center gap-3">
+                  <FeatherIcon style={{ width: "16px", height: "16px" }} icon="user-check" />فعال
+                </i>
+              </div>
+            ) : (
+              <div>
+                <i className="d-flex align-items-center gap-3">
+                  <FeatherIcon style={{ width: "16px", height: "16px" }} icon="user-x" />غیر فعال
+                </i>
+              </div>
+            )}
           </button>
           <Link
             className="text-black"
@@ -41,10 +59,10 @@ const UsersListTable = ({ data, updateUserInfo }) => {
             data-bs-toggle="modal"
             data-bs-target="#editUserModal"
             onClick={() => updateUserInfo(row)}
-          >
+          > 
             <i className="me-1">
               <FeatherIcon icon="edit-3" />
-            </i>{" "}
+            </i>
           </Link>
           <Link className="text-danger" href="#">
             <i className="me-1">

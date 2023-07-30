@@ -17,12 +17,10 @@ const CenterUsers = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState([]);
   const [editedUserData, setEditedUserData] = useState([]);
-  // const [activeState, setActiveState] = useState("active");
-  // const toggleActivate = () => {
-  //   setActiveState(!active);
-  // };
-  const [eye, setEye] = useState(true);
 
+  const [activeState, setActiveState] = useState(true);
+
+  const [eye, setEye] = useState(true);
   const onEyeClick = () => setEye(!eye);
 
   // Get users data
@@ -82,25 +80,26 @@ const CenterUsers = () => {
       });
   };
 
-  // Activate user
-  const activateUser = async () => {
+  const toggleActiveState = async (id) => {
     let result = await QuestionAlert(
-      "فعال سازی کاربر!",
+      "تغییر وضعیت فعال کاربر!",
       "؟آیا از فعال سازی کاربر مطمئن هستید"
     );
 
     if (result) {
       let url = "AdminUser/ActiveUser";
-      // let data = {
-      //   UserID: ActiveUserID,
-      // };
+      let data = {
+        UserID: id,
+      };
 
+      console.log(data)
       setIsLoading(true);
 
       await axiosClient
         .put(url, data)
         .then((response) => {
           console.log(response.data);
+          setActiveState(true)
           setIsLoading(false);
         })
         .catch((error) => {
@@ -108,34 +107,74 @@ const CenterUsers = () => {
           setIsLoading(false);
         });
     }
+    else {
+      let url = "AdminUser/deActiveUser";
+      let data = {
+        UserID: id,
+      };
+
+      setIsLoading(true);
+      console.log(data);
+
+      await axiosClient
+        .put(url, data)
+        .then((response) => {
+          console.log(response.data);
+          setActiveState(!activeState);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          setIsLoading(false);
+        });
+    }
+
+  };
+
+  // Activate user
+  const activateUser = async (id) => {
+    let url = "AdminUser/ActiveUser";
+    let data = {
+      UserID: id,
+    };
+
+    console.log(data)
+    setIsLoading(true);
+
+    await axiosClient
+      .put(url, data)
+      .then((response) => {
+        console.log(response.data);
+        setActiveState(true)
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
   };
 
   // Deactivate user
-  const deActivateUser = async () => {
-    let result = await QuestionAlert(
-      "غیر فعال سازی کاربر!",
-      "؟آیا از غیر فعال سازی کاربر مطمئن هستید"
-    );
+  const deActivateUser = async (id) => {
+    let url = "AdminUser/deActiveUser";
+    let data = {
+      UserID: id,
+    };
 
-    if (result) {
-      let url = "AdminUser/deActiveUser";
-      // let data = {
-      //   UserID: ActiveUserID,
-      // };
+    setIsLoading(true);
+    console.log(data);
 
-      setIsLoading(true);
-
-      await axiosClient
-        .put(url, data)
-        .then((response) => {
-          console.log(response.data);
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          console.log(error);
-          setIsLoading(false);
-        });
-    }
+    await axiosClient
+      .put(url, data)
+      .then((response) => {
+        console.log(response.data);
+        setActiveState(!activeState);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
   };
 
   //edit user info
@@ -156,8 +195,8 @@ const CenterUsers = () => {
       User: formProps.editUserName,
       // Password: formProps.editUserPassword,
       // repeat: ? formProps.editRepaetUserPassword
-      Admin: formProps.adminRole,
-      Secretary: formProps.secretaryRole,
+      Admin: formProps.editAdminRole,
+      Secretary: formProps.editSecretaryRole,
     };
 
     axiosClient
@@ -193,6 +232,7 @@ const CenterUsers = () => {
 
   useEffect(() => {
     getCenterUsers();
+    // activateUser();
   }, []);
 
   return (
@@ -237,6 +277,10 @@ const CenterUsers = () => {
                   <UsersListTable
                     data={userData}
                     updateUserInfo={updateUserInfo}
+                    activateUser={activateUser}
+                    deActivateUser={deActivateUser}
+                    activeState={activeState}
+                    toggleActiveState={toggleActiveState}
                   />
                 )}
               </div>
@@ -248,7 +292,7 @@ const CenterUsers = () => {
 
         <AddUserModal eye={eye} onEyeClick={onEyeClick} addUser={addUser} />
 
-        <EditUserModal data={editedUserData} editUserInfo={editUserInfo} eye={eye} onEyeClick={onEyeClick}/>
+        <EditUserModal data={editedUserData} editUserInfo={editUserInfo} eye={eye} onEyeClick={onEyeClick} />
       </div>
     </>
   );

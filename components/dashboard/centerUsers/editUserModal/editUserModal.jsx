@@ -156,22 +156,22 @@ const EditUserModal = ({ data, editUserInfo, eye, onEyeClick }) => {
                   <input
                     type="checkbox"
                     name="editAdminRole"
-                    id="adminRole"
+                    id="editAdminRole"
                     // defaultValue={data.Admin}
                     // key={data.Admin}
                   />
-                  <label className="Checkboxlabel" for="adminRole">
+                  <label className="Checkboxlabel" for="editAdminRole">
                     ادمین
                   </label>
                   <span className="vertical-line"></span>
                   <input
                     type="checkbox"
                     name="editSecretaryRole"
-                    id="secretaryRole"
+                    id="editSecretaryRole"
                     // defaultValue={data.Secretary}
                     // key={data.Secretary}
                   />
-                  <label className="Checkboxlabel" for="secretaryRole">
+                  <label className="Checkboxlabel" for="editSecretaryRole">
                     منشی
                   </label>
                 </div>
