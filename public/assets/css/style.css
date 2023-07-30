@@ -647,6 +647,10 @@ table.table td h2.table-avatar a>img {
   margin-right: 1em;
 }
 
+.mb-0 {
+  margin-bottom: 0;
+}
+
 .marginb-1 {
   margin-bottom: 1rem;
 }
@@ -8796,6 +8800,11 @@ ul li .active {
   color: white;
 }
 
+.permissionLabel {
+  margin-bottom: 0px !important;
+  margin-right: 5px;
+}
+
 .lblAbs {
   background-color: white;
   position: absolute;
@@ -8839,6 +8848,10 @@ ul li .active {
 
 .margin-top-1 {
   margin-top: 1em;
+}
+
+.margin-top-2 {
+  margin-top: 2rem;
 }
 
 .margin-bottom-3 {

@@ -61,6 +61,7 @@ const Departments = () => {
     axiosClient.get(UrlGetDep).then(function (response) {
       if (response.data) {
         setIsLoading(false);
+        console.log(response.data)
         setDepartmentsData(response.data);
       } else {
         getModality();

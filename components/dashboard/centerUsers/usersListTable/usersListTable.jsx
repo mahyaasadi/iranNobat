@@ -79,7 +79,7 @@ const UsersListTable = ({
             onClick={() => updateUserInfo(row)}
           >
             <i className="">
-              <FeatherIcon icon="edit-3" />
+              <FeatherIcon style={{ width: "16px", height: "16px" }} icon="edit-3" />
             </i>
           </Link>
           <Link
@@ -87,9 +87,9 @@ const UsersListTable = ({
             href="#"
             data-bs-toggle="modal"
             data-bs-target="#chatPermissionModal"
-            // onClick={() => updateUserInfo(row)}
+            // onClick={() => }
           >
-            <FeatherIcon icon="message-circle" />
+            <FeatherIcon style={{ width: "16px", height: "16px" }} icon="message-circle" />
           </Link>
         </div>
       ),

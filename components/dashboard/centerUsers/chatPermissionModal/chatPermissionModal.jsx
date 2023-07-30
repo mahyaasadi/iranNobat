@@ -1,7 +1,31 @@
+import { useState, useEffect } from "react";
 import FeatherIcon from "feather-icons-react";
-import Link from "next/link";
+import Cookies from "js-cookie";
+import { axiosClient } from "class/axiosConfig.js";
+import Loading from "components/loading/loading";
+
+let CenterID = Cookies.get("CenterID");
 
 const ChatPermissionModal = () => {
+  const [departmentsData, setDepartmentsData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  //get departments
+  const getDepartments = () => {
+    let UrlGetDep = `Center/GetDepartments/${CenterID}`;
+    axiosClient.get(UrlGetDep).then(function (response) {
+      if (response.data) {
+        setIsLoading(false);
+        setDepartmentsData(response.data);
+      } else {
+        getModality();
+      }
+    });
+  };
+
+  useEffect(() => {
+    getDepartments();
+  }, [])
   return (
     <>
       <div
@@ -28,20 +52,26 @@ const ChatPermissionModal = () => {
               </button>
             </div>
             <div className="modal-body">
-              <form className="">
-                <div className="form-group">
-                  <input type="checkbox" id="a" value="a" />
-                  <label for="a">a</label>
-                </div>
-                <div className="form-group">
-                  <input type="checkbox" id="b" value="b" />
-                  <label for="b">b</label>
-                </div>
-                <div className="form-group">
-                  <input type="checkbox" id="c" value="c" />
-                  <label for="c">c</label>
-                </div>
+              <p className="mb-0 text-secondary font-13 fw-bold">
+                انتخاب بخش
+              </p>
+              <hr />
+              <form className="text-secondary">
+                {departmentsData?.map((departmentData, index) => (
+                  <div className="checkbox" key={index}>
+                    <div className="form-group d-flex align-items-center">
+                      <input type="checkbox" id={departmentData.Modality} value={departmentData.PerFullName} />
+                      <label className="permissionLabel font-14" for={departmentData.PerFullName}>{departmentData.PerFullName}</label>
+                    </div>
+                  </div>
+                ))}
 
+              <hr />
+
+              <p className="mb-0 margin-top-2 text-secondary font-13 fw-bold">
+                انتخاب بیماری خاص
+              </p>
+              <hr />
                 <div className="submit-section">
                   <button
                     type="submit"
