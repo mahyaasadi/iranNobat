@@ -1808,6 +1808,11 @@ button.bg-danger:hover {
   border-color: #22cc62;
 }
 
+.btn-border-left {
+  border-left: 1px solid #1b5a90 !important;
+  margin-left: 0 !important;
+}
+
 .btn-outline-success:focus,
 .btn-outline-success.focus {
   box-shadow: none;
@@ -9142,10 +9147,10 @@ ul li .active {
   box-shadow: inset 0.5px 0.5px 2px 0 rgba(0, 0, 0, 0.15);
 }
 
-input[type="checkbox"] {
+/* input[type="checkbox"] {
   appearance: none;
   display: none;
-}
+} */
 
 .Checkboxlabel {
   font-size: 14px;
@@ -9163,12 +9168,12 @@ input[type="checkbox"] {
   margin: 0 !important;
 }
 
-input[type="checkbox"]:checked+label {
+/* input[type="checkbox"]:checked+label {
   background-color: #e4f0f2;
   color: #1b5a90;
   font-weight: 900;
   transition: 0.3s;
-}
+} */
 
 .vertical-line {
   border-left: 1px solid lightgray;

@@ -11,7 +11,9 @@ const EditUserModal = ({ data, editUserInfo, eye, onEyeClick }) => {
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content doctor-profile">
           <div className="modal-header">
-            <h5 className="mb-0">ویرایش اطلاعات </h5>
+            <p className="mb-0 text-secondary font-14 fw-bold">
+                ویرایش اطلاعات
+              </p>
             <button
               type="button"
               className="close-btn"
@@ -31,6 +33,13 @@ const EditUserModal = ({ data, editUserInfo, eye, onEyeClick }) => {
                   className="form-control floating"
                   name="editUserId"
                   value={data._id}
+                />
+
+                <input
+                  type="hidden"
+                  className="form-control floating"
+                  name="editActiveState"
+                  value={data.Deactive}
                 />
 
                 <label className="lblAbs font-12">
@@ -111,7 +120,7 @@ const EditUserModal = ({ data, editUserInfo, eye, onEyeClick }) => {
                 </div>
               </div>
 
-              <div className="input-group marginb-med">
+              {/* <div className="input-group marginb-med">
                 <label className="lblAbs font-12">رمز عبور</label>
                 <input
                   type={eye ? "password" : "text"}
@@ -147,8 +156,8 @@ const EditUserModal = ({ data, editUserInfo, eye, onEyeClick }) => {
                     eye ? "fa-eye-slash" : "fa-eye"
                   }`}
                 />
-              </div>
-              <hr />
+              </div> */}
+              {/* <hr />
 
               <div className="roleCheckbox">
                 <label className="lblRole font-12">سطح دسترسی</label>
@@ -160,7 +169,7 @@ const EditUserModal = ({ data, editUserInfo, eye, onEyeClick }) => {
                     // defaultValue={data.Admin}
                     // key={data.Admin}
                   />
-                  <label className="Checkboxlabel" for="editAdminRole">
+                  <label className="Checkboxlabel" htmlFor="editAdminRole">
                     ادمین
                   </label>
                   <span className="vertical-line"></span>
@@ -171,11 +180,11 @@ const EditUserModal = ({ data, editUserInfo, eye, onEyeClick }) => {
                     // defaultValue={data.Secretary}
                     // key={data.Secretary}
                   />
-                  <label className="Checkboxlabel" for="editSecretaryRole">
+                  <label className="Checkboxlabel" htmlFor="editSecretaryRole">
                     منشی
                   </label>
                 </div>
-              </div>
+              </div> */}
 
               <div className="submit-section">
                 <button

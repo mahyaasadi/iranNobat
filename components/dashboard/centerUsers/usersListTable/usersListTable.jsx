@@ -6,13 +6,19 @@ import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import { tableCustomStyles } from "components/commonComponents/customTableStyle/tableStyle.jsx";
 
-const UsersListTable = ({ data, updateUserInfo, activateUser, deActivateUser, activeState, toggleActiveState }) => {
+const UsersListTable = ({
+  data,
+  updateUserInfo,
+  activateUser,
+  deActivateUser,
+  activeState,
+}) => {
   const columns = [
     {
       name: "نام و نام خانوادگی",
       selector: (row) => row.FullName,
       sortable: true,
-      width: "250px",
+      width: "220px",
     },
     {
       name: "نام مستعار",
@@ -24,54 +30,70 @@ const UsersListTable = ({ data, updateUserInfo, activateUser, deActivateUser, ac
       name: "نام کاربری",
       selector: (row) => row.User,
       sortable: true,
-      width: "auto",
+      width: "250px",
+    },
+    {
+      name: "وضعیت کاربر",
+      selector: (row) => (row.Deactive == true ? "غیر فعال" : "فعال"),
+      sortable: true,
+      width: "600px",
     },
     {
       name: "عملیات ها",
       selector: (row) => row.action,
       sortable: true,
       cell: (row) => (
-        <div className="actions">
-          <button
-            className="btn btn-sm btn-outline-primary font-13"
-            type="button"
-            onClick={() => {
-              toggleActiveState(row._id)
-            }}
-          >
-            {activeState == true ? (
-              <div>
-                <i className="d-flex align-items-center gap-3">
-                  <FeatherIcon style={{ width: "16px", height: "16px" }} icon="user-check" />فعال
-                </i>
-              </div>
-            ) : (
-              <div>
-                <i className="d-flex align-items-center gap-3">
-                  <FeatherIcon style={{ width: "16px", height: "16px" }} icon="user-x" />غیر فعال
-                </i>
-              </div>
-            )}
-          </button>
+        <div className="actions d-flex gap-1">
+          {!row.Deactive ? (
+            <button
+              className="btn btn-sm btn-outline-success font-13"
+              type="button"
+              onClick={() => deActivateUser(row._id)}
+            >
+              <i className="d-flex align-items-center gap-3">
+                <FeatherIcon
+                  style={{ width: "16px", height: "16px" }}
+                  icon="user-check"
+                />
+              </i>
+            </button>
+          ) : (
+            <button
+              className="btn btn-sm btn-outline-danger"
+              type="button"
+              onClick={() => activateUser(row._id)}
+            >
+              <i className="d-flex align-items-center gap-3">
+                <FeatherIcon
+                  style={{ width: "16px", height: "16px" }}
+                  icon="user-x"
+                />
+              </i>
+            </button>
+          )}
           <Link
-            className="text-black"
+            className="btn btn-sm btn-outline-secondary"
             href="#"
             data-bs-toggle="modal"
             data-bs-target="#editUserModal"
             onClick={() => updateUserInfo(row)}
-          > 
-            <i className="me-1">
+          >
+            <i className="">
               <FeatherIcon icon="edit-3" />
             </i>
           </Link>
-          <Link className="text-danger" href="#">
-            <i className="me-1">
-              <FeatherIcon icon="trash-2" />
-            </i>{" "}
+          <Link
+            className="btn btn-sm btn-outline-secondary btn-border-left"
+            href="#"
+            data-bs-toggle="modal"
+            data-bs-target="#chatPermissionModal"
+            // onClick={() => updateUserInfo(row)}
+          >
+            <FeatherIcon icon="message-circle" />
           </Link>
         </div>
       ),
-      width: "200px",
+      width: "150px",
     },
   ];
 

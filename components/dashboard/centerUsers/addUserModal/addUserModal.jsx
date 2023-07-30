@@ -1,9 +1,12 @@
 import FeatherIcon from "feather-icons-react";
 
-const AddUserModal = ({ eye, onEyeClick, addUser }) => {
-  // const handleRadioButton = () => {
-  //   $(this).removeAttr("checked");
-  // };
+const AddUserModal = ({
+  eye,
+  onEyeClick,
+  addUser,
+  password,
+  handlePassword,
+}) => {
   return (
     <div
       className="modal fade contentmodal"
@@ -95,12 +98,17 @@ const AddUserModal = ({ eye, onEyeClick, addUser }) => {
                 </div>
               </div>
               <div className="input-group marginb-med">
-                <label className="lblAbs font-12">رمز عبور</label>
+                <label className="lblAbs font-12">
+                  رمز عبور <span className="text-danger">*</span>
+                </label>
                 <input
                   type={eye ? "password" : "text"}
                   name="addUserPassword"
+                  id="addUserPassword"
                   required
                   autoComplete="true"
+                  value={password}
+                  onChange={handlePassword}
                   className="form-control inputPadding rounded"
                 />
                 <span
@@ -111,10 +119,13 @@ const AddUserModal = ({ eye, onEyeClick, addUser }) => {
                 />
               </div>
               <div className="input-group marginb-med">
-                <label className="lblAbs font-12">تکرار رمز عبور</label>
+                <label className="lblAbs font-12">
+                  تکرار رمز عبور <span className="text-danger">*</span>
+                </label>
                 <input
                   type={eye ? "password" : "text"}
-                  name="repeatUserPassword"
+                  name="confirmPassword"
+                  id="confirmPassword"
                   required
                   autoComplete="true"
                   className="form-control inputPadding rounded"
@@ -126,12 +137,15 @@ const AddUserModal = ({ eye, onEyeClick, addUser }) => {
                   }`}
                 />
               </div>
+
               <hr />
+
+              {/* 
               <div className="roleCheckbox">
                 <label className="lblRole font-12">سطح دسترسی</label>
                 <div className="radio_container">
                   <input type="checkbox" name="adminRole" id="adminRole" />
-                  <label className="Checkboxlabel" for="adminRole">
+                  <label className="Checkboxlabel" htmlFor="adminRole">
                     ادمین
                   </label>
                   <span className="vertical-line"></span>
@@ -140,16 +154,17 @@ const AddUserModal = ({ eye, onEyeClick, addUser }) => {
                     name="secretaryRole"
                     id="secretaryRole"
                   />
-                  <label className="Checkboxlabel" for="secretaryRole">
+                  <label className="Checkboxlabel" htmlFor="secretaryRole">
                     منشی
                   </label>
                 </div>
-              </div>
+              </div> */}
 
               <div className="submit-section">
                 <button
                   type="submit"
                   className="btn btn-primary rounded btn-save"
+                  
                 >
                   ثبت
                 </button>

@@ -4,12 +4,9 @@ import Link from "next/link";
 import FeatherIcon from "feather-icons-react";
 import JDate from "jalali-date";
 import moment from "jalali-moment";
-import { Calendar, DateObject } from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
-import { Modal, Button } from "react-bootstrap";
-// import DatePanel from "react-multi-date-picker/plugins/date_panel";
-// import multiColors from "react-multi-date-picker/plugins/colors";
+import { Calendar, DateObject } from "react-multi-date-picker";
 import ShiftDetailsModal from "components/dashboard/monthlySchedule/shiftDetailsModal/shiftDetailsModal";
 import AddShiftModal from "components/dashboard/monthlySchedule/addShiftModal/addShiftModal";
 import CopyShiftModal from "components/dashboard/monthlySchedule/copyShiftModal/copyShiftModal";
@@ -482,27 +479,8 @@ const MonthlySchedule = () => {
   const dateObject = new DateObject();
   const toDateObject = (day) => new DateObject(dateObject).setDay(day);
 
-  // const colors = {
-  //   green: [2, 10, 17].map(toDateObject),
-  //   blue: [5, 6, 14].map(toDateObject),
-  //   red: [13, 19, 25].map(toDateObject),
-  //   yellow: [15, 22, 28].map(toDateObject),
-  // };
-
-  // const initialProps = {
-  //   value: [...colors.green, ...colors.blue, ...colors.red, ...colors.yellow],
-  //   multiple: true,
-  // };
-
-  // const [props, setProps] = useState(initialProps);
-  // const isRTL = ["fa", "ar"].includes(props.locale?.name?.split?.("_")?.[1]);
-
   const [value, setValue] = useState(new Date());
   console.log("value : ", value);
-
-  // const [showModal, setShow] = useState(false);
-  // const handleClose = () => setShow(false);
-  // const handleShow = () => setShow(true);
 
   return (
     <>
@@ -511,23 +489,6 @@ const MonthlySchedule = () => {
       </Head>
       <div className="page-wrapper">
         <div className="content container-fluid">
-          {/* <Modal show={showModal} onHide={handleClose}>
-            <Modal.Header closeButton>
-              <Modal.Title>Modal heading</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              Woohoo, you're reading this text in a modal!
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
-                Close
-              </Button>
-              <Button variant="primary" onClick={handleClose}>
-                Save Changes
-              </Button>
-            </Modal.Footer>
-          </Modal> */}
-
           <div className="card">
             <div className="card-body calendar-body p-0">
               <Calendar
@@ -573,7 +534,7 @@ const MonthlySchedule = () => {
                               data-bs-target="#shiftDetailsModal"
                             >
                               <button className="btn featureBtn">
-                                <FeatherIcon icon="info" />
+                                <FeatherIcon icon="settings" />
                               </button>
                             </Link>
 
@@ -601,10 +562,10 @@ const MonthlySchedule = () => {
 
         <AddShiftModal />
 
-        <CopyShiftModal value={value}/>
+        <CopyShiftModal value={value} />
       </div>
     </>
   );
-}
+};
 
 export default MonthlySchedule;

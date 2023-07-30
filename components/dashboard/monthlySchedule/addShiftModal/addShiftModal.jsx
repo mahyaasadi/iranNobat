@@ -22,7 +22,9 @@ const AddShiftModal = ({ value }) => {
       <div className="modal-dialog modal-dialog-centered modal-lg">
         <div className="modal-content doctor-profile">
           <div className="modal-header">
-            <p className="mb-0 text-secondary font-14 fw-bold">اطلاعات شیفت جدید</p>
+            <p className="mb-0 text-secondary font-14 fw-bold">
+              اطلاعات شیفت جدید
+            </p>
             <button
               type="button"
               className="close-btn"
@@ -71,61 +73,60 @@ const AddShiftModal = ({ value }) => {
                 />
               </div>
 
-            <div className="row marginb-md1">
+              <div className="row marginb-md1">
                 <div className="col">
-                    <label className="lblAbs font-12">
+                  <label className="lblAbs font-12">
                     زمان شروع <span className="text-danger">*</span>
-                    </label>
-                    <input
-                        type="time"
-                        // name="userFullName"
-                        className="form-control floating inputPadding rounded"
-                        required
-                    />
+                  </label>
+                  <input
+                    type="time"
+                    // name="userFullName"
+                    className="form-control floating inputPadding rounded"
+                    required
+                  />
                 </div>
 
                 <div className="col">
-                    <label className="lblAbs font-12">
+                  <label className="lblAbs font-12">
                     زمان پایان <span className="text-danger">*</span>
-                    </label>
-                    <input
-                        type="time"
-                        // name="userFullName"
-                        className="form-control floating inputPadding rounded"
-                        required
-                    />
+                  </label>
+                  <input
+                    type="time"
+                    // name="userFullName"
+                    className="form-control floating inputPadding rounded"
+                    required
+                  />
                 </div>
-            </div>
-              
-            <div className="form-group">
+              </div>
+
+              <div className="form-group">
                 <label className="lblAbs font-12">
-                    تعداد انجام گروه ها <span className="text-danger">*</span>
+                  تعداد انجام گروه ها <span className="text-danger">*</span>
                 </label>
                 <div className="col p-0">
-                    <input
+                  <input
                     type="text"
                     // name="userFullName"
                     className="form-control floating inputPadding rounded"
                     required
-                    />
+                  />
                 </div>
-            </div>
+              </div>
 
-            <div className="row gap-1 justify-center">
-            <button
-                type="submit"
-                className="btn btn-outline-primary rounded btn-save font-14 col-11 col-md-5"
-            >
-                محاسبه زمان
-            </button>
-            <button
-                type="submit"
-                className="btn btn-primary rounded btn-save font-14 col-11 col-md-5"
-            >
-                ثبت شیفت
-            </button>
-            </div>
-
+              <div className="row gap-1 justify-center">
+                <button
+                  type="submit"
+                  className="btn btn-outline-primary rounded btn-save font-14 col-11 col-md-5"
+                >
+                  محاسبه زمان
+                </button>
+                <button
+                  type="submit"
+                  className="btn btn-primary rounded btn-save font-14 col-11 col-md-5"
+                >
+                  ثبت شیفت
+                </button>
+              </div>
             </form>
           </div>
         </div>

@@ -69,6 +69,15 @@ const Sidebar = () => {
                     </Link>
                   </li>
                   <li
+                    className={
+                      router.pathname == "/specialDiseases" ? "active" : ""
+                    }
+                  >
+                    <Link href="/specialDiseases" className="font-12">
+                      بیماری های خاص
+                    </Link>
+                  </li>
+                  <li
                     className={router.pathname == "/insurances" ? "active" : ""}
                   >
                     <Link href="/insurances" className="font-12">
@@ -194,7 +203,7 @@ const Sidebar = () => {
                     }
                   >
                     <Link href="/centerUsers" className="font-12">
-                      کاربران مرکز 
+                      کاربران مرکز
                     </Link>
                   </li>
                 </ul>
