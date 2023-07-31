@@ -12,8 +12,8 @@ const EditUserModal = ({ data, editUserInfo, eye, onEyeClick }) => {
         <div className="modal-content doctor-profile">
           <div className="modal-header">
             <p className="mb-0 text-secondary font-14 fw-bold">
-                ویرایش اطلاعات
-              </p>
+              ویرایش اطلاعات
+            </p>
             <button
               type="button"
               className="close-btn"
@@ -119,72 +119,6 @@ const EditUserModal = ({ data, editUserInfo, eye, onEyeClick }) => {
                   />
                 </div>
               </div>
-
-              {/* <div className="input-group marginb-med">
-                <label className="lblAbs font-12">رمز عبور</label>
-                <input
-                  type={eye ? "password" : "text"}
-                  className="form-control inputPadding rounded"
-                  required
-                  name="editUserPassword"
-                  autoComplete="true"
-                  // defaultValue={data.User}
-                  // key={data.User}
-                />
-                <span
-                  onClick={onEyeClick}
-                  className={`fa toggle-password" ${
-                    eye ? "fa-eye-slash" : "fa-eye"
-                  }`}
-                />
-              </div>
-
-              <div className="input-group marginb-med">
-                <label className="lblAbs font-12">تکرار رمز عبور</label>
-                <input
-                  type={eye ? "password" : "text"}
-                  name="editRepaetUserPassword"
-                  required
-                  autoComplete="true"
-                  className="form-control inputPadding rounded"
-                  // defaultValue={data.User}
-                  // key={data.User}
-                />
-                <span
-                  onClick={onEyeClick}
-                  className={`fa toggle-password" ${
-                    eye ? "fa-eye-slash" : "fa-eye"
-                  }`}
-                />
-              </div> */}
-              {/* <hr />
-
-              <div className="roleCheckbox">
-                <label className="lblRole font-12">سطح دسترسی</label>
-                <div className="radio_container">
-                  <input
-                    type="checkbox"
-                    name="editAdminRole"
-                    id="editAdminRole"
-                    // defaultValue={data.Admin}
-                    // key={data.Admin}
-                  />
-                  <label className="Checkboxlabel" htmlFor="editAdminRole">
-                    ادمین
-                  </label>
-                  <span className="vertical-line"></span>
-                  <input
-                    type="checkbox"
-                    name="editSecretaryRole"
-                    id="editSecretaryRole"
-                    // defaultValue={data.Secretary}
-                    // key={data.Secretary}
-                  />
-                  <label className="Checkboxlabel" htmlFor="editSecretaryRole">
-                    منشی
-                  </label>
-                </div>
-              </div> */}
 
               <div className="submit-section">
                 <button

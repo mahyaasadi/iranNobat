@@ -126,7 +126,7 @@ const SpecialDiseases = () => {
       console.log("data", data);
 
       await axiosClient
-        .post(url, { data })
+        .delete(url, { data })
         .then(function () {
           setDiseasesList(diseasesList.filter((a) => a._id !== id));
           setIsLoading(false);

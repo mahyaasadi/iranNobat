@@ -231,7 +231,6 @@ const Prescription = () => {
       axiosClient
         .post("TaminServices/SearchSrv", data)
         .then(function (response) {
-          console.log(response.data);
           setTaminSrvSearchList(response.data);
           $(".SearchDiv").show();
           $(".unsuccessfullSearch").hide();
@@ -330,21 +329,22 @@ const Prescription = () => {
             srvQty: parseInt($("#QtyInput").val()),
           };
         }
+
+        // count badge //
         count = $("#srvItemCountId" + prescId).html();
         if (count == "") {
           count = 0;
         }
+
         count = parseInt(count);
         count++;
-        // console.log(count);
-        // if (PrescriptionItemsData.length !== 0) {
-        //   count = PrescriptionItemsData.length;
-        // }
         $("#srvItemCountId" + prescId).html(count);
-        // if (count === 0) {
-        //   $("#srvItemCountId" + prescId).hide();
-        // }
-        // console.log(count);
+
+        // hide if count = 0
+        if (count === 0) {
+          $("#srvItemCountId" + prescId).hide();
+        }
+
         return { prescData, prescItems };
       }
     }

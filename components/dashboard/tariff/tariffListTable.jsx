@@ -83,19 +83,19 @@ const TariffListTable = ({
               href="#"
               onClick={() => deleteService(row._id)}
             >
-              <i className="trash-icon">
+              <i className="btn btn-sm btn-outline-danger">
                 <FeatherIcon icon="trash-2" />
               </i>
             </Link>
 
             <Link
-              className="text-black"
+              className="text-black m-0"
               href="#"
               onClick={() => updateService(row)}
               data-bs-toggle="modal"
               data-bs-target="#editTariffModal"
             >
-              <i className="edit-icon">
+              <i className="btn btn-sm btn-outline-secondary">
                 <FeatherIcon icon="edit-3" />
               </i>
             </Link>
@@ -103,7 +103,7 @@ const TariffListTable = ({
             {/* Loeing */}
             <Link
               href="#"
-              className="ml-4"
+              // className="ml-4"
               data-bs-toggle="modal"
               data-bs-target="#loeingModal"
             >
@@ -200,7 +200,11 @@ const TariffListTable = ({
             pagination
             highlightOnHover
             paginationPerPage="20"
-            // direction="ltr"
+            noDataComponent={
+              <div style={{ padding: "24px", fontSize: "13px" }}>
+                موردی برای نمایش وجود ندارد.
+              </div>
+            }
             customStyles={tableCustomStyles}
           />
         </DataTableExtensions>

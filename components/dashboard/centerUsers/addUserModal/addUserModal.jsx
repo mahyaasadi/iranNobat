@@ -6,6 +6,7 @@ const AddUserModal = ({
   addUser,
   password,
   handlePassword,
+  enableSubmit,
 }) => {
   return (
     <div
@@ -30,7 +31,7 @@ const AddUserModal = ({
             </button>
           </div>
           <div className="modal-body">
-            <form onSubmit={addUser}>
+            <form onSubmit={addUser} id="addUserFrm">
               <div className="form-group">
                 <label className="lblAbs font-12">
                   نام و نام خانوادگی<span className="text-danger">*</span>
@@ -110,6 +111,7 @@ const AddUserModal = ({
                   value={password}
                   onChange={handlePassword}
                   className="form-control inputPadding rounded"
+                  onBlur={enableSubmit}
                 />
                 <span
                   onClick={onEyeClick}
@@ -118,6 +120,24 @@ const AddUserModal = ({
                   }`}
                 />
               </div>
+
+              {/* form validations */}
+              <div className="marginb-med">
+                <div
+                  className="text-secondary font-13 frmValidationTxt form-control inputPadding rounded mb-1"
+                  id="formValidationText"
+                >
+                  <p>رمز عبور باید حداقل 8 رقم باشد!</p>
+                </div>
+                <div
+                  className="text-secondary font-13 frmValidationTxt form-control inputPadding rounded"
+                  id="formValidationText1"
+                >
+                  <p>رمز عبور باید دارای حروف کوچک و بزرگ و ارقام باشد!</p>
+                </div>
+              </div>
+              {/*  */}
+
               <div className="input-group marginb-med">
                 <label className="lblAbs font-12">
                   تکرار رمز عبور <span className="text-danger">*</span>
@@ -129,6 +149,7 @@ const AddUserModal = ({
                   required
                   autoComplete="true"
                   className="form-control inputPadding rounded"
+                  onBlur={enableSubmit}
                 />
                 <span
                   onClick={onEyeClick}
@@ -138,8 +159,17 @@ const AddUserModal = ({
                 />
               </div>
 
-              <hr />
+              {/* confirmPassword Validation */}
+              <div className="marginb-med">
+                <div
+                  className="text-secondary font-13 frmValidationTxt form-control inputPadding rounded mb-1"
+                  id="formValidationText2"
+                >
+                  <p>رمز عبور تطابق ندارد!</p>
+                </div>
+              </div>
 
+              <hr />
               {/* 
               <div className="roleCheckbox">
                 <label className="lblRole font-12">سطح دسترسی</label>
@@ -164,7 +194,7 @@ const AddUserModal = ({
                 <button
                   type="submit"
                   className="btn btn-primary rounded btn-save"
-                  
+                  id="submitUserBtn"
                 >
                   ثبت
                 </button>

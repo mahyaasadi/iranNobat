@@ -6,7 +6,6 @@ import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import { tableCustomStyles } from "components/commonComponents/customTableStyle/tableStyle.jsx";
 
-
 const SpecialiazedWorksListTable = ({ data, updateSpeWork, deleteSpeWork }) => {
   const columns = [
     {
@@ -35,27 +34,27 @@ const SpecialiazedWorksListTable = ({ data, updateSpeWork, deleteSpeWork }) => {
       cell: (row) => (
         <div className="actions">
           <Link
-            dir="ltr"
             href="#"
             className="text-black"
             onClick={() => updateSpeWork(row)}
             data-bs-toggle="modal"
             data-bs-target="#editSpeWorkModal"
           >
-            <i className="me-1">
-              <FeatherIcon icon="edit-3" />
-            </i>
+          <FeatherIcon
+            style={{ width: "16px", height: "16px" }}
+            icon="edit-3"
+          />
           </Link>
 
           <Link
-            dir="ltr"
             href="#"
             className="text-danger"
             onClick={() => deleteSpeWork(row._id)}
           >
-            <i className="me-1">
-              <FeatherIcon icon="trash-2" />
-            </i>
+          <FeatherIcon
+            style={{ width: "16px", height: "16px" }}
+            icon="trash-2"
+          />
           </Link>
         </div>
       ),
@@ -78,6 +77,11 @@ const SpecialiazedWorksListTable = ({ data, updateSpeWork, deleteSpeWork }) => {
             defaultSortAsc={false}
             pagination
             highlightOnHover
+            noDataComponent={
+              <div style={{ padding: "24px", fontSize: "13px" }}>
+                موردی برای نمایش وجود ندارد.
+              </div>
+            }
             customStyles={tableCustomStyles}
           />
         </DataTableExtensions>

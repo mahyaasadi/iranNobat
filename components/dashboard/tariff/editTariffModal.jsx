@@ -48,7 +48,7 @@ const EditTariffModal = ({
 
             <div className="modal-body media-modal-body">
               <form onSubmit={editService}>
-                <div className="row media-flex-col">
+                <div className="row media-flex-col align-end">
                   <div className="col col-lg-2">
                     <div className="form-group">
                       <label className="lblAbs font-12">
@@ -81,7 +81,7 @@ const EditTariffModal = ({
                     </div>
                   </div>
 
-                  <div className="col-lg-4 col">
+                  <div className="col-lg-4 col font-13">
                     <label className="lblDrugIns font-12">
                       نام گروه<span className="text-danger">*</span>
                     </label>

@@ -5,7 +5,7 @@ Version      : 1.3
 */
 
 (function ($) {
-  "use strict";
+  ("use strict");
 
   // Variables declarations
 
@@ -117,9 +117,9 @@ Version      : 1.3
 
   // Tooltip
 
-  if ($('[data-toggle="tooltip"]').length > 0) {
-    $('[data-toggle="tooltip"]').tooltip();
-  }
+  // if ($('[data-toggle="tooltip"]').length > 0) {
+  //   $('[data-toggle="tooltip"]').tooltip();
+  // }
 
   // Datatable
 
@@ -194,7 +194,6 @@ Version      : 1.3
   }
 
   // Sidebar Slimscroll
-
   //   if ($slimScrolls.length > 0) {
   //     $slimScrolls.slimScroll({
   //       height: "auto",
@@ -249,4 +248,16 @@ Version      : 1.3
   //       return false;
   //     }
   //   });
+
+  //Initialize tooltips
+  setTimeout(() => {
+    $("[rel='tooltip']").tooltip();
+
+    var tooltipTriggerList = [].slice.call(
+      document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    );
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+  }, 500);
 })(jQuery);

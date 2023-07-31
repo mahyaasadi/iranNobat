@@ -11,7 +11,8 @@ const UsersListTable = ({
   updateUserInfo,
   activateUser,
   deActivateUser,
-  activeState,
+  chatPermissionOpenModal,
+  userPermissionOpenModal,
 }) => {
   const columns = [
     {
@@ -36,7 +37,7 @@ const UsersListTable = ({
       name: "وضعیت کاربر",
       selector: (row) => (row.Deactive == true ? "غیر فعال" : "فعال"),
       sortable: true,
-      width: "600px",
+      width: "550px",
     },
     {
       name: "عملیات ها",
@@ -49,6 +50,9 @@ const UsersListTable = ({
               className="btn btn-sm btn-outline-success font-13"
               type="button"
               onClick={() => deActivateUser(row._id)}
+              data-bs-toggle="tooltip"
+              data-bs-placement="top"
+              title="غیر فعال سازی"
             >
               <i className="d-flex align-items-center gap-3">
                 <FeatherIcon
@@ -62,6 +66,9 @@ const UsersListTable = ({
               className="btn btn-sm btn-outline-danger"
               type="button"
               onClick={() => activateUser(row._id)}
+              data-bs-toggle="tooltip"
+              data-bs-placement="top"
+              title="فعال سازی"
             >
               <i className="d-flex align-items-center gap-3">
                 <FeatherIcon
@@ -71,25 +78,52 @@ const UsersListTable = ({
               </i>
             </button>
           )}
+
           <Link
             className="btn btn-sm btn-outline-secondary"
             href="#"
-            data-bs-toggle="modal"
-            data-bs-target="#editUserModal"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="ویرایش"
             onClick={() => updateUserInfo(row)}
           >
-            <i className="">
-              <FeatherIcon style={{ width: "16px", height: "16px" }} icon="edit-3" />
+            <i>
+              <FeatherIcon
+                style={{ width: "16px", height: "16px" }}
+                icon="edit-3"
+              />
             </i>
+          </Link>
+
+          <Link
+            className="btn btn-sm btn-outline-secondary btn-border-left"
+            href="#"
+            // data-bs-toggle="modal"
+            // data-bs-target="#chatPermissionModal"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="ویرایش دسترسی گفتگو"
+            onClick={chatPermissionOpenModal}
+          >
+            <FeatherIcon
+              style={{ width: "16px", height: "16px" }}
+              icon="message-circle"
+            />
           </Link>
           <Link
             className="btn btn-sm btn-outline-secondary btn-border-left"
             href="#"
-            data-bs-toggle="modal"
-            data-bs-target="#chatPermissionModal"
-            // onClick={() => }
+            // data-bs-toggle="modal"
+            // data-bs-target="#userPermissionModal"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="ویرایش دسترسی کاربر"
+            onClick={userPermissionOpenModal}
           >
-            <FeatherIcon style={{ width: "16px", height: "16px" }} icon="message-circle" />
+            <FeatherIcon
+              style={{ width: "16px", height: "16px" }}
+              icon="unlock"
+            />
           </Link>
         </div>
       ),

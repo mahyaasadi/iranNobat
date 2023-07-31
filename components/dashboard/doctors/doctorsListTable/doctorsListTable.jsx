@@ -33,29 +33,32 @@ const DoctorsListTable = ({ data, deletePhysician, updatePhysician }) => {
       sortable: true,
 
       cell: (row) => (
-        <div className="actions">
+        <div className="actions d-flex gap-2">
           <Link
-            dir="ltr"
             href="#"
-            className="text-black"
+            className="btn btn-sm btn-outline-danger"
+            onClick={() => deletePhysician(row._id)}
+          >
+      
+              <FeatherIcon
+                style={{ width: "16px", height: "16px" }}
+                icon="trash-2"
+              />
+          
+          </Link>
+
+          <Link
+            href="#"
+            className="btn btn-sm btn-outline-secondary btn-border-left"
             onClick={() => updatePhysician(row)}
             data-bs-toggle="modal"
             data-bs-target="#editPhysicianModal"
           >
-            <i className="me-1">
-              <FeatherIcon icon="edit-3" />
-            </i>
-          </Link>
-
-          <Link
-            dir="ltr"
-            href="#"
-            className="text-danger"
-            onClick={() => deletePhysician(row._id)}
-          >
-            <i className="me-1">
-              <FeatherIcon icon="trash-2" />
-            </i>
+         
+              <FeatherIcon
+              style={{ width: "16px", height: "16px" }}
+              icon="edit-3" />
+          
           </Link>
         </div>
       ),
@@ -78,6 +81,11 @@ const DoctorsListTable = ({ data, deletePhysician, updatePhysician }) => {
             defaultSortAsc={false}
             pagination
             highlightOnHover
+            noDataComponent={
+              <div style={{ padding: "24px", fontSize: "13px" }}>
+                موردی برای نمایش وجود ندارد.
+              </div>
+            }
             customStyles={tableCustomStyles}
           />
         </DataTableExtensions>

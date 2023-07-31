@@ -38,7 +38,7 @@ const AddTariffModal = ({ addService, srvGroupList, FUSelectSrvGroupName }) => {
 
             <div className="modal-body media-modal-body">
               <form onSubmit={addService}>
-                <div className="row media-flex-col">
+                <div className="row media-flex-col align-end">
                   <div className="col-lg-2 col">
                     <div className="form-group">
                       <label className="lblAbs font-12">
@@ -67,17 +67,18 @@ const AddTariffModal = ({ addService, srvGroupList, FUSelectSrvGroupName }) => {
                     </div>
                   </div>
 
-                  <div className="col-lg-4 col">
+                  <div className="col-lg-4 col font-13">
                     <label className="lblDrugIns font-12">
                       نام گروه<span className="text-danger">*</span>
                     </label>
                     <SelectField
                       styles={colourStyles}
+                      className="text-center"
                       options={srvGroupList}
                       errorMessage={""}
                       error={false}
                       label={true}
-                      placeholder={"نام گروه را انتخاب کنید"}
+                      placeholder={"انتخاب کنید"}
                       required
                       name="srvGroupName"
                       onChangeValue={(value) =>

@@ -10,6 +10,7 @@ import UsersListTable from "components/dashboard/centerUsers/usersListTable/user
 import AddUserModal from "components/dashboard/centerUsers/addUserModal/addUserModal";
 import EditUserModal from "components/dashboard/centerUsers/editUserModal/editUserModal";
 import ChatPermissionModal from "components/dashboard/centerUsers/chatPermissionModal/chatPermissionModal";
+import UserPermissionModal from "components/dashboard/centerUsers/userPermissionModal/userPermissionModal";
 
 let CenterID = Cookies.get("CenterID");
 let ActiveUserID = null;
@@ -18,7 +19,6 @@ const CenterUsers = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState([]);
   const [editedUserData, setEditedUserData] = useState([]);
-  const [activeState, setActiveState] = useState(null);
   const [password, setPassword] = useState("");
 
   const [eye, setEye] = useState(true);
@@ -27,6 +27,7 @@ const CenterUsers = () => {
   const handlePassword = (e) => {
     setPassword(e.target.value);
   };
+
   // Get users data
   const getCenterUsers = () => {
     let url = `AdminUser/getCenterUsers/${CenterID}`;
@@ -38,6 +39,7 @@ const CenterUsers = () => {
         console.log(response.data);
         setUserData(response.data);
         // setActiveState(response.data.Deactive);
+
         setIsLoading(false);
       })
       .catch((error) => {
@@ -46,53 +48,20 @@ const CenterUsers = () => {
       });
   };
 
-  function validateForm() {
-    if (password.length < 8) {
-      alert(
-        "Invalid Form, Password must contain greater than or equal to 8 characters."
-      );
-      return;
-    }
+  const enableSubmit = (e) => {
+    e.preventDefault();
 
-    // variable to count upper case characters in the password.
     let countUpperCase = 0;
-    // variable to count lowercase characters in the password.
     let countLowerCase = 0;
-    // variable to count digit characters in the password.
     let countDigit = 0;
-    // variable to count special characters in the password.
-    let countSpecialCharacters = 0;
+
+    let formData = new FormData(document.getElementById("addUserFrm"));
+    const formProps = Object.fromEntries(formData);
+    let passValue = $("#addUserPassword").val();
+    let confpassValue = $("#confirmPassword").val();
 
     for (let i = 0; i < password.length; i++) {
-      const specialChars = [
-        "!",
-        "@",
-        "#",
-        "$",
-        "%",
-        "^",
-        "&",
-        "*",
-        "(",
-        ")",
-        "_",
-        "-",
-        "+",
-        "=",
-        "[",
-        "{",
-        "]",
-        "}",
-        ":",
-        ";",
-        "<",
-        ">",
-      ];
-
-      if (specialChars.includes(password[i])) {
-        // this means that the character is special, so increment countSpecialCharacters
-        countSpecialCharacters++;
-      } else if (!isNaN(password[i] * 1)) {
+      if (!isNaN(password[i] * 1)) {
         // this means that the character is a digit, so increment countDigit
         countDigit++;
       } else {
@@ -107,32 +76,33 @@ const CenterUsers = () => {
       }
     }
 
-    if (countLowerCase == 0) {
-      // invalid form, 0 lowercase characters
-      alert("Invalid Form, 0 lower case characters in password");
+    // password length
+    if (password.length < 8) {
+      $("#formValidationText").show();
+      $("#submitUserBtn").attr("disabled", true);
       return;
+    } else {
+      $("#formValidationText").hide();
+      $("#submitUserBtn").attr("disabled", false);
     }
-
-    if (countUpperCase == 0) {
-      // invalid form, 0 upper case characters
-      alert("Invalid Form, 0 upper case characters in password");
+    // lower and uppercase letters included
+    if (countLowerCase == 0 || countUpperCase == 0 || countDigit == 0) {
+      $("#formValidationText1").show();
+      $("#submitUserBtn").attr("disabled", true);
       return;
+    } else {
+      $("#formValidationText1").hide();
+      $("#submitUserBtn").attr("disabled", false);
     }
-
-    if (countDigit == 0) {
-      // invalid form, 0 digit characters
-      alert("Invalid Form, 0 digit characters in password");
-      return;
+    // confirm password validation
+    if (passValue !== confpassValue) {
+      $("#formValidationText2").show();
+      $("#submitUserBtn").attr("disabled", true);
+    } else {
+      $("#formValidationText2").hide();
+      $("#submitUserBtn").attr("disabled", false);
     }
-
-    if (countSpecialCharacters == 0) {
-      // invalid form, 0 special characters characters
-      alert("Invalid Form, 0 special characters in password");
-      return;
-    }
-
-    alert("Form is valid");
-  }
+  };
 
   // Add new user
   const addUser = (e) => {
@@ -150,21 +120,13 @@ const CenterUsers = () => {
       NID: formProps.userNID,
       Tel: formProps.userTel,
       User: formProps.addUserName,
-      Password: formProps.addUserPassword,
+      Password: password,
       // ConfirmPassword: formProps.confirmPassword,
       // Admin: formProps.adminRole,
       // Secretary: formProps.secretaryRole,
     };
 
-    let passValue = $("#addUserPassword").val();
-    let confpassValue = $("#confirmPassword").val();
-
-    if (passValue !== confpassValue) {
-      window.alert("رمز عبور باید در هر دو فیلد تطابق داشته باشد!");
-    }
-
     console.log(data);
-    validateForm();
 
     axiosClient
       .post(url, data)
@@ -180,6 +142,15 @@ const CenterUsers = () => {
         console.log(error);
         setIsLoading(false);
       });
+  };
+
+  // change active state
+  const ChangeActiveUser = (id, type) => {
+    let findUser = userData.find((x) => x._id === id);
+    findUser.Deactive = type;
+    let findIndex = userData.findIndex((x) => x._id === id);
+    userData[findIndex] = findUser;
+    setUserData(userData);
   };
 
   // Activate user
@@ -212,13 +183,6 @@ const CenterUsers = () => {
     }
   };
 
-  const ChangeActiveUser = (id, type) => {
-    let findUser = userData.find((x) => x._id === id);
-    findUser.Deactive = type;
-    let findIndex = userData.findIndex((x) => x._id === id);
-    userData[findIndex] = findUser;
-    setUserData(userData);
-  };
   // Deactivate user
   const deActivateUser = async (id) => {
     let result = await QuestionAlert(
@@ -266,7 +230,6 @@ const CenterUsers = () => {
       NID: formProps.editUserNID,
       Tel: formProps.editUserTel,
       User: formProps.editUserName,
-      Deactive: activeState,
       // Admin: formProps.editAdminRole,
       // Secretary: formProps.editSecretaryRole,
       // Password: formProps.editUserPassword,
@@ -282,7 +245,6 @@ const CenterUsers = () => {
           NID: formProps.editUserNID,
           Tel: formProps.editUserTel,
           User: formProps.editUserName,
-          Deactive: activeState,
         });
         $("#editUserModal").modal("hide");
         console.log(response.data);
@@ -310,10 +272,22 @@ const CenterUsers = () => {
 
   const updateUserInfo = (data) => {
     setEditedUserData(data);
+    $("#editUserModal").modal("show");
+  };
+
+  const chatPermissionOpenModal = () => {
+    $("#chatPermissionModal").modal("show");
+  };
+
+  const userPermissionOpenModal = () => {
+    $("#userPermissionModal").modal("show");
   };
 
   useEffect(() => {
     getCenterUsers();
+    $("#formValidationText").hide();
+    $("#formValidationText1").hide();
+    $("#formValidationText2").hide();
   }, []);
 
   return (
@@ -369,7 +343,8 @@ const CenterUsers = () => {
                     updateUserInfo={updateUserInfo}
                     activateUser={activateUser}
                     deActivateUser={deActivateUser}
-                    activeState={activeState}
+                    chatPermissionOpenModal={chatPermissionOpenModal}
+                    userPermissionOpenModal={userPermissionOpenModal}
                   />
                 )}
               </div>
@@ -384,6 +359,7 @@ const CenterUsers = () => {
           addUser={addUser}
           password={password}
           handlePassword={handlePassword}
+          enableSubmit={enableSubmit}
         />
         <EditUserModal
           data={editedUserData}
@@ -393,6 +369,8 @@ const CenterUsers = () => {
         />
 
         <ChatPermissionModal />
+
+        <UserPermissionModal />
       </div>
     </>
   );

@@ -6,43 +6,31 @@ import Loading from "components/loading/loading";
 
 let CenterID = Cookies.get("CenterID");
 
-const ChatPermissionModal = () => {
-  const [departmentsData, setDepartmentsData] = useState([]);
-  const [diseasesList, setDiseasesList] = useState([]);
+const UserPermissionModal = () => {
+  const [usersPermissionList, setUsersPermissionList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  //get departments
-  const getDepartments = () => {
-    let UrlGetDep = `Center/GetDepartments/${CenterID}`;
-    axiosClient.get(UrlGetDep).then(function (response) {
+  const getUserPermissions = () => {
+    let url = "UserPermision/getAll";
+
+    axiosClient.get(url).then(function (response) {
       if (response.data) {
         setIsLoading(false);
-        setDepartmentsData(response.data);
+        console.log(response.data);
+        setUsersPermissionList(response.data);
       }
     });
   };
 
-  // get diseases list
-  const getDiseasesData = () => {
-    axiosClient
-      .get(`Center/getSpecialDiseases/${CenterID}`)
-      .then(function (response) {
-        console.log(response.data);
-        setDiseasesList(response.data);
-        setIsLoading(false);
-      });
-  };
-
   useEffect(() => {
-    getDepartments();
-    getDiseasesData();
+    getUserPermissions();
   }, []);
 
   return (
     <>
       <div
         className="modal fade contentmodal"
-        id="chatPermissionModal"
+        id="userPermissionModal"
         tabIndex="-1"
         aria-hidden="true"
       >
@@ -50,7 +38,7 @@ const ChatPermissionModal = () => {
           <div className="modal-content doctor-profile">
             <div className="modal-header">
               <p className="mb-0 text-secondary font-14 fw-bold">
-                ویرایش دسترسی گفتگو
+                ویرایش دسترسی کاربر به سیستم
               </p>
               <button
                 type="button"
@@ -67,47 +55,24 @@ const ChatPermissionModal = () => {
               <p className="mb-0 text-secondary font-13 fw-bold">انتخاب بخش</p>
               <hr className="mt-1 marginb-1" />
               <form className="text-secondary">
-                {departmentsData?.map((departmentData, index) => (
+                {usersPermissionList?.map((item, index) => (
                   <div className="checkbox" key={index}>
                     <div className="marginb-sm d-flex align-items-center">
                       <input
                         type="checkbox"
-                        id={departmentData.Modality}
-                        value={departmentData.PerFullName}
+                        id={item.EngName}
+                        value={item.Name}
                       />
                       <label
                         className="permissionLabel font-14"
-                        htmlFor={departmentData.PerFullName}
+                        htmlFor={item.Name}
                       >
-                        {departmentData.PerFullName}
+                        {item.Name}
                       </label>
                     </div>
                   </div>
                 ))}
 
-                <hr />
-
-                <p className="mb-0 margin-top-2 text-secondary font-13 fw-bold">
-                  انتخاب بیماری خاص
-                </p>
-                <hr className="mt-1 marginb-1" />
-                {diseasesList?.map((diseaseData, index) => (
-                  <div className="checkbox" key={index}>
-                    <div className="marginb-sm d-flex align-items-center">
-                      <input
-                        type="checkbox"
-                        id={diseaseData.EngName}
-                        value={diseaseData.Name}
-                      />
-                      <label
-                        className="permissionLabel font-14"
-                        htmlFor={diseaseData.Name}
-                      >
-                        {diseaseData.Name}
-                      </label>
-                    </div>
-                  </div>
-                ))}
                 <div className="submit-section">
                   <button
                     type="submit"
@@ -124,4 +89,4 @@ const ChatPermissionModal = () => {
     </>
   );
 };
-export default ChatPermissionModal;
+export default UserPermissionModal;
