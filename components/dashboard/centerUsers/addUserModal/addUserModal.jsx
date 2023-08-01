@@ -6,7 +6,9 @@ const AddUserModal = ({
   addUser,
   password,
   handlePassword,
-  enableSubmit,
+  validatePassword,
+  NationalIdValidate,
+  telNumberValidate,
 }) => {
   return (
     <div
@@ -18,7 +20,7 @@ const AddUserModal = ({
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content doctor-profile">
           <div className="modal-header">
-            <h5 className="mb-0">اضافه کردن کاربر</h5>
+            <p className="mb-1 text-secondary font-16 fw-bold">کاربر جدید</p>
             <button
               type="button"
               className="close-btn"
@@ -66,11 +68,25 @@ const AddUserModal = ({
                   <input
                     type="number"
                     name="userNID"
+                    id="userNID"
                     className="form-control floating inputPadding rounded"
                     required
+                    onBlur={NationalIdValidate}
                   />
                 </div>
               </div>
+
+              {/* userNID validation */}
+              <div className="marginb-med">
+                <div
+                  className="text-secondary font-13 frmValidationTxt form-control inputPadding rounded mb-1"
+                  id="formValidationText4"
+                >
+                  <p>کد ملی باید دارای 10 رقم باشد!</p>
+                </div>
+              </div>
+              {/*  */}
+
               <div className="form-group">
                 <label className="lblAbs font-12">
                   شماره موبایل<span className="text-danger">*</span>
@@ -79,11 +95,25 @@ const AddUserModal = ({
                   <input
                     type="number"
                     name="userTel"
+                    id="userTel"
                     className="form-control floating inputPadding rounded"
                     required
+                    onBlur={telNumberValidate}
                   />
                 </div>
               </div>
+
+              {/* userTel validation */}
+              <div className="marginb-med">
+                <div
+                  className="text-secondary font-13 frmValidationTxt form-control inputPadding rounded mb-1"
+                  id="formValidationText3"
+                >
+                  <p>شماره همراه باید دارای 11 رقم باشد!</p>
+                </div>
+              </div>
+              {/*  */}
+
               <div className="input-group marginb-med">
                 <label className="lblAbs font-12">
                   نام کاربری <span className="text-danger">*</span>
@@ -111,7 +141,7 @@ const AddUserModal = ({
                   value={password}
                   onChange={handlePassword}
                   className="form-control inputPadding rounded"
-                  onBlur={enableSubmit}
+                  onBlur={validatePassword}
                 />
                 <span
                   onClick={onEyeClick}
@@ -121,19 +151,13 @@ const AddUserModal = ({
                 />
               </div>
 
-              {/* form validations */}
+              {/* password validation */}
               <div className="marginb-med">
                 <div
                   className="text-secondary font-13 frmValidationTxt form-control inputPadding rounded mb-1"
-                  id="formValidationText"
-                >
-                  <p>رمز عبور باید حداقل 8 رقم باشد!</p>
-                </div>
-                <div
-                  className="text-secondary font-13 frmValidationTxt form-control inputPadding rounded"
                   id="formValidationText1"
                 >
-                  <p>رمز عبور باید دارای حروف کوچک و بزرگ و ارقام باشد!</p>
+                  <p>رمز عبور باید حداقل 7 رقم باشد!</p>
                 </div>
               </div>
               {/*  */}
@@ -149,7 +173,7 @@ const AddUserModal = ({
                   required
                   autoComplete="true"
                   className="form-control inputPadding rounded"
-                  onBlur={enableSubmit}
+                  onBlur={validatePassword}
                 />
                 <span
                   onClick={onEyeClick}

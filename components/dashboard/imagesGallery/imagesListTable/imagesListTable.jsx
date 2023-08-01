@@ -41,14 +41,17 @@ const ImagesListTable = ({ data, deleteImage }) => {
       cell: (row) => (
         <div className="actions">
           <Link
-            dir="ltr"
             href="#"
-            className="text-danger"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="حذف"
+            className="btn btn-sm btn-outline-danger"
             onClick={() => deleteImage(row)}
           >
-            <i className="me-1">
-              <FeatherIcon icon="trash-2" />
-            </i>
+            <FeatherIcon
+              icon="trash-2"
+              style={{ width: "16px", height: "16px" }}
+            />
           </Link>
         </div>
       ),

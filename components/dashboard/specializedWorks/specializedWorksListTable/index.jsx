@@ -32,29 +32,32 @@ const SpecialiazedWorksListTable = ({ data, updateSpeWork, deleteSpeWork }) => {
       sortable: true,
 
       cell: (row) => (
-        <div className="actions">
+        <div className="actions d-flex gap-1">
           <Link
             href="#"
-            className="text-black"
-            onClick={() => updateSpeWork(row)}
-            data-bs-toggle="modal"
-            data-bs-target="#editSpeWorkModal"
-          >
-          <FeatherIcon
-            style={{ width: "16px", height: "16px" }}
-            icon="edit-3"
-          />
-          </Link>
-
-          <Link
-            href="#"
-            className="text-danger"
+            className="btn btn-sm btn-outline-danger font-13"
             onClick={() => deleteSpeWork(row._id)}
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="حذف"
           >
-          <FeatherIcon
-            style={{ width: "16px", height: "16px" }}
-            icon="trash-2"
-          />
+            <FeatherIcon
+              style={{ width: "16px", height: "16px" }}
+              icon="trash-2"
+            />
+          </Link>
+          <Link
+            href="#"
+            className="btn btn-sm btn-outline-secondary font-13 btn-border-left"
+            onClick={() => updateSpeWork(row)}
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="ویرایش"
+          >
+            <FeatherIcon
+              style={{ width: "16px", height: "16px" }}
+              icon="edit-3"
+            />
           </Link>
         </div>
       ),

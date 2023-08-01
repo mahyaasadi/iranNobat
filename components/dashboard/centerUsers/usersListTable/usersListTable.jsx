@@ -87,22 +87,18 @@ const UsersListTable = ({
             title="ویرایش"
             onClick={() => updateUserInfo(row)}
           >
-            <i>
-              <FeatherIcon
-                style={{ width: "16px", height: "16px" }}
-                icon="edit-3"
-              />
-            </i>
+            <FeatherIcon
+              style={{ width: "16px", height: "16px" }}
+              icon="edit-3"
+            />
           </Link>
 
           <Link
             className="btn btn-sm btn-outline-secondary btn-border-left"
             href="#"
-            // data-bs-toggle="modal"
-            // data-bs-target="#chatPermissionModal"
             data-bs-toggle="tooltip"
             data-bs-placement="top"
-            title="ویرایش دسترسی گفتگو"
+            title={"دسترسی گفتگو : " + row.FullName}
             onClick={chatPermissionOpenModal}
           >
             <FeatherIcon
@@ -113,11 +109,9 @@ const UsersListTable = ({
           <Link
             className="btn btn-sm btn-outline-secondary btn-border-left"
             href="#"
-            // data-bs-toggle="modal"
-            // data-bs-target="#userPermissionModal"
             data-bs-toggle="tooltip"
             data-bs-placement="top"
-            title="ویرایش دسترسی کاربر"
+            title={"دسترسی کاربر : " + row.FullName}
             onClick={userPermissionOpenModal}
           >
             <FeatherIcon

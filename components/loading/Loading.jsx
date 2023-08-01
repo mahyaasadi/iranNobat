@@ -7,9 +7,9 @@ const Loading = () => {
     <div className="loading">
       <Image
         src={loading}
-        width="140"
-        max-width="140"
-        height="140"
+        width="150"
+        max-width="150"
+        height="150"
         alt="loading"
         priority={true}
       />

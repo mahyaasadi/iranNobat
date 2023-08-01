@@ -64,13 +64,13 @@ const AddToListItem = ({
               <div className="col-auto prescMediaBtn">
                 <button
                   type="button"
-                  className="btn btn-outline-primary btn-rounded margin-left-4 "
+                  className="btn btn-outline-primary margin-left-4"
                 >
                   <i className="fe fe-star"></i>
                 </button>
                 <button
                   type="button"
-                  className="btn btn-outline-danger btn-rounded"
+                  className="btn btn-outline-danger"
                   onClick={() => DeleteService(SrvCode, prescId)}
                 >
                   <i className="fe fe-trash"></i>

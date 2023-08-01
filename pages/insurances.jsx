@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import Head from "next/head"
+import Head from "next/head";
 import FeatherIcon from "feather-icons-react";
 import { axiosClient } from "class/axiosConfig.js";
 import Cookies from "js-cookie";
@@ -129,6 +129,7 @@ const Insurance = () => {
 
   const updateInsurance = (data) => {
     setEditedInsurance(data);
+    $("#editInsuranceModal").modal("show");
   };
 
   // Delete Insurance
@@ -155,7 +156,7 @@ const Insurance = () => {
 
   return (
     <>
-    <Head>
+      <Head>
         <title>بیمه های تحت پوشش</title>
       </Head>
       <div className="page-wrapper">

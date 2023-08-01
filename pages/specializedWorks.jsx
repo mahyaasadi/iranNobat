@@ -118,6 +118,7 @@ const SpecializedWorks = () => {
 
   const updateSpeWork = (data) => {
     setEditSpeWork(data);
+    $("#editSpeWorkModal").modal("show");
   };
 
   // Delete SpeWork
@@ -177,7 +178,9 @@ const SpecializedWorks = () => {
                 <div className="card-header border-bottom-0">
                   <div className="row align-items-center">
                     <div className="col">
-                      <p className="card-title font-16">لیست کارهای تخصصی مرکز</p>
+                      <p className="card-title font-16">
+                        لیست کارهای تخصصی مرکز
+                      </p>
                     </div>
                     <div className="col-auto d-flex flex-wrap">
                       <div className="form-custom me-2">

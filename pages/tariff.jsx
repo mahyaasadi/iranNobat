@@ -240,6 +240,7 @@ const Tariff = () => {
 
   const updateService = (data) => {
     setEditedServices(data);
+    $("#editTariffModal").modal("show");
   };
 
   // Delete service
@@ -401,6 +402,11 @@ const Tariff = () => {
 
   const updateLoeing = (data) => {
     setEditedLoeing(data);
+    $("#editLoeingModal").modal("show");
+  };
+
+  const openAddLoeingModal = () => {
+    $("#addLoeingModal").modal("show");
   };
 
   // ----------------------------------------------------------------
@@ -611,11 +617,12 @@ const Tariff = () => {
 
         <LoeingModal
           data={loeingData}
-          addLoeing={addLoeing}
+          // addLoeing={addLoeing}
           Service={activeServiceId}
           ServiceName={activeServiceName}
           deleteLoeing={deleteLoeing}
           updateLoeing={updateLoeing}
+          openAddLoeingModal={openAddLoeingModal}
         />
 
         <AddLoeingModal data={loeingData} addLoeing={addLoeing} />

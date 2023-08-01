@@ -77,39 +77,45 @@ const TariffListTable = ({
         selector: (row) => row.action,
         sortable: true,
         cell: (row) => (
-          <div className="actions">
+          <div className="actions d-flex gap-2">
             <Link
-              className="text-danger"
+              className="btn btn-sm btn-outline-danger"
               href="#"
+              data-bs-toggle="tooltip"
+              data-bs-placement="top"
+              title="حذف"
               onClick={() => deleteService(row._id)}
             >
-              <i className="btn btn-sm btn-outline-danger">
-                <FeatherIcon icon="trash-2" />
-              </i>
+              <FeatherIcon
+                icon="trash-2"
+                style={{ width: "16px", height: "16px" }}
+              />
             </Link>
 
             <Link
-              className="text-black m-0"
+              className="btn btn-sm btn-outline-secondary btn-border-left"
               href="#"
               onClick={() => updateService(row)}
-              data-bs-toggle="modal"
-              data-bs-target="#editTariffModal"
+              data-bs-toggle="tooltip"
+              data-bs-placement="top"
+              title="ویرایش"
             >
-              <i className="btn btn-sm btn-outline-secondary">
-                <FeatherIcon icon="edit-3" />
-              </i>
+              <FeatherIcon
+                icon="edit-3"
+                style={{ width: "16px", height: "16px" }}
+              />
             </Link>
 
             {/* Loeing */}
             <Link
               href="#"
-              // className="ml-4"
+              className="m-0 p-0 borderl-none"
               data-bs-toggle="modal"
               data-bs-target="#loeingModal"
             >
               <button
-                type="submit"
-                className="btn btn-sm btn-outline-primary"
+                type="button"
+                className="btn btn-sm btn-outline-secondary"
                 onClick={() =>
                   SetLoeingModalData(row["Tamin-Loeing"], row._id, row.Service)
                 }
@@ -155,27 +161,33 @@ const TariffListTable = ({
         selector: (row) => row.action,
         sortable: true,
         cell: (row) => (
-          <div className="actions">
+          <div className="actions d-flex gap-1">
             <Link
-              className="text-danger"
+              className="btn btn-sm btn-outline-danger"
               href="#"
+              data-bs-toggle="tooltip"
+              data-bs-placement="top"
+              title="حذف"
               onClick={() => deleteService(row._id)}
             >
-              <i className="">
-                <FeatherIcon icon="trash-2" />
-              </i>
+              <FeatherIcon
+                icon="trash-2"
+                style={{ width: "16px", height: "16px" }}
+              />
             </Link>
 
             <Link
-              className="text-black"
+              className="btn btn-sm btn-outline-secondary btn-border-left"
               href="#"
+              data-bs-toggle="tooltip"
+              data-bs-placement="top"
+              title="ویرایش"
               onClick={() => updateServiceGroup(row)}
-              data-bs-toggle="modal"
-              data-bs-target="#editServiceModal"
             >
-              <i className="">
-                <FeatherIcon icon="edit-3" />
-              </i>
+              <FeatherIcon
+                icon="edit-3"
+                style={{ width: "16px", height: "16px" }}
+              />
             </Link>
           </div>
         ),

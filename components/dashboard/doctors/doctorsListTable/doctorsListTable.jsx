@@ -37,28 +37,29 @@ const DoctorsListTable = ({ data, deletePhysician, updatePhysician }) => {
           <Link
             href="#"
             className="btn btn-sm btn-outline-danger"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title={"حذف پزشک : " + row.Name}
             onClick={() => deletePhysician(row._id)}
           >
-      
-              <FeatherIcon
-                style={{ width: "16px", height: "16px" }}
-                icon="trash-2"
-              />
-          
+            <FeatherIcon
+              style={{ width: "16px", height: "16px" }}
+              icon="trash-2"
+            />
           </Link>
 
           <Link
             href="#"
             className="btn btn-sm btn-outline-secondary btn-border-left"
             onClick={() => updatePhysician(row)}
-            data-bs-toggle="modal"
-            data-bs-target="#editPhysicianModal"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title={"ویرایش پزشک : " + row.Name}
           >
-         
-              <FeatherIcon
+            <FeatherIcon
               style={{ width: "16px", height: "16px" }}
-              icon="edit-3" />
-          
+              icon="edit-3"
+            />
           </Link>
         </div>
       ),

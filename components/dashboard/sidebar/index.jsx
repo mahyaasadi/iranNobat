@@ -188,25 +188,13 @@ const Sidebar = () => {
                 </ul>
               </li>
 
-              <li className="submenu">
-                <a href="#">
+              <li className={router.pathname == "/centerUsers" ? "active" : ""}>
+                <Link href="/centerUsers">
                   <i>
                     <FeatherIcon icon="users" className="width-15" />
                   </i>
-                  <span>مدیریت کاربران</span>
-                  <span className="menu-arrow"></span>
-                </a>
-                <ul className="hidden hiddenSidebar">
-                  <li
-                    className={
-                      router.pathname == "/centerUsers" ? "active" : ""
-                    }
-                  >
-                    <Link href="/centerUsers" className="font-12">
-                      کاربران مرکز
-                    </Link>
-                  </li>
-                </ul>
+                  <span>مدیریت کاربران مرکز</span>
+                </Link>
               </li>
 
               <li className="submenu">
@@ -277,7 +265,7 @@ const Sidebar = () => {
                     }
                   >
                     <Link href="/smsPanelSettings" className="font-12">
-                      تنظیمات پنل
+                      تنظیمات پنل پیامک
                     </Link>
                   </li>
                 </ul>

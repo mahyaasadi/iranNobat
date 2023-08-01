@@ -41,6 +41,16 @@ const ChangeInsuranceTypeModal = ({
     getInsuranceList();
   }, []);
 
+   const colourStyles = {
+    menu: (provided) => ({ ...provided, zIndex: 9999 }),
+    control: (styles) => ({
+      ...styles,
+      minHeight: 43,
+      borderRadius: 20,
+      border: "1px solid #E6E9F4",
+    }),
+  };
+
   return (
     <>
       <div
@@ -52,7 +62,9 @@ const ChangeInsuranceTypeModal = ({
         <div className="modal-dialog modal-dialog-centered modal-md">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="mb-0">تغییر نوع بیمه</h5>
+              <p className="mb-0 text-secondary font-14 fw-bold">
+               تغییر نوع بیمه
+              </p>
               <button
                 type="button"
                 className="close-btn"
@@ -74,7 +86,8 @@ const ChangeInsuranceTypeModal = ({
                     value={data.NationalID}
                   />
                   <Select
-                    className="select mt-3"
+                    className="mt-3"
+                    styles={colourStyles}
                     options={insuranceOptionsList}
                     required
                     name="insuranceTypeOptions"
@@ -86,7 +99,7 @@ const ChangeInsuranceTypeModal = ({
                 </div>
 
                 <div className="submit-section">
-                  <button type="submit" className="btn btn-primary btn-save">
+                  <button type="submit" className="btn btn-primary btn-save rounded">
                     ثبت تغییرات
                   </button>
                 </div>

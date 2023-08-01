@@ -24,7 +24,7 @@ const SendMessagesListTable = ({ data, checkMessageDelivery }) => {
       name: "متن پیام",
       selector: (row) => row.Message.substr(0, 100) + " ...",
       sortable: true,
-      width: "900px",
+      width: "1000px",
     },
     {
       name: "عملیات ها",
@@ -41,7 +41,7 @@ const SendMessagesListTable = ({ data, checkMessageDelivery }) => {
           </div>
         </div>
       ),
-      width: "200px",
+      width: "150px",
     },
   ];
 
@@ -52,7 +52,7 @@ const SendMessagesListTable = ({ data, checkMessageDelivery }) => {
 
   return (
     <>
-      <div className="card-body p-0">
+      <div className="card-body p-4">
         <div className="table-responsive">
           <DataTableExtensions {...tableData}>
             <DataTable

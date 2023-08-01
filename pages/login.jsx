@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { axiosClient } from "class/axiosConfig.js";
 import { ErrorAlert } from "class/AlertManage.js";
 import Loading from "components/loading/loading";
-import Logo from "public/assets/img/irannobatLogo.png";
+import { logo } from "components/imagePath";
 import "public/assets/css/bootstrap.min.css";
 import "public/assets/css/feather.css";
 import "public/assets/css/feathericon.min.css";
@@ -54,23 +54,23 @@ const Login = () => {
   return (
     <>
       {/* Main Wrapper */}
-      <div className="row">
-        {/* Login Banner */}
-        <div className="col-md-6 login-bg">
-          <div className="login-banner">
-            <Image
-              src={Logo}
-              alt="login-banner"
-              unoptimized={true}
-              priority={true}
-            />
+      {!isLoading ? (
+        <Loading />
+      ) : (
+        <div className="row loginBg p-0 d-flex align-items-center">
+          {/* Login Banner */}
+          <div className="col-md-6 login-bg p-0">
+            <div className="login-banner">
+              <Image
+                src={logo}
+                alt="login-banner"
+                unoptimized={true}
+                priority={true}
+              />
+            </div>
           </div>
-        </div>
 
-        <div className="col-md-6 login-wrap-bg">
-          {!isLoading ? (
-            <Loading />
-          ) : (
+          <div className="col-md-6 login-wrap-bg">
             <div className="login-page">
               <div className="login-wrapper">
                 <div className="loginbox">
@@ -137,18 +137,18 @@ const Login = () => {
                       </div>
                     </div>
                     <div className="d-grid">
-                      <button className="btn btn-primary" type="submit">
+                      <button className="btn btn-primary loginBtn" type="submit">
                         ورود
                       </button>
                     </div>
-                    <div className="dont-have">حساب ندارید ؟ </div>
+                    <div className="dont-have">حساب ندارید ؟</div>
                   </form>
                 </div>
               </div>
             </div>
-          )}
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };

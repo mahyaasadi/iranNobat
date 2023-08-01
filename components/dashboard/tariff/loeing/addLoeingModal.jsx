@@ -15,7 +15,9 @@ const AddLoeingModal = ({ data, addLoeing }) => {
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="mb-0">اضافه کردن لوئینگ</h5>
+              <p className="mb-0 text-secondary font-14 fw-bold">
+                لوئینگ جدید
+              </p>
               <button
                 type="button"
                 className="close-btn"

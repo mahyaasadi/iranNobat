@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import Head from "next/head"
+import Head from "next/head";
 import { axiosClient } from "class/axiosConfig.js";
 import Cookies from "js-cookie";
 import FeatherIcon from "feather-icons-react";
@@ -88,7 +88,7 @@ const Discounts = () => {
 
   // Delete Discount
   const deleteDiscount = async (id) => {
-    let result = await QuestionAlert("حذف تخفیف!", "آیا از حذف مطمئن هستید");
+    let result = await QuestionAlert("حذف تخفیف!", "آیا از حذف اطمینان دارید؟");
 
     if (result) {
       let data = {
@@ -154,11 +154,12 @@ const Discounts = () => {
 
   const updateDiscount = (data) => {
     setEditedDiscountList(data);
+    $("#editDiscountModal").modal("show");
   };
 
   return (
     <>
-    <Head>
+      <Head>
         <title>تخفیفات</title>
       </Head>
       <div className="page-wrapper">

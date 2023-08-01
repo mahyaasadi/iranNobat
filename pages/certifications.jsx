@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import Head from 'next/head'
+import Head from "next/head";
 import Cookies from "js-cookie";
 import { axiosClient } from "class/axiosConfig.js";
 import FeatherIcon from "feather-icons-react";
@@ -123,6 +123,7 @@ const Certifications = () => {
 
   const updateCertificate = (data) => {
     setEditedCertificate(data);
+    $("#editCertificateModal").modal("show");
   };
 
   //Delete Certificate
@@ -152,7 +153,7 @@ const Certifications = () => {
 
   return (
     <>
-    <Head>
+      <Head>
         <title>مجوزها</title>
       </Head>
       <div className="page-wrapper">

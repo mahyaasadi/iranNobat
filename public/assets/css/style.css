@@ -1429,6 +1429,10 @@ button.bg-danger:hover {
   opacity: 0.8;
 }
 
+.loginBtn {
+  opacity: 0.99 !important;
+}
+
 .loeing-btn-container {
   background-color: #c7e6f2;
   border: 1px solid #c7e6f2 !important;
@@ -3772,6 +3776,22 @@ html.menu-opened body {
   width: 100%;
 }
 
+.borderl-none {
+  border-left: none !important;
+}
+
+.swal2-title {
+  font-size: 20px !important;
+}
+
+.swal2-html-container {
+  font-size: 17px !important;
+}
+
+.swal2-styled {
+  font-size: 15px !important;
+}
+
 /*-----------------
 	11. Search
 -----------------------*/
@@ -4482,6 +4502,14 @@ html.menu-opened body {
   top: 0;
   left: 0;
   position: fixed;
+  margin-right: 2rem;
+  margin-left: 1rem
+}
+
+.loginBg {
+  background-image: url("/assets/img/loginbg-3.png");
+  height: 100vh;
+  width: 100%;
 }
 
 .login-banner {
@@ -4499,7 +4527,7 @@ html.menu-opened body {
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  padding: 30px 15px;
+  /* padding: 30px 15px; */
 }
 
 .login-wrap-bg {

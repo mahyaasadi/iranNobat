@@ -118,6 +118,7 @@ const CannedMessages = () => {
 
   const updateMessage = (data) => {
     setEditedMessage(data);
+    $("#editMessageModal").modal("show")
   };
 
   // Delete Message

@@ -12,7 +12,9 @@ const EditLoeingModal = ({ data, editLoeing }) => {
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="mb-0">ویرایش لوئینگ</h5>
+              <p className="mb-0 text-secondary font-14 fw-bold">
+                ویرایش لوئینگ
+              </p>
               <button
                 type="button"
                 className="close-btn"

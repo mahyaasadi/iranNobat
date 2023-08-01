@@ -33,7 +33,9 @@ const TariffCalcModal = ({
         <div className="modal-dialog modal-dialog-centered modal-lg">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="mb-0">اعمال محاسبات</h5>
+              <p className="mb-0 text-secondary font-14 fw-bold">
+                اعمال محاسبات
+              </p>
               <button
                 type="button"
                 className="close-btn"

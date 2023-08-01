@@ -25,29 +25,32 @@ const CannedMessagesListTable = ({ data, updateMessage, deleteMessage }) => {
       sortable: true,
 
       cell: (row) => (
-        <div className="actions">
+        <div className="actions d-flex gap-1">
           <Link
-            dir="ltr"
             href="#"
-            className="text-black"
-            onClick={() => updateMessage(row)}
-            data-bs-toggle="modal"
-            data-bs-target="#editMessageModal"
-          >
-            <i className="me-1">
-              <FeatherIcon icon="edit-3" />
-            </i>
-          </Link>
-
-          <Link
-            dir="ltr"
-            href="#"
-            className="text-danger"
+            className="btn btn-sm btn-outline-danger"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="حذف"
             onClick={() => deleteMessage(row._id)}
           >
-            <i className="me-1">
-              <FeatherIcon icon="trash-2" />
-            </i>
+            <FeatherIcon
+              icon="trash-2"
+              style={{ width: "16px", height: "16px" }}
+            />
+          </Link>
+          <Link
+            href="#"
+            className="btn btn-sm btn-outline-secondary btn-border-left"
+            onClick={() => updateMessage(row)}
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="ویرایش"
+          >
+            <FeatherIcon
+              icon="edit-3"
+              style={{ width: "16px", height: "16px" }}
+            />
           </Link>
         </div>
       ),

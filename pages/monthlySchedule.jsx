@@ -497,8 +497,6 @@ const MonthlySchedule = () => {
                 monthYearSeparator="|"
                 value={value}
                 onChange={setValue}
-                // onClick={handleShow}
-                // onPropsChange={}
                 mapDays={({ date }) => {
                   const newDate = new DateObject(date).convert(
                     persian,

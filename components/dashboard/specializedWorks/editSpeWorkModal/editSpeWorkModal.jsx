@@ -11,7 +11,9 @@ const EditSpeWorkModal = ({ data, editSpeWorks }) => {
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content doctor-profile">
           <div className="modal-header">
-            <h5 className="mb-0">ویرایش اطلاعات </h5>
+            <p className="mb-0 text-secondary font-14 fw-bold">
+              ویرایش اطلاعات
+            </p>
             <button
               type="button"
               className="close-btn"
@@ -25,60 +27,63 @@ const EditSpeWorkModal = ({ data, editSpeWorks }) => {
           </div>
           <div className="modal-body">
             <form onSubmit={editSpeWorks}>
-                <div className="form-group ">
-                  <input
-                    type="hidden"
-                    className="form-control floating"
-                    name="EditSpeWorkID"
-                    value={data._id}
-                  />
-                  
-                  <label className="lblAbs font-12">
-                    نام <span className="text-danger">*</span>
-                  </label>
-                  <input
-                    className="form-control floating inputPadding rounded"
-                    type="text"
-                    name="EditSpeWorkName"
-                    defaultValue={data.Name}
-                    key={data.Name}
-                    required
-                  />
-                </div>
-                
-                <div className="form-group ">
-                  <label className="lblAbs font-12">
-                    عنوان <span className="text-danger">*</span>
-                  </label>
-                  <input
-                    className="form-control floating inputPadding rounded"
-                    type="text"
-                    name="EditSpeWorkTitle"
-                    defaultValue={data.Title}
-                    key={data.Title}
-                    required
-                  />
-                </div>
+              <div className="form-group ">
+                <input
+                  type="hidden"
+                  className="form-control floating"
+                  name="EditSpeWorkID"
+                  value={data._id}
+                />
 
-                <div className="form-group ">
-                  <label className="lblAbs font-12">
-                    نام انگلیسی <span className="text-danger">*</span>
-                  </label>
-                  <input
-                    className="form-control floating inputPadding rounded"
-                    type="text"
-                    name="EditSpeWorkEngName"
-                    defaultValue={data.EngName}
-                    key={data.EngName}
-                    required
-                  />
-                </div>
+                <label className="lblAbs font-12">
+                  نام <span className="text-danger">*</span>
+                </label>
+                <input
+                  className="form-control floating inputPadding rounded"
+                  type="text"
+                  name="EditSpeWorkName"
+                  defaultValue={data.Name}
+                  key={data.Name}
+                  required
+                />
+              </div>
 
-                <div className="submit-section">
-                  <button type="submit" className="btn btn-primary btn-save rounded">
-                    ثبت تغییرات
-                  </button>
-                </div>
+              <div className="form-group ">
+                <label className="lblAbs font-12">
+                  عنوان <span className="text-danger">*</span>
+                </label>
+                <input
+                  className="form-control floating inputPadding rounded"
+                  type="text"
+                  name="EditSpeWorkTitle"
+                  defaultValue={data.Title}
+                  key={data.Title}
+                  required
+                />
+              </div>
+
+              <div className="form-group ">
+                <label className="lblAbs font-12">
+                  نام انگلیسی <span className="text-danger">*</span>
+                </label>
+                <input
+                  className="form-control floating inputPadding rounded"
+                  type="text"
+                  name="EditSpeWorkEngName"
+                  defaultValue={data.EngName}
+                  key={data.EngName}
+                  required
+                />
+              </div>
+
+              <div className="submit-section">
+                <button
+                  type="submit"
+                  className="btn btn-primary btn-save rounded"
+                >
+                  ثبت تغییرات
+                </button>
+              </div>
             </form>
           </div>
         </div>

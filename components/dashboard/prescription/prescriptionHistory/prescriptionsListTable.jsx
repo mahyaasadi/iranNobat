@@ -63,22 +63,33 @@ const PrescriptionsListTable = ({ data }) => {
       selector: (row) => row.action,
       sortable: true,
       cell: (row) => (
-        <div className="actions">
+        <div className="actions d-flex gap-1">
+          <Link
+            className="btn btn-sm btn-outline-danger"
+            href="#"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="حذف"
+          >
+            <FeatherIcon
+              icon="trash-2"
+              style={{ width: "16px", height: "16px" }}
+            />
+          </Link>
           <Link
             href={{
               pathname: "/prescription",
               query: { id: row.head_EPRSC_ID, pid: row.NID },
             }}
-            className="text-black"
+            className="btn btn-sm btn-outline-secondary btn-border-left"
+            // data-bs-toggle="tooltip"
+            // data-bs-placement="top"
+            // title="ویرایش نسخه"
           >
-            <i className="me-1">
-              <FeatherIcon icon="edit-3" />
-            </i>
-          </Link>
-          <Link className="text-danger" href="#">
-            <i className="me-1">
-              <FeatherIcon icon="trash-2" />
-            </i>
+            <FeatherIcon
+              icon="edit-3"
+              style={{ width: "16px", height: "16px" }}
+            />
           </Link>
         </div>
       ),

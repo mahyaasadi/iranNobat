@@ -5,9 +5,8 @@ const AddMessageModal = ({
   messageText,
   messageTitle,
   handleMessageTextInput,
-  handleMessageTitleInput
+  handleMessageTitleInput,
 }) => {
-  
   return (
     <div
       className="modal fade contentmodal"
@@ -18,7 +17,9 @@ const AddMessageModal = ({
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content doctor-profile">
           <div className="modal-header">
-            <h3 className="mb-0">اضافه کردن پیام</h3>
+            <p className="mb-0 text-secondary font-14 fw-bold">
+              اضافه کردن پیام
+            </p>
             <button
               type="button"
               className="close-btn"
@@ -32,40 +33,42 @@ const AddMessageModal = ({
           </div>
           <div className="modal-body">
             <form onSubmit={addMessage}>
-                <div className="form-group">
-                  <label className="lblAbs font-12">
-                    عنوان پیام <span className="text-danger">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control floating inputPadding rounded"
-                    id="AddMessageTitle"
-                    value={messageTitle}
-                    onChange={handleMessageTitleInput}
-                    required
-                  />
-                </div>
+              <div className="form-group">
+                <label className="lblAbs font-12">
+                  عنوان پیام <span className="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  className="form-control floating inputPadding rounded"
+                  id="AddMessageTitle"
+                  value={messageTitle}
+                  onChange={handleMessageTitleInput}
+                  required
+                />
+              </div>
 
-                <div className="form-group">
-                  <label className="lblAbs font-12">
-                      پیام <span className="text-danger">*</span>
-                  </label>
-                  <textarea
-                    type="text"
-                    className="form-control floating inputPadding rounded"
-                    id="AddMessageText"
-                    value={messageText}
-                    onChange={handleMessageTextInput}
-                    required
-                  >
-                  </textarea>
-                </div>
+              <div className="form-group">
+                <label className="lblAbs font-12">
+                  پیام <span className="text-danger">*</span>
+                </label>
+                <textarea
+                  type="text"
+                  className="form-control floating inputPadding rounded"
+                  id="AddMessageText"
+                  value={messageText}
+                  onChange={handleMessageTextInput}
+                  required
+                ></textarea>
+              </div>
 
-                <div className="submit-section">
-                  <button type="submit" className="btn btn-primary btn-save rounded">
-                    ثبت تغییرات
-                  </button>
-                </div>
+              <div className="submit-section">
+                <button
+                  type="submit"
+                  className="btn btn-primary btn-save rounded"
+                >
+                  ثبت تغییرات
+                </button>
+              </div>
             </form>
           </div>
         </div>

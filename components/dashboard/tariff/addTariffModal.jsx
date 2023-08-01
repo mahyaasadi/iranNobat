@@ -23,7 +23,9 @@ const AddTariffModal = ({ addService, srvGroupList, FUSelectSrvGroupName }) => {
         <div className="modal-dialog modal-dialog-centered modal-xl">
           <div className="modal-content media-modal-content">
             <div className="modal-header media-modal-header">
-              <h5 className="mb-0">سرویس جدید</h5>
+              <p className="mb-0 text-secondary font-14 fw-bold">
+               سرویس جدید
+              </p>
               <button
                 type="button"
                 className="close-btn"

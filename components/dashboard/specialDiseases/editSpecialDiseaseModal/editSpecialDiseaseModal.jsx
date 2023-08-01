@@ -12,7 +12,7 @@ const EditSpecialDiseaseModal = ({ data, editDisease }) => {
         <div className="modal-content doctor-profile">
           <div className="modal-header">
             <p className="mb-0 text-secondary font-14 fw-bold">
-              ویرایش بیماری خاص
+              ویرایش اطلاعات
             </p>
             <button
               type="button"

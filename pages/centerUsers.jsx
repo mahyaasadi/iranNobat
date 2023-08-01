@@ -48,62 +48,6 @@ const CenterUsers = () => {
       });
   };
 
-  const enableSubmit = (e) => {
-    e.preventDefault();
-
-    let countUpperCase = 0;
-    let countLowerCase = 0;
-    let countDigit = 0;
-
-    let formData = new FormData(document.getElementById("addUserFrm"));
-    const formProps = Object.fromEntries(formData);
-    let passValue = $("#addUserPassword").val();
-    let confpassValue = $("#confirmPassword").val();
-
-    for (let i = 0; i < password.length; i++) {
-      if (!isNaN(password[i] * 1)) {
-        // this means that the character is a digit, so increment countDigit
-        countDigit++;
-      } else {
-        if (password[i] == password[i].toUpperCase()) {
-          // this means that the character is an upper case character, so increment countUpperCase
-          countUpperCase++;
-        }
-        if (password[i] == password[i].toLowerCase()) {
-          // this means that the character is lowercase, so increment countUpperCase
-          countLowerCase++;
-        }
-      }
-    }
-
-    // password length
-    if (password.length < 8) {
-      $("#formValidationText").show();
-      $("#submitUserBtn").attr("disabled", true);
-      return;
-    } else {
-      $("#formValidationText").hide();
-      $("#submitUserBtn").attr("disabled", false);
-    }
-    // lower and uppercase letters included
-    if (countLowerCase == 0 || countUpperCase == 0 || countDigit == 0) {
-      $("#formValidationText1").show();
-      $("#submitUserBtn").attr("disabled", true);
-      return;
-    } else {
-      $("#formValidationText1").hide();
-      $("#submitUserBtn").attr("disabled", false);
-    }
-    // confirm password validation
-    if (passValue !== confpassValue) {
-      $("#formValidationText2").show();
-      $("#submitUserBtn").attr("disabled", true);
-    } else {
-      $("#formValidationText2").hide();
-      $("#submitUserBtn").attr("disabled", false);
-    }
-  };
-
   // Add new user
   const addUser = (e) => {
     e.preventDefault();
@@ -121,9 +65,6 @@ const CenterUsers = () => {
       Tel: formProps.userTel,
       User: formProps.addUserName,
       Password: password,
-      // ConfirmPassword: formProps.confirmPassword,
-      // Admin: formProps.adminRole,
-      // Secretary: formProps.secretaryRole,
     };
 
     console.log(data);
@@ -142,6 +83,66 @@ const CenterUsers = () => {
         console.log(error);
         setIsLoading(false);
       });
+  };
+
+  // user password validation
+  const validatePassword = (e) => {
+    e.preventDefault();
+
+    let formData = new FormData(document.getElementById("addUserFrm"));
+    const formProps = Object.fromEntries(formData);
+    let passValue = $("#addUserPassword").val();
+    let confpassValue = $("#confirmPassword").val();
+
+    // password length
+    if (password.length < 7) {
+      $("#formValidationText1").show();
+      $("#submitUserBtn").attr("disabled", true);
+      return;
+    } else {
+      $("#formValidationText1").hide();
+      $("#submitUserBtn").attr("disabled", false);
+    }
+    // confirm password validation
+    if (passValue !== confpassValue) {
+      $("#formValidationText2").show();
+      $("#submitUserBtn").attr("disabled", true);
+    } else {
+      $("#formValidationText2").hide();
+      $("#submitUserBtn").attr("disabled", false);
+    }
+  };
+
+  // user NID validation
+  const NationalIdValidate = (e) => {
+    e.preventDefault();
+
+    let userNID = $("#userNID").val();
+
+    // uer NID length
+    if (userNID.length < 10) {
+      $("#formValidationText4").show();
+      $("#submitUserBtn").attr("disabled", true);
+    } else {
+      $("#formValidationText4").hide();
+      $("#submitUserBtn").attr("disabled", false);
+    }
+  };
+
+  // user telNumber validation
+  const telNumberValidate = (e) => {
+    e.preventDefault();
+
+    let userTel = $("#userTel").val();
+
+    // user tel length
+    if (userTel.length < 11) {
+      $("#formValidationText3").show();
+      $("#submitUserBtn").attr("disabled", true);
+    } else {
+      $("#formValidationText3").hide();
+      $("#submitUserBtn").attr("disabled", false);
+    }
   };
 
   // change active state
@@ -230,8 +231,6 @@ const CenterUsers = () => {
       NID: formProps.editUserNID,
       Tel: formProps.editUserTel,
       User: formProps.editUserName,
-      // Admin: formProps.editAdminRole,
-      // Secretary: formProps.editSecretaryRole,
       // Password: formProps.editUserPassword,
       // repeat: ? formProps.editRepaetUserPassword
     };
@@ -285,9 +284,10 @@ const CenterUsers = () => {
 
   useEffect(() => {
     getCenterUsers();
-    $("#formValidationText").hide();
     $("#formValidationText1").hide();
     $("#formValidationText2").hide();
+    $("#formValidationText3").hide();
+    $("#formValidationText4").hide();
   }, []);
 
   return (
@@ -359,7 +359,9 @@ const CenterUsers = () => {
           addUser={addUser}
           password={password}
           handlePassword={handlePassword}
-          enableSubmit={enableSubmit}
+          validatePassword={validatePassword}
+          NationalIdValidate={NationalIdValidate}
+          telNumberValidate={telNumberValidate}
         />
         <EditUserModal
           data={editedUserData}

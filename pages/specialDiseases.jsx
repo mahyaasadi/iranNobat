@@ -106,6 +106,7 @@ const SpecialDiseases = () => {
 
   const updateDisease = (data) => {
     setEditedDisease(data);
+    $("#editSpecialDiseaseModal").modal("show");
   };
 
   // delete disease

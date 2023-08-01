@@ -37,7 +37,13 @@ const EditServiceModal = ({
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content doctor-profile">
           <div className="modal-header">
-            <h5 className="mb-0">ویرایش اطلاعات</h5>
+            <div className="loeing-header">
+              <p className="mb-1 text-secondary font-16 fw-bold">
+                ویرایش اطلاعات
+              </p>
+              <p className="ServiceName font-12">کد خدمت {groupDetail._id}</p>
+            </div>
+
             <button
               type="button"
               className="close-btn"

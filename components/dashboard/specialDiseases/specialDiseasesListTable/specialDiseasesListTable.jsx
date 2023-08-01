@@ -25,27 +25,32 @@ const SpecialDiseasesListTable = ({ data, updateDisease, deleteDisease }) => {
       selector: (row) => row.action,
       sortable: true,
       cell: (row) => (
-        <div className="actions">
+        <div className="actions d-flex gap-1">
           <Link
-            className="text-black"
+            className="btn btn-sm btn-outline-danger"
             href="#"
-            data-bs-toggle="modal"
-            data-bs-target="#editSpecialDiseaseModal"
-            onClick={() => updateDisease(row)}
-          >
-            <i className="me-1">
-              <FeatherIcon icon="edit-3" />
-            </i>
-          </Link>
-
-          <Link
-            className="text-danger"
-            href="#"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="حذف"
             onClick={() => deleteDisease(row._id)}
           >
-            <i className="me-1">
-              <FeatherIcon icon="trash-2" />
-            </i>
+            <FeatherIcon
+              icon="trash-2"
+              style={{ width: "16px", height: "16px" }}
+            />
+          </Link>
+          <Link
+            className="btn btn-sm btn-outline-secondary btn-border-left"
+            href="#"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="ویرایش"
+            onClick={() => updateDisease(row)}
+          >
+            <FeatherIcon
+              icon="edit-3"
+              style={{ width: "16px", height: "16px" }}
+            />
           </Link>
         </div>
       ),

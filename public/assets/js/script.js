@@ -115,12 +115,6 @@ Version      : 1.3
       });
   }
 
-  // Tooltip
-
-  // if ($('[data-toggle="tooltip"]').length > 0) {
-  //   $('[data-toggle="tooltip"]').tooltip();
-  // }
-
   // Datatable
 
   if ($(".datatable").length > 0) {
@@ -249,6 +243,12 @@ Version      : 1.3
   //     }
   //   });
 
+  // Tooltip
+
+  // if ($('[data-toggle="tooltip"]').length > 0) {
+  //   $('[data-toggle="tooltip"]').tooltip();
+  // }
+
   //Initialize tooltips
   setTimeout(() => {
     $("[rel='tooltip']").tooltip();
@@ -260,4 +260,5 @@ Version      : 1.3
       return new bootstrap.Tooltip(tooltipTriggerEl);
     });
   }, 500);
+  
 })(jQuery);

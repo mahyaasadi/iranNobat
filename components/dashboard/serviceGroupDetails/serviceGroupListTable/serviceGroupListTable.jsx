@@ -46,27 +46,33 @@ const ServiceGroupListTable = ({ data, updateGroup, deleteSrvGroup }) => {
       selector: (row) => row.action,
       sortable: true,
       cell: (row) => (
-        <div className="actions">
+        <div className="actions d-flex gap-1">
           <Link
-            className="text-danger"
+            className="btn btn-sm btn-outline-danger"
             href="#"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="حذف"
             onClick={() => deleteSrvGroup(row._id)}
           >
-            <i className="">
-              <FeatherIcon icon="trash-2" />
-            </i>
+            <FeatherIcon
+              icon="trash-2"
+              style={{ width: "16px", height: "16px" }}
+            />
           </Link>
 
           <Link
-            className="text-black"
+            className="btn btn-sm btn-outline-secondary btn-border-left"
             href="#"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="ویرایش"
             onClick={() => updateGroup(row)}
-            data-bs-toggle="modal"
-            data-bs-target="#editSrvGroupModal"
           >
-            <i className="">
-              <FeatherIcon icon="edit-3" />
-            </i>
+            <FeatherIcon
+              icon="edit-3"
+              style={{ width: "16px", height: "16px" }}
+            />
           </Link>
         </div>
       ),

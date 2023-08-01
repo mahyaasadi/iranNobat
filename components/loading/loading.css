@@ -1,15 +1,17 @@
 /* main loader */
 .loading {
-  position: fixed;
+  /* position: fixed; */
   z-index: 999;
-  height: 1em;
+  /* height: 1em;
   width: 2em;
-  overflow: show;
+  overflow: show; */
   margin: auto;
-  top: 0;
+  /* top: 0;
   left: 0;
   bottom: 8rem;
-  right: 0;
+  right: 0; */
+  display: block;
+  /* margin-top: 20vh; */
 }
 
 .loading:before {

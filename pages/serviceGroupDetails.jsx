@@ -233,6 +233,7 @@ const ServiceGroupDetails = () => {
 
   const updateServiceGroup = (data) => {
     setEditedGroupDetail(data);
+    $("#editServiceModal").modal("show");
   };
 
   //Edit Group
@@ -288,6 +289,7 @@ const ServiceGroupDetails = () => {
 
   const updateGroup = (data) => {
     setEditedGroupDetail(data);
+    $("#editSrvGroupModal").modal("show");
   };
 
   //delete SrvGroup

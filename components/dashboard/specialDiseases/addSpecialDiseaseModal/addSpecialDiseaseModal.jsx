@@ -12,7 +12,7 @@ const AddSpecialDiseaseModal = ({addDisease}) => {
         <div className="modal-content doctor-profile">
           <div className="modal-header">
             <p className="mb-0 text-secondary font-14 fw-bold">
-              اضافه کردن بیماری خاص
+               اضافه کردن بیماری خاص
             </p>
             <button
               type="button"

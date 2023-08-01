@@ -12,7 +12,7 @@ import "public/assets/plugins/fontawesome/css/fontawesome.min.css";
 import "public/assets/plugins/fontawesome/css/all.min.css";
 import "public/assets/css/font-awesome.min.css";
 import "public/assets/css/style.css";
-import { avatar01, logo, logoSmall } from "components/imagepath";
+import { avatar01, headerLogo, logoSmall } from "components/imagepath";
 import { ErrorAlert } from "class/AlertManage.js";
 
 let user = null;
@@ -83,7 +83,7 @@ const Header = () => {
         {/* Logo */}
         <div className="header-left">
           <Link href="/dashboard" className="logo">
-            <Image src={logo} alt="Logo" unoptimized={true} priority={true} />
+            <Image src={headerLogo} alt="Logo" unoptimized={true} priority={true} />
           </Link>
           <Link href="/dashboard" className="logo logo-small">
             <Image src={logoSmall} alt="Logo" width={30} height={30} />

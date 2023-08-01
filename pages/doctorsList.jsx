@@ -118,13 +118,14 @@ const DoctorsList = () => {
 
   const updatePhysician = (data) => {
     setEditDoctor(data);
+    $("#editPhysicianModal").modal("show");
   };
 
   // Delete Physician
   const deletePhysician = async (id) => {
     let result = await QuestionAlert(
       "حذف پزشک !",
-      "آیا از حذف پزشک مطمئن هستید"
+      "?آیا از حذف پزشک مطمئن هستید"
     );
 
     if (result) {
