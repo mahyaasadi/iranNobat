@@ -22,7 +22,7 @@ export default function Item({ item }) {
 
   return (
     <div>
-      {item.id} {item.name}
+      {item.name}
     </div>
   );
 }

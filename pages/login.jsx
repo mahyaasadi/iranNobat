@@ -54,9 +54,7 @@ const Login = () => {
   return (
     <>
       {/* Main Wrapper */}
-      {isLoading ? (
-        <Loading />
-      ) : (
+      
         <div className="row loginBg p-0 d-flex align-items-center">
           {/* Login Banner */}
           <div className="col-md-6 login-bg p-0">
@@ -69,7 +67,9 @@ const Login = () => {
               />
             </div>
           </div>
-
+          {!isLoading ? (
+        <Loading />
+      ) : (
           <div className="col-md-6 login-wrap-bg">
             <div className="login-page">
               <div className="login-wrapper">
@@ -111,9 +111,8 @@ const Login = () => {
                             />
                             <span
                               onClick={onEyeClick}
-                              className={`fa toggle-password" ${
-                                eye ? "fa-eye-slash" : "fa-eye"
-                              }`}
+                              className={`fa toggle-password" ${eye ? "fa-eye-slash" : "fa-eye"
+                                }`}
                             />
                           </div>
                         )}
@@ -150,8 +149,8 @@ const Login = () => {
               </div>
             </div>
           </div>
-        </div>
       )}
+        </div>
     </>
   );
 };

@@ -9,7 +9,14 @@ import Item from "components/dashboard/permissions/item.js";
 const Permissions = () => {
   const [usersPermissionList, setUsersPermissionList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  resetServerContext();
 
+  const [categories, setCategories] = useState([
+    { id: 1, name: "عدم دسترسی" },
+    { id: 2, name: "دسترسی" },
+  ]);
+
+  let permissionItems = []
   const getUserPermissions = () => {
     let url = "Permision/getAll";
 
@@ -18,28 +25,36 @@ const Permissions = () => {
         setIsLoading(false);
         console.log(response.data);
         setUsersPermissionList(response.data);
+
+        for (let i = 0; i < response.data.length; i++) {
+          const item = response.data[i];
+          let obj = {
+            id: item._id,
+            name: item.Name,
+            category: 1,
+          };
+          permissionItems.push(obj);
+        }
       }
     });
   };
 
+  const [items, setItems] = useState(permissionItems)
+
   useEffect(() => {
     getUserPermissions();
+    console.log("items :", items);
   }, []);
 
-  resetServerContext();
 
-  const [categories, setCategories] = useState([
-    { id: 1, name: "عدم دسترسی" },
-    { id: 2, name: "دسترسی" },
-  ]);
-  const [items, setItems] = useState([
-    { id: 1, name: "item1", category: 1 },
-    { id: 2, name: "item2", category: 1 },
-    { id: 3, name: "item3", category: 1 },
-    { id: 4, name: "item4", category: 2 },
-    { id: 5, name: "item5", category: 2 },
-    { id: 6, name: "item6", category: 2 },
-  ]);
+  // const [items, setItems] = useState([
+  //   { id: 1, name: "item1", category: 1 },
+  //   { id: 2, name: "item2", category: 1 },
+  //   { id: 3, name: "item3", category: 1 },
+  //   { id: 4, name: "item4", category: 1 },
+  //   { id: 5, name: "item5", category: 1 },
+  //   { id: 6, name: "item6", category: 1 },
+  // ]);
 
   const rearangeArr = (arr, sourceIndex, destIndex) => {
     const arrCopy = [...arr];
@@ -66,9 +81,9 @@ const Permissions = () => {
         items.map((item) =>
           item.id === parseInt(result.draggableId)
             ? {
-                ...item,
-                category: parseInt(result.destination.droppableId),
-              }
+              ...item,
+              category: parseInt(result.destination.droppableId),
+            }
             : item
         )
       );

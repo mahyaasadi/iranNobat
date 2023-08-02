@@ -188,19 +188,10 @@ const Sidebar = () => {
                 </ul>
               </li>
 
-              {/* <li className={router.pathname == "/centerUsers" ? "active" : ""}>
-                <Link href="/centerUsers">
-                  <i>
-                    <FeatherIcon icon="users" className="width-15" />
-                  </i>
-                  <span>مدیریت کاربران مرکز</span>
-                </Link>
-              </li> */}
-
               <li className="submenu">
                 <a href="#">
                   <i>
-                    <FeatherIcon icon="clipboard" className="width-15" />
+                    <FeatherIcon icon="users" className="width-15" />
                   </i>{" "}
                   <span>مدیریت کاربران مرکز </span>
                   <span className="menu-arrow"></span>
@@ -213,6 +204,15 @@ const Sidebar = () => {
                   >
                     <Link href="/centerUsers" className="font-12">
                       کاربران مرکز
+                    </Link>
+                  </li>
+                  <li
+                    className={
+                      router.pathname == "/roles" ? "active" : ""
+                    }
+                  >
+                    <Link href="/roles" className="font-12">
+                      اپراتورها
                     </Link>
                   </li>
                   <li
