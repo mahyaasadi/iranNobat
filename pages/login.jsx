@@ -54,7 +54,7 @@ const Login = () => {
   return (
     <>
       {/* Main Wrapper */}
-      {!isLoading ? (
+      {isLoading ? (
         <Loading />
       ) : (
         <div className="row loginBg p-0 d-flex align-items-center">
@@ -137,7 +137,10 @@ const Login = () => {
                       </div>
                     </div>
                     <div className="d-grid">
-                      <button className="btn btn-primary loginBtn" type="submit">
+                      <button
+                        className="btn btn-primary loginBtn"
+                        type="submit"
+                      >
                         ورود
                       </button>
                     </div>

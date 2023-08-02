@@ -188,13 +188,43 @@ const Sidebar = () => {
                 </ul>
               </li>
 
-              <li className={router.pathname == "/centerUsers" ? "active" : ""}>
+              {/* <li className={router.pathname == "/centerUsers" ? "active" : ""}>
                 <Link href="/centerUsers">
                   <i>
                     <FeatherIcon icon="users" className="width-15" />
                   </i>
                   <span>مدیریت کاربران مرکز</span>
                 </Link>
+              </li> */}
+
+              <li className="submenu">
+                <a href="#">
+                  <i>
+                    <FeatherIcon icon="clipboard" className="width-15" />
+                  </i>{" "}
+                  <span>مدیریت کاربران مرکز </span>
+                  <span className="menu-arrow"></span>
+                </a>
+                <ul className="hidden hiddenSidebar">
+                  <li
+                    className={
+                      router.pathname == "/centerUsers" ? "active" : ""
+                    }
+                  >
+                    <Link href="/centerUsers" className="font-12">
+                      کاربران مرکز
+                    </Link>
+                  </li>
+                  <li
+                    className={
+                      router.pathname == "/permissions" ? "active" : ""
+                    }
+                  >
+                    <Link href="/permissions" className="font-12">
+                      دسترسی کاربران
+                    </Link>
+                  </li>
+                </ul>
               </li>
 
               <li className="submenu">

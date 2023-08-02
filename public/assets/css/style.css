@@ -8794,6 +8794,10 @@ ul li .active {
   border-radius: 10px !important;
 }
 
+.rounded-md {
+  border-radius: 20px
+}
+
 .visitBtn {
   border: 1px solid #1b5a90;
   color: #1b5a90;
@@ -9157,62 +9161,6 @@ ul li .active {
   align-items: end;
 }
 
-/* //// */
-/* .roleCheckbox {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-.radio_container {
-  display: flex;
-  margin-top: 12px;
-  justify-content: space-around;
-  align-items: center;
-  background-color: white;
-  width: 100%;
-  height: 40px;
-  border-radius: 32px;
-  box-shadow: inset 0.5px 0.5px 2px 0 rgba(0, 0, 0, 0.15);
-} */
-
-/* input[type="checkbox"] {
-  appearance: none;
-  display: none;
-} */
-
-/* .Checkboxlabel {
-  font-size: 14px;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  background-color: inherit;
-  width: 45%;
-  height: 80%;
-  text-align: center;
-  border-radius: 10%;
-  overflow: hidden;
-  transition: linear 0.3s;
-  color: darkslategray;
-  margin: 0 !important;
-} */
-
-/* input[type="checkbox"]:checked+label {
-  background-color: #e4f0f2;
-  color: #1b5a90;
-  font-weight: 900;
-  transition: 0.3s;
-} */
-
-/* .vertical-line {
-  border-left: 1px solid lightgray;
-  height: 20px;
-} */
-
-/* //// */
 @media (max-width: 768px) {
   .prescript-header {
     display: flex;
@@ -9560,6 +9508,38 @@ tr {
 .rmdp-day:not(.rmdp-disabled):not(.rmdp-day-hidden) span:hover {
   background-color: #1b5a90 !important;
 }
+
+/* ///// draggable permissions ////// */
+#modules {
+  padding: 20px;
+  /* background: #eee; */
+  background: #edf3f5;
+  margin-bottom: 20px;
+  z-index: 1;
+  border-radius: 10px;
+  height: 70vh;
+}
+
+#dropzone {
+  padding: 20px;
+  /* background: #eee; */
+  background: #c8dbe0;
+  min-height: 100px;
+  margin-bottom: 20px;
+  z-index: 0;
+  border-radius: 10px;
+  height: 70vh;
+}
+
+.permissionItem {
+  border-radius: 32px;
+  border: 1px solid #a1b0b5;
+  width: 100%;
+  padding: 8px 10px;
+  box-shadow: 0px 4px 10px #a1b0b5;
+}
+
+/* ///////// */
 
 /* srcollbar */
 @media (max-width: 1200px) {

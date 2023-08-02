@@ -280,14 +280,6 @@ const Prescription = () => {
           prescId,
         };
 
-        if (
-          addPrescriptionitems.length > 0 &&
-          addPrescriptionitems.find(({ srvId }) => srvId.srvCode === SrvCode)
-        ) {
-          ErrorAlert("خطا", "سرویس انتخابی تکراری می باشد");
-          return false;
-        }
-
         let prescData = null;
         if (prescId == 1) {
           prescData = {
@@ -328,6 +320,25 @@ const Prescription = () => {
             },
             srvQty: parseInt($("#QtyInput").val()),
           };
+        }
+
+        console.log("ActiveSrvCode", ActiveSrvCode);
+        // console.log(srvId.srvCode);
+        console.log("SrvCode", SrvCode);
+
+        // let findSrvCode = addPrescriptionitems.find(
+        //   ({ x }) => x.srvId.srvCode === SrvCode
+        // );
+
+        // console.log("findSrvCode", findSrvCode);
+
+        if (
+          addPrescriptionitems.length > 0 &&
+          addPrescriptionitems.find(({ srvId }) => srvId.srvCode === SrvCode)
+        ) {
+          ErrorAlert("خطا", "سرویس انتخابی تکراری می باشد");
+          // console.log(srvId);
+          return false;
         }
 
         // count badge //

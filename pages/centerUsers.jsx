@@ -353,6 +353,7 @@ const CenterUsers = () => {
             </div>
           </div>
         </div>
+
         <AddUserModal
           eye={eye}
           onEyeClick={onEyeClick}
@@ -363,6 +364,7 @@ const CenterUsers = () => {
           NationalIdValidate={NationalIdValidate}
           telNumberValidate={telNumberValidate}
         />
+
         <EditUserModal
           data={editedUserData}
           editUserInfo={editUserInfo}

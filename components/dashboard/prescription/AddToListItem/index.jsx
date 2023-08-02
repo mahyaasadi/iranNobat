@@ -8,7 +8,7 @@ const AddToListItem = ({
   DrugInstruction,
   SetPrescriptionItemsData,
   data,
-  prescId
+  prescId,
 }) => {
   let count = null;
   let Drug = null;
@@ -23,11 +23,9 @@ const AddToListItem = ({
     <div></div>;
   }
 
- //Delete Service from prescItems
+  //Delete Service from prescItems
   const DeleteService = (id, prescId) => {
-    SetPrescriptionItemsData(
-      data.filter((a) => a.SrvCode !== id)
-    );
+    SetPrescriptionItemsData(data.filter((a) => a.SrvCode !== id));
 
     count = $("#srvItemCountId" + prescId).html();
     if (count == "") {
@@ -36,6 +34,10 @@ const AddToListItem = ({
     count = parseInt(count);
     count--;
     $("#srvItemCountId" + prescId).html(count);
+
+    // if (count === 0) {
+    //   $("#srvItemCountId" + prescId).hide();
+    // }
   };
 
   return (
