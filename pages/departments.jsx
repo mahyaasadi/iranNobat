@@ -109,8 +109,8 @@ const Departments = () => {
                 <div className="box-container">
                   <DepartmentsList departmentsData={departmentsData} />
                 </div>
-                <div className="submitDepartments-btn">
-                  <button className="btn btn-primary submitDepartments">
+                <div className="submitDepartments-btn d-flex justify-center w-100">
+                  <button className="btn btn-primary submitDepartments rounded col-lg-4 col-7">
                     ثبت
                   </button>
                 </div>

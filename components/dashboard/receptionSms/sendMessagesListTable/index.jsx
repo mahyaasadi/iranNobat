@@ -33,7 +33,7 @@ const SendMessagesListTable = ({ data, checkMessageDelivery }) => {
       cell: (row) => (
         <div className="actions">
           <div
-            className="btn btn-sm btn-outline-primary d-flex gap-1 align-items-center"
+            className="btn btn-sm btn-outline-secondary d-flex gap-2 align-items-center"
             onClick={() => checkMessageDelivery(row.SendCode)}
           >
             <i className="fa fa-eye"></i>

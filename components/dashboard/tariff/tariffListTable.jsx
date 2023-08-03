@@ -109,27 +109,21 @@ const TariffListTable = ({
             {/* Loeing */}
             <Link
               href="#"
-              className="m-0 p-0 borderl-none"
+              className="m-0 btn btn-sm btn-outline-secondary btn-border-left"
               data-bs-toggle="modal"
               data-bs-target="#loeingModal"
-            >
-              <button
-                type="button"
-                className="btn btn-sm btn-outline-secondary"
-                onClick={() =>
+              onClick={() =>
                   SetLoeingModalData(row["Tamin-Loeing"], row._id, row.Service)
                 }
-              >
-                <div className=" ">
-                  <p className="loeing-text">
+            >
+                    <p className="loeing-text">
                     {" "}
                     لوئینگ تامین{" "}
                     <span id={"loeingCount" + row._id}>
                       {row["Tamin-Loeing"] ? row["Tamin-Loeing"].length : ""}
                     </span>
                   </p>
-                </div>
-              </button>
+          
             </Link>
           </div>
         ),

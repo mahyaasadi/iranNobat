@@ -81,6 +81,7 @@ const DoctorsList = () => {
     let url = "CenterProfile/UpdatePhysician";
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
+
     let Data = {
       CenterID: CenterID,
       PhysicianID: formProps.EditDoctorID,
@@ -153,7 +154,6 @@ const DoctorsList = () => {
       </Head>
       <div className="page-wrapper">
         <div className="content container-fluid">
-          {/* <!-- Page Header --> */}
           <div className="page-header">
             <div className="row align-items-center">
               <div className="col-md-12 d-flex justify-content-end">
@@ -171,7 +171,6 @@ const DoctorsList = () => {
               </div>
             </div>
           </div>
-          {/* <!-- /Page Header --> */}
 
           {/* <!-- Doctors List --> */}
           <div className="row">

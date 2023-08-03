@@ -206,24 +206,20 @@ const Sidebar = () => {
                       کاربران مرکز
                     </Link>
                   </li>
-                  <li
-                    className={
-                      router.pathname == "/roles" ? "active" : ""
-                    }
-                  >
+                  <li className={router.pathname == "/roles" ? "active" : ""}>
                     <Link href="/roles" className="font-12">
-                      اپراتورها
+                      تنظیمات دسترسی
                     </Link>
                   </li>
-                  <li
+                  {/* <li
                     className={
                       router.pathname == "/permissions" ? "active" : ""
                     }
                   >
                     <Link href="/permissions" className="font-12">
-                      دسترسی کاربران
+                      دسترسی نقش ها
                     </Link>
-                  </li>
+                  </li> */}
                 </ul>
               </li>
 

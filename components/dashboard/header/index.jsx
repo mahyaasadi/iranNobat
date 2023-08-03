@@ -156,7 +156,7 @@ const Header = () => {
                   />
                 </div>
                 <div className="user-text">
-                  <h6 id="userName"></h6>
+                  <p className="mb-1" id="userName"></p>
                   <p id="role" className="text-muted mb-0"></p>
                 </div>
               </div>

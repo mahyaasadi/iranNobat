@@ -1,30 +1,40 @@
 import { useState, useEffect } from "react";
 import { resetServerContext } from "react-beautiful-dnd";
 import { axiosClient } from "class/axiosConfig.js";
+import { useRouter } from "next/router";
 import Loading from "components/loading/loading";
 import ReactDOM from "react-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Item from "components/dashboard/permissions/item.js";
 
 const Permissions = () => {
+  resetServerContext();
+
+  const Router = useRouter();
+  const permissionID = Router.query.id;
+  // console.log("permissionID :", permissionID);
+
   const [usersPermissionList, setUsersPermissionList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  resetServerContext();
 
   const [categories, setCategories] = useState([
     { id: 1, name: "عدم دسترسی" },
     { id: 2, name: "دسترسی" },
   ]);
 
-  let permissionItems = []
+  // get all permissions
+  let permissionItems = [];
   const getUserPermissions = () => {
     let url = "Permision/getAll";
 
     axiosClient.get(url).then(function (response) {
       if (response.data) {
         setIsLoading(false);
-        console.log(response.data);
-        setUsersPermissionList(response.data);
+        console.log("all permissions :", response.data);
+
+        if (!permissionID) {
+          setUsersPermissionList(response.data);
+        }
 
         for (let i = 0; i < response.data.length; i++) {
           const item = response.data[i];
@@ -39,35 +49,23 @@ const Permissions = () => {
     });
   };
 
-  const [items, setItems] = useState(permissionItems)
+  const [items, setItems] = useState(permissionItems);
 
   useEffect(() => {
     getUserPermissions();
     console.log("items :", items);
   }, []);
 
-
-  // const [items, setItems] = useState([
-  //   { id: 1, name: "item1", category: 1 },
-  //   { id: 2, name: "item2", category: 1 },
-  //   { id: 3, name: "item3", category: 1 },
-  //   { id: 4, name: "item4", category: 1 },
-  //   { id: 5, name: "item5", category: 1 },
-  //   { id: 6, name: "item6", category: 1 },
-  // ]);
-
   const rearangeArr = (arr, sourceIndex, destIndex) => {
     const arrCopy = [...arr];
     const [removed] = arrCopy.splice(sourceIndex, 1);
     arrCopy.splice(destIndex, 0, removed);
-
     return arrCopy;
   };
 
   const onDragEnd = (result) => {
-    console.log(result);
+    console.log("result", result);
     const { source, destination } = result;
-
     if (!destination) {
       return;
     }
@@ -79,11 +77,11 @@ const Permissions = () => {
       // find the source in items array and change with destination droppable id
       setItems((items) =>
         items.map((item) =>
-          item.id === parseInt(result.draggableId)
+          item.id === result.draggableId
             ? {
-              ...item,
-              category: parseInt(result.destination.droppableId),
-            }
+                ...item,
+                category: parseInt(result.destination.droppableId),
+              }
             : item
         )
       );
@@ -102,14 +100,22 @@ const Permissions = () => {
               <div>
                 <Droppable droppableId="Categories" type="droppableItem">
                   {(provided) => (
-                    <div ref={provided.innerRef} className="d-flex gap-2">
+                    <div
+                      ref={provided.innerRef}
+                      className="permissionCardsContainer"
+                    >
                       {categories.map((category, index) => (
-                        <div className="col-6">
+                        <div className="col-12 col-md-6">
                           <Droppable droppableId={category.id.toString()}>
                             {(provided) => (
                               <div ref={provided.innerRef}>
-                                <ul className="list-unstyled border p-3 mb-3 rounded-md">
-                                  <h6 className="h6 mb-3">{category.name}</h6>
+                                <ul
+                                  className="list-unstyled p-4 mb-3"
+                                  id="dropzone"
+                                >
+                                  <p className="mb-4 text-secondary font-16 fw-bold">
+                                    {category.name}
+                                  </p>
                                   {items
                                     .filter(
                                       (item) => item.category === category.id
@@ -126,7 +132,7 @@ const Permissions = () => {
                                             {...provided.draggableProps}
                                             {...provided.dragHandleProps}
                                           >
-                                            <li className="mb-3 d-flex align-items-center justify-content-between border p-3">
+                                            <li className="mb-3 d-flex align-items-center justify-content-between border permissionItem">
                                               <Item item={item} />
                                             </li>
                                           </div>
@@ -148,7 +154,6 @@ const Permissions = () => {
               </div>
             </DragDropContext>
           </div>
-          {/*  */}
         </div>
       </div>
     </>
