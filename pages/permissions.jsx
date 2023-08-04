@@ -17,13 +17,17 @@ const Permissions = () => {
   const [usersPermissionList, setUsersPermissionList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const [accessList, setAccessList] = useState([]);
+  const [unAccessList, setUnAccessList] = useState([]);
+
   const [categories, setCategories] = useState([
     { id: 1, name: "عدم دسترسی" },
     { id: 2, name: "دسترسی" },
   ]);
 
-  // get all permissions
   let permissionItems = [];
+
+  // get all permissions
   const getUserPermissions = () => {
     let url = "Permision/getAll";
 
@@ -49,12 +53,38 @@ const Permissions = () => {
     });
   };
 
-  const [items, setItems] = useState(permissionItems);
+  // get selected Role
+  const getSelectedRole = () => {
+    let url = `/Roles/getOne/${permissionID}`;
+    setIsLoading(true);
 
-  useEffect(() => {
-    getUserPermissions();
-    console.log("items :", items);
-  }, []);
+    axiosClient
+      .get(url)
+      .then((response) => {
+        console.log("Selected Role: ", response.data);
+        // if (response.data.PermissionsID.length < 1) {
+        //   getUserPermissions()
+        // }
+        // else {
+        // for (let i = 0; i < response.data.PermissionsID.length; i++) {
+        //   const item = response.data.PermissionsID[i];
+        //   let obj = {
+        //     id: item._id,
+        //     name: item.Name,
+        //     category: 1,
+        //   };
+        //   permissionItems.push(obj);
+        // }
+        // }
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
+  };
+
+  const [items, setItems] = useState(permissionItems);
 
   const rearangeArr = (arr, sourceIndex, destIndex) => {
     const arrCopy = [...arr];
@@ -79,9 +109,9 @@ const Permissions = () => {
         items.map((item) =>
           item.id === result.draggableId
             ? {
-                ...item,
-                category: parseInt(result.destination.droppableId),
-              }
+              ...item,
+              category: parseInt(result.destination.droppableId),
+            }
             : item
         )
       );
@@ -89,7 +119,34 @@ const Permissions = () => {
       // rearange the array if it is in the same category
       setItems(rearangeArr(items, source.index, destination.index));
     }
+
+    // let transferedItems = items.findIndex((item) => item.category === result.destination.droppableId);
+    // console.log("transferedItems", transferedItems);
+
+    // console.log("destination", destination);
+    // let destItems = items.filter((item) => item.id === 2)
   };
+
+  const getCategoryList = () => {
+    categories.map((category, index) => (
+      category.id === 2 ?
+        setAccessList(items.filter((item) => item.category === 2))
+        :
+        setUnAccessList(items.filter((item) => item.category === 1))
+    ))
+
+    console.log("accessList", accessList);
+    console.log("unAccessList", unAccessList);
+  }
+
+  useEffect(() => {
+    getUserPermissions();
+    console.log("items :", items);
+  }, []);
+
+  useEffect(() => {
+    getCategoryList();
+  }, [items])
 
   return (
     <>

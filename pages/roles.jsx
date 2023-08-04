@@ -34,23 +34,6 @@ const Roles = () => {
       });
   };
 
-  // get selected Role
-  const getSelectedRole = (id) => {
-    let url = `/Roles/getOne/${id}`;
-    setIsLoading(true);
-
-    axiosClient
-      .get(url)
-      .then((response) => {
-        console.log("Selected Role: ", response.data);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setIsLoading(false);
-      });
-  };
-
   // Add New Role
   const addRole = (e) => {
     e.preventDefault();

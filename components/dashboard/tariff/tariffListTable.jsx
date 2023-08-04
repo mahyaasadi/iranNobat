@@ -113,17 +113,16 @@ const TariffListTable = ({
               data-bs-toggle="modal"
               data-bs-target="#loeingModal"
               onClick={() =>
-                  SetLoeingModalData(row["Tamin-Loeing"], row._id, row.Service)
-                }
+                SetLoeingModalData(row["Tamin-Loeing"], row._id, row.Service)
+              }
             >
-                    <p className="loeing-text">
-                    {" "}
-                    لوئینگ تامین{" "}
-                    <span id={"loeingCount" + row._id}>
-                      {row["Tamin-Loeing"] ? row["Tamin-Loeing"].length : ""}
-                    </span>
-                  </p>
-          
+              <p className="loeing-text">
+                {" "}
+                لوئینگ تامین{" "}
+                <span id={"loeingCount" + row._id}>
+                  {row["Tamin-Loeing"] ? row["Tamin-Loeing"].length : ""}
+                </span>
+              </p>
             </Link>
           </div>
         ),
@@ -185,7 +184,7 @@ const TariffListTable = ({
             </Link>
           </div>
         ),
-        width: "200px",
+        width: "150px",
       },
     ];
   }

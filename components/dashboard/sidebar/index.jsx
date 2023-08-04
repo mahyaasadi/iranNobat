@@ -211,15 +211,6 @@ const Sidebar = () => {
                       تنظیمات دسترسی
                     </Link>
                   </li>
-                  {/* <li
-                    className={
-                      router.pathname == "/permissions" ? "active" : ""
-                    }
-                  >
-                    <Link href="/permissions" className="font-12">
-                      دسترسی نقش ها
-                    </Link>
-                  </li> */}
                 </ul>
               </li>
 
