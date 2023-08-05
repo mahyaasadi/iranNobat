@@ -67,7 +67,7 @@ const Login = () => {
             />
           </div>
         </div>
-        {!isLoading ? (
+        {isLoading ? (
           <Loading />
         ) : (
           <div className="col-md-6 login-wrap-bg">

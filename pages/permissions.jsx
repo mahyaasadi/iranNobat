@@ -7,7 +7,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { resetServerContext } from "react-beautiful-dnd";
 import { axiosClient } from "class/axiosConfig.js";
 import Loading from "components/loading/loading";
-// import Item from "components/dashboard/permissions/item.js";
+import { ErrorAlert, SuccessAlert, WarningAlert } from "class/AlertManage.js";
 
 let CenterID = Cookies.get("CenterID");
 
@@ -127,9 +127,9 @@ const Permissions = () => {
         items.map((item) =>
           item.id === result.draggableId
             ? {
-                ...item,
-                category: parseInt(result.destination.droppableId),
-              }
+              ...item,
+              category: parseInt(result.destination.droppableId),
+            }
             : item
         )
       );
@@ -161,6 +161,7 @@ const Permissions = () => {
       .post(url, data)
       .then((response) => {
         console.log(response.data);
+        SuccessAlert("موفق", "سطح دسترسی با موفقیت ثبت گردید!")
         setIsLoading(false);
       })
       .catch((error) => {
@@ -170,7 +171,6 @@ const Permissions = () => {
   };
 
   useEffect(() => {
-    // getUserPermissions();
     if (Router.isReady) {
       const roleID = Router.query.id;
       if (!roleID) return null;
@@ -246,9 +246,9 @@ const Permissions = () => {
                                                     //   "Dep" + departmentData._id
                                                     // }
                                                     className="checkbox-input"
-                                                    // defaultChecked={
-                                                    //   departmentData.Checked
-                                                    // }
+                                                  // defaultChecked={
+                                                  //   departmentData.Checked
+                                                  // }
                                                   />
                                                   <div className="checkbox-tile permissionCheckboxTile permissionItem">
                                                     <span className="checkbox-icon"></span>

@@ -10,7 +10,6 @@ import UsersListTable from "components/dashboard/centerUsers/usersListTable/user
 import AddUserModal from "components/dashboard/centerUsers/addUserModal/addUserModal";
 import EditUserModal from "components/dashboard/centerUsers/editUserModal/editUserModal";
 import ChatPermissionModal from "components/dashboard/centerUsers/chatPermissionModal/chatPermissionModal";
-import UserPermissionModal from "components/dashboard/centerUsers/userPermissionModal/userPermissionModal";
 import AssignRoleModal from "components/dashboard/centerUsers/assignRoleModal/assignRoleModal";
 
 let CenterID = Cookies.get("CenterID");
@@ -86,64 +85,6 @@ const CenterUsers = () => {
         console.log(error);
         setIsLoading(false);
       });
-  };
-
-  // user password validation
-  const validatePassword = (e) => {
-    e.preventDefault();
-
-    let formData = new FormData(document.getElementById("addUserFrm"));
-    const formProps = Object.fromEntries(formData);
-    let passValue = $("#addUserPassword").val();
-    let confpassValue = $("#confirmPassword").val();
-
-    // password length
-    if (password.length < 7) {
-      $("#formValidationText1").show();
-      $("#submitUserBtn").attr("disabled", true);
-      return;
-    } else {
-      $("#formValidationText1").hide();
-      $("#submitUserBtn").attr("disabled", false);
-    }
-    // confirm password validation
-    if (passValue !== confpassValue) {
-      $("#formValidationText2").show();
-      $("#submitUserBtn").attr("disabled", true);
-    } else {
-      $("#formValidationText2").hide();
-      $("#submitUserBtn").attr("disabled", false);
-    }
-  };
-
-  // user NID validation
-  const NationalIdValidate = (e) => {
-    e.preventDefault();
-    let userNID = $("#userNID").val();
-
-    // uer NID length
-    if (userNID.length < 10) {
-      $("#formValidationText4").show();
-      $("#submitUserBtn").attr("disabled", true);
-    } else {
-      $("#formValidationText4").hide();
-      $("#submitUserBtn").attr("disabled", false);
-    }
-  };
-
-  // user telNumber validation
-  const telNumberValidate = (e) => {
-    e.preventDefault();
-    let userTel = $("#userTel").val();
-
-    // user tel length
-    if (userTel.length < 11) {
-      $("#formValidationText3").show();
-      $("#submitUserBtn").attr("disabled", true);
-    } else {
-      $("#formValidationText3").hide();
-      $("#submitUserBtn").attr("disabled", false);
-    }
   };
 
   // change active state
@@ -232,8 +173,6 @@ const CenterUsers = () => {
       NID: formProps.editUserNID,
       Tel: formProps.editUserTel,
       User: formProps.editUserName,
-      // Password: formProps.editUserPassword,
-      // repeat: ? formProps.editRepaetUserPassword
     };
 
     axiosClient
@@ -306,6 +245,8 @@ const CenterUsers = () => {
       .put(url, data)
       .then((response) => {
         console.log(response.data);
+        SuccessAlert("موفق", "نقش کاربر با موفقیت ثبت گردید!");
+        $("#assignRoleToUserModal").modal("hide");
       })
       .catch((error) => {
         console.log(error);
@@ -392,9 +333,9 @@ const CenterUsers = () => {
           addUser={addUser}
           password={password}
           handlePassword={handlePassword}
-          validatePassword={validatePassword}
-          NationalIdValidate={NationalIdValidate}
-          telNumberValidate={telNumberValidate}
+          // validatePassword={validatePassword}
+          // NationalIdValidate={NationalIdValidate}
+          // telNumberValidate={telNumberValidate}
         />
 
         <EditUserModal
@@ -405,8 +346,6 @@ const CenterUsers = () => {
         />
 
         <ChatPermissionModal />
-
-        <UserPermissionModal />
 
         <AssignRoleModal
           FUSelectUserRole={FUSelectUserRole}

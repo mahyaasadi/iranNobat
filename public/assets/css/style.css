@@ -4380,6 +4380,19 @@ html.menu-opened body {
   }
 }
 
+
+.permissionCheckboxTile {
+  border-radius: 10px !important;
+  min-height: 2rem !important;
+  width: 25vw !important;
+
+  &:before {
+    width: 1rem !important;
+    height: 1rem !important;
+    border: 1px solid #b5bfd9 !important;
+  }
+}
+
 .checkbox-icon {
   transition: 0.375s ease;
   color: #494949;
@@ -4400,13 +4413,6 @@ html.menu-opened body {
   display: flex;
   justify-content: center;
 }
-
-.permissionCheckboxTile {
-  border-radius: 10px !important;
-  min-height: 2rem !important;
-  width: 25vw !important;
-}
-
 
 /*-----------------
 	13. Error
@@ -9571,9 +9577,7 @@ tr {
 }
 
 .permissionItem {
-  border-radius: 32px;
   border: 1px solid #a1b0b5;
-  width: 100%;
   padding: 8px 10px;
   box-shadow: 0px 1px 3px #a1b0b5;
 }

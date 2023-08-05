@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import { axiosClient } from "class/axiosConfig.js";
 import SelectField from "components/commonComponents/selectfield";
 import Loading from "components/loading/loading";
+import { ErrorAlert, SuccessAlert, WarningAlert } from "class/AlertManage.js";
 
 let CenterID = Cookies.get("CenterID");
 

@@ -6,10 +6,69 @@ const AddUserModal = ({
   addUser,
   password,
   handlePassword,
-  validatePassword,
-  NationalIdValidate,
-  telNumberValidate,
+  // validatePassword,
+  // NationalIdValidate,
+  // telNumberValidate,
 }) => {
+
+  // user password validation
+  const validatePassword = (e) => {
+    e.preventDefault();
+
+    let formData = new FormData(document.getElementById("addUserFrm"));
+    const formProps = Object.fromEntries(formData);
+    let passValue = $("#addUserPassword").val();
+    let confpassValue = $("#confirmPassword").val();
+
+    // password length
+    if (password.length < 7) {
+      $("#formValidationText1").show();
+      $("#submitUserBtn").attr("disabled", true);
+      return;
+    } else {
+      $("#formValidationText1").hide();
+      $("#submitUserBtn").attr("disabled", false);
+    }
+    // confirm password validation
+    if (passValue !== confpassValue) {
+      $("#formValidationText2").show();
+      $("#submitUserBtn").attr("disabled", true);
+    } else {
+      $("#formValidationText2").hide();
+      $("#submitUserBtn").attr("disabled", false);
+    }
+  };
+
+  // user NID validation
+  const NationalIdValidate = (e) => {
+    e.preventDefault();
+    let userNID = $("#userNID").val();
+
+    // uer NID length
+    if (userNID.length < 10) {
+      $("#formValidationText4").show();
+      $("#submitUserBtn").attr("disabled", true);
+    } else {
+      $("#formValidationText4").hide();
+      $("#submitUserBtn").attr("disabled", false);
+    }
+  };
+
+  // user telNumber validation
+  const telNumberValidate = (e) => {
+    e.preventDefault();
+    let userTel = $("#userTel").val();
+
+    // user tel length
+    if (userTel.length < 11) {
+      $("#formValidationText3").show();
+      $("#submitUserBtn").attr("disabled", true);
+    } else {
+      $("#formValidationText3").hide();
+      $("#submitUserBtn").attr("disabled", false);
+    }
+  };
+
   return (
     <div
       className="modal fade contentmodal"
