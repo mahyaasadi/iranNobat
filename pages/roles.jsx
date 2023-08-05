@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Head from "next/head";
 import Cookies from "js-cookie";
 import { axiosClient } from "class/axiosConfig.js";
 import FeatherIcon from "feather-icons-react";
@@ -147,6 +148,9 @@ const Roles = () => {
 
   return (
     <>
+      <Head>
+        <title>تنظیمات دسترسی</title>
+      </Head>
       <div className="page-wrapper">
         <div className="content container-fluid">
           <div className="page-header">
@@ -190,7 +194,6 @@ const Roles = () => {
                   data={rolesList}
                   deleteRole={deleteRole}
                   updateRole={updateRole}
-                  getSelectedRole={getSelectedRole}
                 />
               </div>
 

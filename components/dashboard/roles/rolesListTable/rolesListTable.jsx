@@ -6,7 +6,7 @@ import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import { tableCustomStyles } from "components/commonComponents/customTableStyle/tableStyle.jsx";
 
-const RolesListTable = ({ data, updateRole, deleteRole, getSelectedRole }) => {
+const RolesListTable = ({ data, updateRole, deleteRole }) => {
   const columns = [
     {
       name: "عنوان",
@@ -50,13 +50,12 @@ const RolesListTable = ({ data, updateRole, deleteRole, getSelectedRole }) => {
           <Link
             href={{
               pathname: "/permissions",
-              query: { id: row._id },
+              query: { id: row._id, name: row.Name },
             }}
             className="btn btn-sm btn-outline-secondary btn-border-left"
             // data-bs-toggle="tooltip"
             // data-bs-placement="top"
             // title=""
-            // onClick={() => getSelectedRole(row._id)}
           >
             <FeatherIcon
               style={{ width: "16px", height: "16px" }}

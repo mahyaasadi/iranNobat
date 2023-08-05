@@ -54,27 +54,27 @@ const Login = () => {
   return (
     <>
       {/* Main Wrapper */}
-      
-        <div className="row loginBg p-0 d-flex align-items-center">
-          {/* Login Banner */}
-          <div className="col-md-6 login-bg p-0">
-            <div className="login-banner">
-              <Image
-                src={logo}
-                alt="login-banner"
-                unoptimized={true}
-                priority={true}
-              />
-            </div>
+
+      <div className="row loginBg p-0 d-flex align-items-center">
+        {/* Login Banner */}
+        <div className="col-md-6 login-bg p-0">
+          <div className="login-banner">
+            <Image
+              src={logo}
+              alt="login-banner"
+              unoptimized={true}
+              priority={true}
+            />
           </div>
-          {!isLoading ? (
-        <Loading />
-      ) : (
+        </div>
+        {!isLoading ? (
+          <Loading />
+        ) : (
           <div className="col-md-6 login-wrap-bg">
             <div className="login-page">
               <div className="login-wrapper">
                 <div className="loginbox">
-                  <h3>ورود</h3>
+                  <h3 className="loginTitle">ورود</h3>
                   <p className="account-subtitle">دسترسی به داشبورد</p>
 
                   <form onSubmit={handleSubmit}>
@@ -111,8 +111,9 @@ const Login = () => {
                             />
                             <span
                               onClick={onEyeClick}
-                              className={`fa toggle-password" ${eye ? "fa-eye-slash" : "fa-eye"
-                                }`}
+                              className={`fa toggle-password" ${
+                                eye ? "fa-eye-slash" : "fa-eye"
+                              }`}
                             />
                           </div>
                         )}
@@ -143,14 +144,14 @@ const Login = () => {
                         ورود
                       </button>
                     </div>
-                    <div className="dont-have">حساب ندارید ؟</div>
+                    {/* <div className="dont-have">حساب ندارید ؟</div> */}
                   </form>
                 </div>
               </div>
             </div>
           </div>
-      )}
-        </div>
+        )}
+      </div>
     </>
   );
 };

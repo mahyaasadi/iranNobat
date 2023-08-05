@@ -27,7 +27,6 @@ const ChatPermissionModal = () => {
     axiosClient
       .get(`Center/getSpecialDiseases/${CenterID}`)
       .then(function (response) {
-        console.log(response.data);
         setDiseasesList(response.data);
         setIsLoading(false);
       });

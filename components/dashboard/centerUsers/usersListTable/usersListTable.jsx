@@ -13,6 +13,8 @@ const UsersListTable = ({
   deActivateUser,
   chatPermissionOpenModal,
   userPermissionOpenModal,
+  assignRoleModal,
+  assignRole,
 }) => {
   const columns = [
     {
@@ -111,8 +113,9 @@ const UsersListTable = ({
             href="#"
             data-bs-toggle="tooltip"
             data-bs-placement="top"
-            title={"دسترسی کاربر : " + row.FullName}
-            onClick={userPermissionOpenModal}
+            title="نقش کاربر"
+            // data-bs-toggle="assignRoleToUserModal"
+            onClick={() => assignRoleModal(row._id)}
           >
             <FeatherIcon
               style={{ width: "16px", height: "16px" }}

@@ -1,24 +1,22 @@
 import { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
+import Head from "next/head";
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { resetServerContext } from "react-beautiful-dnd";
 import { axiosClient } from "class/axiosConfig.js";
-import { useRouter } from "next/router";
 import Loading from "components/loading/loading";
-import ReactDOM from "react-dom";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import Item from "components/dashboard/permissions/item.js";
+// import Item from "components/dashboard/permissions/item.js";
+
+let CenterID = Cookies.get("CenterID");
 
 const Permissions = () => {
   resetServerContext();
-
   const Router = useRouter();
-  const permissionID = Router.query.id;
-  // console.log("permissionID :", permissionID);
 
   const [usersPermissionList, setUsersPermissionList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  const [accessList, setAccessList] = useState([]);
-  const [unAccessList, setUnAccessList] = useState([]);
 
   const [categories, setCategories] = useState([
     { id: 1, name: "عدم دسترسی" },
@@ -28,55 +26,36 @@ const Permissions = () => {
   let permissionItems = [];
 
   // get all permissions
-  const getUserPermissions = () => {
+  const getUserPermissions = (arr) => {
     let url = "Permision/getAll";
-
-    axiosClient.get(url).then(function (response) {
-      if (response.data) {
-        setIsLoading(false);
-        console.log("all permissions :", response.data);
-
-        if (!permissionID) {
-          setUsersPermissionList(response.data);
-        }
-
-        for (let i = 0; i < response.data.length; i++) {
-          const item = response.data[i];
-          let obj = {
-            id: item._id,
-            name: item.Name,
-            category: 1,
-          };
-          permissionItems.push(obj);
-        }
-      }
-    });
-  };
-
-  // get selected Role
-  const getSelectedRole = () => {
-    let url = `/Roles/getOne/${permissionID}`;
     setIsLoading(true);
 
     axiosClient
       .get(url)
-      .then((response) => {
-        console.log("Selected Role: ", response.data);
-        // if (response.data.PermissionsID.length < 1) {
-        //   getUserPermissions()
-        // }
-        // else {
-        // for (let i = 0; i < response.data.PermissionsID.length; i++) {
-        //   const item = response.data.PermissionsID[i];
-        //   let obj = {
-        //     id: item._id,
-        //     name: item.Name,
-        //     category: 1,
-        //   };
-        //   permissionItems.push(obj);
-        // }
-        // }
-        setIsLoading(false);
+      .then(async function (response) {
+        if (response.data) {
+          setIsLoading(false);
+
+          let allDenay = response.data;
+          if (arr) {
+            await arr.map((per) => {
+              allDenay = allDenay.filter((x) => x._id !== per.PermisionID._id);
+              setUsersPermissionList(allDenay);
+            });
+          }
+
+          for (let i = 0; i < allDenay.length; i++) {
+            const item = allDenay[i];
+            let obj = {
+              id: item._id,
+              name: item.Name,
+              category: 1,
+            };
+            permissionItems.push(obj);
+          }
+          console.log(permissionItems);
+          setItems(permissionItems);
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -84,7 +63,46 @@ const Permissions = () => {
       });
   };
 
-  const [items, setItems] = useState(permissionItems);
+  // get selected Role
+  const getSelectedRole = () => {
+    let roleID = Router.query.id;
+    let url = `Roles/getOne/${roleID}`;
+    setIsLoading(true);
+    if (roleID) {
+      axiosClient
+        .get(url)
+        .then((response) => {
+          console.log("Selected Role: ", response.data);
+
+          getUserPermissions(response.data.PermisionsID);
+          console.log(
+            "PermisionsID.length :",
+            response.data.PermisionsID.length
+          );
+
+          for (let i = 0; i < response.data.PermisionsID.length; i++) {
+            const item = response.data.PermisionsID[i];
+
+            let accessObj = {
+              id: item.PermisionID._id,
+              name: item.PermisionID.Name,
+              category: 2,
+            };
+
+            permissionItems.push(accessObj);
+            setItems(permissionItems);
+          }
+
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          setIsLoading(false);
+        });
+    }
+  };
+
+  const [items, setItems] = useState([]);
 
   const rearangeArr = (arr, sourceIndex, destIndex) => {
     const arrCopy = [...arr];
@@ -109,9 +127,9 @@ const Permissions = () => {
         items.map((item) =>
           item.id === result.draggableId
             ? {
-              ...item,
-              category: parseInt(result.destination.droppableId),
-            }
+                ...item,
+                category: parseInt(result.destination.droppableId),
+              }
             : item
         )
       );
@@ -119,97 +137,160 @@ const Permissions = () => {
       // rearange the array if it is in the same category
       setItems(rearangeArr(items, source.index, destination.index));
     }
-
-    // let transferedItems = items.findIndex((item) => item.category === result.destination.droppableId);
-    // console.log("transferedItems", transferedItems);
-
-    // console.log("destination", destination);
-    // let destItems = items.filter((item) => item.id === 2)
   };
 
-  const getCategoryList = () => {
-    categories.map((category, index) => (
-      category.id === 2 ?
-        setAccessList(items.filter((item) => item.category === 2))
-        :
-        setUnAccessList(items.filter((item) => item.category === 1))
-    ))
+  const changeRolePermission = (e) => {
+    e.preventDefault();
 
-    console.log("accessList", accessList);
-    console.log("unAccessList", unAccessList);
-  }
+    let roleID = Router.query.id;
+    let url = `Roles/changeRolesPermisions/${roleID}`;
+
+    let PermisionsID = [];
+    let accessList = items.filter((x) => x.category === 2);
+    accessList.map((item) => PermisionsID.push(item.id));
+
+    let data = {
+      CenterID: CenterID,
+      PermisionsID: PermisionsID,
+    };
+
+    setIsLoading(true);
+    console.log("data", data);
+
+    axiosClient
+      .post(url, data)
+      .then((response) => {
+        console.log(response.data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
+  };
 
   useEffect(() => {
-    getUserPermissions();
-    console.log("items :", items);
-  }, []);
-
-  useEffect(() => {
-    getCategoryList();
-  }, [items])
+    // getUserPermissions();
+    if (Router.isReady) {
+      const roleID = Router.query.id;
+      if (!roleID) return null;
+      getSelectedRole();
+    }
+  }, [Router.isReady]);
 
   return (
     <>
+      <Head>
+        <title>تنظیمات سطح دسترسی</title>
+      </Head>
       <div className="page-wrapper">
         <div className="content container-fluid">
-          <div className="container py-5">
-            <DragDropContext onDragEnd={onDragEnd}>
-              <div>
-                <Droppable droppableId="Categories" type="droppableItem">
-                  {(provided) => (
-                    <div
-                      ref={provided.innerRef}
-                      className="permissionCardsContainer"
-                    >
-                      {categories.map((category, index) => (
-                        <div className="col-12 col-md-6">
-                          <Droppable droppableId={category.id.toString()}>
-                            {(provided) => (
-                              <div ref={provided.innerRef}>
-                                <ul
-                                  className="list-unstyled p-4 mb-3"
-                                  id="dropzone"
+          <div className="card">
+            {isLoading ? (
+              <Loading />
+            ) : (
+              <div className="card-body permissionCard">
+                <div className="permissionHeader">
+                  <p>تنظیم سطح دسترسی | {Router.query.name}</p>
+                </div>
+                <DragDropContext onDragEnd={onDragEnd}>
+                  <Droppable droppableId="Categories" type="droppableItem">
+                    {(provided) => (
+                      <div
+                        ref={provided.innerRef}
+                        className="permissionCardsContainer"
+                      >
+                        {categories.map((category, index) => (
+                          <div key={index} className="col-12 col-lg-5">
+                            <Droppable droppableId={category.id.toString()}>
+                              {(provided) => (
+                                <div
+                                  className="permissionListContainer"
+                                  ref={provided.innerRef}
                                 >
-                                  <p className="mb-4 text-secondary font-16 fw-bold">
-                                    {category.name}
-                                  </p>
-                                  {items
-                                    .filter(
-                                      (item) => item.category === category.id
-                                    )
-                                    .map((item, index) => (
-                                      <Draggable
-                                        draggableId={item.id.toString()}
-                                        key={item.id}
-                                        index={index}
-                                      >
-                                        {(provided) => (
-                                          <div
-                                            ref={provided.innerRef}
-                                            {...provided.draggableProps}
-                                            {...provided.dragHandleProps}
-                                          >
-                                            <li className="mb-3 d-flex align-items-center justify-content-between border permissionItem">
+                                  <ul
+                                    className="list-unstyled p-4 mb-3"
+                                    id="dropzone"
+                                    dir="rtl"
+                                  >
+                                    <p className="mb-4 text-secondary font-16 fw-bold">
+                                      {category.name}
+                                    </p>
+                                    {items
+                                      .filter(
+                                        (item) => item.category === category.id
+                                      )
+                                      .map((item, index) => (
+                                        <Draggable
+                                          draggableId={item.id.toString()}
+                                          key={item.id}
+                                          index={index}
+                                        >
+                                          {(provided) => (
+                                            <div
+                                              ref={provided.innerRef}
+                                              {...provided.draggableProps}
+                                              {...provided.dragHandleProps}
+                                            >
+                                              {/* <li className="mb-3 d-flex align-items-center justify-content-between border permissionItem">
                                               <Item item={item} />
-                                            </li>
-                                          </div>
-                                        )}
-                                      </Draggable>
-                                    ))}
-                                  {provided.placeholder}
-                                </ul>
-                              </div>
-                            )}
-                          </Droppable>
-                        </div>
-                      ))}
+                                            </li> */}
+                                              {/*  */}
+                                              <div className="checkbox permissionCheckbox">
+                                                <label className="checkbox-wrapper">
+                                                  <input
+                                                    type="checkbox"
+                                                    name="Dep"
+                                                    // value={departmentData._id}
+                                                    // id={
+                                                    //   "Dep" + departmentData._id
+                                                    // }
+                                                    className="checkbox-input"
+                                                    // defaultChecked={
+                                                    //   departmentData.Checked
+                                                    // }
+                                                  />
+                                                  <div className="checkbox-tile permissionCheckboxTile permissionItem">
+                                                    <span className="checkbox-icon"></span>
 
-                      {provided.placeholder}
-                    </div>
-                  )}
-                </Droppable>
+                                                    <div className="checkbox-items">
+                                                      <span className="checkbox-label">
+                                                        <div>{item.name}</div>
+                                                      </span>
+                                                    </div>
+                                                  </div>
+                                                </label>
+                                              </div>
+                                              {/*  */}
+                                            </div>
+                                          )}
+                                        </Draggable>
+                                      ))}
+                                    {provided.placeholder}
+                                  </ul>
+                                </div>
+                              )}
+                            </Droppable>
+                          </div>
+                        ))}
+
+                        {provided.placeholder}
+                      </div>
+                    )}
+                  </Droppable>
+                </DragDropContext>
+
+                <div className="submitPermissions-btn d-flex justify-center w-100">
+                  <button
+                    type="submit"
+                    className="btn btn-secondary rounded col-lg-3 col-7 font-14"
+                    onClick={changeRolePermission}
+                  >
+                    ثبت
+                  </button>
+                </div>
               </div>
-            </DragDropContext>
+            )}
           </div>
         </div>
       </div>

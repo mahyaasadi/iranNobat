@@ -1,5 +1,5 @@
 export { default as headerLogo } from "public/assets/img/irannobatLogo.png";
-export { default as logo } from "public/assets/img/logo1.png";
+export { default as logo } from "public/assets/img/newLogo1.jpg";
 export { default as loginheader } from "public/assets/img/loginHeader.png";
 export { default as logoSmall } from "public/assets/img/logo-small.png";
 export { default as payment } from "public/assets/img/icon/payment-48.png";

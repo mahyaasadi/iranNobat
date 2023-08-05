@@ -16,7 +16,7 @@ const UserPermissionModal = () => {
     axiosClient.get(url).then(function (response) {
       if (response.data) {
         setIsLoading(false);
-        console.log(response.data);
+        // console.log(response.data);
         setUsersPermissionList(response.data);
       }
     });

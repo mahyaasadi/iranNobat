@@ -11,6 +11,7 @@ import AddUserModal from "components/dashboard/centerUsers/addUserModal/addUserM
 import EditUserModal from "components/dashboard/centerUsers/editUserModal/editUserModal";
 import ChatPermissionModal from "components/dashboard/centerUsers/chatPermissionModal/chatPermissionModal";
 import UserPermissionModal from "components/dashboard/centerUsers/userPermissionModal/userPermissionModal";
+import AssignRoleModal from "components/dashboard/centerUsers/assignRoleModal/assignRoleModal";
 
 let CenterID = Cookies.get("CenterID");
 let ActiveUserID = null;
@@ -28,6 +29,11 @@ const CenterUsers = () => {
     setPassword(e.target.value);
   };
 
+  let userRole = "";
+
+  const FUSelectUserRole = (role) => {
+    userRole = role;
+  };
   // Get users data
   const getCenterUsers = () => {
     let url = `AdminUser/getCenterUsers/${CenterID}`;
@@ -36,10 +42,7 @@ const CenterUsers = () => {
     axiosClient
       .get(url)
       .then((response) => {
-        console.log(response.data);
         setUserData(response.data);
-        // setActiveState(response.data.Deactive);
-
         setIsLoading(false);
       })
       .catch((error) => {
@@ -116,7 +119,6 @@ const CenterUsers = () => {
   // user NID validation
   const NationalIdValidate = (e) => {
     e.preventDefault();
-
     let userNID = $("#userNID").val();
 
     // uer NID length
@@ -132,7 +134,6 @@ const CenterUsers = () => {
   // user telNumber validation
   const telNumberValidate = (e) => {
     e.preventDefault();
-
     let userTel = $("#userTel").val();
 
     // user tel length
@@ -282,6 +283,35 @@ const CenterUsers = () => {
     $("#userPermissionModal").modal("show");
   };
 
+  const assignRoleModal = (id) => {
+    ActiveUserID = id;
+    $("#assignRoleToUserModal").modal("show");
+  };
+
+  const assignRole = (e) => {
+    e.preventDefault();
+
+    let formData = new FormData(e.target);
+    const formProps = Object.fromEntries(formData);
+    let data = {
+      CenterID: CenterID,
+      UserID: ActiveUserID,
+      roleID: formProps.assignUserRole,
+    };
+
+    console.log("data", data);
+
+    let url = "/AdminUser/setUserRoles";
+    axiosClient
+      .put(url, data)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   useEffect(() => {
     getCenterUsers();
     $("#formValidationText1").hide();
@@ -345,6 +375,8 @@ const CenterUsers = () => {
                     deActivateUser={deActivateUser}
                     chatPermissionOpenModal={chatPermissionOpenModal}
                     userPermissionOpenModal={userPermissionOpenModal}
+                    assignRoleModal={assignRoleModal}
+                    assignRole={assignRole}
                   />
                 )}
               </div>
@@ -375,6 +407,11 @@ const CenterUsers = () => {
         <ChatPermissionModal />
 
         <UserPermissionModal />
+
+        <AssignRoleModal
+          FUSelectUserRole={FUSelectUserRole}
+          assignRole={assignRole}
+        />
       </div>
     </>
   );

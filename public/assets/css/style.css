@@ -1429,8 +1429,8 @@ button.bg-danger:hover {
   opacity: 0.8;
 }
 
-.loginBtn {
-  opacity: 0.99 !important;
+.loginTitle {
+  color: #1b5a90 !important;
 }
 
 .loeing-btn-container {
@@ -2888,7 +2888,7 @@ button.bg-danger:hover {
   align-items: center;
   padding: 10px 15px;
   font-size: 13px;
-  color: #7e84a3; 
+  color: #7e84a3;
 }
 
 .user-menu .dropdown-menu .dropdown-item:hover {
@@ -4396,6 +4396,18 @@ html.menu-opened body {
   text-align: center;
 }
 
+.permissionCheckbox {
+  display: flex;
+  justify-content: center;
+}
+
+.permissionCheckboxTile {
+  border-radius: 10px !important;
+  min-height: 2rem !important;
+  width: 25vw !important;
+}
+
+
 /*-----------------
 	13. Error
 -----------------------*/
@@ -4510,7 +4522,7 @@ html.menu-opened body {
 }
 
 .loginBg {
-  background-image: url("/assets/img/loginbg-3.png");
+  background-image: url("/assets/img/bg5.jpg");
   height: 100vh;
   width: 100%;
 }
@@ -4537,6 +4549,7 @@ html.menu-opened body {
   padding: 0;
   position: absolute;
   right: 0;
+  padding-left: 3rem;
 }
 
 .login-wrapper {
@@ -9220,12 +9233,6 @@ ul li .active {
     display: flex;
     flex-direction: column;
   }
-
-  .permissionCardsContainer {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center
-  }
 }
 
 @media (max-width: 992px) {
@@ -9257,6 +9264,12 @@ ul li .active {
 
   .checkbox-tile {
     width: 60vw;
+  }
+
+  .permissionCardsContainer {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center
   }
 }
 
@@ -9519,9 +9532,28 @@ tr {
 }
 
 /* ///// draggable permissions ////// */
+.permissionCard {
+  padding: 3rem !important;
+  margin-bottom: 4rem;
+}
+
 .permissionCardsContainer {
   display: flex;
+  justify-content: center;
   gap: 1.5rem;
+}
+
+.permissionListContainer {
+  height: 80vh;
+  overflow-y: auto;
+  direction: ltr;
+}
+
+.permissionHeader {
+  font-size: 15px;
+  font-weight: 600;
+  color: #4d5054;
+  margin-bottom: 2rem;
 }
 
 #dropzone {
@@ -9530,12 +9562,11 @@ tr {
   margin-bottom: 20px;
   z-index: 0;
   border-radius: 10px;
-  height: fit-content;
   background: rgba(255, 255, 255, 0.8);
   border: 1px solid #eef1fe;
   box-shadow: 0px 7px 10px #e4eef0;
   margin-bottom: 30px;
-  font-size: 14px;
+  font-size: 13px;
   color: darkslategray;
 }
 
@@ -9545,6 +9576,10 @@ tr {
   width: 100%;
   padding: 8px 10px;
   box-shadow: 0px 1px 3px #a1b0b5;
+}
+
+.submitPermissions-btn {
+  margin-top: 7rem;
 }
 
 /* srcollbar */

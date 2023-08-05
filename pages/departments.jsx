@@ -61,7 +61,7 @@ const Departments = () => {
     axiosClient.get(UrlGetDep).then(function (response) {
       if (response.data) {
         setIsLoading(false);
-        console.log(response.data)
+        console.log(response.data);
         setDepartmentsData(response.data);
       } else {
         getModality();
@@ -110,7 +110,7 @@ const Departments = () => {
                   <DepartmentsList departmentsData={departmentsData} />
                 </div>
                 <div className="submitDepartments-btn d-flex justify-center w-100">
-                  <button className="btn btn-primary submitDepartments rounded col-lg-4 col-7">
+                  <button className="btn btn-sm btn-secondary submitDepartments rounded col-lg-4 col-7">
                     ثبت
                   </button>
                 </div>
