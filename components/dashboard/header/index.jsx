@@ -1,17 +1,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import axios from "axios";
+import { axiosClient } from "class/axiosConfig.js";
 import Image from "next/image";
 import Cookies from "js-cookie";
 import FeatherIcon from "feather-icons-react";
 import { useRouter } from "next/router";
-import "public/assets/css/bootstrap.min.css";
-import "public/assets/css/feathericon.min.css";
-import "public/assets/plugins/fontawesome/css/fontawesome.min.css";
-import "public/assets/plugins/fontawesome/css/all.min.css";
-import "public/assets/css/font-awesome.min.css";
-import "public/assets/css/style.css";
 import { avatar01, headerLogo, logoSmall } from "components/imagepath";
 import { ErrorAlert } from "class/AlertManage.js";
 
@@ -43,13 +37,13 @@ const Header = () => {
     let data = { Token: sessionStorage.getItem("SEID") };
 
     if (data) {
-      axios
-        .post("https://irannobat.ir:8444/api/AdminUser/getUserByToken", data)
+      axiosClient
+        .post("AdminUser/getUserByToken", data)
         .then(function (response) {
           user = response.data;
           let centerId = user.CenterID;
           Cookies.set("CenterID", centerId);
-
+          console.log(response.data);
           document.getElementById("userName").innerHTML = user.FullName;
           document.getElementById("avatar").setAttribute("src", user.Avatar);
           document.getElementById("avatar").setAttribute("srcSet", user.Avatar);
@@ -68,13 +62,12 @@ const Header = () => {
         })
         .catch(function (error) {
           console.log(error);
-          // router.push("/");
-          // ErrorAlert("خطا", "ارتباط با سرور در حال حاضر امکان پذیر نمی باشد!")
+          ErrorAlert("خطا", "ارتباط با سرور در حال حاضر امکان پذیر نمی باشد!");
+          setTimeout(() => {
+            router.push("/");
+          }, 2000);
         });
     }
-    // else {
-    //   router.push("/login");
-    // }
   }, []);
 
   return (
@@ -83,7 +76,12 @@ const Header = () => {
         {/* Logo */}
         <div className="header-left">
           <Link href="/dashboard" className="logo">
-            <Image src={headerLogo} alt="Logo" unoptimized={true} priority={true} />
+            <Image
+              src={headerLogo}
+              alt="Logo"
+              unoptimized={true}
+              priority={true}
+            />
           </Link>
           <Link href="/dashboard" className="logo logo-small">
             <Image src={logoSmall} alt="Logo" width={30} height={30} />

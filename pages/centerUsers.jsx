@@ -4,7 +4,7 @@ import { axiosClient } from "class/axiosConfig.js";
 import Link from "next/link";
 import Head from "next/head";
 import FeatherIcon from "feather-icons-react";
-import { QuestionAlert } from "class/AlertManage.js";
+import { QuestionAlert, SuccessAlert } from "class/AlertManage.js";
 import Loading from "components/loading/loading";
 import UsersListTable from "components/dashboard/centerUsers/usersListTable/usersListTable";
 import AddUserModal from "components/dashboard/centerUsers/addUserModal/addUserModal";

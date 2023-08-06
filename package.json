@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@dnd-kit/core": "^6.0.8",
     "@tanstack/react-query": "^4.29.13",
     "@tanstack/react-query-devtools": "^4.29.13",
     "autoprefixer": "10.4.14",

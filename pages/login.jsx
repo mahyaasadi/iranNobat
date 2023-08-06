@@ -40,21 +40,20 @@ const Login = () => {
         router.push("/dashboard");
         console.log(response.data);
         // if (response === undefined) {
-        //   ErrorAlert("خطا", "ارتباط با سرور برقرار نیست");
         // }
       })
       .catch(function (error) {
         setIsLoading(true);
         console.log(error);
-        // if ()
-        ErrorAlert("خطا", "اطلاعات اشتباه وارد شده است");
+        error.message == "Network Error"
+          ? ErrorAlert("خطا", "ارتباط با سرور برقرار نیست")
+          : ErrorAlert("خطا", "اطلاعات اشتباه وارد شده است");
       });
   };
 
   return (
     <>
       {/* Main Wrapper */}
-
       <div className="row loginBg p-0 d-flex align-items-center">
         {/* Login Banner */}
         <div className="col-md-6 login-bg p-0">
@@ -67,14 +66,14 @@ const Login = () => {
             />
           </div>
         </div>
-        {isLoading ? (
+        {!isLoading ? (
           <Loading />
         ) : (
           <div className="col-md-6 login-wrap-bg">
             <div className="login-page">
               <div className="login-wrapper">
                 <div className="loginbox">
-                  <h3 className="loginTitle">ورود</h3>
+                  <h3 className="loginTitle stretch">ایران نوبت</h3>
                   <p className="account-subtitle">دسترسی به داشبورد</p>
 
                   <form onSubmit={handleSubmit}>
