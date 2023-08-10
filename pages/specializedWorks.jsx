@@ -129,11 +129,11 @@ const SpecializedWorks = () => {
     );
 
     if (result) {
+      let url = "CenterProfile/DeleteSpecializedWorks";
       let data = {
         CenterID: CenterID,
         SpecializedWorksID: id,
       };
-      let url = "CenterProfile/DeleteSpecializedWorks";
 
       await axiosClient
         .delete(url, { data })

@@ -217,16 +217,7 @@ const DoctorsList = () => {
           handleSpecialtyInput={handleSpecialtyInput}
         />
 
-        <EditDoctorModal
-          data={editDoctor}
-          editPhysician={editPhysician}
-          name={name}
-          title={title}
-          specialty={specialty}
-          handleNameInput={handleNameInput}
-          handleTitleInput={handleTitleInput}
-          handleSpecialtyInput={handleSpecialtyInput}
-        />
+        <EditDoctorModal data={editDoctor} editPhysician={editPhysician} />
       </div>
     </>
   );

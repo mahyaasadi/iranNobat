@@ -4285,16 +4285,14 @@ html.menu-opened body {
   margin-bottom: 3rem;
 }
 
-/* .checkbox-group {
-  direction: ltr;
-  height: 60rem;
-  overflow-x: auto;
-  overflow-y: auto;
-} */
-
 .checkbox-wrapper {
-  box-shadow: 0px 2px 6px #a1b0b5;
+  box-shadow: 0px 1px 5px #98aeb3;
   border-radius: 0.5rem;
+}
+
+.checkbox-wrapper-per {
+  box-shadow: 0px 1px 3px #98aeb3 !important;
+  border-radius: 1.5rem !important;
 }
 
 .checkbox-items {
@@ -4381,6 +4379,10 @@ html.menu-opened body {
 
   &:hover {
     border-color: #0743a3;
+
+    &:hover .checkbox-label {
+      color: #0743a3;
+    }
 
     &:before {
       transform: scale(1);
@@ -9248,6 +9250,10 @@ ul li .active {
     display: flex;
     flex-direction: column;
   }
+
+  .login-wrap-bg {
+    padding: 0 !important;
+  }
 }
 
 @media (max-width: 992px) {
@@ -9588,7 +9594,6 @@ tr {
 .permissionItem {
   border: 1px solid #a1b0b5;
   padding: 8px 10px;
-  box-shadow: 0px 1px 3px #a1b0b5;
 }
 
 .submitPermissions-btn {

@@ -139,16 +139,17 @@ const UsersListTable = ({
         <DataTableExtensions {...tableData}>
           <DataTable
             noHeader
+            defaultSortField="id"
+            defaultSortAsc={false}
+            pagination
+            highlightOnHover
+            paginationPerPage="20"
+            customStyles={tableCustomStyles}
             noDataComponent={
               <div style={{ padding: "24px", fontSize: "13px" }}>
                 موردی برای نمایش وجود ندارد.
               </div>
             }
-            defaultSortField="id"
-            defaultSortAsc={false}
-            pagination
-            highlightOnHover
-            customStyles={tableCustomStyles}
           />
         </DataTableExtensions>
       </div>

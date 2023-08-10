@@ -7,6 +7,7 @@ import "react-data-table-component-extensions/dist/index.css";
 import { tableCustomStyles } from "components/commonComponents/customTableStyle/tableStyle.jsx";
 
 const SendMessagesListTable = ({ data, checkMessageDelivery }) => {
+  console.log(data);
   const columns = [
     {
       name: "شماره همراه",
@@ -21,10 +22,16 @@ const SendMessagesListTable = ({ data, checkMessageDelivery }) => {
       width: "190px",
     },
     {
+      name: "زمان ارسال",
+      selector: (row) => row.Time,
+      sortable: true,
+      width: "140px",
+    },
+    {
       name: "متن پیام",
       selector: (row) => row.Message.substr(0, 100) + " ...",
       sortable: true,
-      width: "1000px",
+      width: "900px",
     },
     {
       name: "عملیات ها",
@@ -61,6 +68,7 @@ const SendMessagesListTable = ({ data, checkMessageDelivery }) => {
               defaultSortAsc={false}
               pagination
               highlightOnHover
+              paginationPerPage="20"
               noDataComponent={
                 <div style={{ padding: "24px", fontSize: "13px" }}>
                   موردی برای نمایش وجود ندارد.

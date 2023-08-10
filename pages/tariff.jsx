@@ -617,7 +617,6 @@ const Tariff = () => {
 
         <LoeingModal
           data={loeingData}
-          // addLoeing={addLoeing}
           Service={activeServiceId}
           ServiceName={activeServiceName}
           deleteLoeing={deleteLoeing}

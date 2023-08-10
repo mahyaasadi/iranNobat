@@ -25,6 +25,23 @@ const Permissions = () => {
 
   let permissionItems = [];
 
+  const [rolePermissionStatus, setRolePermissionStatus] = useState({
+    roleAccessList: [],
+  });
+
+  const handleCheckedPermissions = (e) => {
+    const { value, checked } = e.target;
+    const { roleAccessList } = rolePermissionStatus;
+
+    console.log(`${value} is ${checked}`);
+
+    checked
+      ? setRolePermissionStatus({ roleAccessList: [...roleAccessList, value] })
+      : setRolePermissionStatus({
+          roleAccessList: roleAccessList.filter((e) => e !== value),
+        });
+  };
+
   // get all permissions
   const getUserPermissions = (arr) => {
     let url = "Permision/getAll";
@@ -53,7 +70,6 @@ const Permissions = () => {
             };
             permissionItems.push(obj);
           }
-          console.log(permissionItems);
           setItems(permissionItems);
         }
       })
@@ -73,12 +89,7 @@ const Permissions = () => {
         .get(url)
         .then((response) => {
           console.log("Selected Role: ", response.data);
-
           getUserPermissions(response.data.PermisionsID);
-          console.log(
-            "PermisionsID.length :",
-            response.data.PermisionsID.length
-          );
 
           for (let i = 0; i < response.data.PermisionsID.length; i++) {
             const item = response.data.PermisionsID[i];
@@ -127,9 +138,9 @@ const Permissions = () => {
         items.map((item) =>
           item.id === result.draggableId
             ? {
-              ...item,
-              category: parseInt(result.destination.droppableId),
-            }
+                ...item,
+                category: parseInt(result.destination.droppableId),
+              }
             : item
         )
       );
@@ -161,7 +172,7 @@ const Permissions = () => {
       .post(url, data)
       .then((response) => {
         console.log(response.data);
-        SuccessAlert("موفق", "سطح دسترسی با موفقیت ثبت گردید!")
+        SuccessAlert("موفق", "سطح دسترسی با موفقیت ثبت گردید!");
         setIsLoading(false);
       })
       .catch((error) => {
@@ -213,9 +224,11 @@ const Permissions = () => {
                                     id="dropzone"
                                     dir="rtl"
                                   >
-                                    <p className="mb-4 text-secondary font-16 fw-bold">
+                                    <p className="mb-1 text-secondary font-16 fw-bold text-center">
                                       {category.name}
                                     </p>
+                                    <hr className="mb-4" />
+
                                     {items
                                       .filter(
                                         (item) => item.category === category.id
@@ -232,23 +245,17 @@ const Permissions = () => {
                                               {...provided.draggableProps}
                                               {...provided.dragHandleProps}
                                             >
-                                              {/* <li className="mb-3 d-flex align-items-center justify-content-between border permissionItem">
-                                              <Item item={item} />
-                                            </li> */}
-                                              {/*  */}
                                               <div className="checkbox permissionCheckbox">
-                                                <label className="checkbox-wrapper">
+                                                <label className="checkbox-wrapper checkbox-wrapper-per">
                                                   <input
                                                     type="checkbox"
-                                                    name="Dep"
-                                                    // value={departmentData._id}
-                                                    // id={
-                                                    //   "Dep" + departmentData._id
-                                                    // }
+                                                    name="roleAccessList"
+                                                    value={item.name}
+                                                    id={item.id}
                                                     className="checkbox-input"
-                                                  // defaultChecked={
-                                                  //   departmentData.Checked
-                                                  // }
+                                                    onChange={
+                                                      handleCheckedPermissions
+                                                    }
                                                   />
                                                   <div className="checkbox-tile permissionCheckboxTile permissionItem">
                                                     <span className="checkbox-icon"></span>
@@ -261,7 +268,6 @@ const Permissions = () => {
                                                   </div>
                                                 </label>
                                               </div>
-                                              {/*  */}
                                             </div>
                                           )}
                                         </Draggable>

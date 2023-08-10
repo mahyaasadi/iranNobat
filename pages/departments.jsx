@@ -52,7 +52,6 @@ const Departments = () => {
       .catch((error) => {
         console.log(error);
       });
-    // console.log("departmentsData", departmentsData);
   };
 
   //get departments

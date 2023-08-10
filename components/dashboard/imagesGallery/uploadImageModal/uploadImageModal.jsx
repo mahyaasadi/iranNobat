@@ -19,9 +19,7 @@ const UploadImageModal = ({ uploadImage }) => {
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content doctor-profile">
           <div className="modal-header">
-            <p className="mb-0 text-secondary font-14 fw-bold">
-               آپلود تصویر
-            </p>
+            <p className="mb-0 text-secondary font-14 fw-bold">آپلود تصویر</p>
             <button
               type="button"
               className="close-btn"
@@ -35,62 +33,62 @@ const UploadImageModal = ({ uploadImage }) => {
           </div>
           <div className="modal-body">
             <form onSubmit={uploadImage}>
-                <div className="form-group ">
-                  <label className="lblAbs font-12">
-                    عنوان<span className="text-danger">*</span>
-                  </label>
-                  <input
-                    className="form-control floating inputPadding rounded"
-                    type="text"
-                    name="Title"
-                    id="Title"
-                    required
-                  />
-                </div>
+              <div className="form-group ">
+                <label className="lblAbs font-12">
+                  عنوان<span className="text-danger">*</span>
+                </label>
+                <input
+                  className="form-control floating inputPadding rounded"
+                  type="text"
+                  name="Title"
+                  id="Title"
+                  required
+                />
+              </div>
 
-                <div className="form-group ">
-                   <label className="lblAbs font-12">
-                    توضیحات<span className="text-danger">*</span>
-                  </label>
-                  <input
-                    className="form-control floating inputPadding rounded"
-                    type="text"
-                    name="Des"
-                    required
-                  />
-                </div>
+              <div className="form-group ">
+                <label className="lblAbs font-12">توضیحات</label>
+                <input
+                  className="form-control floating inputPadding rounded"
+                  type="text"
+                  name="Des"
+                />
+              </div>
 
-                <div className="change-photo-btn">
-                  <div>
-                    <i>
-                      <FeatherIcon icon="upload" />
-                    </i>
-                    <p>آپلود فایل</p>
-                  </div>
-                  <input
-                    type="file"
-                    className="upload"
-                    name="img"
-                    onChange={displayPreview}
-                    required
-                  />
+              <div className="change-photo-btn">
+                <div>
+                  <i>
+                    <FeatherIcon icon="upload" />
+                  </i>
+                  <p>آپلود فایل</p>
                 </div>
+                <input
+                  type="file"
+                  className="upload"
+                  name="img"
+                  onChange={displayPreview}
+                  required
+                />
+              </div>
 
-                <div className="previewImgContainer">
-                  <Image
-                    src=""
-                    alt=""
-                    width="200"
-                    id="fileUploadPreview"
-                    className="d-block m-auto previewImg"
-                  />
-                </div>
+              <div className="previewImgContainer">
+                <Image
+                  src=""
+                  alt=""
+                  width="200"
+                  id="fileUploadPreview"
+                  className="d-block m-auto previewImg"
+                />
+              </div>
 
-                <div className="submit-section">
-                  <button type="submit" className="btn btn-primary btn-save">
-                    ثبت 
-                  </button>
-                </div>
+              <div className="submit-section">
+                <button
+                  type="submit"
+                  className="btn btn-sm btn-primary btn-save rounded"
+                >
+                  ثبت
+                </button>
+              </div>
             </form>
           </div>
         </div>
