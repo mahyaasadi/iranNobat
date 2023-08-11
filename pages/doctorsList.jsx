@@ -9,10 +9,21 @@ import Loading from "components/loading/loading";
 import DoctorsListTable from "components/dashboard/doctors/doctorsListTable/doctorsListTable";
 import AddDoctorModal from "components/dashboard/doctors/addDoctorModal/addDoctorModal";
 import EditDoctorModal from "components/dashboard/doctors/editDoctorModal/editDoctorModal";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
 
 let CenterID = Cookies.get("CenterID");
 
 const DoctorsList = () => {
+
+  // Access the client
+  const queryClient = useQueryClient()
+
   const [isLoading, setIsLoading] = useState(true);
   let [doctorsList, setDoctorsList] = useState([]);
   const [editDoctor, setEditDoctor] = useState({});
@@ -41,14 +52,17 @@ const DoctorsList = () => {
       });
   };
 
-  useEffect(() => {
-    try {
-      getDoctorsData();
-    } catch (error) {
-      setIsLoading(true);
-      console.log(error);
-    }
-  }, []);
+  // Queries
+  const query = useQuery('doctorsData', getDoctorsData);
+  
+  // useEffect(() => {
+  //   try {
+  //     getDoctorsData();
+  //   } catch (error) {
+  //     setIsLoading(true);
+  //     console.log(error);
+  //   }
+  // }, []);
 
   // Add Physician
   const addPhysician = (e) => {
