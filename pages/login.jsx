@@ -39,15 +39,13 @@ const Login = () => {
         );
         router.push("/dashboard");
         console.log(response.data);
-        // if (response === undefined) {
-        // }
       })
       .catch(function (error) {
         setIsLoading(true);
         console.log(error);
         error.message == "Network Error"
-          ? ErrorAlert("خطا", "ارتباط با سرور برقرار نیست")
-          : ErrorAlert("خطا", "اطلاعات اشتباه وارد شده است");
+          ? ErrorAlert("خطا", "در حال حاضر ارتباط با سرور برقرار نیست!")
+          : ErrorAlert("خطا", "اطلاعات اشتباه وارد شده است!");
       });
   };
 

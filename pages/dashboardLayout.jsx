@@ -1,6 +1,6 @@
 "use client"; // This is a client component
-import Header from "components/dashboard/header";
-import Sidebar from "components/dashboard/sidebar";
+import Header from "components/commonComponents/header";
+import Sidebar from "components/commonComponents/sidebar";
 
 export default function DashboardLayout({ children }) {
   return (
@@ -13,4 +13,4 @@ export default function DashboardLayout({ children }) {
   );
 }
 
-import Footer from "components/dashboard/footer";
+import Footer from "components/commonComponents/footer";

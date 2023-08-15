@@ -5,8 +5,10 @@ import Image from "next/image";
 const UploadImageModal = ({ uploadImage }) => {
   const displayPreview = (e) => {
     var urlCreator = window.URL || window.webkitURL;
-    var imageUrl = urlCreator.createObjectURL(e.target.files[0]);
-    $("#fileUploadPreview").attr("src", imageUrl);
+    if (e.target.files.length !== 0) {
+      var imageUrl = urlCreator.createObjectURL(e.target.files[0]);
+      $("#fileUploadPreview").attr("src", imageUrl);
+    }
   };
 
   return (

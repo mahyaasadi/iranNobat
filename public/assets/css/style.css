@@ -1154,7 +1154,31 @@ label {
 .darkmode .rdt_TableHeadRow,
 .darkmode .rdt_TableRow,
 .darkmode nav.sc-iIPllB.jxflYm.rdt_Pagination {
-  background-color: #040433 !important;
+  background-color: #103952 !important;
+  color: #97a2d2;
+}
+
+.darkmode .rdt_Pagination {
+  background-color: #103952 !important;
+  color: #97a2d2;
+}
+
+.darkmode .css-13cymwt-control {
+  background-color: #103952 !important;
+  color: #97a2d2;
+}
+
+.darkmode .css-1nmdiq5-menu {
+  background-color: #103952 !important;
+  color: #97a2d2;
+}
+
+.darkmode .css-t3ipsp-control {
+  background-color: #103952 !important;
+  color: #97a2d2;
+}
+
+.darkmode .dash-counts {
   color: #97a2d2;
 }
 
@@ -1197,7 +1221,7 @@ a.user-name {
 
 .darkmode .sc-dkzDqf.gZWIKX.rdt_TableHeadRow {
   font-size: 14px;
-  background-color: #141432 !important;
+  background-color: #0f2e42 !important;
   color: #97a2d2;
   border: none;
 }
@@ -1209,10 +1233,10 @@ a.user-name {
 
 .darkmode .kgEPYv:hover {
   transition-property: background-color;
-  border-bottom-color: #141432;
+  border-bottom-color: #0f2e42;
   outline-style: none;
   outline-width: 1px;
-  outline-color: #141432 !important;
+  outline-color: #0f2e42 !important;
 }
 
 .darkmode .kgEPYv:hover {
@@ -3943,6 +3967,7 @@ html.menu-opened body {
 
 .sidebar {
   background-color: #fff;
+  border-left: 1px solid #edeef2;
   top: 4em;
   right: 0;
   height: 100vh;
@@ -3951,7 +3976,7 @@ html.menu-opened body {
   transition: all 0.2s ease-in-out 0s;
   width: 200px;
   z-index: 1001;
-  box-shadow: 0px 4px 4px #eef1fe;
+  box-shadow: 0px 3px 2px #eef1fe;
   overflow-y: hidden;
   direction: ltr;
 }
@@ -4391,11 +4416,22 @@ html.menu-opened body {
   }
 }
 
+.PerCheckbox-input {
+  position: absolute;
+  top: 4px;
+  right: 5px;
+}
 
 .permissionCheckboxTile {
+  position: relative;
   border-radius: 10px !important;
-  min-height: 2rem !important;
   width: 25vw !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  transition: 0.15s ease;
 
   &:before {
     width: 1rem !important;
@@ -4423,6 +4459,7 @@ html.menu-opened body {
 .permissionCheckbox {
   display: flex;
   justify-content: center;
+  margin-bottom: 10px;
 }
 
 /*-----------------
@@ -6154,7 +6191,7 @@ span.fa.toggle-password\".fa-eye {
 
 .darkmode .settings-form .css-1yqlho-control {
   border: 1px solid #353570 !important;
-  background: #141432;
+  background: #0f2e42;
 }
 
 .darkmode .css-1wa3eu0-placeholder {
@@ -6163,13 +6200,13 @@ span.fa.toggle-password\".fa-eye {
 
 .darkmode .doctor-profile .css-1yqlho-control {
   border: 1px solid #353570;
-  background: #141432;
+  background: #0f2e42;
 }
 
 .darkmode .login-wrapper .form-focus .form-control {
   min-height: 51px;
   padding: 21px !important;
-  background: #141432;
+  background: #0f2e42;
 }
 
 .css-1yqlho-control {
@@ -6210,7 +6247,7 @@ span.fa.toggle-password\".fa-eye {
 }
 
 .darkmode .css-yk16xz-control {
-  background: #141432 !important;
+  background: #0f2e42 !important;
   border: 1px solid #353570 !important;
 }
 
@@ -6303,7 +6340,7 @@ a.btn.trash svg.feather {
 }
 
 .darkmode .sc-hKMtZM.sc-eCYdqJ.sc-iqcoie.jYPiPR.qVZpv.rdt_TableCol {
-  background-color: #141432 !important;
+  background-color: #0f2e42 !important;
   color: #97a2d2 !important;
   font-size: 15px !important;
 }
@@ -7214,7 +7251,7 @@ a.edit-pro {
 -----------------------*/
 
 body.darkmode {
-  background-color: #141432;
+  background-color: #0f2e42;
   color: #97a2d2;
 }
 
@@ -7228,17 +7265,18 @@ body.darkmode {
 }
 
 .darkmode .content-header {
-  background: #1d1d42;
-  border-bottom: 1px solid #1d1d42;
+  background: #103952;
+  border-bottom: 1px solid #103952;
 }
 
 .darkmode .sidebar {
-  background-color: #1d1d42;
+  background-color: #103952;
   box-shadow: none;
+  border-left: 1px solid #103952;
 }
 
 .darkmode .menu-title span {
-  background: #1d1d42;
+  background: #103952;
 }
 
 .darkmode .menu-title:before {
@@ -7262,9 +7300,13 @@ body.darkmode {
 }
 
 .darkmode .card {
-  background: #1d1d42;
-  border: 1px solid #353570;
+  background: #103952;
+  border: 1px solid #103952;
   box-shadow: none;
+}
+
+.darkmode .user-text {
+  color: #97a2d2
 }
 
 .darkmode .dash-title {
@@ -7272,13 +7314,13 @@ body.darkmode {
 }
 
 .darkmode .card .card-header {
-  background: #1d1d42;
+  background: #103952;
   border-bottom: 1px solid #353570;
 }
 
 .darkmode .select2-container .select2-selection--single {
   border: 1px solid #353570;
-  background: #141432;
+  background: #0f2e42;
 }
 
 .darkmode .select2-container--default .select2-selection--single .select2-selection__rendered {
@@ -7290,7 +7332,7 @@ body.darkmode {
 }
 
 .darkmode .appointment-item {
-  background: #1d1d42;
+  background: #103952;
   border: 1px solid #353570;
   box-shadow: none;
 }
@@ -7300,13 +7342,13 @@ body.darkmode {
 }
 
 .darkmode .table .thead-light th {
-  background-color: #141432;
+  background-color: #0f2e42;
   color: #97a2d2;
 }
 
 .darkmode .hover-table>tbody>tr:hover,
 .darkmode .speciality-item:hover {
-  background: #141432;
+  background: #0f2e42;
   box-shadow: none;
 }
 
@@ -7346,7 +7388,7 @@ body.darkmode {
 }
 
 .darkmode .appointment-items {
-  background: #141432;
+  background: #0f2e42;
   border: 1px solid #353570;
 }
 
@@ -7378,13 +7420,13 @@ body.darkmode {
 }
 
 .darkmode .spl-items {
-  background: #1d1d42;
+  background: #103952;
   border: 1px solid #353570;
   box-shadow: none;
 }
 
 .darkmode .spl-items:hover {
-  background: #141432;
+  background: #0f2e42;
 }
 
 .darkmode .spl-items a:hover i,
@@ -7393,7 +7435,7 @@ body.darkmode {
 }
 
 .darkmode .pres-list {
-  background: #141432;
+  background: #0f2e42;
   border: 1px solid #353570;
 }
 
@@ -7406,8 +7448,8 @@ body.darkmode {
 }
 
 .darkmode .btn-white {
-  background: #141432;
-  border-color: #141432;
+  background: #0f2e42;
+  border-color: #0f2e42;
 }
 
 .darkmode hr {
@@ -7430,13 +7472,13 @@ body.darkmode {
 
 .darkmode .list-links li.active a {
   background: #353570;
-  border: 1px solid #1d1d42;
+  border: 1px solid #103952;
   color: #97a2d2;
 }
 
 .darkmode .list-links li a {
-  background: #1d1d42;
-  border: 1px solid #1d1d42;
+  background: #103952;
+  border: 1px solid #103952;
   color: #97a2d2;
 }
 
@@ -7446,13 +7488,13 @@ body.darkmode {
 
 .darkmode .multipleSelection .selectBox,
 .darkmode .SortBy .selectBoxes {
-  background: #1d1d42;
+  background: #103952;
   border: 1px solid #353570;
 }
 
 .darkmode .multipleSelection #checkBoxes,
 .darkmode .SortBy #checkBox {
-  background: #141432;
+  background: #0f2e42;
   border: 1px solid #353570;
   box-shadow: none;
 }
@@ -7463,11 +7505,11 @@ body.darkmode {
 
 .darkmode .custom_check .checkmark {
   border: 1px solid #353570;
-  background: #1d1d42;
+  background: #103952;
 }
 
 .darkmode .custom_check .checkmark::after {
-  color: #1d1d42;
+  color: #103952;
 }
 
 .darkmode .lab-title {
@@ -7475,7 +7517,7 @@ body.darkmode {
 }
 
 .darkmode .bg-grey {
-  background: #1d1d42 !important;
+  background: #103952 !important;
 }
 
 .darkmode .custom_check input:checked~.checkmark {
@@ -7499,12 +7541,12 @@ body.darkmode {
 
 .darkmode .multipleSelection #checkBoxes::before,
 .darkmode .SortBy #checkBox::before {
-  border: 5px solid #1d1d42;
+  border: 5px solid #103952;
   border-color: transparent transparent #353570 #353570;
 }
 
 .darkmode .daterangepicker {
-  background: #1d1d42;
+  background: #103952;
   border: 1px solid #353570;
 }
 
@@ -7521,23 +7563,23 @@ body.darkmode {
 }
 
 .darkmode .daterangepicker.show-calendar .ranges {
-  background: #1d1d42;
+  background: #103952;
 }
 
 .darkmode .daterangepicker .drp-buttons {
-  border-top: 1px solid #1d1d42;
+  border-top: 1px solid #103952;
 }
 
 .darkmode .daterangepicker .calendar-table {
-  background: #1d1d42;
-  border-top: 1px solid #1d1d42;
+  background: #103952;
+  border-top: 1px solid #103952;
 }
 
 .darkmode .daterangepicker td.off,
 .daterangepicker td.off.in-range,
 .daterangepicker td.off.start-date,
 .daterangepicker td.off.end-date {
-  background-color: #1d1d42;
+  background-color: #103952;
   color: #97a2d2;
 }
 
@@ -7553,7 +7595,7 @@ body.darkmode {
 }
 
 .darkmode .daterangepicker .calendar-table {
-  border: 1px solid #1d1d42;
+  border: 1px solid #103952;
 }
 
 .darkmode .daterangepicker .calendar-table .next span,
@@ -7568,8 +7610,8 @@ body.darkmode {
 }
 
 .darkmode .dataTables_wrapper .page-item.active .page-link {
-  background: #1d1d42;
-  border: 1px solid #1d1d42;
+  background: #103952;
+  border: 1px solid #103952;
   color: #97a2d2;
 }
 
@@ -7604,7 +7646,7 @@ body.darkmode {
 
 .darkmode .upcoming-content::-webkit-scrollbar-thumb,
 .darkmode .upcoming-content::-webkit-scrollbar-thumb:hover {
-  background: #141432;
+  background: #0f2e42;
 }
 
 .darkmode .app-time p {
@@ -7645,7 +7687,7 @@ body.darkmode {
 }
 
 .darkmode .dropdown-menu {
-  background-color: #141432;
+  background-color: #0f2e42;
   border: 1px solid #353570;
   box-shadow: none;
 }
@@ -7655,11 +7697,11 @@ body.darkmode {
 }
 
 .darkmode .user-header {
-  background-color: #1d1d42;
+  background-color: #103952;
 }
 
 .darkmode .notifications:before {
-  border-color: transparent transparent #141432 #141432;
+  border-color: transparent transparent #0f2e42 #0f2e42;
 }
 
 .darkmode .user-header:before {
@@ -7679,7 +7721,7 @@ body.darkmode {
 }
 
 .darkmode .modal-content {
-  background: #1d1d42;
+  background: #103952;
   border: 1px solid #353570;
 }
 
@@ -7692,7 +7734,7 @@ body.darkmode {
 }
 
 .darkmode .form-focus.focused .form-control {
-  background: #141432;
+  background: #0f2e42;
 }
 
 .darkmode .form-control:focus {
@@ -7722,8 +7764,8 @@ body.darkmode {
 }
 
 .darkmode .modal.contentmodal .media {
-  background-color: #141432;
-  border: 1px solid #141432;
+  background-color: #0f2e42;
+  border: 1px solid #0f2e42;
 }
 
 .darkmode .modal.contentmodal .member-wrapper h5 {
@@ -7757,7 +7799,7 @@ body.darkmode {
 }
 
 .darkmode .change-user {
-  background: #1d1d42;
+  background: #103952;
   color: #97a2d2;
 }
 
@@ -7766,7 +7808,7 @@ body.darkmode {
 }
 
 .darkmode .setting-wrap {
-  background: #1d1d42;
+  background: #103952;
 }
 
 .darkmode .login-option p {
@@ -7778,13 +7820,13 @@ body.darkmode {
 }
 
 .darkmode .accordion-button:not(.collapsed) {
-  background: #1d1d42;
+  background: #103952;
   border-bottom: 1px solid #353570 !important;
   border: 1px solid transparent;
 }
 
 .darkmode .setting-accordion .accordion-item {
-  background: #1d1d42;
+  background: #103952;
   border: 1px solid #353570;
 }
 
@@ -7793,7 +7835,7 @@ body.darkmode {
 }
 
 .darkmode .accordion-header .accordion-button {
-  background: #1d1d42;
+  background: #103952;
 }
 
 .darkmode .payment-item {
@@ -7801,7 +7843,7 @@ body.darkmode {
 }
 
 .darkmode .profile-list {
-  background: #141432;
+  background: #0f2e42;
   box-shadow: none;
 }
 
@@ -7810,7 +7852,7 @@ body.darkmode {
 }
 
 .darkmode .social-icon li a {
-  background: #141432;
+  background: #0f2e42;
   border: 1px solid #97a2d2;
   color: #97a2d2;
 }
@@ -7852,7 +7894,7 @@ body.darkmode {
 }
 
 .darkmode .blog {
-  background: #1d1d42;
+  background: #103952;
 }
 
 .darkmode .grid-blog .blog-title a,
@@ -7877,8 +7919,8 @@ body.darkmode {
 }
 
 .darkmode .pagination-tab .page-item.active .page-link {
-  background: #1d1d42;
-  border: 1px solid #1d1d42;
+  background: #103952;
+  border: 1px solid #103952;
   color: #97a2d2;
 }
 
@@ -7922,12 +7964,12 @@ body.darkmode {
 }
 
 .darkmode .login-wrapper {
-  background-color: #141432;
+  background-color: #0f2e42;
 }
 
 .darkmode .social-login>a {
   border: 1px solid #97a2d2;
-  background-color: #141432;
+  background-color: #0f2e42;
 }
 
 .darkmode .or-line {
@@ -7936,16 +7978,16 @@ body.darkmode {
 
 .darkmode .span-or {
   color: #97a2d2;
-  background-color: #141432;
+  background-color: #0f2e42;
 }
 
 .darkmode .select2-results__option {
-  background-color: #141432;
+  background-color: #0f2e42;
   color: #97a2d2;
 }
 
 .darkmode .select2-container--default .select2-results__option--highlighted[aria-selected] {
-  background-color: #141432;
+  background-color: #0f2e42;
   color: #97a2d2;
 }
 
@@ -7955,11 +7997,11 @@ body.darkmode {
 }
 
 .darkmode .select2-container--default .select2-results__option[aria-selected="true"] {
-  background-color: #141432;
+  background-color: #0f2e42;
 }
 
 .darkmode .table-striped>tbody>tr:nth-of-type(2n + 1) {
-  background-color: #141432;
+  background-color: #0f2e42;
 }
 
 .darkmode .table-striped>tbody>tr:nth-of-type(odd)>* {
@@ -7967,12 +8009,12 @@ body.darkmode {
 }
 
 .darkmode .card-header .select2-container .select2-selection--single {
-  border: 1px solid #141432;
-  background: #141432;
+  border: 1px solid #0f2e42;
+  background: #0f2e42;
 }
 
 .darkmode .table-hover tbody tr:hover {
-  background-color: #141432;
+  background-color: #0f2e42;
 }
 
 .darkmode .table-hover>tbody>tr:hover>* {
@@ -7986,19 +8028,19 @@ body.darkmode {
 }
 
 .darkmode .input-group-text {
-  background: #1d1d42;
+  background: #103952;
   border: 1px solid #2f2f64;
   color: #97a2d2;
 }
 
 .darkmode .input-group .btn-white {
-  background: #1d1d42;
+  background: #103952;
   border: 1px solid #2f2f64;
   color: #97a2d2;
 }
 
 .darkmode .card-body {
-  background: #1d1d42;
+  background: #103952;
 }
 
 .darkmode .section-header .section-title {
@@ -8032,17 +8074,17 @@ body.darkmode {
 }
 
 .darkmode .card-footer {
-  background-color: #1d1d42;
+  background-color: #103952;
   border-top: 1px solid #2f2f64;
 }
 
 .darkmode .list-group-item {
-  background-color: #1d1d42;
+  background-color: #103952;
   color: #97a2d2;
 }
 
 .darkmode .search .results {
-  background: #1d1d42;
+  background: #103952;
   border: 1px solid #353570;
   box-shadow: none;
 }
@@ -8077,7 +8119,7 @@ body.darkmode {
 }
 
 .darkmode .notifications ul.notification-list>li a:hover {
-  background-color: #1d1d42;
+  background-color: #103952;
 }
 
 .darkmode .noti-details {
@@ -8085,7 +8127,7 @@ body.darkmode {
 }
 
 .darkmode .css-1yqlho-control {
-  background-color: #141432 !important;
+  background-color: #0f2e42 !important;
   border: 1px solid #353570;
 }
 
@@ -9286,12 +9328,6 @@ ul li .active {
   .checkbox-tile {
     width: 60vw;
   }
-
-  .permissionCardsContainer {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center
-  }
 }
 
 @media (max-width: 1200px) {
@@ -9306,6 +9342,16 @@ ul li .active {
 
   .media-gap {
     gap: 1rem !important;
+  }
+
+  .permissionCardsContainer {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center
+  }
+
+  .permissionCheckboxTile {
+    width: 50vw !important;
   }
 }
 
@@ -9573,8 +9619,9 @@ tr {
 .permissionHeader {
   font-size: 15px;
   font-weight: 600;
-  color: #4d5054;
-  margin-bottom: 2rem;
+  color: #888a8f;
+  margin-bottom: 4rem;
+
 }
 
 #dropzone {
@@ -9593,7 +9640,7 @@ tr {
 
 .permissionItem {
   border: 1px solid #a1b0b5;
-  padding: 8px 10px;
+  padding: 5px
 }
 
 .submitPermissions-btn {

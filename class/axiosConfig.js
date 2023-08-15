@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 let CenterID = Cookies.get("CenterID");
 
 export const axiosClient = axios.create({
-  baseURL: "https://irannobat.ir:8444/api/",
+  baseURL: "https://api.irannobat.ir/",
 
   // headers: {
   //   CenterID: CenterID,

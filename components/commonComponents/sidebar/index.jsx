@@ -1,4 +1,6 @@
 "use client"; //This is a client component
+import { axiosClient } from "class/axiosConfig.js";
+import { useState, useEffect } from "react";
 import "public/assets/css/font-awesome.min.css";
 import "public/assets/css/feathericon.min.css";
 import Link from "next/link";
@@ -7,6 +9,26 @@ import FeatherIcon from "feather-icons-react";
 
 const Sidebar = () => {
   const router = useRouter();
+
+  const [menuList, setMenuList] = useState([]);
+  // get menu list
+  const getMenuData = () => {
+    let url = "InoMenu/getAll";
+
+    axiosClient
+      .get(url)
+      .then((response) => {
+        setMenuList(response.data);
+        console.log("menuList", menuList);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getMenuData();
+  }, []);
 
   return (
     <>
@@ -26,12 +48,35 @@ const Sidebar = () => {
                 </Link>
               </li>
 
+              {/* {menuList?.map((menu, index) => {
+                <li className="submenu">
+                  <a href={menu.Url}>
+                    <i>
+                      <FeatherIcon icon={menu.Icon} className="width-15" />
+                    </i>
+                    <span>{menu.Name}</span>;
+                    <span className="menu-arrow"></span>
+                  </a>
+                  <ul className="hidden hiddenSidebar">
+                    <li
+                      className={
+                        router.pathname == `${menu.subMenu.Url}` ? "active" : ""
+                      }
+                    >
+                      <Link href={menu.subMenu.Url} className="font-12">
+                        {menu.SubMenu.Name}
+                      </Link>
+                    </li>
+                  </ul>
+                </li>;
+              })} */}
+
               <li className="submenu">
                 <a href="#">
                   <i>
                     <FeatherIcon icon="settings" className="width-15" />
                   </i>
-                  <span> تنظیمات مرکز</span>
+                  <span>تنظیمات مرکز</span>
                   <span className="menu-arrow"></span>
                 </a>
                 <ul className="hidden hiddenSidebar">
@@ -50,7 +95,7 @@ const Sidebar = () => {
                     }
                   >
                     <Link href="/specializedWorks" className="font-12">
-                      کارهای تخصصی{" "}
+                      کارهای تخصصی
                     </Link>
                   </li>
                   <li
@@ -75,8 +120,7 @@ const Sidebar = () => {
                     className={router.pathname == "/insurances" ? "active" : ""}
                   >
                     <Link href="/insurances" className="font-12">
-                      {" "}
-                      بیمه های تحت پوشش{" "}
+                      بیمه های تحت پوشش
                     </Link>
                   </li>
                   <li
@@ -102,7 +146,7 @@ const Sidebar = () => {
                 <a href="#">
                   <i>
                     <FeatherIcon icon="clipboard" className="width-15" />
-                  </i>{" "}
+                  </i>
                   <span> تنظیمات پذیرش</span>
                   <span className="menu-arrow"></span>
                 </a>
@@ -127,7 +171,7 @@ const Sidebar = () => {
                   <i>
                     <FeatherIcon icon="message-circle" className="width-15" />
                   </i>
-                  <span> تنظیمات سیستم اینو</span>
+                  <span>تنظیمات سیستم اینو</span>
                   <span className="menu-arrow"></span>
                 </a>
                 <ul className="hidden hiddenSidebar">
@@ -148,7 +192,7 @@ const Sidebar = () => {
                   <i>
                     <FeatherIcon icon="check-square" className="width-15" />
                   </i>
-                  <span>تنظیمات نوبت دهی </span>
+                  <span>تنظیمات نوبت دهی</span>
                   <span className="menu-arrow"></span>
                 </a>
                 <ul className="hidden hiddenSidebar">
@@ -187,7 +231,7 @@ const Sidebar = () => {
                   <i>
                     <FeatherIcon icon="users" className="width-15" />
                   </i>{" "}
-                  <span>مدیریت کاربران مرکز </span>
+                  <span>مدیریت کاربران مرکز</span>
                   <span className="menu-arrow"></span>
                 </a>
                 <ul className="hidden hiddenSidebar">
@@ -241,24 +285,13 @@ const Sidebar = () => {
 
               <li className="submenu">
                 <a href="#">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="chatIconSize"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155"
-                    />
-                  </svg>
-
-                  <span>پنل پیامک </span>
+                  <i>
+                    <FeatherIcon icon="message-square" className="width-15" />
+                  </i>
+                  <span>پنل پیامک</span>
                   <span className="menu-arrow"></span>
                 </a>
+
                 <ul className="hidden hiddenSidebar">
                   <li
                     className={

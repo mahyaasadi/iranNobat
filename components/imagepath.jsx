@@ -3,7 +3,7 @@ export { default as logo } from "public/assets/img/newLogo1.jpg";
 export { default as loginheader } from "public/assets/img/loginHeader.png";
 export { default as logoSmall } from "public/assets/img/logo-small.png";
 export { default as payment } from "public/assets/img/icon/payment-48.png";
-export { default as eventsAccepted } from "public/assets/img/icon/eventAccepted.png";
+export { default as eventsAccepted } from "public/assets/img/icon/acceptedAppointment.png";
 export { default as talking } from "public/assets/img/icon/talk-48.png";
 export { default as avatar01 } from "public/assets/img/profiles/avatar-01.jpg";
 export { default as avatar07 } from "public/assets/img/profiles/avatar-07.jpg";

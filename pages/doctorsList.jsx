@@ -9,23 +9,22 @@ import Loading from "components/loading/loading";
 import DoctorsListTable from "components/dashboard/doctors/doctorsListTable/doctorsListTable";
 import AddDoctorModal from "components/dashboard/doctors/addDoctorModal/addDoctorModal";
 import EditDoctorModal from "components/dashboard/doctors/editDoctorModal/editDoctorModal";
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-} from 'react-query';
+// import {
+//   useQuery,
+//   useMutation,
+//   useQueryClient,
+//   QueryClient,
+//   QueryClientProvider,
+// } from 'react-query';
 
 let CenterID = Cookies.get("CenterID");
 
 const DoctorsList = () => {
-
   // Access the client
-  const queryClient = useQueryClient()
+  // const queryClient = useQueryClient()
 
   const [isLoading, setIsLoading] = useState(true);
-  let [doctorsList, setDoctorsList] = useState([]);
+  const [doctorsList, setDoctorsList] = useState([]);
   const [editDoctor, setEditDoctor] = useState({});
   const [name, setName] = useState("");
   const [title, setTitle] = useState("");
@@ -53,16 +52,16 @@ const DoctorsList = () => {
   };
 
   // Queries
-  const query = useQuery('doctorsData', getDoctorsData);
-  
-  // useEffect(() => {
-  //   try {
-  //     getDoctorsData();
-  //   } catch (error) {
-  //     setIsLoading(true);
-  //     console.log(error);
-  //   }
-  // }, []);
+  // const query = useQuery('doctorsData', getDoctorsData);
+
+  useEffect(() => {
+    try {
+      getDoctorsData();
+    } catch (error) {
+      setIsLoading(true);
+      console.log(error);
+    }
+  }, []);
 
   // Add Physician
   const addPhysician = (e) => {
@@ -109,12 +108,12 @@ const DoctorsList = () => {
       .then((response) => {
         updateItem(formProps.EditDoctorID, response.data);
         $("#editPhysicianModal").modal("hide");
-        reset();
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
   const updateItem = (id, newArr) => {
     let index = doctorsList.findIndex((x) => x._id === id);
 

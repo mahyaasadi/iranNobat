@@ -23,7 +23,44 @@ const Permissions = () => {
     { id: 2, name: "دسترسی" },
   ]);
 
-  let permissionItems = [];
+  const dropCheckedPermission = (id, droppableId) => {
+    let item = null;
+
+    if (droppableId == 1) {
+      item = {
+        draggableId: id,
+        type: "DEFAULT",
+        source: {
+          index: 0,
+          droppableId: "1",
+        },
+        reason: "DROP",
+        mode: "FLUID",
+        destination: {
+          droppableId: "2",
+          index: 0,
+        },
+        combine: null,
+      };
+    } else {
+      item = {
+        draggableId: id,
+        type: "DEFAULT",
+        source: {
+          index: 0,
+          droppableId: "2",
+        },
+        reason: "DROP",
+        mode: "FLUID",
+        destination: {
+          droppableId: "1",
+          index: 0,
+        },
+        combine: null,
+      };
+    }
+    onDragEnd(item);
+  };
 
   const [rolePermissionStatus, setRolePermissionStatus] = useState({
     roleAccessList: [],
@@ -36,13 +73,18 @@ const Permissions = () => {
     console.log(`${value} is ${checked}`);
 
     checked
-      ? setRolePermissionStatus({ roleAccessList: [...roleAccessList, value] })
-      : setRolePermissionStatus({
+      ? (setRolePermissionStatus({
+          roleAccessList: [...roleAccessList, value],
+        }),
+        setCheckedState(true))
+      : (setRolePermissionStatus({
           roleAccessList: roleAccessList.filter((e) => e !== value),
-        });
+        }),
+        setCheckedState(false));
   };
 
   // get all permissions
+  let permissionItems = [];
   const getUserPermissions = (arr) => {
     let url = "Permision/getAll";
     setIsLoading(true);
@@ -114,7 +156,6 @@ const Permissions = () => {
   };
 
   const [items, setItems] = useState([]);
-
   const rearangeArr = (arr, sourceIndex, destIndex) => {
     const arrCopy = [...arr];
     const [removed] = arrCopy.splice(sourceIndex, 1);
@@ -187,7 +228,14 @@ const Permissions = () => {
       if (!roleID) return null;
       getSelectedRole();
     }
+    
   }, [Router.isReady]);
+
+  // useEffect(() => {
+  //   window.onbeforeunload = function () {
+  //     return "Changes you made may not be saved";
+  //   };
+  // }, [items])
 
   return (
     <>
@@ -212,7 +260,7 @@ const Permissions = () => {
                         className="permissionCardsContainer"
                       >
                         {categories.map((category, index) => (
-                          <div key={index} className="col-12 col-lg-5">
+                          <div key={index} className="col-12 col-xl-5">
                             <Droppable droppableId={category.id.toString()}>
                               {(provided) => (
                                 <div
@@ -224,7 +272,7 @@ const Permissions = () => {
                                     id="dropzone"
                                     dir="rtl"
                                   >
-                                    <p className="mb-1 text-secondary font-16 fw-bold text-center">
+                                    <p className="mb-1 text-secondary font-14 fw-bold text-center">
                                       {category.name}
                                     </p>
                                     <hr className="mb-4" />
@@ -236,6 +284,7 @@ const Permissions = () => {
                                       .map((item, index) => (
                                         <Draggable
                                           draggableId={item.id.toString()}
+                                          id={item.id.toString()}
                                           key={item.id}
                                           index={index}
                                         >
@@ -246,27 +295,49 @@ const Permissions = () => {
                                               {...provided.dragHandleProps}
                                             >
                                               <div className="checkbox permissionCheckbox">
-                                                <label className="checkbox-wrapper checkbox-wrapper-per">
-                                                  <input
+                                                <div className="checkbox-wrapper checkbox-wrapper-per">
+                                                  {/* <input
                                                     type="checkbox"
                                                     name="roleAccessList"
                                                     value={item.name}
                                                     id={item.id}
                                                     className="checkbox-input"
-                                                    onChange={
-                                                      handleCheckedPermissions
+                                                    onChange={() =>
+                                                      dropCheckedPermission(
+                                                        item.id.toString(),
+                                                        item.category
+                                                      )
                                                     }
-                                                  />
-                                                  <div className="checkbox-tile permissionCheckboxTile permissionItem">
-                                                    <span className="checkbox-icon"></span>
-
-                                                    <div className="checkbox-items">
-                                                      <span className="checkbox-label">
-                                                        <div>{item.name}</div>
-                                                      </span>
+                                                  /> */}
+                                                  <div className="permissionCheckboxTile permissionItem">
+                                                    <div
+                                                      className="checkbox"
+                                                      key={index}
+                                                    >
+                                                      <div className="marginb-sm d-flex align-items-center">
+                                                        <input
+                                                          type="checkbox"
+                                                          id={item.id}
+                                                          value={item.name}
+                                                          name="roleAccessList"
+                                                          className="PerCheckbox-input"
+                                                          onChange={() =>
+                                                            dropCheckedPermission(
+                                                              item.id.toString(),
+                                                              item.category
+                                                            )
+                                                          }
+                                                        />
+                                                        <label
+                                                          className="permissionLabel font-13"
+                                                          htmlFor={item.name}
+                                                        >
+                                                          {item.name}
+                                                        </label>
+                                                      </div>
                                                     </div>
                                                   </div>
-                                                </label>
+                                                </div>
                                               </div>
                                             </div>
                                           )}
