@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Head from 'next/head'
+import Head from "next/head";
 import { axiosClient } from "class/axiosConfig.js";
 import Cookies from "js-cookie";
 import Select from "react-select";
@@ -59,26 +59,33 @@ const Dashboard = () => {
       <div className="main-wrapper">
         <div className="page-wrapper">
           <div className="content container-fluid pb-0">
-            <div className="overview-container">
-              <div className="dashboard-header">
-                <div className="col overview-title">
-                  <p className="card-title">بررسی اجمالی</p>
-                </div>
+            {statsIsLoading ? (
+              <Loading />
+            ) : (
+              ((
+                <div className="overview-container">
+                  <div className="dashboard-header">
+                    <div className="col overview-title">
+                      <p className="card-title">بررسی اجمالی</p>
+                    </div>
 
-                <div className="dashboard-selector font-13">
-                  <Select
-                    className="select"
-                    onChange={(e) => setSelectedDuration(e.value)}
-                    options={overviewOptions}
-                    placeholder={"امروز : " + jdate.format("dddd DD MMMM YYYY")}
-                    id="long-value-select"
-                    instanceId="long-value-select"
-                  />
+                    <div className="dashboard-selector font-13">
+                      <Select
+                        className="select"
+                        onChange={(e) => setSelectedDuration(e.value)}
+                        options={overviewOptions}
+                        placeholder={
+                          "امروز : " + jdate.format("dddd DD MMMM YYYY")
+                        }
+                        id="long-value-select"
+                        instanceId="long-value-select"
+                      />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-
-            {!statsIsLoading ? <OverviewStats stats={stats} /> : <Loading />}
+              ),
+              (<OverviewStats stats={stats} />))
+            )}
           </div>
         </div>
       </div>

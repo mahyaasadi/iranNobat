@@ -152,62 +152,62 @@ const SpecializedWorks = () => {
         <title>کارهای تخصصی مرکز</title>
       </Head>
       <div className="page-wrapper">
-        <div className="content container-fluid">
-          <div className="page-header">
-            <div className="row align-items-center">
-              <div className="col-md-12 d-flex justify-content-end">
-                <Link
-                  href="#"
-                  data-bs-toggle="modal"
-                  data-bs-target="#addSpeWorkModal"
-                  className="btn btn-primary btn-add font-14"
-                >
-                  <i className="me-1">
-                    <FeatherIcon icon="plus-square" />
-                  </i>{" "}
-                  اضافه کردن
-                </Link>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <div className="content container-fluid">
+            <div className="page-header">
+              <div className="row align-items-center">
+                <div className="col-md-12 d-flex justify-content-end">
+                  <Link
+                    href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#addSpeWorkModal"
+                    className="btn btn-primary btn-add font-14"
+                  >
+                    <i className="me-1">
+                      <FeatherIcon icon="plus-square" />
+                    </i>{" "}
+                    اضافه کردن
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* <!-- SpeWorks List --> */}
-          <div className="row">
-            <div className="col-sm-12">
-              <div className="card">
-                <div className="card-header border-bottom-0">
-                  <div className="row align-items-center">
-                    <div className="col">
-                      <p className="card-title font-16">
-                        لیست کارهای تخصصی مرکز
-                      </p>
-                    </div>
-                    <div className="col-auto d-flex flex-wrap">
-                      <div className="form-custom me-2">
-                        <div
-                          id="tableSearch"
-                          className="dataTables_wrapper"
-                        ></div>
+            {/* <!-- SpeWorks List --> */}
+            <div className="row">
+              <div className="col-sm-12">
+                <div className="card">
+                  <div className="card-header border-bottom-0">
+                    <div className="row align-items-center">
+                      <div className="col">
+                        <p className="card-title font-16">
+                          لیست کارهای تخصصی مرکز
+                        </p>
+                      </div>
+                      <div className="col-auto d-flex flex-wrap">
+                        <div className="form-custom me-2">
+                          <div
+                            id="tableSearch"
+                            className="dataTables_wrapper"
+                          ></div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                {isLoading ? (
-                  <Loading />
-                ) : (
                   <SpecializedWorksListTable
                     data={speWorks}
                     deleteSpeWork={deleteSpeWork}
                     updateSpeWork={updateSpeWork}
                   />
-                )}
-              </div>
+                </div>
 
-              <div id="tablepagination" className="dataTables_wrapper"></div>
+                <div id="tablepagination" className="dataTables_wrapper"></div>
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         <AddSpeWorkModal
           name={name}

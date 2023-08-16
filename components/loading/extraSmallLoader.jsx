@@ -1,5 +1,3 @@
-import "components/loading/loading.css";
-
 const ExtraSmallLoader = () => {
   return (
     <>

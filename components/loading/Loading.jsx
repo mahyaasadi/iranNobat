@@ -1,4 +1,3 @@
-import "components/loading/loading.css";
 import Image from "next/image";
 import { loading } from "components/imagepath";
 

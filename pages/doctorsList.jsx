@@ -166,59 +166,58 @@ const DoctorsList = () => {
         <title>پزشکان</title>
       </Head>
       <div className="page-wrapper">
-        <div className="content container-fluid">
-          <div className="page-header">
-            <div className="row align-items-center">
-              <div className="col-md-12 d-flex justify-content-end">
-                <Link
-                  href="#"
-                  data-bs-toggle="modal"
-                  data-bs-target="#addPhysicianModal"
-                  className="btn btn-primary btn-add font-14"
-                >
-                  <i className="me-1">
-                    <FeatherIcon icon="plus-square" />
-                  </i>{" "}
-                  اضافه کردن
-                </Link>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <div className="content container-fluid">
+            <div className="page-header">
+              <div className="row align-items-center">
+                <div className="col-md-12 d-flex justify-content-end">
+                  <Link
+                    href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#addPhysicianModal"
+                    className="btn btn-primary btn-add font-14"
+                  >
+                    <i className="me-1">
+                      <FeatherIcon icon="plus-square" />
+                    </i>{" "}
+                    اضافه کردن
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* <!-- Doctors List --> */}
-          <div className="row">
-            <div className="col-sm-12">
-              <div className="card">
-                <div className="card-header border-bottom-0">
-                  <div className="row align-items-center">
-                    <div className="col">
-                      <h5 className="card-title font-16">لیست پزشکان</h5>
-                    </div>
-                    <div className="col-auto d-flex flex-wrap">
-                      <div className="form-custom me-2">
-                        <div
-                          id="tableSearch"
-                          className="dataTables_wrapper"
-                        ></div>
+            <div className="row">
+              <div className="col-sm-12">
+                <div className="card">
+                  <div className="card-header border-bottom-0">
+                    <div className="row align-items-center">
+                      <div className="col">
+                        <h5 className="card-title font-16">لیست پزشکان</h5>
+                      </div>
+                      <div className="col-auto d-flex flex-wrap">
+                        <div className="form-custom me-2">
+                          <div
+                            id="tableSearch"
+                            className="dataTables_wrapper"
+                          ></div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                {isLoading ? (
-                  <Loading />
-                ) : (
                   <DoctorsListTable
                     data={doctorsList}
                     deletePhysician={deletePhysician}
                     updatePhysician={updatePhysician}
                   />
-                )}
+                </div>
+                <div id="tablepagination" className="dataTables_wrapper"></div>
               </div>
-              <div id="tablepagination" className="dataTables_wrapper"></div>
             </div>
           </div>
-        </div>
+        )}
 
         <AddDoctorModal
           addPhysician={addPhysician}

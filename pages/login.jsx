@@ -18,7 +18,7 @@ const Login = () => {
   const { control } = useForm();
   const router = useRouter();
   const [eye, setEye] = useState(true);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onEyeClick = () => setEye(!eye);
 
@@ -41,7 +41,7 @@ const Login = () => {
         console.log(response.data);
       })
       .catch(function (error) {
-        setIsLoading(true);
+        setIsLoading(false);
         console.log(error);
         error.message == "Network Error"
           ? ErrorAlert("خطا", "در حال حاضر ارتباط با سرور برقرار نیست!")
@@ -51,22 +51,20 @@ const Login = () => {
 
   return (
     <>
-      {/* Main Wrapper */}
-      <div className="row loginBg p-0 d-flex align-items-center">
-        {/* Login Banner */}
-        <div className="col-md-6 login-bg p-0">
-          <div className="login-banner">
-            <Image
-              src={logo}
-              alt="login-banner"
-              unoptimized={true}
-              priority={true}
-            />
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <div className="row loginBg p-0 d-flex align-items-center">
+          <div className="col-md-6 login-bg p-0">
+            <div className="login-banner">
+              <Image
+                src={logo}
+                alt="login-banner"
+                unoptimized={true}
+                priority={true}
+              />
+            </div>
           </div>
-        </div>
-        {!isLoading ? (
-          <Loading />
-        ) : (
           <div className="col-md-6 login-wrap-bg">
             <div className="login-page">
               <div className="login-wrapper">
@@ -147,8 +145,8 @@ const Login = () => {
               </div>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </>
   );
 };
