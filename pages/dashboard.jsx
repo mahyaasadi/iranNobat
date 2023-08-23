@@ -57,37 +57,35 @@ const Dashboard = () => {
         <title>داشبورد من</title>
       </Head>
       <div className="main-wrapper">
-        <div className="page-wrapper">
-          <div className="content container-fluid pb-0">
-            {statsIsLoading ? (
-              <Loading />
-            ) : (
-              ((
-                <div className="overview-container">
-                  <div className="dashboard-header">
-                    <div className="col overview-title">
-                      <p className="card-title">بررسی اجمالی</p>
-                    </div>
+        {statsIsLoading ? (
+          <Loading />
+        ) : (
+          <div className="page-wrapper">
+            <div className="content container-fluid pb-0">
+              <div className="overview-container">
+                <div className="dashboard-header">
+                  <div className="col overview-title">
+                    <p className="card-title">بررسی اجمالی</p>
+                  </div>
 
-                    <div className="dashboard-selector font-13">
-                      <Select
-                        className="select"
-                        onChange={(e) => setSelectedDuration(e.value)}
-                        options={overviewOptions}
-                        placeholder={
-                          "امروز : " + jdate.format("dddd DD MMMM YYYY")
-                        }
-                        id="long-value-select"
-                        instanceId="long-value-select"
-                      />
-                    </div>
+                  <div className="dashboard-selector font-13">
+                    <Select
+                      className="select"
+                      onChange={(e) => setSelectedDuration(e.value)}
+                      options={overviewOptions}
+                      placeholder={
+                        "امروز : " + jdate.format("dddd DD MMMM YYYY")
+                      }
+                      id="long-value-select"
+                      instanceId="long-value-select"
+                    />
                   </div>
                 </div>
-              ),
-              (<OverviewStats stats={stats} />))
-            )}
+              </div>
+              <OverviewStats stats={stats} />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </>
   );
