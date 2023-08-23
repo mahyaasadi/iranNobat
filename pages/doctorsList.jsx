@@ -9,19 +9,19 @@ import Loading from "components/loading/loading";
 import DoctorsListTable from "components/dashboard/doctors/doctorsListTable/doctorsListTable";
 import AddDoctorModal from "components/dashboard/doctors/addDoctorModal/addDoctorModal";
 import EditDoctorModal from "components/dashboard/doctors/editDoctorModal/editDoctorModal";
-// import {
-//   useQuery,
-//   useMutation,
-//   useQueryClient,
-//   QueryClient,
-//   QueryClientProvider,
-// } from 'react-query';
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
 
 let CenterID = Cookies.get("CenterID");
 
 const DoctorsList = () => {
   // Access the client
-  // const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   const [isLoading, setIsLoading] = useState(true);
   const [doctorsList, setDoctorsList] = useState([]);
@@ -53,6 +53,13 @@ const DoctorsList = () => {
 
   // Queries
   // const query = useQuery('doctorsData', getDoctorsData);
+
+  const { data: doctors, isError } = useQuery(
+    ['doctorsList', CenterID],
+    () => axiosClient.get(`CenterProfile/getCenterPhysician/${CenterID}`).then((response) => response.data)
+  );
+
+  console.log(doctors);
 
   useEffect(() => {
     try {

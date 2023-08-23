@@ -11,6 +11,13 @@ import EditInsuranceModal from "components/dashboard/insurances/editInsuranceMod
 import insuranceTypeDataClass from "class/insuranceTypeDataClass";
 import insuranceStatusDataClass from "class/insuranceStatusDataClass";
 import { QuestionAlert } from "class/AlertManage.js";
+// import {
+//   useQuery,
+//   useMutation,
+//   useQueryClient,
+//   QueryClient,
+//   QueryClientProvider,
+// } from 'react-query';
 
 let CenterID = Cookies.get("CenterID");
 
@@ -23,6 +30,14 @@ const Insurance = () => {
   const [insuranceStatus, setInsuranceStatus] = useState(
     insuranceStatusDataClass
   );
+  // const queryClient = useQueryClient();
+
+  // const { data: doctors, isError } = useQuery(
+  //   ['doctorsList', CenterID],
+  //   () => axiosClient.get(`CenterProfile/getCenterPhysician/${CenterID}`).then((response) => response.data)
+  // );
+
+  // console.log(doctors);
 
   const handleNameInput = (e) => setName(e.target.value);
 
