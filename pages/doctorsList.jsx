@@ -15,7 +15,7 @@ import {
   useQueryClient,
   QueryClient,
   QueryClientProvider,
-} from 'react-query';
+} from "react-query";
 
 let CenterID = Cookies.get("CenterID");
 
@@ -52,14 +52,12 @@ const DoctorsList = () => {
   };
 
   // Queries
-  // const query = useQuery('doctorsData', getDoctorsData);
+  // const { data: doctors, isError } = useQuery(
+  //   ['doctorsList', CenterID],
+  //   () => axiosClient.get(`CenterProfile/getCenterPhysician/${CenterID}`).then((response) => response.data)
+  // );
 
-  const { data: doctors, isError } = useQuery(
-    ['doctorsList', CenterID],
-    () => axiosClient.get(`CenterProfile/getCenterPhysician/${CenterID}`).then((response) => response.data)
-  );
-
-  console.log(doctors);
+  // console.log(doctors);
 
   useEffect(() => {
     try {

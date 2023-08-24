@@ -112,7 +112,7 @@ const LoeingModal = ({
                 </Link>
               </div>
 
-              <div className="card-body p-0">
+              <div className="card-body p-4">
                 <div className="table-responsive">
                   <DataTableExtensions {...tableData}>
                     <DataTable

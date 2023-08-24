@@ -85,7 +85,7 @@ const DiscountsListTable = ({ data, updateDiscount, deleteDiscount }) => {
   };
 
   return (
-    <div className="card-body p-0">
+    <div className="card-body p-4">
       <div className="table-responsive">
         <DataTableExtensions {...tableData}>
           <DataTable

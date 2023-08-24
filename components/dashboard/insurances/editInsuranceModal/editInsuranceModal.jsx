@@ -15,7 +15,7 @@ const EditInsuranceModal = ({
   const selectedType = { value: data.Type, label: data.Type };
   const selectedStatus = { value: data.Status, label: data.Status };
 
-   const colourStyles = {
+  const colourStyles = {
     menu: (provided) => ({ ...provided, zIndex: 9999 }),
     control: (styles) => ({
       ...styles,
@@ -51,72 +51,75 @@ const EditInsuranceModal = ({
           </div>
           <div className="modal-body">
             <form onSubmit={editInsurance}>
-                <div className="form-group">
-                  <input
-                    type="hidden"
-                    className="form-control floating"
-                    name="EditInsuranceID"
-                    value={data._id}
-                  />
-                 
-                  <label className="lblAbs font-12">
-                    نام بیمه <span className="text-danger">*</span>
-                  </label>
-                  <input
-                    className="form-control floating inputPadding rounded"
-                    type="text"
-                    name="EditInsuranceName"
-                    defaultValue={data.Name}
-                    key={data.Name}
-                    required
-                  />
-                </div>
+              <div className="form-group">
+                <input
+                  type="hidden"
+                  className="form-control floating"
+                  name="EditInsuranceID"
+                  value={data._id}
+                />
 
-                <div className="col media-w-100 font-12">
-                  <label className="lblDrugIns font-12">
-                    نوع بیمه<span className="text-danger">*</span>
-                  </label>
-                  <SelectField
-                    styles={colourStyles}
-                    options={insuranceType}
-                    errorMessage={""}
-                    error={false}
-                    label={false}
-                    name="EditInsuranceType"
-                    placeholder={"نوع بیمه را انتخاب کنید "}
-                    required
-                    onChangeValue={(value) => FUSelectInsuranceType(value?.value)}
-                    defaultValue={selectedType}
-                    key={data.Type}
-                  />
-                </div>
+                <label className="lblAbs font-12">
+                  نام بیمه <span className="text-danger">*</span>
+                </label>
+                <input
+                  className="form-control floating inputPadding rounded"
+                  type="text"
+                  name="EditInsuranceName"
+                  defaultValue={data.Name}
+                  key={data.Name}
+                  required
+                />
+              </div>
 
-                <div className="col media-w-100 font-12">
-                  <label className="lblDrugIns font-12">
-                    نوع بیمه<span className="text-danger">*</span>
-                  </label>
-                  <SelectField
-                    styles={colourStyles}
-                    options={insuranceStatus}
-                    errorMessage={""}
-                    error={false}
-                    label={false}
-                    name="EditInsuranceStatus"
-                    placeholder={"وضعیت بیمه را انتخاب کنید"}
-                    required
-                    onChangeValue={(value) =>
-                      FUSelectInsuranceStatus(value?.value)
-                    }
-                    defaultValue={selectedStatus}
-                    key={data.Status}
-                  />
-                </div>
+              <div className="col media-w-100 font-12">
+                <label className="lblDrugIns font-12">
+                  نوع بیمه<span className="text-danger">*</span>
+                </label>
+                <SelectField
+                  styles={colourStyles}
+                  options={insuranceType}
+                  errorMessage={""}
+                  error={false}
+                  label={false}
+                  name="EditInsuranceType"
+                  placeholder={"نوع بیمه را انتخاب کنید "}
+                  required
+                  onChangeValue={(value) => FUSelectInsuranceType(value?.value)}
+                  defaultValue={selectedType}
+                  key={data.Type}
+                />
+              </div>
 
-                <div className="submit-section">
-                  <button type="submit" className="btn btn-primary btn-save rounded">
-                    ثبت تغییرات
-                  </button>
-                </div>
+              <div className="col media-w-100 font-12">
+                <label className="lblDrugIns font-12">
+                  وضعیت بیمه<span className="text-danger">*</span>
+                </label>
+                <SelectField
+                  styles={colourStyles}
+                  options={insuranceStatus}
+                  errorMessage={""}
+                  error={false}
+                  label={false}
+                  name="EditInsuranceStatus"
+                  placeholder={"وضعیت بیمه را انتخاب کنید"}
+                  required
+                  onChangeValue={(value) =>
+                    FUSelectInsuranceStatus(value?.value)
+                  }
+                  defaultValue={selectedStatus}
+                  key={data.Status}
+                />
+              </div>
+
+              <div className="submit-section">
+                <button
+                  type="submit"
+                  className="btn btn-primary btn-save rounded"
+                >
+                  ثبت تغییرات
+                </button>
+              </div>
             </form>
           </div>
         </div>
