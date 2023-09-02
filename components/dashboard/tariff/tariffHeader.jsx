@@ -5,6 +5,7 @@ import TabContent from "./TabContent";
 
 const TariffHeader = ({ data, getServices, addService }) => {
   let counter = 1;
+  // console.log(data);
   return (
     <>
       <div className="departmentsCategory w-100">

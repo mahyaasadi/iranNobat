@@ -1,17 +1,7 @@
 import FeatherIcon from "feather-icons-react";
-import SelectField from "components/commonComponents/selectfield";
 import Link from "next/link";
 
 const AddTariffModal = ({ addService, srvGroupList, FUSelectSrvGroupName }) => {
-  const colourStyles = {
-    menu: (provided) => ({ ...provided, zIndex: 9999 }),
-    control: (styles) => ({
-      ...styles,
-      minHeight: 43,
-      borderRadius: 20,
-      border: "1px solid #E6E9F4",
-    }),
-  };
   return (
     <>
       <div
@@ -23,9 +13,7 @@ const AddTariffModal = ({ addService, srvGroupList, FUSelectSrvGroupName }) => {
         <div className="modal-dialog modal-dialog-centered modal-xl">
           <div className="modal-content media-modal-content">
             <div className="modal-header media-modal-header">
-              <p className="mb-0 text-secondary font-14 fw-bold">
-               سرویس جدید
-              </p>
+              <p className="mb-0 text-secondary font-14 fw-bold">سرویس جدید</p>
               <button
                 type="button"
                 className="close-btn"
@@ -41,7 +29,7 @@ const AddTariffModal = ({ addService, srvGroupList, FUSelectSrvGroupName }) => {
             <div className="modal-body media-modal-body">
               <form onSubmit={addService}>
                 <div className="row media-flex-col align-end">
-                  <div className="col-lg-2 col">
+                  <div className="col">
                     <div className="form-group">
                       <label className="lblAbs font-12">
                         شناسه <span className="text-danger">*</span>
@@ -55,7 +43,7 @@ const AddTariffModal = ({ addService, srvGroupList, FUSelectSrvGroupName }) => {
                     </div>
                   </div>
 
-                  <div className="col-lg-6 col">
+                  <div className="col">
                     <div className="form-group">
                       <label className="lblAbs font-12">
                         نام خدمت <span className="text-danger">*</span>
@@ -69,57 +57,57 @@ const AddTariffModal = ({ addService, srvGroupList, FUSelectSrvGroupName }) => {
                     </div>
                   </div>
 
-                  <div className="col-lg-4 col font-13">
-                    <label className="lblDrugIns font-12">
-                      نام گروه<span className="text-danger">*</span>
-                    </label>
-                    <SelectField
-                      styles={colourStyles}
-                      className="text-center"
-                      options={srvGroupList}
-                      errorMessage={""}
-                      error={false}
-                      label={true}
-                      placeholder={"انتخاب کنید"}
-                      required
-                      name="srvGroupName"
-                      onChangeValue={(value) =>
-                        FUSelectSrvGroupName(value?.value)
-                      }
-                    />
+                  <div className="col">
+                    <div className="form-group">
+                      <label className="lblAbs font-12">کد داخلی</label>
+                      <input
+                        type="text"
+                        className="form-control floating inputPadding rounded"
+                        name="addInternalCode"
+                      />
+                    </div>
                   </div>
                 </div>
 
                 <div className="row media-flex-col">
                   <div className="col">
                     <div className="form-group">
-                      <label className="lblAbs font-12">ضریب K</label>
+                      <label className="lblAbs font-12">
+                        ضریب K <span className="text-danger">*</span>
+                      </label>
                       <input
                         type="text"
                         className="form-control floating inputPadding rounded"
                         name="total_K"
+                        required
                       />
                     </div>
                   </div>
 
                   <div className="col">
                     <div className="form-group">
-                      <label className="lblAbs font-12">ضریب فنی K</label>
+                      <label className="lblAbs font-12">
+                        ضریب فنی K <span className="text-danger">*</span>
+                      </label>
                       <input
                         type="text"
                         className="form-control floating inputPadding rounded"
                         name="tech_K"
+                        required
                       />
                     </div>
                   </div>
 
                   <div className="col">
                     <div className="form-group">
-                      <label className="lblAbs font-12">ضریب حرفه ای K</label>
+                      <label className="lblAbs font-12">
+                        ضریب حرفه ای K <span className="text-danger">*</span>
+                      </label>
                       <input
                         type="text"
                         className="form-control floating inputPadding rounded"
                         name="pro_K"
+                        required
                       />
                     </div>
                   </div>

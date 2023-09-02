@@ -121,7 +121,6 @@ const DoctorsList = () => {
 
   const updateItem = (id, newArr) => {
     let index = doctorsList.findIndex((x) => x._id === id);
-
     let g = doctorsList[index];
     g = newArr;
     if (index === -1) {

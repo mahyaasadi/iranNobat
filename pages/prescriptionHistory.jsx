@@ -49,7 +49,7 @@ const PrescriptionHistory = () => {
           <div className="row">
             <div className="col-sm-12">
               <div className="card">
-                <div className="card-header border-bottom-0 margin-top-1 margin-bottom-3">
+                <div className="card-header border-bottom-0 margin-top-1 margin-bottom-4">
                   <form>
                     <div className="row">
                       <div className="col-md-12 col-lg-3 mt-3">

@@ -1,5 +1,4 @@
 import FeatherIcon from "feather-icons-react";
-import SelectField from "components/commonComponents/selectfield";
 import Link from "next/link";
 
 const EditTariffModal = ({
@@ -13,15 +12,6 @@ const EditTariffModal = ({
     label: data.CenterGroup,
   };
 
-  const colourStyles = {
-    menu: (provided) => ({ ...provided, zIndex: 9999 }),
-    control: (styles) => ({
-      ...styles,
-      minHeight: 43,
-      borderRadius: 20,
-      border: "1px solid #E6E9F4",
-    }),
-  };
   return (
     <>
       <div
@@ -34,8 +24,8 @@ const EditTariffModal = ({
           <div className="modal-content media-modal-content">
             <div className="modal-header media-modal-header">
               <p className="mb-0 text-secondary font-14 fw-bold">
-              ویرایش اطلاعات
-            </p>
+                ویرایش اطلاعات
+              </p>
               <button
                 type="button"
                 className="close-btn"
@@ -51,7 +41,7 @@ const EditTariffModal = ({
             <div className="modal-body media-modal-body">
               <form onSubmit={editService}>
                 <div className="row media-flex-col align-end">
-                  <div className="col col-lg-2">
+                  <div className="col">
                     <div className="form-group">
                       <label className="lblAbs font-12">
                         شناسه <span className="text-danger">*</span>
@@ -63,14 +53,15 @@ const EditTariffModal = ({
                         name="serviceId"
                         key={data._id}
                         defaultValue={data._id}
+                        readOnly
                       />
                     </div>
                   </div>
 
-                  <div className="col col-lg-6">
+                  <div className="col">
                     <div className="form-group">
                       <label className="lblAbs font-12">
-                        نام <span className="text-danger">*</span>
+                        نام خدمت <span className="text-danger">*</span>
                       </label>
                       <input
                         type="text"
@@ -83,25 +74,17 @@ const EditTariffModal = ({
                     </div>
                   </div>
 
-                  <div className="col-lg-4 col font-13">
-                    <label className="lblDrugIns font-12">
-                      نام گروه<span className="text-danger">*</span>
-                    </label>
-                    <SelectField
-                      styles={colourStyles}
-                      options={srvGroupList}
-                      errorMessage={""}
-                      error={false}
-                      label={true}
-                      placeholder={"نام گروه را انتخاب کنید"}
-                      required
-                      name="srvGroupName"
-                      onChangeValue={(value) =>
-                        FUSelectSrvGroupName(value?.value)
-                      }
-                      defaultValue={selectedSrvGroupName}
-                      key={data.CenterGroup}
-                    />
+                  <div className="col">
+                    <div className="form-group">
+                      <label className="lblAbs font-12">کد داخلی</label>
+                      <input
+                        type="text"
+                        className="form-control floating inputPadding rounded"
+                        name="editInternalCode"
+                        defaultValue={data.InternalCode}
+                        key={data.InternalCode}
+                      />
+                    </div>
                   </div>
                 </div>
 
@@ -152,14 +135,10 @@ const EditTariffModal = ({
                 <div className="row media-flex-col">
                   <div className="col">
                     <div className="form-group ">
-                      <label className="lblAbs font-12">
-                        مبلغ K فنی-خصوصی
-                        <span className="text-danger">*</span>
-                      </label>
+                      <label className="lblAbs font-12">مبلغ K فنی-خصوصی</label>
                       <input
                         type="number"
                         className="form-control floating inputPadding rounded"
-                        required
                         name="ptk_price"
                         key={data.PrivateTechnicalK_Price}
                         defaultValue={data.PrivateTechnicalK_Price}
@@ -171,12 +150,10 @@ const EditTariffModal = ({
                     <div className="form-group ">
                       <label className="lblAbs font-12">
                         مبلغ K حرفه ای-خصوصی
-                        <span className="text-danger">*</span>
                       </label>
                       <input
                         type="number"
                         className="form-control floating inputPadding rounded"
-                        required
                         name="ppk_price"
                         key={data.PrivateProfessionalK_Price}
                         defaultValue={data.PrivateProfessionalK_Price}
@@ -186,13 +163,10 @@ const EditTariffModal = ({
 
                   <div className="col">
                     <div className="form-group ">
-                      <label className="lblAbs font-12">
-                        مبلغ K فنی-دولتی<span className="text-danger">*</span>
-                      </label>
+                      <label className="lblAbs font-12">مبلغ K فنی-دولتی</label>
                       <input
                         type="number"
                         className="form-control floating inputPadding rounded"
-                        required
                         name="gtk_price"
                         key={data.GovernmentalTechnicalK_Price}
                         defaultValue={data.GovernmentalTechnicalK_Price}
@@ -204,12 +178,10 @@ const EditTariffModal = ({
                     <div className="form-group ">
                       <label className="lblAbs font-12">
                         مبلغ K حرفه ای-دولتی{" "}
-                        <span className="text-danger">*</span>
                       </label>
                       <input
                         type="number"
                         className="form-control floating inputPadding rounded"
-                        required
                         name="gpk_price"
                         key={data.GovernmentalProfessionalK_Price}
                         defaultValue={data.GovernmentalProfessionalK_Price}
@@ -253,13 +225,10 @@ const EditTariffModal = ({
 
                   <div className="col">
                     <div className="form-group">
-                      <label className="lblAbs font-12">
-                        تعرفه آزاد <span className="text-danger">*</span>
-                      </label>
+                      <label className="lblAbs font-12">تعرفه آزاد</label>
                       <input
                         type="number"
                         className="form-control floating inputPadding rounded"
-                        required
                         name="freeTariff"
                         key={data.FreeTariff}
                         defaultValue={data.FreeTariff}
@@ -307,7 +276,6 @@ const EditTariffModal = ({
                       <input
                         type="number"
                         className="form-control floating inputPadding rounded"
-                        required
                         name="taminShare"
                         key={data.ST}
                         defaultValue={data.ST}
@@ -321,7 +289,6 @@ const EditTariffModal = ({
                       <input
                         type="number"
                         className="form-control floating inputPadding rounded"
-                        required
                         name="salamatShare"
                         key={data.SS}
                         defaultValue={data.SS}
@@ -335,7 +302,6 @@ const EditTariffModal = ({
                       <input
                         type="number"
                         className="form-control floating inputPadding rounded"
-                        required
                         name="arteshShare"
                         key={data.SA}
                         defaultValue={data.SA}

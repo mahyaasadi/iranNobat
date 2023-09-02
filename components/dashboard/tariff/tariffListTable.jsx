@@ -21,13 +21,19 @@ const TariffListTable = ({
   if (router.pathname == "/tariff") {
     columns = [
       {
-        name: "شناسه",
+        name: "کد خدمت",
         selector: (row) => row._id,
         sortable: true,
         width: "120px",
       },
       {
-        name: "نام",
+        name: "کد داخلی",
+        selector: (row) => row.InternalCode,
+        sortable: true,
+        width: "120px",
+      },
+      {
+        name: "نام خدمت",
         selector: (row) =>
           typeof row.Service != "undefined"
             ? row.Service.substr(0, 40) + " ..."
@@ -75,12 +81,10 @@ const TariffListTable = ({
       {
         name: "عملیات ها",
         selector: (row) => row.action,
-        sortable: true,
         cell: (row) => (
           <div className="actions d-flex gap-2">
-            <Link
+            <button
               className="btn btn-sm btn-outline-danger"
-              href="#"
               data-bs-toggle="tooltip"
               data-bs-placement="top"
               title="حذف"
@@ -90,21 +94,20 @@ const TariffListTable = ({
                 icon="trash-2"
                 style={{ width: "16px", height: "16px" }}
               />
-            </Link>
+            </button>
 
-            <Link
+            <button
               className="btn btn-sm btn-outline-secondary btn-border-left"
-              href="#"
-              onClick={() => updateService(row)}
               data-bs-toggle="tooltip"
               data-bs-placement="top"
               title="ویرایش"
+              onClick={() => updateService(row)}
             >
               <FeatherIcon
                 icon="edit-3"
                 style={{ width: "16px", height: "16px" }}
               />
-            </Link>
+            </button>
 
             {/* Loeing */}
             <Link
@@ -135,29 +138,27 @@ const TariffListTable = ({
         name: "کد خدمت",
         selector: (row) => row._id,
         sortable: true,
-        width: "auto",
+        width: "300px",
       },
       {
         name: "نام خدمت",
         selector: (row) => row.Service.substr(0, 60) + " ...",
         sortable: true,
-        width: "auto",
+        width: "520px",
       },
       {
         name: "نام گروه",
         selector: (row) => row.CenterGroup,
         sortable: true,
-        width: "auto",
+        width: "580px",
       },
       {
         name: "عملیات ها",
         selector: (row) => row.action,
-        sortable: true,
         cell: (row) => (
           <div className="actions d-flex gap-1">
-            <Link
+            <button
               className="btn btn-sm btn-outline-danger"
-              href="#"
               data-bs-toggle="tooltip"
               data-bs-placement="top"
               title="حذف"
@@ -167,11 +168,10 @@ const TariffListTable = ({
                 icon="trash-2"
                 style={{ width: "16px", height: "16px" }}
               />
-            </Link>
+            </button>
 
-            <Link
+            <button
               className="btn btn-sm btn-outline-secondary btn-border-left"
-              href="#"
               data-bs-toggle="tooltip"
               data-bs-placement="top"
               title="ویرایش"
@@ -181,7 +181,7 @@ const TariffListTable = ({
                 icon="edit-3"
                 style={{ width: "16px", height: "16px" }}
               />
-            </Link>
+            </button>
           </div>
         ),
         width: "150px",

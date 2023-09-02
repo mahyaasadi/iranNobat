@@ -47,9 +47,8 @@ const ServiceGroupListTable = ({ data, updateGroup, deleteSrvGroup }) => {
       sortable: true,
       cell: (row) => (
         <div className="actions d-flex gap-1">
-          <Link
+          <button
             className="btn btn-sm btn-outline-danger"
-            href="#"
             data-bs-toggle="tooltip"
             data-bs-placement="top"
             title="حذف"
@@ -59,11 +58,10 @@ const ServiceGroupListTable = ({ data, updateGroup, deleteSrvGroup }) => {
               icon="trash-2"
               style={{ width: "16px", height: "16px" }}
             />
-          </Link>
+          </button>
 
-          <Link
+          <button
             className="btn btn-sm btn-outline-secondary btn-border-left"
-            href="#"
             data-bs-toggle="tooltip"
             data-bs-placement="top"
             title="ویرایش"
@@ -73,7 +71,7 @@ const ServiceGroupListTable = ({ data, updateGroup, deleteSrvGroup }) => {
               icon="edit-3"
               style={{ width: "16px", height: "16px" }}
             />
-          </Link>
+          </button>
         </div>
       ),
       width: "200px",

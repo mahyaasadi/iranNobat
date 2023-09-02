@@ -104,7 +104,7 @@ const PrescriptionsListTable = ({ data }) => {
 
   return (
     <>
-      <div className="card-body p-0">
+      <div className="card-body p-4">
         <div className="table-responsive">
           <DataTableExtensions {...tableData}>
             <DataTable
@@ -112,6 +112,7 @@ const PrescriptionsListTable = ({ data }) => {
               defaultSortField="id"
               defaultSortAsc={false}
               pagination
+              paginationPerPage="20"
               highlightOnHover
               customStyles={tableCustomStyles}
             />

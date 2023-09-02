@@ -7,7 +7,7 @@ import FeatherIcon from "feather-icons-react";
 import PrescriptionType from "components/dashboard/prescription/prescriptionType";
 import ServiceType from "components/dashboard/prescription/serviceType";
 import TaminSrvSearch from "components/dashboard/prescription/TaminSrvSearch";
-import SmallLoader from "components/loading/smallLoader";
+import ExtraSmallLoader from "components/loading/extraSmallLoader";
 
 const PrescriptionCard = ({
   lists,
@@ -211,7 +211,7 @@ const PrescriptionCard = ({
                     id="BtnServiceSearch"
                   >
                     {isLoading ? (
-                      <SmallLoader />
+                      <ExtraSmallLoader />
                     ) : (
                       <i className="fe fe-search"></i>
                     )}

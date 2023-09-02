@@ -4,7 +4,7 @@ import { axiosClient } from "class/axiosConfig.js";
 import Link from "next/link";
 import Head from "next/head";
 import FeatherIcon from "feather-icons-react";
-import { QuestionAlert } from "class/AlertManage.js";
+import { QuestionAlert, ErrorAlert } from "class/AlertManage.js";
 import Loading from "components/loading/loading";
 import TariffHeader from "components/dashboard/tariff/tariffHeader";
 import TariffListTable from "components/dashboard/tariff/tariffListTable";
@@ -67,7 +67,7 @@ const Tariff = () => {
     }
   }, []);
 
-  //get services
+  // get services
   const getServices = (DepID, PerFullName) => {
     activeDepId = DepID;
     activeDepName = PerFullName;
@@ -144,7 +144,7 @@ const Tariff = () => {
       DepID: activeDepId,
       ServiceID: formProps.serviceId,
       Service: formProps.serviceName,
-      CenterGroup: formProps.srvGroupName,
+      InternalCode: formProps.addInternalCode,
       Total_K: formProps.total_K,
       Technical_K: formProps.tech_K,
       Professional_K: formProps.pro_K,
@@ -162,24 +162,26 @@ const Tariff = () => {
       SA: formProps.arteshShare,
     };
 
-    console.log(addData);
+    console.log("addData", addData);
+
     axiosClient
       .post(url, addData)
       .then((response) => {
+        console.log("add response", response.data);
         setServices([...services, response.data]);
-        setIsLoading(false);
-        console.log("added", response.data);
         $("#addTariffModal").modal("hide");
         e.target.reset();
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
-        setIsLoading(true);
+        setIsLoading(false);
+        ErrorAlert("خطا", "افزودن خدمت با خطا مواجه گردید!");
       });
   };
 
   //edit service
-  const editService = (e) => {
+  const editService = async (e) => {
     e.preventDefault();
 
     let formData = new FormData(e.target);
@@ -192,7 +194,7 @@ const Tariff = () => {
       DepID: activeDepId,
       ServiceID: formProps.serviceId,
       Service: formProps.serviceName,
-      CenterGroup: formProps.srvGroupName,
+      InternalCode: formProps.editInternalCode,
       Total_K: formProps.total_K,
       Technical_K: formProps.tech_K,
       Professional_K: formProps.pro_K,
@@ -210,15 +212,19 @@ const Tariff = () => {
       SA: formProps.arteshShare,
     };
 
-    axiosClient
+    console.log("data", editData);
+
+    await axiosClient
       .put(url, editData)
       .then((response) => {
+        console.log("response", response.data);
         updateItem(formProps.serviceId, response.data);
         $("#editTariffModal").modal("hide");
       })
       .catch((error) => {
         console.log(error);
         setIsLoading(true);
+        ErrorAlert("خطا", "ویرایش اطلاعات با خطا مواجه گردید!");
       });
   };
 
@@ -228,7 +234,6 @@ const Tariff = () => {
     g = newArr;
 
     if (index === -1) {
-      // handle error
       console.log("no match");
     } else
       setServices([
@@ -251,12 +256,12 @@ const Tariff = () => {
     );
 
     if (result) {
+      let url = `CenterServicessInfo/DeleteService`;
       let data = {
         CenterID: CenterID,
         DepID: activeDepId,
         ServiceID: id,
       };
-      let url = `CenterServicessInfo/DeleteService`;
 
       await axiosClient
         .delete(url, { data })
@@ -561,7 +566,7 @@ const Tariff = () => {
                 <div className="card-header border-bottom-0">
                   <div className="row align-items-center">
                     <div className="col">
-                      <h5 className="card-title font-16">لیست سرویس ها</h5>
+                      <h5 className="card-title font-16">لیست خدمات</h5>
                     </div>
                     <div className="col-auto d-flex flex-wrap">
                       <div className="form-custom me-2">
