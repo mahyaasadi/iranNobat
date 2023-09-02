@@ -5,7 +5,7 @@ import { eventsAccepted, payment, talking } from "components/imagePath";
 
 const OverviewStats = ({ stats }) => {
   return (
-    // total requests
+    {/* totaol requests */}
     <div className="row">
       <div className="col-xl-3 col-sm-6 col-12">
         <div className="card">
