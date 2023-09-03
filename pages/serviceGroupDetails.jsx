@@ -9,10 +9,10 @@ import Loading from "components/loading/loading";
 import TariffHeader from "components/dashboard/tariff/tariffHeader";
 import TariffListTable from "components/dashboard/tariff/tariffListTable";
 import serviceGroupDifDataClass from "class/serviceGroupDifDataClass";
-import ServiceGroupListTable from "components/dashboard/serviceGroupDetails/serviceGroupListTable/serviceGroupListTable";
-import EditServiceGroupModal from "components/dashboard/serviceGroupDetails/editServiceGroupModal/editServiceGroupModal";
-import EditServiceModal from "components/dashboard/serviceGroupDetails/editServiceModal/editServiceModal";
-import AddSrvGroupModal from "components/dashboard/serviceGroupDetails/addSrvGroupModal/addSrvGroupModal";
+import ServiceGroupListTable from "components/dashboard/serviceGroupDetails/serviceGroupListTable";
+import EditServiceGroupModal from "components/dashboard/serviceGroupDetails/editServiceGroupModal";
+import EditServiceModal from "components/dashboard/serviceGroupDetails/editServiceModal";
+import AddSrvGroupModal from "components/dashboard/serviceGroupDetails/addSrvGroupModal";
 import AddTariffModal from "components/dashboard/tariff/addTariffModal";
 
 let CenterID = Cookies.get("CenterID");

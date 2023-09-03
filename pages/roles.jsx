@@ -6,9 +6,9 @@ import { axiosClient } from "class/axiosConfig.js";
 import FeatherIcon from "feather-icons-react";
 import Loading from "components/loading/loading";
 import { QuestionAlert } from "class/AlertManage.js";
-import RolesListTable from "components/dashboard/roles/rolesListTable/rolesListTable";
-import AddRoleModal from "components/dashboard/roles/addRoleModal/addRoleModal";
-import EditRoleModal from "components/dashboard/roles/editRoleModal/editRoleModal";
+import RolesListTable from "components/dashboard/roles/rolesListTable";
+import AddRoleModal from "components/dashboard/roles/addRoleModal";
+import EditRoleModal from "components/dashboard/roles/editRoleModal";
 
 let CenterID = Cookies.get("CenterID");
 

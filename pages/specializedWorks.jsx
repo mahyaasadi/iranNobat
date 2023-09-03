@@ -7,8 +7,8 @@ import Cookies from "js-cookie";
 import { QuestionAlert } from "class/AlertManage.js";
 import Loading from "components/loading/loading";
 import SpecializedWorksListTable from "components/dashboard/specializedWorks/specializedWorksListTable";
-import AddSpeWorkModal from "components/dashboard/specializedWorks/addspeWorkModal/addSpeWorkModal";
-import EditSpeWorkModal from "components/dashboard/specializedWorks/editSpeWorkModal/editSpeWorkModal";
+import AddSpeWorkModal from "components/dashboard/specializedWorks/addspeWorkModal";
+import EditSpeWorkModal from "components/dashboard/specializedWorks/editSpeWorkModal";
 
 let CenterID = Cookies.get("CenterID");
 

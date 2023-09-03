@@ -9668,6 +9668,10 @@ tr {
   border-radius: 10px;
 }
 
+/* .darkmode ::-webkit-scrollbar-track {
+  background: #97a2d2;
+} */
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: #1b5a90;
@@ -9675,11 +9679,19 @@ tr {
   opacity: 0.9;
 }
 
+/* .darkmode ::-webkit-scrollbar-thumb {
+  background: #97a2d2;
+} */
+
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #1b5a90;
   opacity: 1;
 }
+
+/* .darkmode ::-webkit-scrollbar-thumb:hover {
+  background: #97a2d2;
+} */
 
 /*///////   Loading  /////*/
 /* main loader */

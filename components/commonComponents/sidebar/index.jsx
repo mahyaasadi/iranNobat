@@ -80,12 +80,8 @@ const Sidebar = () => {
                   <span className="menu-arrow"></span>
                 </a>
                 <ul className="hidden hiddenSidebar">
-                  <li
-                    className={
-                      router.pathname == "/doctorsList" ? "active" : ""
-                    }
-                  >
-                    <Link href="/doctorsList" className="font-12">
+                  <li className={router.pathname == "/doctors" ? "active" : ""}>
+                    <Link href="/doctors" className="font-12">
                       پزشکان
                     </Link>
                   </li>
