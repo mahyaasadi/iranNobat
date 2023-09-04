@@ -39,7 +39,7 @@ const DiscountsListTable = ({ data, updateDiscount, deleteDiscount }) => {
           )}
         </div>
       ),
-      width: "auto",
+      width: "300px",
     },
     {
       name: "عملیات ها",

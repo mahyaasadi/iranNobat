@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Head from 'next/head'
+import Head from "next/head";
 import { axiosClient } from "class/axiosConfig.js";
 import Cookies from "js-cookie";
 import FeatherIcon from "feather-icons-react";
 import Loading from "components/loading/loading";
-import CannedMessagesListTable from "components/dashboard/cannedMessages/cannedMessagesListTable/cannedMessagesListTable";
-import AddMessageModal from "components/dashboard/cannedMessages/addMessageModal/addMessageModal";
-import EditMessageModal from "components/dashboard/cannedMessages/editMessageModal/editMessageModal";
+import CannedMessagesListTable from "components/dashboard/cannedMessages/cannedMessagesListTable";
+import AddMessageModal from "components/dashboard/cannedMessages/addMessageModal";
+import EditMessageModal from "components/dashboard/cannedMessages/editMessageModal";
 import { QuestionAlert } from "class/AlertManage.js";
 
 let CenterID = Cookies.get("CenterID");
@@ -118,7 +118,7 @@ const CannedMessages = () => {
 
   const updateMessage = (data) => {
     setEditedMessage(data);
-    $("#editMessageModal").modal("show")
+    $("#editMessageModal").modal("show");
   };
 
   // Delete Message
@@ -148,7 +148,7 @@ const CannedMessages = () => {
 
   return (
     <>
-    <Head>
+      <Head>
         <title>پیام های پیش فرض</title>
       </Head>
       <div className="page-wrapper">
@@ -178,7 +178,9 @@ const CannedMessages = () => {
                 <div className="card-header border-bottom-0">
                   <div className="row align-items-center">
                     <div className="col">
-                      <h5 className="card-title font-16">لیست پیام های پیش فرض</h5>
+                      <h5 className="card-title font-16">
+                        لیست پیام های پیش فرض
+                      </h5>
                     </div>
                     <div className="col-auto d-flex flex-wrap">
                       <div className="form-custom me-2">

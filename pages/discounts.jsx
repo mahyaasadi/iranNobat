@@ -7,9 +7,9 @@ import FeatherIcon from "feather-icons-react";
 import { QuestionAlert } from "class/AlertManage.js";
 import Loading from "components/loading/loading";
 import discountPercentDataClass from "class/discountPercentDataClass";
-import DiscountsListTable from "components/dashboard/discounts/discountsListTable/discountsListTable";
-import AddDiscountModal from "components/dashboard/discounts/addDiscountModal/addDiscountModal";
-import EditDiscountModal from "components/dashboard/discounts/editDiscountModal/editDiscountModal";
+import DiscountsListTable from "components/dashboard/discounts/discountsListTable";
+import AddDiscountModal from "components/dashboard/discounts/addDiscountModal";
+import EditDiscountModal from "components/dashboard/discounts/editDiscountModal";
 
 let CenterID = Cookies.get("CenterID");
 

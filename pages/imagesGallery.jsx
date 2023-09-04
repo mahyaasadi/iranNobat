@@ -6,8 +6,8 @@ import Cookies from "js-cookie";
 import FeatherIcon from "feather-icons-react";
 import { WarningAlert, QuestionAlert } from "class/AlertManage.js";
 import Loading from "components/loading/loading";
-import ImagesListTable from "components/dashboard/imagesGallery/imagesListTable/imagesListTable";
-import UploadImageModal from "components/dashboard/imagesGallery/uploadImageModal/uploadImageModal";
+import ImagesListTable from "components/dashboard/imagesGallery/imagesListTable";
+import UploadImageModal from "components/dashboard/imagesGallery/uploadImageModal";
 
 let CenterID = Cookies.get("CenterID");
 

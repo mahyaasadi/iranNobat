@@ -6,9 +6,9 @@ import { axiosClient } from "class/axiosConfig.js";
 import Cookies from "js-cookie";
 import { QuestionAlert } from "class/AlertManage.js";
 import Loading from "components/loading/loading";
-import DoctorsListTable from "components/dashboard/doctors/doctorsListTable/doctorsListTable";
-import AddDoctorModal from "components/dashboard/doctors/addDoctorModal/addDoctorModal";
-import EditDoctorModal from "components/dashboard/doctors/editDoctorModal/editDoctorModal";
+import DoctorsListTable from "components/dashboard/doctors/doctorsListTable";
+import AddDoctorModal from "components/dashboard/doctors/addDoctorModal";
+import EditDoctorModal from "components/dashboard/doctors/editDoctorModal";
 import {
   useQuery,
   useMutation,

@@ -6,11 +6,11 @@ import FeatherIcon from "feather-icons-react";
 import { axiosClient } from "class/axiosConfig.js";
 import { QuestionAlert, SuccessAlert } from "class/AlertManage.js";
 import Loading from "components/loading/loading";
-import UsersListTable from "components/dashboard/centerUsers/usersListTable/usersListTable";
-import AddUserModal from "components/dashboard/centerUsers/addUserModal/addUserModal";
-import EditUserModal from "components/dashboard/centerUsers/editUserModal/editUserModal";
-import ChatPermissionModal from "components/dashboard/centerUsers/chatPermissionModal/chatPermissionModal";
-import AssignRoleModal from "components/dashboard/centerUsers/assignRoleModal/assignRoleModal";
+import UsersListTable from "components/dashboard/centerUsers/usersListTable";
+import AddUserModal from "components/dashboard/centerUsers/addUserModal";
+import EditUserModal from "components/dashboard/centerUsers/editUserModal";
+import ChatPermissionModal from "components/dashboard/centerUsers/chatPermissionModal";
+import AssignRoleModal from "components/dashboard/centerUsers/assignRoleModal";
 
 let CenterID = Cookies.get("CenterID");
 let ActiveUserID = null;

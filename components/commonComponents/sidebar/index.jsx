@@ -19,7 +19,7 @@ const Sidebar = () => {
       .get(url)
       .then((response) => {
         setMenuList(response.data);
-        console.log("menuList", menuList);
+        console.log("menuList", response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -48,30 +48,43 @@ const Sidebar = () => {
                 </Link>
               </li>
 
-              {/* {menuList?.map((menu, index) => {
-                <li className="submenu">
+              {menuList?.map((menu, index) => (
+                <li className="submenu" key={index}>
                   <a href={menu.Url}>
                     <i>
                       <FeatherIcon icon={menu.Icon} className="width-15" />
                     </i>
-                    <span>{menu.Name}</span>;
+                    <span>{menu.Name}</span>
                     <span className="menu-arrow"></span>
                   </a>
                   <ul className="hidden hiddenSidebar">
-                    <li
-                      className={
-                        router.pathname == `${menu.subMenu.Url}` ? "active" : ""
-                      }
-                    >
-                      <Link href={menu.subMenu.Url} className="font-12">
-                        {menu.SubMenu.Name}
-                      </Link>
-                    </li>
+                    {menu?.subMenu?.map((sub, index) => (
+                      <li
+                        key={index}
+                        className={
+                          router.pathname == `${sub.Url}` ? "active" : ""
+                        }
+                      >
+                        <Link href={sub.Url} className="font-12">
+                          {sub.Name}
+                        </Link>
+                      </li>
+                    ))}
                   </ul>
-                </li>;
-              })} */}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
 
-              <li className="submenu">
+export default Sidebar;
+
+{
+  /* <li className="submenu">
                 <a href="#">
                   <i>
                     <FeatherIcon icon="settings" className="width-15" />
@@ -309,13 +322,5 @@ const Sidebar = () => {
                     </Link>
                   </li>
                 </ul>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-};
-
-export default Sidebar;
+              </li> */
+}

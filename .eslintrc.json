@@ -1,3 +1,67 @@
 {
-  "extends": ["next/babel", "next/core-web-vitals"]
+  // "settings": {
+  //   "import/resolver": {
+  //     "node": {
+  //       "moduleDirectory": ["node_modules", "./"]
+  //     },
+  //     "typescript": {}
+  //   }
+  // },
+  // "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "jsconfig.json",
+    "jsconfigRootDir": "./",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+    //   "ecmaVersion": 12
+  },
+  // "plugins": ["react", "@typescript-eslint", "import"],
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es2021": true,
+    "jest": true
+  },
+  "extends": ["plugin:@next/next/recommended", "next/core-web-vitals"]
+  // "rules": {
+  //   "import/extensions": [
+  //     "error",
+  //     "ignorePackages",
+  //     {
+  //       "js": "never",
+  //       "jsx": "never",
+  //       "ts": "never",
+  //       "tsx": "never"
+  //     }
+  //   ],
+  //   "react/jsx-filename-extension": [
+  //     2,
+  //     {
+  //       "extensions": [".js", ".jsx", ".ts", ".tsx"]
+  //     }
+  //   ],
+  // "no-use-before-define": "off",
+  //   "@typescript-eslint/no-use-before-define": ["error"],
+  //   "camelcase": "off",
+  //   "array-callback-return": "off",
+  //   "import/prefer-default-export": "off",
+  //   "no-loop-func": "off",
+  //   "operator-linebreak": "off",
+  //   "quotes": ["error", "double"],
+  //   "import/no-unresolved": "off",
+  //   "comma-dangle": "off",
+  //   "jsx-a11y/click-events-have-key-events": "off",
+  //   "jsx-a11y/no-static-element-interactions": "off",
+  //   "react/jsx-props-no-spreading": "off",
+  //   "import/imports-first": ["error", "absolute-first"],
+  //   "implicit-arrow-linebreak": "off",
+  //   "object-curly-newline": "off",
+  //   "require-await": "off",
+  //   "@typescript-eslint/require-await": "off",
+  //   "no-return-assign": "off",
+  //   "@typescript-eslint/no-floating-promises": "off",
+  //   "react/require-default-props": "off",
+  //   "@typescript-eslint/unbound-method": "off"
+  // }
 }
