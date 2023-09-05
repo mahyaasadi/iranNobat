@@ -21,10 +21,12 @@ export default function MyApp({ Component, pageProps }) {
     <>
       {/* Provide the client to your App */}
       <QueryClientProvider client={queryClient}>
-        <DashboardLayout>
+        <DashboardLayout Menus={pageProps.Menus}>
           <Component {...pageProps} />
         </DashboardLayout>
       </QueryClientProvider>
     </>
   );
 }
+
+

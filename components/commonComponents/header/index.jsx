@@ -43,7 +43,7 @@ const Header = () => {
           user = response.data;
           let centerId = user.CenterID;
           Cookies.set("CenterID", centerId);
-          console.log(response.data);
+          // console.log("res", response.data);
 
           document.getElementById("userName").innerHTML = user.FullName;
           document.getElementById("avatar").setAttribute("src", user.Avatar);

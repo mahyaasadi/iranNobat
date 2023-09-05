@@ -19,7 +19,7 @@ import {
 
 let CenterID = Cookies.get("CenterID");
 
-const DoctorsList = () => {
+const DoctorsList = ({ initialMenus }) => {
   // Access the client
   const queryClient = useQueryClient();
 

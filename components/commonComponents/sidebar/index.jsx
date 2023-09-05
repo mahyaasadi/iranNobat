@@ -1,30 +1,102 @@
 "use client"; //This is a client component
-import { axiosClient } from "class/axiosConfig.js";
-import { useState, useEffect } from "react";
-import "public/assets/css/font-awesome.min.css";
-import "public/assets/css/feathericon.min.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
+import { axiosClient } from "class/axiosConfig.js";
 import FeatherIcon from "feather-icons-react";
+import "public/assets/css/font-awesome.min.css";
+import "public/assets/css/feathericon.min.css";
 
-const Sidebar = () => {
+// export const getServerSideProps = async () => {
+//   const res = await fetch("https://api.irannobat.ir/InoMenu/getAll");
+//   const initialMenus = await res.json();
+//   return { props: { initialMenus: [] } };
+// };
+
+const Sidebar = ({ Menus }) => {
   const router = useRouter();
 
-  const [menuList, setMenuList] = useState([]);
-  // get menu list
-  const getMenuData = () => {
-    let url = "InoMenu/getAll";
+  const [menuList, setMenuList] = useState(Menus);
+  const [userPermissionStatus, setUserPermissionStatus] = useState();
 
-    axiosClient
-      .get(url)
+  const getUserToken = async () => {
+    let data = { Token: sessionStorage.getItem("SEID") };
+    let url = "AdminUser/getUserByToken";
+
+    await axiosClient
+      .post(url, data)
       .then((response) => {
-        setMenuList(response.data);
-        console.log("menuList", response.data);
+        console.log("header res in sidebar", response.data.roles.PermisionsID);
+        setUserPermissionStatus(response.data.roles.PermisionsID);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((err) => console.log(err));
   };
+
+  console.log({ userPermissionStatus });
+
+  // const useUpdateToken = (id) => {
+  //   const queryClient = useQueryClient();
+
+  //   return useMutation({
+  //     mutationFn: (newToken) =>
+  //       axios
+  //         .post("InoAdmin/getUserByToken", {
+  //           Token: sessionStorage.getItem("SEID"),
+  //         })
+  //         .then((response) => response.data),
+  //     // 💡 response of the mutation is passed to onSuccess
+  //     // onSuccess: (newPost) => {
+  //     //   // ✅ update detail view directly
+  //     //   queryClient.setQueryData(["posts", id], newPost);
+  //     // },
+  //   });
+  // };
+
+  useEffect(() => {
+    getUserToken();
+  }, []);
+
+  const getMenuData = async () => {
+    await fetch("https://api.irannobat.ir/InoMenu/getAll")
+      .then((response) => response.json())
+      .then((json) => {
+        console.log("menus", json);
+        setMenuList(json);
+        // console.log(json.Permissions);
+        // setTimeout(() => {
+        // init();
+        // }, 100);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  // var Sidemenu = function () {
+  //   this.$menuItem = $("#sidebar-menu a");
+  // };
+
+  // function init() {
+  //   var $this = Sidemenu;
+  //   $("#sidebar-menu a").on("click", function (e) {
+  //     if ($(this).parent().hasClass("submenu")) {
+  //       e.preventDefault();
+  //     }
+  //     if (!$(this).hasClass("subdrop")) {
+  //       $("ul", $(this).parents("ul:first")).slideUp(350);
+  //       $("a", $(this).parents("ul:first")).removeClass("subdrop");
+  //       $(this).next("ul").slideDown(350);
+  //       $(this).addClass("subdrop");
+  //     } else if ($(this).hasClass("subdrop")) {
+  //       $(this).removeClass("subdrop");
+  //       $(this).next("ul").slideUp(350);
+  //     }
+  //   });
+
+  //   $("#sidebar-menu ul li.submenu a.active")
+  //     .parents("li:last")
+  //     .children("a:first")
+  //     .addClass("active")
+  //     .trigger("click");
+  // }
 
   useEffect(() => {
     getMenuData();
@@ -49,6 +121,7 @@ const Sidebar = () => {
               </li>
 
               {menuList?.map((menu, index) => (
+                // menu.Permissions.includes()
                 <li className="submenu" key={index}>
                   <a href={menu.Url}>
                     <i>
