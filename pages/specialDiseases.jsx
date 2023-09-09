@@ -9,8 +9,14 @@ import Loading from "components/loading/loading";
 import SpecialDiseasesListTable from "components/dashboard/specialDiseases/specialDiseasesListTable";
 import AddSpecialDiseaseModal from "components/dashboard/specialDiseases/addSpecialDiseaseModal";
 import EditSpecialDiseaseModal from "components/dashboard/specialDiseases/editSpecialDiseaseModal";
+import { getMenusData } from "class/getAllMenus.js";
 
 let CenterID = Cookies.get("CenterID");
+
+export const getStaticProps = async () => {
+  const Menus = (await getMenusData()) ? getMenusData() : null;
+  return { props: { Menus } };
+};
 
 const SpecialDiseases = () => {
   const [diseasesList, setDiseasesList] = useState([]);

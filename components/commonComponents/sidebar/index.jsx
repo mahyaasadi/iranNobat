@@ -6,66 +6,70 @@ import { axiosClient } from "class/axiosConfig.js";
 import FeatherIcon from "feather-icons-react";
 import "public/assets/css/font-awesome.min.css";
 import "public/assets/css/feathericon.min.css";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from "react-query";
+import { getMenusData } from "class/getAllMenus.js";
 
-// export const getServerSideProps = async () => {
-//   const res = await fetch("https://api.irannobat.ir/InoMenu/getAll");
-//   const initialMenus = await res.json();
-//   return { props: { initialMenus: [] } };
-// };
+let initialMenus = null;
 
 const Sidebar = ({ Menus }) => {
+  console.log({ Menus });
   const router = useRouter();
 
-  const [menuList, setMenuList] = useState(Menus);
-  const [userPermissionStatus, setUserPermissionStatus] = useState();
+  const [menuList, setMenuList] = useState([]);
+  // console.log({ initialMenus });
 
-  const getUserToken = async () => {
-    let data = { Token: sessionStorage.getItem("SEID") };
-    let url = "AdminUser/getUserByToken";
+  // getMenusData().then((response) => {
+  //   const json = JSON.stringify(response);
+  //   setMenuList(json);
+  //   console.log({ menuList });
+  // });
 
-    await axiosClient
-      .post(url, data)
-      .then((response) => {
-        console.log("header res in sidebar", response.data.roles.PermisionsID);
-        setUserPermissionStatus(response.data.roles.PermisionsID);
-      })
-      .catch((err) => console.log(err));
-  };
-
-  console.log({ userPermissionStatus });
-
-  // const useUpdateToken = (id) => {
-  //   const queryClient = useQueryClient();
-
-  //   return useMutation({
-  //     mutationFn: (newToken) =>
-  //       axios
-  //         .post("InoAdmin/getUserByToken", {
-  //           Token: sessionStorage.getItem("SEID"),
-  //         })
-  //         .then((response) => response.data),
-  //     // 💡 response of the mutation is passed to onSuccess
-  //     // onSuccess: (newPost) => {
-  //     //   // ✅ update detail view directly
-  //     //   queryClient.setQueryData(["posts", id], newPost);
-  //     // },
-  //   });
+  // const getAllMenus = async () => {
+  //   const Menus = (await getMenusData()) ? getMenusData() : null;
+  //   setMenuList(Menus);
   // };
 
-  useEffect(() => {
-    getUserToken();
-  }, []);
+  // const [userPermissionStatus, setUserPermissionStatus] = useState();
 
-  const getMenuData = async () => {
+  // const getUserToken = async () => {
+  //   let data = { Token: sessionStorage.getItem("SEID") };
+  //   let url = "AdminUser/getUserByToken";
+
+  //   await axiosClient
+  //     .post(url, data)
+  //     .then((response) => {
+  //       console.log("header res in sidebar", response.data.roles.PermisionsID);
+  //       setUserPermissionStatus(response.data.roles.PermisionsID);
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
+
+  // console.log({ userPermissionStatus });
+
+  // const queryClient = useQueryClient();
+
+  // const { data: menus, isError } = useQuery("menus", () =>
+  //   axiosClient.get("InoMenu/getAll").then((response) => {
+  //     response.data;
+  //     setMenuList(response.data);
+  //   })
+  // );
+
+  // console.log("menus in sidebar", menus);
+
+  const getMenusData = async () => {
     await fetch("https://api.irannobat.ir/InoMenu/getAll")
       .then((response) => response.json())
       .then((json) => {
         console.log("menus", json);
         setMenuList(json);
-        // console.log(json.Permissions);
-        // setTimeout(() => {
-        // init();
-        // }, 100);
+        return json;
       })
       .catch((err) => console.log(err));
   };
@@ -98,8 +102,10 @@ const Sidebar = ({ Menus }) => {
   //     .trigger("click");
   // }
 
+  // const result = getMenusData();
   useEffect(() => {
-    getMenuData();
+    getMenusData();
+    // console.log({ menuList });
   }, []);
 
   return (

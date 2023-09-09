@@ -13,12 +13,6 @@ import EditDiscountModal from "components/dashboard/discounts/editDiscountModal"
 
 let CenterID = Cookies.get("CenterID");
 
-export const getStaticProps = async () => {
-  const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
-  const Menus = await data.json();
-  return { props: { Menus } };
-};
-
 const Discounts = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [discountsList, setDiscountsList] = useState([]);

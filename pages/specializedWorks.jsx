@@ -9,8 +9,14 @@ import Loading from "components/loading/loading";
 import SpecializedWorksListTable from "components/dashboard/specializedWorks/specializedWorksListTable";
 import AddSpeWorkModal from "components/dashboard/specializedWorks/addspeWorkModal";
 import EditSpeWorkModal from "components/dashboard/specializedWorks/editSpeWorkModal";
+import { getMenusData } from "class/getAllMenus.js";
 
 let CenterID = Cookies.get("CenterID");
+
+export const getStaticProps = async () => {
+  const Menus = (await getMenusData()) ? getMenusData() : null;
+  return { props: { Menus } };
+};
 
 const SpecializedWorks = () => {
   const [isLoading, setIsLoading] = useState(true);

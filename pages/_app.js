@@ -12,14 +12,13 @@ import {
   useQueryClient,
   QueryClient,
   QueryClientProvider,
-} from 'react-query'
+} from "react-query";
 
 const queryClient = new QueryClient();
 
 export default function MyApp({ Component, pageProps }) {
   return (
     <>
-      {/* Provide the client to your App */}
       <QueryClientProvider client={queryClient}>
         <DashboardLayout Menus={pageProps.Menus}>
           <Component {...pageProps} />
@@ -28,5 +27,3 @@ export default function MyApp({ Component, pageProps }) {
     </>
   );
 }
-
-

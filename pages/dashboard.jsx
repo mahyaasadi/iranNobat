@@ -6,9 +6,18 @@ import Select from "react-select";
 import JDate from "jalali-date";
 import Loading from "components/loading/loading";
 import OverviewStats from "components/dashboard/overview/overviewStats";
+import { getMenusData } from "class/getAllMenus.js";
 
 let CenterID = Cookies.get("CenterID");
 const jdate = new JDate();
+
+export const getStaticProps = async () => {
+  // const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
+  // const Menus = await data.json();
+  const Menus = (await getMenusData()) ? getMenusData() : null;
+  // const Menus = JSON.stringify(MenusData);
+  return { props: { Menus } };
+};
 
 const Dashboard = () => {
   const [selectedDuration, setSelectedDuration] = useState("today");
@@ -23,6 +32,8 @@ const Dashboard = () => {
       label: "ماه جاری : " + jdate.format("MMMM YYY"),
     },
   ];
+
+  getMenusData();
 
   const getStats = (duration) => {
     setStatsIsLoading(true);
@@ -45,6 +56,7 @@ const Dashboard = () => {
   useEffect(() => {
     try {
       getStats(selectedDuration);
+      getMenusData();
     } catch (error) {
       setStatsIsLoading(true);
       console.log(error);

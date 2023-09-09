@@ -2,11 +2,11 @@
 import Header from "components/commonComponents/header";
 import Sidebar from "components/commonComponents/sidebar";
 
-export default function DashboardLayout({ children,Menus }) {
+export default function DashboardLayout({ children, Menus }) {
   return (
     <div>
       <Header className="pb-2" />
-      <Sidebar Menus={Menus}/>
+      <Sidebar Menus={Menus} />
       {children}
       <Footer />
     </div>

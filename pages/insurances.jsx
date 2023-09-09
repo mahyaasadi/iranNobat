@@ -11,13 +11,6 @@ import EditInsuranceModal from "components/dashboard/insurances/editInsuranceMod
 import insuranceTypeDataClass from "class/insuranceTypeDataClass";
 import insuranceStatusDataClass from "class/insuranceStatusDataClass";
 import { QuestionAlert } from "class/AlertManage.js";
-// import {
-//   useQuery,
-//   useMutation,
-//   useQueryClient,
-//   QueryClient,
-//   QueryClientProvider,
-// } from 'react-query';
 
 let CenterID = Cookies.get("CenterID");
 
@@ -30,21 +23,11 @@ const Insurance = () => {
   const [insuranceStatus, setInsuranceStatus] = useState(
     insuranceStatusDataClass
   );
-  // const queryClient = useQueryClient();
-
-  // const { data: doctors, isError } = useQuery(
-  //   ['doctorsList', CenterID],
-  //   () => axiosClient.get(`CenterProfile/getCenterPhysician/${CenterID}`).then((response) => response.data)
-  // );
-
-  // console.log(doctors);
 
   const handleNameInput = (e) => setName(e.target.value);
 
   // reset form inputs
-  const reset = () => {
-    setName("");
-  };
+  const reset = () => setName("");
 
   let SelectInsuranceType,
     SelectInsuranceStatus = "";
@@ -66,15 +49,6 @@ const Insurance = () => {
         setIsLoading(false);
       });
   };
-
-  useEffect(() => {
-    try {
-      getInsuranceData();
-    } catch (error) {
-      setIsLoading(true);
-      console.log(error);
-    }
-  }, []);
 
   // Add Insurance
   const addInsurance = (e) => {
@@ -168,6 +142,15 @@ const Insurance = () => {
         });
     }
   };
+
+  useEffect(() => {
+    try {
+      getInsuranceData();
+    } catch (error) {
+      setIsLoading(true);
+      console.log(error);
+    }
+  }, []);
 
   return (
     <>

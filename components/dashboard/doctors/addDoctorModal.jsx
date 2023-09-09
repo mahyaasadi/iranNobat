@@ -8,6 +8,7 @@ const AddDoctorModal = ({
   handleNameInput,
   handleTitleInput,
   handleSpecialtyInput,
+  handleAddPhysician,
 }) => {
   return (
     <div
@@ -19,7 +20,9 @@ const AddDoctorModal = ({
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content doctor-profile">
           <div className="modal-header">
-            <p className="mb-0 text-secondary font-14 fw-bold">اضافه کردن پزشک</p>
+            <p className="mb-0 text-secondary font-14 fw-bold">
+              اضافه کردن پزشک
+            </p>
             <button
               type="button"
               className="close-btn"
@@ -32,60 +35,63 @@ const AddDoctorModal = ({
             </button>
           </div>
           <div className="modal-body">
-            <form onSubmit={addPhysician} id="frmAddPhysician">
-                <div className="form-group">
-                  <label className="lblAbs font-12">
-                    نام پزشک<span className="text-danger">*</span>
-                  </label>
-                    <div className="col p-0">
-                      <input
-                        type="text"
-                        id="AddPhysicianName"
-                        className="form-control floating inputPadding rounded"
-                        value={name}
-                        onChange={handleNameInput}
-                        required
-                      />
-                    </div>
+            <form onSubmit={handleAddPhysician} id="frmAddPhysician">
+              <div className="form-group">
+                <label className="lblAbs font-12">
+                  نام پزشک<span className="text-danger">*</span>
+                </label>
+                <div className="col p-0">
+                  <input
+                    type="text"
+                    id="AddPhysicianName"
+                    className="form-control floating inputPadding rounded"
+                    value={name}
+                    onChange={handleNameInput}
+                    required
+                  />
                 </div>
+              </div>
 
-                <div className="form-group">
-                  <label className="lblAbs font-12">
-                    عنوان <span className="text-danger">*</span>
-                  </label>
-                    <div className="col p-0">
-                      <input
-                        type="text"
-                        id="AddPhysicianTitle"
-                        className="form-control floating inputPadding rounded"
-                        value={title}
-                        onChange={handleTitleInput}
-                        required
-                      />
-                    </div>
+              <div className="form-group">
+                <label className="lblAbs font-12">
+                  عنوان <span className="text-danger">*</span>
+                </label>
+                <div className="col p-0">
+                  <input
+                    type="text"
+                    id="AddPhysicianTitle"
+                    className="form-control floating inputPadding rounded"
+                    value={title}
+                    onChange={handleTitleInput}
+                    required
+                  />
                 </div>
+              </div>
 
-                <div className="form-group">
-                  <label className="lblAbs font-12">
-                     تخصص <span className="text-danger">*</span>
-                  </label>
-                    <div className="col p-0">
-                      <input
-                        type="text"
-                        id="AddPhysicianSpe"
-                        className="form-control floating inputPadding rounded"
-                        value={specialty}
-                        onChange={handleSpecialtyInput}
-                        required
-                      />
-                    </div>
+              <div className="form-group">
+                <label className="lblAbs font-12">
+                  تخصص <span className="text-danger">*</span>
+                </label>
+                <div className="col p-0">
+                  <input
+                    type="text"
+                    id="AddPhysicianSpe"
+                    className="form-control floating inputPadding rounded"
+                    value={specialty}
+                    onChange={handleSpecialtyInput}
+                    required
+                  />
                 </div>
-               
-                <div className="submit-section">
-                  <button type="submit" className="btn btn-primary rounded btn-save">
-                    ثبت 
-                  </button>
-                </div>
+              </div>
+
+              <div className="submit-section">
+                <button
+                  type="submit"
+                  className="btn btn-primary rounded btn-save"
+                >
+                  ثبت
+                </button>
+              </div>
             </form>
           </div>
         </div>

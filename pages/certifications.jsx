@@ -9,8 +9,14 @@ import CertificationsListTable from "/components/dashboard/certifications/certif
 import AddCertificateModal from "components/dashboard/certifications/addCertificateModal";
 import EditCertificateModal from "components/dashboard/certifications/editCertificateModal";
 import { QuestionAlert } from "class/AlertManage.js";
+import { getMenusData } from "class/getAllMenus.js";
 
 let CenterID = Cookies.get("CenterID");
+
+export const getStaticProps = async () => {
+  const Menus = (await getMenusData()) ? getMenusData() : null;
+  return { props: { Menus } };
+};
 
 const Certifications = () => {
   const [certificationsList, setCertificationsList] = useState([]);

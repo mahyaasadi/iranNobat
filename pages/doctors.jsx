@@ -16,10 +16,17 @@ import {
   QueryClient,
   QueryClientProvider,
 } from "react-query";
+import useDoctorsStore from "src/app/store/doctorsStore";
+import { getMenusData } from "class/getAllMenus.js";
 
 let CenterID = Cookies.get("CenterID");
 
-const DoctorsList = ({ initialMenus }) => {
+export const getStaticProps = async () => {
+  const Menus = (await getMenusData()) ? getMenusData() : null;
+  return { props: { Menus } };
+};
+
+const DoctorsList = () => {
   // Access the client
   const queryClient = useQueryClient();
 
@@ -49,6 +56,25 @@ const DoctorsList = ({ initialMenus }) => {
         setDoctorsList(response.data);
         setIsLoading(false);
       });
+  };
+
+  const { doctors, addDoctor, removeDoctor } = useDoctorsStore((state) => ({
+    doctors: state.doctors,
+    addDoctor: state.addDoctor,
+    removeDoctor: state.removeDoctor,
+  }));
+
+  // addDoctor = useDoctorsStore((state) => state.addDoctor);
+
+  const handleAddPhysician = (e) => {
+    e.preventDefault();
+
+    // addDoctor({
+    //   CenterID: CenterID,
+    //   Name: name,
+    //   Title: title,
+    //   Spe: specialty,
+    // });
   };
 
   // Queries
@@ -231,6 +257,7 @@ const DoctorsList = ({ initialMenus }) => {
           handleNameInput={handleNameInput}
           handleTitleInput={handleTitleInput}
           handleSpecialtyInput={handleSpecialtyInput}
+          handleAddPhysician={handleAddPhysician}
         />
 
         <EditDoctorModal data={editDoctor} editPhysician={editPhysician} />
