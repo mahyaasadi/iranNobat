@@ -12,7 +12,13 @@ import { QuestionAlert } from "class/AlertManage.js";
 
 let CenterID = Cookies.get("CenterID");
 
-const CannedMessages = () => {
+export const getStaticProps = async () => {
+  const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
+  const Menus = await data.json();
+  return { props: { Menus } };
+};
+
+const CannedMessages = ({ Menus }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [messagesData, setMessagesData] = useState([]);
   const [messageText, setMessageText] = useState("");

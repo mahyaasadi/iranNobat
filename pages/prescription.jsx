@@ -41,7 +41,13 @@ const selectPrescriptionType = () => {
   console.log("select");
 };
 
-const Prescription = () => {
+export const getStaticProps = async () => {
+  const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
+  const Menus = await data.json();
+  return { props: { Menus } };
+};
+
+const Prescription = ({Menus}) => {
   const Router = useRouter();
   const prescriptionHeadID = Router.query.id;
   ActivePatientID = Router.query.pid;

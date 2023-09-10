@@ -1,33 +1,34 @@
-import { useState } from "react";
-import Head from "next/head";
-import Link from "next/link";
-import FeatherIcon from "feather-icons-react";
-import JDate from "jalali-date";
-import moment from "jalali-moment";
-import persian from "react-date-object/calendars/persian";
-import persian_fa from "react-date-object/locales/persian_fa";
-import { Calendar, DateObject } from "react-multi-date-picker";
-import ShiftDetailsModal from "components/dashboard/monthlySchedule/shiftDetailsModal";
-import AddShiftModal from "components/dashboard/monthlySchedule/addShiftModal";
-import CopyShiftModal from "components/dashboard/monthlySchedule/copyShiftModal";
+// import { useState } from "react";
+// import Head from "next/head";
+// import Link from "next/link";
+// import FeatherIcon from "feather-icons-react";
+// import JDate from "jalali-date";
+// import moment from "jalali-moment";
+// import persian from "react-date-object/calendars/persian";
+// import persian_fa from "react-date-object/locales/persian_fa";
+// import { Calendar, DateObject } from "react-multi-date-picker";
+// import ShiftDetailsModal from "components/dashboard/monthlySchedule/shiftDetailsModal";
+// import AddShiftModal from "components/dashboard/monthlySchedule/addShiftModal";
+// import CopyShiftModal from "components/dashboard/monthlySchedule/copyShiftModal";
+import MenusInfo from "src/app/rsc";
 
 const MonthlySchedule = () => {
-  const dateObject = new DateObject();
-  const toDateObject = (day) => new DateObject(dateObject).setDay(day);
+  // const dateObject = new DateObject();
+  // const toDateObject = (day) => new DateObject(dateObject).setDay(day);
 
-  const [value, setValue] = useState(new Date());
-  console.log("value : ", value);
+  // const [value, setValue] = useState(new Date());
+  // console.log("value : ", value);
 
   return (
     <>
-      <Head>
+      {/* <Head>
         <title>برنامه ماهیانه</title>
-      </Head>
+      </Head> */}
       <div className="page-wrapper">
         <div className="content container-fluid">
           <div className="card">
             <div className="card-body calendar-body p-0">
-              <Calendar
+              {/* <Calendar
                 calendar={persian}
                 locale={persian_fa}
                 monthYearSeparator="|"
@@ -88,15 +89,17 @@ const MonthlySchedule = () => {
                     ),
                   };
                 }}
-              />
+              /> */}
             </div>
           </div>
         </div>
-        <ShiftDetailsModal value={value} />
+
+        <MenusInfo />
+        {/* <ShiftDetailsModal value={value} />
 
         <AddShiftModal />
 
-        <CopyShiftModal value={value} />
+        <CopyShiftModal value={value} /> */}
       </div>
     </>
   );

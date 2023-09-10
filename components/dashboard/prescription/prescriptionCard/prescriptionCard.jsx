@@ -235,7 +235,7 @@ const PrescriptionCard = ({
                   <label className="lblAbs margin-top-left font-12">
                     تعداد
                   </label>
-                  <div className="row mt-2">
+                  <div className="row">
                     <div className="col-auto">
                       <button
                         className="btn btn-primary btn-rounded"

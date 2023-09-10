@@ -14,11 +14,14 @@ import { getMenusData } from "class/getAllMenus.js";
 let CenterID = Cookies.get("CenterID");
 
 export const getStaticProps = async () => {
-  const Menus = (await getMenusData()) ? getMenusData() : null;
+  const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
+  const Menus = await data.json();
+  // const Menus = (await getMenusData()) ? getMenusData() : null;
+  // const Menus = JSON.stringify(MenusData);
   return { props: { Menus } };
 };
 
-const SpecialDiseases = () => {
+const SpecialDiseases = ({ Menus }) => {
   const [diseasesList, setDiseasesList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [editedDisease, setEditedDisease] = useState([]);

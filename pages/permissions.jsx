@@ -11,7 +11,13 @@ import { ErrorAlert, SuccessAlert, WarningAlert } from "class/AlertManage.js";
 
 let CenterID = Cookies.get("CenterID");
 
-const Permissions = () => {
+export const getStaticProps = async () => {
+  const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
+  const Menus = await data.json();
+  return { props: { Menus } };
+};
+
+const Permissions = ({ Menus }) => {
   resetServerContext();
   const Router = useRouter();
 

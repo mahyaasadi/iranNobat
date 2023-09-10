@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import axios from "axios";
 import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
@@ -13,8 +14,10 @@ import "public/assets/css/feathericon.min.css";
 import "public/assets/css/font-awesome.min.css";
 import "public/assets/css/select2.min.css";
 import "public/assets/css/style.css";
+import Cookies from "js-cookie";
+import { setSession } from "@/lib/SessionMange";
 
-const Login = () => {
+const Login = (req, res) => {
   const { control } = useForm();
   const router = useRouter();
   const [eye, setEye] = useState(true);
@@ -27,18 +30,22 @@ const Login = () => {
     setIsLoading(true);
 
     await axiosClient
-      .post("AdminUser/Login", {
+      .post("AdminUser/loginUser", {
         UserName: document.getElementById("UserName").value,
         Password: document.getElementById("Password").value,
       })
-      .then(function (response) {
+      .then(async function (response) {
         setIsLoading(false);
-        sessionStorage.setItem(
-          "SEID",
-          JSON.stringify(response.data.UserSecretKey)
-        );
+        let roles = response.data.roles;
+        response.data.roles = null;
+        const session = response.data;
+        let rolesSession = await setSession(roles);
+        var in30Minutes = 1 / 24;
+        Cookies.set("roles", rolesSession, { expires: in30Minutes });
+
+        let resSession = await setSession(session);
+        Cookies.set("session", resSession, { expires: in30Minutes });
         router.push("/dashboard");
-        console.log(response.data);
       })
       .catch(function (error) {
         setIsLoading(false);

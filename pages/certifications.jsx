@@ -14,11 +14,14 @@ import { getMenusData } from "class/getAllMenus.js";
 let CenterID = Cookies.get("CenterID");
 
 export const getStaticProps = async () => {
-  const Menus = (await getMenusData()) ? getMenusData() : null;
+  const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
+  const Menus = await data.json();
+  // const Menus = (await getMenusData()) ? getMenusData() : null;
+  // const Menus = JSON.stringify(MenusData);
   return { props: { Menus } };
 };
 
-const Certifications = () => {
+const Certifications = ({ Menus }) => {
   const [certificationsList, setCertificationsList] = useState([]);
   const [editedCertificate, setEditedCertificate] = useState("");
   const [companyName, setCompanyName] = useState("");

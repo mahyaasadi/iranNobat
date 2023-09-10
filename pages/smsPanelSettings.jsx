@@ -9,7 +9,13 @@ import { ErrorAlert, SuccessAlert } from "class/AlertManage.js";
 
 let CenterID = Cookies.get("CenterID");
 
-const SmsPanelSettings = () => {
+export const getStaticProps = async () => {
+  const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
+  const Menus = await data.json();
+  return { props: { Menus } };
+};
+
+const SmsPanelSettings = ({ Menus }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [panelData, setPanelData] = useState([]);
   const [eye, setEye] = useState(true);

@@ -15,7 +15,13 @@ import AssignRoleModal from "components/dashboard/centerUsers/assignRoleModal";
 let CenterID = Cookies.get("CenterID");
 let ActiveUserID = null;
 
-const CenterUsers = () => {
+export const getStaticProps = async () => {
+  const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
+  const Menus = await data.json();
+  return { props: { Menus } };
+};
+
+const CenterUsers = ({ Menus }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState([]);
   const [editedUserData, setEditedUserData] = useState([]);

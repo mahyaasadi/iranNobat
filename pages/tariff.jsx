@@ -23,7 +23,13 @@ let activeServiceName = null;
 let activeDepId = null;
 let activeDepName = null;
 
-const Tariff = () => {
+export const getStaticProps = async () => {
+  const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
+  const Menus = await data.json();
+  return { props: { Menus } };
+};
+
+const Tariff = ({ Menus }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const [departmentsData, setDepartmentsData] = useState([]);

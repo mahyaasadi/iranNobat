@@ -12,7 +12,13 @@ import EditRoleModal from "components/dashboard/roles/editRoleModal";
 
 let CenterID = Cookies.get("CenterID");
 
-const Roles = () => {
+export const getStaticProps = async () => {
+  const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
+  const Menus = await data.json();
+  return { props: { Menus } };
+};
+
+const Roles = ({ Menus }) => {
   const [rolesList, setRolesList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [editedRole, setEditedRole] = useState([]);

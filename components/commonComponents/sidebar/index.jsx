@@ -1,39 +1,25 @@
-"use client"; //This is a client component
+"use client";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import { axiosClient } from "class/axiosConfig.js";
+// import { axiosClient } from "class/axiosConfig.js";
 import FeatherIcon from "feather-icons-react";
 import "public/assets/css/font-awesome.min.css";
 import "public/assets/css/feathericon.min.css";
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-} from "react-query";
-import { getMenusData } from "class/getAllMenus.js";
+// import {
+//   useQuery,
+//   useMutation,
+//   useQueryClient,
+//   QueryClient,
+//   QueryClientProvider,
+// } from "react-query";
+// import { getMenusData } from "class/getAllMenus.js";
 
-let initialMenus = null;
-
-const Sidebar = ({ Menus }) => {
-  console.log({ Menus });
+const Sidebar = () => {
+  // console.log("menus in sidebar", MenusData);
   const router = useRouter();
 
   const [menuList, setMenuList] = useState([]);
-  // console.log({ initialMenus });
-
-  // getMenusData().then((response) => {
-  //   const json = JSON.stringify(response);
-  //   setMenuList(json);
-  //   console.log({ menuList });
-  // });
-
-  // const getAllMenus = async () => {
-  //   const Menus = (await getMenusData()) ? getMenusData() : null;
-  //   setMenuList(Menus);
-  // };
 
   // const [userPermissionStatus, setUserPermissionStatus] = useState();
 
@@ -52,27 +38,19 @@ const Sidebar = ({ Menus }) => {
 
   // console.log({ userPermissionStatus });
 
-  // const queryClient = useQueryClient();
-
-  // const { data: menus, isError } = useQuery("menus", () =>
-  //   axiosClient.get("InoMenu/getAll").then((response) => {
-  //     response.data;
-  //     setMenuList(response.data);
-  //   })
-  // );
-
-  // console.log("menus in sidebar", menus);
-
-  const getMenusData = async () => {
-    await fetch("https://api.irannobat.ir/InoMenu/getAll")
-      .then((response) => response.json())
-      .then((json) => {
-        console.log("menus", json);
-        setMenuList(json);
-        return json;
-      })
-      .catch((err) => console.log(err));
-  };
+  // const getMenusData = async () => {
+  //   await fetch("https://api.irannobat.ir/InoMenu/getAll")
+  //     .then((response) => response.json())
+  //     .then((json) => {
+  //       console.log("menus", json);
+  //       setMenuList(json);
+  //       // setTimeout(() => {
+  //       // init();
+  //       // }, 200);
+  //       return json;
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
 
   // var Sidemenu = function () {
   //   this.$menuItem = $("#sidebar-menu a");
@@ -102,11 +80,9 @@ const Sidebar = ({ Menus }) => {
   //     .trigger("click");
   // }
 
-  // const result = getMenusData();
-  useEffect(() => {
-    getMenusData();
-    // console.log({ menuList });
-  }, []);
+  // useEffect(() => {
+  //   getMenusData();
+  // }, []);
 
   return (
     <>

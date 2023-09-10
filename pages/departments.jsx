@@ -8,7 +8,13 @@ import DepartmentsList from "components/dashboard/departments/departmentsList";
 
 let CenterID = Cookies.get("CenterID");
 
-const Departments = () => {
+export const getStaticProps = async () => {
+  const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
+  const Menus = await data.json();
+  return { props: { Menus } };
+};
+
+const Departments = ({ Menus }) => {
   const [departmentsData, setDepartmentsData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 

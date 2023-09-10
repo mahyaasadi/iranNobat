@@ -11,6 +11,7 @@
   "dependencies": {
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
+    "cookie": "^0.5.0",
     "eslint": "8.42.0",
     "eslint-config-next": "13.4.4",
     "feather-icons": "^4.29.0",
@@ -19,7 +20,7 @@
     "jalali-moment": "^3.3.11",
     "jquery": "^3.7.0",
     "js-cookie": "^3.0.5",
-    "jsonwebtoken": "^9.0.0",
+    "jsonwebtoken": "8.5",
     "next": "^13.4.4",
     "next-auth": "^4.22.1",
     "postcss": "8.4.24",

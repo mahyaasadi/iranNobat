@@ -15,7 +15,13 @@ const SetDate = (f, t) => {
   dateTo = t;
 };
 
-const PrescriptionHistory = () => {
+export const getStaticProps = async () => {
+  const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
+  const Menus = await data.json();
+  return { props: { Menus } };
+};
+
+const PrescriptionHistory = ({ Menus }) => {
   const [prescriptionsList, setPrescriptionsList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 

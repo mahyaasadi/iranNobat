@@ -11,19 +11,27 @@ import UploadImageModal from "components/dashboard/imagesGallery/uploadImageModa
 
 let CenterID = Cookies.get("CenterID");
 
-const ImagesGallery = () => {
+export const getStaticProps = async () => {
+  const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
+  const Menus = await data.json();
+  // const Menus = (await getMenusData()) ? getMenusData() : null;
+  // const Menus = JSON.stringify(MenusData);
+  return { props: { Menus } };
+};
+
+const ImagesGallery = ({ Menus }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [imagesData, setImagesData] = useState([]);
   const [imgTitle, setImgTitle] = useState("");
   const [imgDescription, setImgDescription] = useState("");
 
   // recieved data after uploading
-  const [image, setImage] = useState(null);
-  const [med, setMed] = useState(null);
-  const [thumb, setThumb] = useState(null);
-  const [webpImage, setWebpImage] = useState(null);
-  const [webpMed, setWebpMed] = useState(null);
-  const [webpThumb, setWebpThumb] = useState(null);
+  // const [image, setImage] = useState(null);
+  // const [med, setMed] = useState(null);
+  // const [thumb, setThumb] = useState(null);
+  // const [webpImage, setWebpImage] = useState(null);
+  // const [webpMed, setWebpMed] = useState(null);
+  // const [webpThumb, setWebpThumb] = useState(null);
 
   //get Images
   const getImagesGallery = () => {

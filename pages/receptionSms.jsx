@@ -11,7 +11,13 @@ import SendMessagesListTable from "components/dashboard/receptionSms/sendMessage
 
 let CenterID = Cookies.get("CenterID");
 
-const ReceptionSms = () => {
+export const getStaticProps = async () => {
+  const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
+  const Menus = await data.json();
+  return { props: { Menus } };
+};
+
+const ReceptionSms = ({ Menus }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [creditIsLoading, setCreditIsLoading] = useState(true);
   const [sendMessages, setSendMessages] = useState([]);

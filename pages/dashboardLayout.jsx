@@ -1,12 +1,12 @@
 "use client"; // This is a client component
 import Header from "components/commonComponents/header";
-import Sidebar from "components/commonComponents/sidebar";
+import MenusInfo from "src/app/menusInfo";
 
 export default function DashboardLayout({ children, Menus }) {
   return (
     <div>
       <Header className="pb-2" />
-      <Sidebar Menus={Menus} />
+      <MenusInfo />
       {children}
       <Footer />
     </div>
