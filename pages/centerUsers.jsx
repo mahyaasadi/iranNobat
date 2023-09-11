@@ -339,9 +339,6 @@ const CenterUsers = ({ Menus }) => {
           addUser={addUser}
           password={password}
           handlePassword={handlePassword}
-          // validatePassword={validatePassword}
-          // NationalIdValidate={NationalIdValidate}
-          // telNumberValidate={telNumberValidate}
         />
 
         <EditUserModal

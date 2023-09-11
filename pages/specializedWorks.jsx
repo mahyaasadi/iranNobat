@@ -16,8 +16,6 @@ let CenterID = Cookies.get("CenterID");
 export const getStaticProps = async () => {
   const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
   const Menus = await data.json();
-  // const Menus = (await getMenusData()) ? getMenusData() : null;
-  // const Menus = JSON.stringify(MenusData);
   return { props: { Menus } };
 };
 

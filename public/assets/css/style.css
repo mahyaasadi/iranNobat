@@ -8745,6 +8745,34 @@ ul li .active {
   background-color: #c7e6f2 !important;
 }
 
+/* ------ datePicker ------- */
+.react-calendar-datetime-picker .header .header-date {
+  font-size: 14px !important;
+}
+
+.react-calendar-datetime-picker .header .header--btn {
+  margin-top: 0.75rem;
+  width: 0.75rem !important;
+  height: 0.75rem !important;
+}
+
+.react-calendar-datetime-picker .daysList .is-selected-day {
+  background-color: #1b5a90 !important;
+}
+
+.react-calendar-datetime-picker .daysList .is-today {
+  box-shadow: inset 0px 0px 0px 2px #c8ebf7 !important;
+}
+
+.react-calendar-datetime-picker .daysList .daysList-day {
+  font-size: 0.75rem !important;
+}
+
+.react-calendar-datetime-picker .daysList .is-disabled {
+  background-color: #e1f1f7 !important;
+  color: #748f99 !important;
+}
+
 /* --------------- prescription page ------------ */
 .prescription-main-container {
   display: flex;

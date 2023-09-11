@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Head from "next/head";
-import { axiosClient } from "class/axiosConfig.js";
 import Cookies from "js-cookie";
 import FeatherIcon from "feather-icons-react";
+import { axiosClient } from "class/axiosConfig.js";
 import { QuestionAlert } from "class/AlertManage.js";
 import Loading from "components/loading/loading";
 import discountPercentDataClass from "class/discountPercentDataClass";
@@ -23,60 +23,45 @@ const Discounts = ({ Menus }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [discountsList, setDiscountsList] = useState([]);
   const [editedDiscountList, setEditedDiscountList] = useState([]);
-  const [discountName, setDiscountName] = useState("");
-  const [description, setDescription] = useState("");
-  const [discountValue, setDiscountValue] = useState("");
   const [discountPercent, setDiscountPercent] = useState(
     discountPercentDataClass
   );
 
-  const handlediscountNameInput = (e) => setDiscountName(e.target.value);
-  const handleDescriptionInput = (e) => setDescription(e.target.value);
-  const handlediscountValueInput = (e) => setDiscountValue(e.target.value);
-
   let SelectDiscountPercent = "";
-
   const FUSelectDiscountPercent = (Percent) => {
     SelectDiscountPercent = Percent;
   };
 
-  // reset form inputs
-  const reset = () => {
-    setDiscountName("");
-    setDescription("");
-    setDiscountValue("");
-  };
-
-  //get discounts list
+  // get discounts list
   const getDiscountsData = () => {
+    setIsLoading(true);
+
     axiosClient
       .get(`CenterDiscount/getAll/${CenterID}`)
       .then(function (response) {
-        // console.log(response.data);
         setDiscountsList(response.data);
         setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsLoading(true);
+        console.log(error);
       });
   };
-
-  useEffect(() => {
-    try {
-      getDiscountsData();
-    } catch (error) {
-      setIsLoading(true);
-      console.log(error);
-    }
-  }, []);
 
   // Add Discount
   const addDiscount = (e) => {
     e.preventDefault();
+    setIsLoading(true);
+
+    let formData = new FormData(e.target);
+    const formProps = Object.fromEntries(formData);
 
     let url = "CenterDiscount/add";
     let data = {
       CenterID: CenterID,
-      Name: discountName,
-      Des: description,
-      Value: discountValue,
+      Name: formProps.discountName,
+      Des: formProps.discountDescription,
+      Value: formProps.discountValue,
       Percent: parseInt(SelectDiscountPercent),
     };
 
@@ -85,10 +70,12 @@ const Discounts = ({ Menus }) => {
       .then((response) => {
         setDiscountsList([...discountsList, response.data]);
         $("#addDiscountModal").modal("hide");
-        reset();
+        e.target.reset();
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
+        setIsLoading(false);
       });
   };
 
@@ -97,11 +84,11 @@ const Discounts = ({ Menus }) => {
     let result = await QuestionAlert("حذف تخفیف!", "آیا از حذف اطمینان دارید؟");
 
     if (result) {
+      let url = `CenterDiscount/delete/${id}`;
       let data = {
         CenterID: CenterID,
         DiscountID: id,
       };
-      let url = `CenterDiscount/delete/${id}`;
 
       await axiosClient
         .delete(url, { data })
@@ -115,6 +102,11 @@ const Discounts = ({ Menus }) => {
   };
 
   // Edit Discount
+  const updateDiscount = (data) => {
+    setEditedDiscountList(data);
+    $("#editDiscountModal").modal("show");
+  };
+
   const editDiscount = (e) => {
     e.preventDefault();
 
@@ -144,11 +136,10 @@ const Discounts = ({ Menus }) => {
 
   const updateItem = (id, newArr) => {
     let index = discountsList.findIndex((x) => x._id === id);
-
     let g = discountsList[index];
     g = newArr;
+
     if (index === -1) {
-      // handle error
       console.log("no match");
     } else
       setDiscountsList([
@@ -158,10 +149,9 @@ const Discounts = ({ Menus }) => {
       ]);
   };
 
-  const updateDiscount = (data) => {
-    setEditedDiscountList(data);
-    $("#editDiscountModal").modal("show");
-  };
+  useEffect(() => {
+    getDiscountsData();
+  }, []);
 
   return (
     <>
@@ -227,28 +217,17 @@ const Discounts = ({ Menus }) => {
 
       <AddDiscountModal
         data={discountsList}
-        discountName={discountName}
-        description={description}
-        discountValue={discountValue}
-        FUSelectDiscountPercent={FUSelectDiscountPercent}
-        handlediscountNameInput={handlediscountNameInput}
-        handleDescriptionInput={handleDescriptionInput}
-        handlediscountValueInput={handlediscountValueInput}
         addDiscount={addDiscount}
+        isLoading={isLoading}
+        FUSelectDiscountPercent={FUSelectDiscountPercent}
         discountPercentDataClass={discountPercentDataClass}
       />
 
       <EditDiscountModal
         data={editedDiscountList}
-        discountName={discountName}
-        description={description}
-        discountValue={discountValue}
-        FUSelectDiscountPercent={FUSelectDiscountPercent}
-        handlediscountNameInput={handlediscountNameInput}
-        handleDescriptionInput={handleDescriptionInput}
-        handlediscountValueInput={handlediscountValueInput}
-        discountPercentDataClass={discountPercentDataClass}
         editDiscount={editDiscount}
+        FUSelectDiscountPercent={FUSelectDiscountPercent}
+        discountPercentDataClass={discountPercentDataClass}
       />
     </>
   );

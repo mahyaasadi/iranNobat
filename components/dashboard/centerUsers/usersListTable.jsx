@@ -114,7 +114,6 @@ const UsersListTable = ({
             data-bs-toggle="tooltip"
             data-bs-placement="top"
             title="نقش کاربر"
-            // data-bs-toggle="assignRoleToUserModal"
             onClick={() => assignRoleModal(row._id)}
           >
             <FeatherIcon

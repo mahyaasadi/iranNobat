@@ -123,4 +123,5 @@ const ChatPermissionModal = () => {
     </>
   );
 };
+
 export default ChatPermissionModal;

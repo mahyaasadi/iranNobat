@@ -1,4 +1,3 @@
-import { useState } from "react";
 import FeatherIcon from "feather-icons-react";
 import DtPicker, { convertToFa } from "react-calendar-datetime-picker";
 import "react-calendar-datetime-picker/dist/index.css";
@@ -15,6 +14,7 @@ const DatePicker = ({ SetDate }) => {
       value?.to?.day.toString();
     SetDate(dateFrom, dateTo);
   };
+
   return (
     <>
       <div className="datePickerContainer d-flex align-items-center">
@@ -39,4 +39,5 @@ const DatePicker = ({ SetDate }) => {
     </>
   );
 };
+
 export default DatePicker;

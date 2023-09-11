@@ -1,21 +1,20 @@
 "use client";
-import Image from "next/image";
-import axios from "axios";
 import React, { useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import Image from "next/image";
+import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import { useForm, Controller } from "react-hook-form";
 import { axiosClient } from "class/axiosConfig.js";
 import { ErrorAlert } from "class/AlertManage.js";
-import Loading from "components/loading/loading";
+import { setSession } from "@/lib/SessionMange";
 import { logo } from "components/imagePath";
+import Loading from "components/loading/loading";
 import "public/assets/css/bootstrap.min.css";
 import "public/assets/css/feather.css";
 import "public/assets/css/feathericon.min.css";
 import "public/assets/css/font-awesome.min.css";
 import "public/assets/css/select2.min.css";
 import "public/assets/css/style.css";
-import Cookies from "js-cookie";
-import { setSession } from "@/lib/SessionMange";
 
 const Login = (req, res) => {
   const { control } = useForm();
@@ -36,10 +35,13 @@ const Login = (req, res) => {
       })
       .then(async function (response) {
         setIsLoading(false);
+
         let roles = response.data.roles;
         response.data.roles = null;
+
         const session = response.data;
         let rolesSession = await setSession(roles);
+
         var in30Minutes = 1 / 24;
         Cookies.set("roles", rolesSession, { expires: in30Minutes });
 
@@ -146,7 +148,6 @@ const Login = (req, res) => {
                         ورود
                       </button>
                     </div>
-                    {/* <div className="dont-have">حساب ندارید ؟</div> */}
                   </form>
                 </div>
               </div>

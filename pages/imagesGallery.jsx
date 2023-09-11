@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Head from "next/head";
-import { axiosClient } from "class/axiosConfig.js";
 import Cookies from "js-cookie";
 import FeatherIcon from "feather-icons-react";
-import { WarningAlert, QuestionAlert } from "class/AlertManage.js";
+import { axiosClient } from "class/axiosConfig.js";
 import Loading from "components/loading/loading";
+import { WarningAlert, QuestionAlert, ErrorAlert } from "class/AlertManage.js";
 import ImagesListTable from "components/dashboard/imagesGallery/imagesListTable";
 import UploadImageModal from "components/dashboard/imagesGallery/uploadImageModal";
 
@@ -14,8 +14,6 @@ let CenterID = Cookies.get("CenterID");
 export const getStaticProps = async () => {
   const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
   const Menus = await data.json();
-  // const Menus = (await getMenusData()) ? getMenusData() : null;
-  // const Menus = JSON.stringify(MenusData);
   return { props: { Menus } };
 };
 
@@ -25,33 +23,23 @@ const ImagesGallery = ({ Menus }) => {
   const [imgTitle, setImgTitle] = useState("");
   const [imgDescription, setImgDescription] = useState("");
 
-  // recieved data after uploading
-  // const [image, setImage] = useState(null);
-  // const [med, setMed] = useState(null);
-  // const [thumb, setThumb] = useState(null);
-  // const [webpImage, setWebpImage] = useState(null);
-  // const [webpMed, setWebpMed] = useState(null);
-  // const [webpThumb, setWebpThumb] = useState(null);
-
-  //get Images
+  //get All Images
   const getImagesGallery = () => {
     let url = `CenterProfile/getCenterGallery/${CenterID}`;
+    setIsLoading(true);
 
-    axiosClient.get(url).then(function (response) {
-      setImagesData(response.data);
-      console.log(response.data);
-      setIsLoading(false);
-    });
+    axiosClient
+      .get(url)
+      .then((response) => {
+        setImagesData(response.data);
+        console.log(response.data);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false);
+      });
   };
-
-  useEffect(() => {
-    try {
-      getImagesGallery();
-    } catch (error) {
-      setIsLoading(true);
-      console.log(error);
-    }
-  }, []);
 
   // Convert imageUrl to Base64
   const convertBase64 = (file) => {
@@ -76,12 +64,15 @@ const ImagesGallery = ({ Menus }) => {
   let img = null;
   const uploadImage = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
 
     if (formProps.img && formProps.img.size != 0) {
       img = await convertBase64(formProps.img);
+
+      let url = "CenterProfile/AddGallery";
       let data = {
         CenterID: CenterID,
         Img: img,
@@ -89,17 +80,20 @@ const ImagesGallery = ({ Menus }) => {
         Des: formProps.Des,
       };
 
-      let url = "CenterProfile/AddGallery";
       axiosClient
         .post(url, data)
         .then((response) => {
           setImagesData([...imagesData, response.data]);
+
           $("#uploadImageModal").modal("hide");
-          e.target.reset();
           $("#fileUploadPreview").attr("src", " ");
+          e.target.reset();
+          setIsLoading(false);
         })
         .catch((error) => {
           console.log(error);
+          setIsLoading(false);
+          ErrorAlert("خطا", "آپلود تصویر با خطا مواجه گردید!");
         });
     } else {
       WarningAlert("هشدار!", "تصویری انتخاب نشده است");
@@ -138,6 +132,10 @@ const ImagesGallery = ({ Menus }) => {
         });
     }
   };
+
+  useEffect(() => {
+    getImagesGallery();
+  }, []);
 
   return (
     <>
@@ -198,8 +196,9 @@ const ImagesGallery = ({ Menus }) => {
         </div>
       </div>
 
-      <UploadImageModal uploadImage={uploadImage} />
+      <UploadImageModal uploadImage={uploadImage} isLoading={isLoading} />
     </>
   );
 };
+
 export default ImagesGallery;

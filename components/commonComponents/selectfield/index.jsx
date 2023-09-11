@@ -1,7 +1,6 @@
 import React, { useId } from "react";
 import Select from "react-select";
 
-// create a component
 const SelectField = ({
   value,
   options,
@@ -23,6 +22,7 @@ const SelectField = ({
       border: "1px solid #E6E9F4",
     }),
   };
+
   return (
     <>
       <div className="form-group form-focus">

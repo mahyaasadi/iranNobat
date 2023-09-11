@@ -6,9 +6,6 @@ const AddUserModal = ({
   addUser,
   password,
   handlePassword,
-  // validatePassword,
-  // NationalIdValidate,
-  // telNumberValidate,
 }) => {
 
   // user password validation
@@ -144,7 +141,6 @@ const AddUserModal = ({
                   <p>کد ملی باید دارای 10 رقم باشد!</p>
                 </div>
               </div>
-              {/*  */}
 
               <div className="form-group">
                 <label className="lblAbs font-12">
@@ -171,7 +167,6 @@ const AddUserModal = ({
                   <p>شماره همراه باید دارای 11 رقم باشد!</p>
                 </div>
               </div>
-              {/*  */}
 
               <div className="input-group marginb-med">
                 <label className="lblAbs font-12">
@@ -219,7 +214,6 @@ const AddUserModal = ({
                   <p>رمز عبور باید حداقل 7 رقم باشد!</p>
                 </div>
               </div>
-              {/*  */}
 
               <div className="input-group marginb-med">
                 <label className="lblAbs font-12">
@@ -253,26 +247,6 @@ const AddUserModal = ({
               </div>
 
               <hr />
-              {/* 
-              <div className="roleCheckbox">
-                <label className="lblRole font-12">سطح دسترسی</label>
-                <div className="radio_container">
-                  <input type="checkbox" name="adminRole" id="adminRole" />
-                  <label className="Checkboxlabel" htmlFor="adminRole">
-                    ادمین
-                  </label>
-                  <span className="vertical-line"></span>
-                  <input
-                    type="checkbox"
-                    name="secretaryRole"
-                    id="secretaryRole"
-                  />
-                  <label className="Checkboxlabel" htmlFor="secretaryRole">
-                    منشی
-                  </label>
-                </div>
-              </div> */}
-
               <div className="submit-section">
                 <button
                   type="submit"
@@ -289,4 +263,5 @@ const AddUserModal = ({
     </div>
   );
 };
+
 export default AddUserModal;

@@ -9,35 +9,17 @@ import Loading from "components/loading/loading";
 import DoctorsListTable from "components/dashboard/doctors/doctorsListTable";
 import AddDoctorModal from "components/dashboard/doctors/addDoctorModal";
 import EditDoctorModal from "components/dashboard/doctors/editDoctorModal";
-// import {
-//   useQuery,
-//   useMutation,
-//   useQueryClient,
-//   QueryClient,
-//   QueryClientProvider,
-// } from "react-query";
-// import useDoctorsStore from "src/app/store/doctorsStore";
 import { getMenusData } from "class/getAllMenus.js";
 
 let CenterID = Cookies.get("CenterID");
 
-// export const getStaticProps = async () => {
-//   const Menus = (await getMenusData()) ? getMenusData() : null;
-//   return { props: { Menus } };
-// };
-
 export const getStaticProps = async () => {
   const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
   const Menus = await data.json();
-  // const Menus = (await getMenusData()) ? getMenusData() : null;
-  // const Menus = JSON.stringify(MenusData);
   return { props: { Menus } };
 };
 
 const DoctorsList = ({ Menus }) => {
-  // Access the client
-  // const queryClient = useQueryClient();
-
   const [isLoading, setIsLoading] = useState(true);
   const [doctorsList, setDoctorsList] = useState([]);
   const [editDoctor, setEditDoctor] = useState({});
@@ -58,40 +40,15 @@ const DoctorsList = ({ Menus }) => {
 
   //get doctors list
   const getDoctorsData = () => {
-    axiosClient
-      .get(`CenterProfile/getCenterPhysician/${CenterID}`)
-      .then(function (response) {
-        setDoctorsList(response.data);
-        setIsLoading(false);
-      });
+    if (CenterID) {
+      axiosClient
+        .get(`CenterProfile/getCenterPhysician/${CenterID}`)
+        .then(function (response) {
+          setDoctorsList(response.data);
+          setIsLoading(false);
+        });
+    }
   };
-
-  // const { doctors, addDoctor, removeDoctor } = useDoctorsStore((state) => ({
-  //   doctors: state.doctors,
-  //   addDoctor: state.addDoctor,
-  //   removeDoctor: state.removeDoctor,
-  // }));
-
-  // addDoctor = useDoctorsStore((state) => state.addDoctor);
-
-  // const handleAddPhysician = (e) => {
-  //   e.preventDefault();
-
-  //   // addDoctor({
-  //   //   CenterID: CenterID,
-  //   //   Name: name,
-  //   //   Title: title,
-  //   //   Spe: specialty,
-  //   // });
-  // };
-
-  // Queries
-  // const { data: doctors, isError } = useQuery(
-  //   ['doctorsList', CenterID],
-  //   () => axiosClient.get(`CenterProfile/getCenterPhysician/${CenterID}`).then((response) => response.data)
-  // );
-
-  // console.log(doctors);
 
   useEffect(() => {
     try {
@@ -265,7 +222,7 @@ const DoctorsList = ({ Menus }) => {
           handleNameInput={handleNameInput}
           handleTitleInput={handleTitleInput}
           handleSpecialtyInput={handleSpecialtyInput}
-          // handleAddPhysician={handleAddPhysician}
+          isLoading={isLoading}
         />
 
         <EditDoctorModal data={editDoctor} editPhysician={editPhysician} />

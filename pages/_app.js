@@ -13,7 +13,6 @@ import {
   QueryClient,
   QueryClientProvider,
 } from "react-query";
-import MenusInfo from "src/app/menusInfo";
 
 const queryClient = new QueryClient();
 
@@ -23,7 +22,6 @@ export default function MyApp({ Component, pageProps }) {
       <QueryClientProvider client={queryClient}>
         <DashboardLayout Menus={pageProps.Menus}>
           <Component {...pageProps} />
-          <MenusInfo />
         </DashboardLayout>
       </QueryClientProvider>
     </>

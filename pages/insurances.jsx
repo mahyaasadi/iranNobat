@@ -17,8 +17,6 @@ let CenterID = Cookies.get("CenterID");
 export const getStaticProps = async () => {
   const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
   const Menus = await data.json();
-  // const Menus = (await getMenusData()) ? getMenusData() : null;
-  // const Menus = JSON.stringify(MenusData);
   return { props: { Menus } };
 };
 
@@ -50,12 +48,14 @@ const Insurance = ({ Menus }) => {
 
   //Get insurance list
   const getInsuranceData = () => {
-    axiosClient
-      .get(`CenterProfile/getCenterInsurance/${CenterID}`)
-      .then(function (response) {
-        setInsuranceList(response.data);
-        setIsLoading(false);
-      });
+    if (CenterID) {
+      axiosClient
+        .get(`CenterProfile/getCenterInsurance/${CenterID}`)
+        .then(function (response) {
+          setInsuranceList(response.data);
+          setIsLoading(false);
+        });
+    }
   };
 
   // Add Insurance
@@ -134,11 +134,11 @@ const Insurance = ({ Menus }) => {
     let result = await QuestionAlert("حذف بیمه!", "آیا از حذف مطمئن هستید");
 
     if (result) {
+      let url = "CenterProfile/DeleteInsurance";
       let data = {
         CenterID: CenterID,
         InsuranceID: id,
       };
-      let url = "CenterProfile/DeleteInsurance";
 
       await axiosClient
         .delete(url, { data })

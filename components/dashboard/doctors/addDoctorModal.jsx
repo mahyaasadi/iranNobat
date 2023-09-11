@@ -8,7 +8,7 @@ const AddDoctorModal = ({
   handleNameInput,
   handleTitleInput,
   handleSpecialtyInput,
-  handleAddPhysician,
+  isLoading,
 }) => {
   return (
     <div
@@ -35,7 +35,7 @@ const AddDoctorModal = ({
             </button>
           </div>
           <div className="modal-body">
-            <form onSubmit={handleAddPhysician} id="frmAddPhysician">
+            <form onSubmit={addPhysician} id="frmAddPhysician">
               <div className="form-group">
                 <label className="lblAbs font-12">
                   نام پزشک<span className="text-danger">*</span>
@@ -85,12 +85,26 @@ const AddDoctorModal = ({
               </div>
 
               <div className="submit-section">
-                <button
-                  type="submit"
-                  className="btn btn-primary rounded btn-save"
-                >
-                  ثبت
-                </button>
+                {!isLoading ? (
+                  <button
+                    type="submit"
+                    className="btn btn-primary rounded btn-save"
+                  >
+                    ثبت
+                  </button>
+                ) : (
+                  <button
+                    type="submit"
+                    className="btn btn-primary rounded"
+                    disabled
+                  >
+                    <span
+                      className="spinner-border spinner-border-sm me-2"
+                      role="status"
+                    ></span>
+                    در حال ثبت
+                  </button>
+                )}
               </div>
             </form>
           </div>

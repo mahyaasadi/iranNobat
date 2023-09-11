@@ -16,32 +16,13 @@ let CenterID = Cookies.get("CenterID");
 export const getStaticProps = async () => {
   const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
   const Menus = await data.json();
-  // const Menus = (await getMenusData()) ? getMenusData() : null;
-  // const Menus = JSON.stringify(MenusData);
   return { props: { Menus } };
 };
 
 const Certifications = ({ Menus }) => {
   const [certificationsList, setCertificationsList] = useState([]);
   const [editedCertificate, setEditedCertificate] = useState("");
-  const [companyName, setCompanyName] = useState("");
-  const [linkAddress, setLinkAddress] = useState("");
-  const [certificateName, setCertificateName] = useState("");
-  const [year, setYear] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-
-  const handleCompanyNameInput = (e) => setCompanyName(e.target.value);
-  const handleLinkAddressInput = (e) => setLinkAddress(e.target.value);
-  const handleCertificateNameInput = (e) => setCertificateName(e.target.value);
-  const handleYearInput = (e) => setYear(e.target.value);
-
-  //reset form inputs
-  const reset = () => {
-    setCompanyName("");
-    setLinkAddress("");
-    setCertificateName("");
-    setYear("");
-  };
 
   //Get certifications list
   const getCertifications = () => {
@@ -65,25 +46,32 @@ const Certifications = ({ Menus }) => {
   //Add Certifications
   const addCertificate = (e) => {
     e.preventDefault();
+    setIsLoading(true);
+
+    let formData = new FormData(e.target);
+    const formProps = Object.fromEntries(formData);
 
     let url = "CenterProfile/AddCertificate";
     let data = {
       CenterID: CenterID,
-      Company: companyName,
-      Link: linkAddress,
-      Name: certificateName,
-      Year: year,
+      Company: formProps.addCertificateCompany,
+      Link: formProps.addCertificateLink,
+      Name: formProps.addCertificateName,
+      Year: formProps.addCertificateYear,
     };
 
     axiosClient
       .post(url, data)
       .then((response) => {
         setCertificationsList([...certificationsList, response.data]);
+
         $("#addCertificateModal").modal("hide");
-        reset();
+        e.target.reset();
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
+        setIsLoading(false);
       });
   };
 
@@ -108,19 +96,18 @@ const Certifications = ({ Menus }) => {
       .then((response) => {
         updateItem(formProps.EditCertificateID, response.data);
         $("#editCertificateModal").modal("hide");
-        reset();
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
   const updateItem = (id, newArr) => {
     let index = certificationsList.findIndex((x) => x._id === id);
-
     let g = certificationsList[index];
     g = newArr;
+
     if (index === -1) {
-      // handle error
       console.log("no match");
     } else
       setCertificationsList([
@@ -167,7 +154,6 @@ const Certifications = ({ Menus }) => {
       </Head>
       <div className="page-wrapper">
         <div className="content container-fluid">
-          {/* <!-- Page Header --> */}
           <div className="page-header">
             <div className="row align-items-center">
               <div className="col-md-12 d-flex justify-content-end">
@@ -222,31 +208,11 @@ const Certifications = ({ Menus }) => {
         </div>
       </div>
 
-      {/* Add Modal */}
-      <AddCertificateModal
-        addCertificate={addCertificate}
-        companyName={companyName}
-        linkAddress={linkAddress}
-        certificateName={certificateName}
-        year={year}
-        handleCompanyNameInput={handleCompanyNameInput}
-        handleLinkAddressInput={handleLinkAddressInput}
-        handleCertificateNameInput={handleCertificateNameInput}
-        handleYearInput={handleYearInput}
-      />
+      <AddCertificateModal addCertificate={addCertificate} />
 
-      {/* Edit Modal */}
       <EditCertificateModal
         data={editedCertificate}
         editCertificate={editCertificate}
-        companyName={companyName}
-        linkAddress={linkAddress}
-        certificateName={certificateName}
-        year={year}
-        handleCompanyNameInput={handleCompanyNameInput}
-        handleLinkAddressInput={handleLinkAddressInput}
-        handleCertificateNameInput={handleCertificateNameInput}
-        handleYearInput={handleYearInput}
       />
     </>
   );

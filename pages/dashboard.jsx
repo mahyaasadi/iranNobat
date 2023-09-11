@@ -1,25 +1,36 @@
 import { useState, useEffect } from "react";
 import Head from "next/head";
+import axios from "next/head";
 import { axiosClient } from "class/axiosConfig.js";
 import Cookies from "js-cookie";
 import Select from "react-select";
 import JDate from "jalali-date";
 import Loading from "components/loading/loading";
 import OverviewStats from "components/dashboard/overview/overviewStats";
+import getUserData from "class/CookieMange.js";
+import getUserToken from "@/pages/api/getUserToken.js";
 // import { getMenusData } from "class/getAllMenus.js";
 
-let CenterID = Cookies.get("CenterID");
 const jdate = new JDate();
 
 // export const getStaticProps = async () => {
-//   const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
-//   const Menus = await data.json();
-//   // const Menus = (await getMenusData()) ? getMenusData() : null;
-//   // const Menus = JSON.stringify(MenusData);
+//   const Menus = (await getMenusData()) ? getMenusData() : null;
 //   return { props: { Menus } };
 // };
 
-const Dashboard = () => {
+export const getStaticProps = async () => {
+  const UserData = await axiosClient.post("Session/GetSessionData");
+
+  const UserDataJson = await UserData;
+  console.log("UserData", UserDataJson);
+
+  const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
+  const Menus = await data.json();
+  return { props: { Menus } };
+};
+
+const Dashboard = ({ Menus }) => {
+  let CenterID = "";
   const [selectedDuration, setSelectedDuration] = useState("today");
   const [stats, setStats] = useState(null);
   const [statsIsLoading, setStatsIsLoading] = useState(true);

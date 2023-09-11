@@ -2,7 +2,7 @@ import Link from "next/link";
 import FeatherIcon from "feather-icons-react";
 import Image from "next/image";
 
-const UploadImageModal = ({ uploadImage }) => {
+const UploadImageModal = ({ uploadImage, isLoading }) => {
   const displayPreview = (e) => {
     var urlCreator = window.URL || window.webkitURL;
     if (e.target.files.length !== 0) {
@@ -84,12 +84,26 @@ const UploadImageModal = ({ uploadImage }) => {
               </div>
 
               <div className="submit-section">
-                <button
-                  type="submit"
-                  className="btn btn-sm btn-primary btn-save rounded"
-                >
-                  ثبت
-                </button>
+                {!isLoading ? (
+                  <button
+                    type="submit"
+                    className="btn btn-primary rounded btn-save"
+                  >
+                    ثبت
+                  </button>
+                ) : (
+                  <button
+                    type="submit"
+                    className="btn btn-primary rounded"
+                    disabled
+                  >
+                    <span
+                      className="spinner-border spinner-border-sm me-2"
+                      role="status"
+                    ></span>
+                    در حال ثبت
+                  </button>
+                )}
               </div>
             </form>
           </div>

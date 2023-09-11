@@ -8,15 +8,6 @@ import SelectField from "components/commonComponents/selectfield";
 const CopyShiftModal = ({ value }) => {
   const [date, setDate] = useState(null);
 
-  const colourStyles = {
-    menu: (provided) => ({ ...provided, zIndex: 9999 }),
-    control: (styles) => ({
-      ...styles,
-      minHeight: 43,
-      borderRadius: 20,
-      border: "1px solid #E6E9F4",
-    }),
-  };
   return (
     <div
       className="modal fade contentmodal"

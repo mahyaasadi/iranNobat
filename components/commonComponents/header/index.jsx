@@ -1,16 +1,16 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 import axios from "axios";
-import { axiosClient } from "class/axiosConfig.js";
+import Link from "next/link";
 import Image from "next/image";
 import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
+import { axiosClient } from "class/axiosConfig.js";
 import FeatherIcon from "feather-icons-react";
 import { avatar01, headerLogo, logoSmall } from "components/imagepath";
-// import getUserToken from "../../../pages/api/getUserToken";
 import { getSession } from "@/lib/SessionMange";
 import { ErrorAlert } from "class/AlertManage.js";
+// import getUserToken from "../../../pages/api/getUserToken";
 
 let user = null;
 let centerId = null;
@@ -39,8 +39,15 @@ const Header = () => {
   const fetchUserToken = async () => {
     let data = await getSession(Cookies.get("session"));
     console.log({ data });
+
+    let roles = await getSession(Cookies.get("roles"));
+    console.log({ roles });
+
     if (data == null) {
-      router.push("/");
+      ErrorAlert("خطا", "خطای ورود به سایت");
+      setTimeout(() => {
+        router.push("/");
+      }, 2000);
     } else {
       document.getElementById("userName").innerHTML = data.FullName;
       document.getElementById("avatar").setAttribute("src", data.Avatar);
@@ -52,51 +59,24 @@ const Header = () => {
         .getElementById("dropdownAvatar")
         .setAttribute("srcSet", data.Avatar);
     }
-    let roles = await getSession(Cookies.get("roles"));
-    console.log({ roles });
+
     return data;
   };
 
   useEffect(() => {
     fetchUserToken();
-
-    // let data = { Token: sessionStorage.getItem("SEID") };
-    //       if (data) {
-    //   axiosClient
-    //     .post("AdminUser/getUserByToken", data)
-    //     .then(function (response) {
-    //       user = response.data;
-    //       let centerId = user.CenterID;
-    //       Cookies.set("CenterID", centerId);
-    //       console.log(response.data);
-
-    //       document.getElementById("userName").innerHTML = user.FullName;
-    //       document.getElementById("avatar").setAttribute("src", user.Avatar);
-    //       document.getElementById("avatar").setAttribute("srcSet", user.Avatar);
-
-    //       document
-    //         .getElementById("dropdownAvatar")
-    //         .setAttribute("src", user.Avatar);
-
-    //       document
-    //         .getElementById("dropdownAvatar")
-    //         .setAttribute("srcSet", user.Avatar);
-
-    //       if ((user.Admin = true)) {
-    //         document.getElementById("role").innerHTML = "ادمین";
-    //       }
-    //     })
-    //     .catch(function (error) {
-    //       console.log(error);
-    //       ErrorAlert("خطا", "ارتباط با سرور در حال حاضر امکان پذیر نمی باشد!");
-    //     });
-    // } else {
-    //   ErrorAlert("خطا", "خطای ورود به سایت");
-    //   setTimeout(() => {
-    //     router.push("/");
-    //   }, 2000);
-    // }
   }, []);
+
+  // let data = { Token: sessionStorage.getItem("SEID") };
+  //       if (data) {
+  //   axiosClient
+  //     .post("AdminUser/getUserByToken", data)
+  //     .then(function (response) {
+  //       user = response.data;
+  //       let centerId = user.CenterID;
+  //       Cookies.set("CenterID", centerId);
+  //     })
+  // }
 
   return (
     <>

@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import FeatherIcon from "feather-icons-react";
 import Cookies from "js-cookie";
+import FeatherIcon from "feather-icons-react";
 import { axiosClient } from "class/axiosConfig.js";
 import SelectField from "components/commonComponents/selectfield";
 import Loading from "components/loading/loading";
-import { ErrorAlert, SuccessAlert, WarningAlert } from "class/AlertManage.js";
+import { ErrorAlert } from "class/AlertManage.js";
+import selectfieldColourStyles from "class/selectfieldStyle";
 
 let CenterID = Cookies.get("CenterID");
 
@@ -34,17 +35,8 @@ const AssignRoleModal = ({ FUSelectUserRole, assignRole }) => {
       })
       .catch((error) => {
         console.log(error);
+        ErrorAlert("خطا", "خطا در دریافت اطلاعات");
       });
-  };
-
-  const colourStyles = {
-    menu: (provided) => ({ ...provided, zIndex: 9999 }),
-    control: (styles) => ({
-      ...styles,
-      minHeight: 43,
-      borderRadius: 20,
-      border: "1px solid #E6E9F4",
-    }),
   };
 
   useEffect(() => {
@@ -85,14 +77,13 @@ const AssignRoleModal = ({ FUSelectUserRole, assignRole }) => {
                   </label>
 
                   <SelectField
-                    styles={colourStyles}
+                    styles={selectfieldColourStyles}
                     options={selectRoleOptions}
                     errorMessage={""}
                     error={false}
                     label={true}
                     placeholder={"انتخاب کنید"}
                     required
-                    className="text-center"
                     name="assignUserRole"
                     onChangeValue={(value) => FUSelectUserRole(value?.value)}
                   />
@@ -114,4 +105,5 @@ const AssignRoleModal = ({ FUSelectUserRole, assignRole }) => {
     </>
   );
 };
+
 export default AssignRoleModal;

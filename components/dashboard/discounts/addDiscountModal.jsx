@@ -1,31 +1,15 @@
 import { useState } from "react";
 import FeatherIcon from "feather-icons-react";
 import SelectField from "components/commonComponents/selectfield";
+import selectfieldColourStyles from "class/selectfieldStyle";
 
 const AddDiscountModal = ({
   data,
-  discountName,
-  description,
-  discountValue,
-  discountPercent,
-  FUSelectDiscountPercent,
-  handlediscountNameInput,
-  handleDescriptionInput,
-  handlediscountValueInput,
-  discountPercentDataClass,
   addDiscount,
+  FUSelectDiscountPercent,
+  discountPercentDataClass,
+  isLoading,
 }) => {
-
-   const colourStyles = {
-    menu: (provided) => ({ ...provided, zIndex: 9999 }),
-    control: (styles) => ({
-      ...styles,
-      minHeight: 43,
-      borderRadius: 20,
-      border: "1px solid #E6E9F4",
-    }),
-  };
-  
   return (
     <div
       className="modal fade contentmodal"
@@ -37,7 +21,7 @@ const AddDiscountModal = ({
         <div className="modal-content doctor-profile">
           <div className="modal-header">
             <p className="mb-0 text-secondary font-14 fw-bold">
-               اضافه کردن تخفیف
+              اضافه کردن تخفیف
             </p>
             <button
               type="button"
@@ -53,52 +37,45 @@ const AddDiscountModal = ({
 
           <div className="modal-body">
             <form onSubmit={addDiscount}>
-                <div className="form-group">
-                  <label className="lblAbs font-12">
-                    نام <span className="text-danger">*</span>
-                  </label>
-                  <input
-                    className="form-control floating inputPadding rounded"
-                    value={discountName}
-                    onChange={handlediscountNameInput}
-                    required
-                    key={data.Name}
-                  />
-                </div>
-                <div className="form-group ">
-                  <label className="lblAbs font-12">
-                    مشخصات<span className="text-danger">*</span>
-                  </label>
-                  <input
-                    className="form-control floating inputPadding rounded"
-                    value={description}
-                    onChange={handleDescriptionInput}
-                    required
-                    key={data.Des}
-                  />
-                </div>
-                <div className="form-group">
-                  <label className="lblAbs font-12">
-                    درصد تخفیف <span className="text-danger">*</span>
-                  </label>
-                  <input
-                    className="form-control floating inputPadding rounded"
-                    value={discountValue}
-                    onChange={handlediscountValueInput}
-                    required
-                    key={data.Value}
-                  />
-                </div>
+              <div className="form-group">
+                <label className="lblAbs font-12">
+                  نام <span className="text-danger">*</span>
+                </label>
+                <input
+                  className="form-control floating inputPadding rounded"
+                  name="discountName"
+                  required
+                />
+              </div>
+              <div className="form-group ">
+                <label className="lblAbs font-12">
+                  مشخصات<span className="text-danger">*</span>
+                </label>
+                <input
+                  className="form-control floating inputPadding rounded"
+                  name="discountDescription"
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label className="lblAbs font-12">
+                  درصد تخفیف <span className="text-danger">*</span>
+                </label>
+                <input
+                  className="form-control floating inputPadding rounded"
+                  required
+                  name="discountValue"
+                />
+              </div>
 
               <div className="col media-w-100 font-12">
                 <label className="lblDrugIns font-12">
-                 روش محاسبه<span className="text-danger">*</span>
+                  روش محاسبه<span className="text-danger">*</span>
                 </label>
 
                 <SelectField
-                  styles={colourStyles}
+                  styles={selectfieldColourStyles}
                   options={discountPercentDataClass}
-                  errorMessage={""}
                   error={false}
                   label={true}
                   required
@@ -109,11 +86,28 @@ const AddDiscountModal = ({
                   }
                 />
                 <div className="submit-section">
-                  <button type="submit" className="btn btn-primary btn-save rounded">
-                    ثبت 
-                  </button>
+                  {!isLoading ? (
+                    <button
+                      type="submit"
+                      className="btn btn-primary rounded btn-save"
+                    >
+                      ثبت
+                    </button>
+                  ) : (
+                    <button
+                      type="submit"
+                      className="btn btn-primary rounded"
+                      disabled
+                    >
+                      <span
+                        className="spinner-border spinner-border-sm me-2"
+                        role="status"
+                      ></span>
+                      در حال ثبت
+                    </button>
+                  )}
                 </div>
-                </div>
+              </div>
             </form>
           </div>
         </div>

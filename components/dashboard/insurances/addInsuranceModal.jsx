@@ -1,28 +1,18 @@
 import { useState } from "react";
 import FeatherIcon from "feather-icons-react";
 import SelectField from "components/commonComponents/selectfield";
+import selectfieldColourStyles from "class/selectfieldStyle";
 
 const AddInsuranceModal = ({
-  data,
   addInsurance,
+  data,
   name,
+  handleNameInput,
   insuranceType,
   insuranceStatus,
-  handleNameInput,
   FUSelectInsuranceType,
   FUSelectInsuranceStatus,
 }) => {
-
-  const colourStyles = {
-    menu: (provided) => ({ ...provided, zIndex: 9999 }),
-    control: (styles) => ({
-      ...styles,
-      minHeight: 43,
-      borderRadius: 20,
-      border: "1px solid #E6E9F4",
-    }),
-  };
-
   return (
     <div
       className="modal fade contentmodal"
@@ -34,7 +24,7 @@ const AddInsuranceModal = ({
         <div className="modal-content doctor-profile">
           <div className="modal-header">
             <p className="mb-0 text-secondary font-14 fw-bold">
-               اضافه کردن بیمه
+              اضافه کردن بیمه
             </p>
             <button
               type="button"
@@ -49,60 +39,63 @@ const AddInsuranceModal = ({
           </div>
           <div className="modal-body">
             <form onSubmit={addInsurance}>
-                <div className="form-group">
-                  <label className="lblAbs font-12">
-                    نام بیمه <span className="text-danger">*</span>
-                  </label>
-                  <input
-                    className="form-control floating inputPadding rounded"
-                    type="text"
-                    value={name}
-                    onChange={handleNameInput}
-                    required
-                  />
-                </div>
+              <div className="form-group">
+                <label className="lblAbs font-12">
+                  نام بیمه <span className="text-danger">*</span>
+                </label>
+                <input
+                  className="form-control floating inputPadding rounded"
+                  type="text"
+                  value={name}
+                  onChange={handleNameInput}
+                  required
+                />
+              </div>
 
-                <div className="col media-w-100 font-12">
-                  <label className="lblDrugIns font-12">
-                    نوع بیمه<span className="text-danger">*</span>
-                  </label>
-                  <SelectField
-                    styles={colourStyles}
-                    options={insuranceType}
-                    errorMessage={""}
-                    error={false}
-                    label={false}
-                    placeholder={"نوع بیمه را انتخاب کنید"}
-                    required
-                    onChangeValue={(value) => FUSelectInsuranceType(value?.value)}
-                    key={data.Type}
-                  />
-                </div>
+              <div className="col media-w-100 font-12">
+                <label className="lblDrugIns font-12">
+                  نوع بیمه<span className="text-danger">*</span>
+                </label>
+                <SelectField
+                  styles={selectfieldColourStyles}
+                  options={insuranceType}
+                  errorMessage={""}
+                  error={false}
+                  label={false}
+                  placeholder={"نوع بیمه را انتخاب کنید"}
+                  required
+                  onChangeValue={(value) => FUSelectInsuranceType(value?.value)}
+                  key={data.Type}
+                />
+              </div>
 
-                <div className="col media-w-100 font-12">
-                  <label className="lblDrugIns font-12">
-                    وضعیت بیمه<span className="text-danger">*</span>
-                  </label>
-                  <SelectField
-                    styles={colourStyles}
-                    options={insuranceStatus}
-                    errorMessage={""}
-                    error={false}
-                    label={false}
-                    placeholder={"وضعیت بیمه را انتخاب کنید"}
-                    required
-                    onChangeValue={(value) =>
-                      FUSelectInsuranceStatus(value?.value)
-                    }
-                    key={data.Status}
-                  />
-                </div>
+              <div className="col media-w-100 font-12">
+                <label className="lblDrugIns font-12">
+                  وضعیت بیمه<span className="text-danger">*</span>
+                </label>
+                <SelectField
+                  styles={selectfieldColourStyles}
+                  options={insuranceStatus}
+                  errorMessage={""}
+                  error={false}
+                  label={false}
+                  placeholder={"وضعیت بیمه را انتخاب کنید"}
+                  required
+                  onChangeValue={(value) =>
+                    FUSelectInsuranceStatus(value?.value)
+                  }
+                  key={data.Status}
+                />
+              </div>
 
-                <div className="submit-section">
-                  <button type="submit" className="btn btn-primary btn-save rounded">
-                    ثبت 
-                  </button>
-                </div>
+              <div className="submit-section">
+                <button
+                  type="submit"
+                  className="btn btn-primary btn-save rounded"
+                >
+                  ثبت
+                </button>
+              </div>
             </form>
           </div>
         </div>
