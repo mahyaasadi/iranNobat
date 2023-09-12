@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import Cookies from "js-cookie";
 import { axiosClient } from "class/axiosConfig.js";
 import Link from "next/link";
 import Head from "next/head";
@@ -14,22 +13,29 @@ import EditServiceGroupModal from "components/dashboard/serviceGroupDetails/edit
 import EditServiceModal from "components/dashboard/serviceGroupDetails/editServiceModal";
 import AddSrvGroupModal from "components/dashboard/serviceGroupDetails/addSrvGroupModal";
 import AddTariffModal from "components/dashboard/tariff/addTariffModal";
+import { getSession } from "lib/session";
 
-let CenterID = Cookies.get("CenterID");
 let activeServiceId = null;
 let activeServiceName = null;
 let activeDepId = null;
 let activeDepName = null;
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async ({ req, res }) => {
+  // userInfo
+  const { UserData, UserRoles } = await getSession(req);
+  console.log({ UserRoles, UserData });
+
+  // menusList
   const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
   const Menus = await data.json();
-  return { props: { Menus } };
+  return { props: { Menus, UserData, UserRoles } };
 };
 
-const ServiceGroupDetails = ({ Menus }) => {
-  const [isLoading, setIsLoading] = useState(true);
+let CenterID = null;
+const ServiceGroupDetails = ({ Menus, UserData, UserRoles }) => {
+  CenterID = UserData.CenterID;
 
+  const [isLoading, setIsLoading] = useState(true);
   const [departmentsData, setDepartmentsData] = useState([]);
   const [services, setServices] = useState([]);
   const [editedServices, setEditedServices] = useState([]);
@@ -52,22 +58,23 @@ const ServiceGroupDetails = ({ Menus }) => {
 
   //get departments -> In Tariff Header
   const getDepartments = () => {
-    let UrlGetDep = `Center/GetDepartments/${CenterID}`;
     setIsLoading(true);
+    let url = `Center/GetDepartments/${CenterID}`;
 
-    axiosClient.get(UrlGetDep).then(function (response) {
-      setIsLoading(false);
-      setDepartmentsData(response.data);
-    });
+    axiosClient
+      .get(url)
+      .then(function (response) {
+        setIsLoading(false);
+        setDepartmentsData(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false);
+      });
   };
 
   useEffect(() => {
-    try {
-      getDepartments();
-    } catch (error) {
-      console.log(error);
-      setIsLoading(true);
-    }
+    getDepartments();
   }, []);
 
   //get services
@@ -141,6 +148,7 @@ const ServiceGroupDetails = ({ Menus }) => {
   // add service
   const addService = (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
@@ -181,26 +189,24 @@ const ServiceGroupDetails = ({ Menus }) => {
       })
       .catch((error) => {
         console.log(error);
-        setIsLoading(true);
+        setIsLoading(false);
       });
   };
 
   //edit service
   const editServiceGroup = (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
 
     let url = "CenterServicessInfo/EditServiceGroup";
-
     let data = {
       CenterID: CenterID,
       ServiceID: formProps.srvGroupId,
       CenterGroup: selectSrvGroupName,
     };
-
-    console.log("edit data", data);
 
     axiosClient
       .put(url, data)
@@ -214,10 +220,11 @@ const ServiceGroupDetails = ({ Menus }) => {
         });
 
         $("#editServiceModal").modal("hide");
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
-        setIsLoading(true);
+        setIsLoading(false);
       });
   };
 
@@ -227,7 +234,6 @@ const ServiceGroupDetails = ({ Menus }) => {
     g = newArr;
 
     if (index === -1) {
-      // handle error
       console.log("no match");
     } else
       setServices([
@@ -245,12 +251,12 @@ const ServiceGroupDetails = ({ Menus }) => {
   //Edit Group
   const editGroup = (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
 
     let url = "CenterServicessInfo/EditGroup ";
-
     let data = {
       CenterID: CenterID,
       GroupID: formProps.editGroupId,
@@ -283,7 +289,6 @@ const ServiceGroupDetails = ({ Menus }) => {
     g = newArr;
 
     if (index === -1) {
-      // handle error
       console.log("no match");
     } else
       setGroupDetail([
@@ -300,6 +305,7 @@ const ServiceGroupDetails = ({ Menus }) => {
 
   //delete SrvGroup
   const deleteSrvGroup = async (id) => {
+    setIsLoading(true);
     let result = await QuestionAlert(
       "حذف گروه !",
       "آیا از حذف گروه خدمت مطمئن هستید؟"
@@ -312,40 +318,45 @@ const ServiceGroupDetails = ({ Menus }) => {
         GroupID: id,
       };
 
-      console.log(data);
-
       await axiosClient
         .delete(url, { data })
         .then((response) => {
           console.log(response.data);
           setGroupDetail(groupDetail.filter((a) => a._id !== id));
+          setIsLoading(false);
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          console.log(error);
+          setIsLoading(false);
+        });
     }
   };
 
   //delete Service
   const deleteService = async (id) => {
+    setIsLoading(true);
     let result = await QuestionAlert(
       "حذف سرویس!",
       "آیا از حذف سرویس مطمئن هستید"
     );
 
     if (result) {
+      let url = `CenterServicessInfo/DeleteService`;
       let data = {
         CenterID: CenterID,
         DepID: activeDepId,
         ServiceID: id,
       };
-      let url = `CenterServicessInfo/DeleteService`;
 
       await axiosClient
         .delete(url, { data })
-        .then(function () {
+        .then(() => {
           setServices(services.filter((a) => a._id !== id));
+          setIsLoading(false);
         })
         .catch(function (error) {
           console.log(error);
+          setIsLoading(false);
         });
     }
   };
@@ -357,39 +368,39 @@ const ServiceGroupDetails = ({ Menus }) => {
       </Head>
 
       <div className="page-wrapper">
-        <div className="content container-fluid">
-          <TariffHeader data={departmentsData} getServices={getServices} />
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <div className="content container-fluid">
+            <TariffHeader data={departmentsData} getServices={getServices} />
 
-          <div className="tariff-btn-container">
-            <div className="media-md-w-100 d-flex gap-2">
-              <Link
-                href="#"
-                data-bs-toggle="modal"
-                data-bs-target="#addSrvGroupModal"
-                className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
-              >
-                <i className="me-1">
-                  <FeatherIcon icon="plus-square" />
-                </i>{" "}
-                گروه جدید
-              </Link>
+            <div className="tariff-btn-container">
+              <div className="media-md-w-100 d-flex gap-2">
+                <Link
+                  href="#"
+                  data-bs-toggle="modal"
+                  data-bs-target="#addSrvGroupModal"
+                  className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
+                >
+                  <i className="me-1">
+                    <FeatherIcon icon="plus-square" />
+                  </i>{" "}
+                  گروه جدید
+                </Link>
+              </div>
             </div>
-          </div>
 
-          {/* <!--  services Table --> */}
-          <div className="row">
-            <div className="col-sm-12">
-              <div className="card">
-                <div className="card-header border-bottom-0">
-                  <div className="row align-items-center">
-                    <div className="col marginb-1">
-                      <p className="card-title font-16">لیست گروه ها</p>
+            {/* <!--  services Table --> */}
+            <div className="row">
+              <div className="col-sm-12">
+                <div className="card">
+                  <div className="card-header border-bottom-0">
+                    <div className="row align-items-center">
+                      <div className="col marginb-1">
+                        <p className="card-title font-16">لیست گروه ها</p>
+                      </div>
                     </div>
-                  </div>
 
-                  {isLoading ? (
-                    <Loading />
-                  ) : (
                     <div className="flex-col">
                       <div className="col-sm-12">
                         <ServiceGroupListTable
@@ -423,14 +434,14 @@ const ServiceGroupDetails = ({ Menus }) => {
                         />
                       </div>
                     </div>
-                  )}
+                  </div>
                 </div>
-              </div>
 
-              <div id="tablepagination" className="dataTables_wrapper"></div>
+                <div id="tablepagination" className="dataTables_wrapper"></div>
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         <AddTariffModal
           addService={addService}

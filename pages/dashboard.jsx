@@ -1,36 +1,30 @@
 import { useState, useEffect } from "react";
 import Head from "next/head";
-import axios from "next/head";
-import { axiosClient } from "class/axiosConfig.js";
 import Cookies from "js-cookie";
-import Select from "react-select";
 import JDate from "jalali-date";
+import Select from "react-select";
+import { getSession } from "lib/session";
+import { axiosClient } from "class/axiosConfig.js";
 import Loading from "components/loading/loading";
 import OverviewStats from "components/dashboard/overview/overviewStats";
-import getUserData from "class/CookieMange.js";
-import getUserToken from "@/pages/api/getUserToken.js";
-// import { getMenusData } from "class/getAllMenus.js";
 
 const jdate = new JDate();
 
-// export const getStaticProps = async () => {
-//   const Menus = (await getMenusData()) ? getMenusData() : null;
-//   return { props: { Menus } };
-// };
+export const getServerSideProps = async ({ req, res }) => {
+  // userInfo
+  const { UserData, UserRoles } = await getSession(req);
+  console.log({ UserRoles, UserData });
 
-export const getStaticProps = async () => {
-  const UserData = await axiosClient.post("Session/GetSessionData");
-
-  const UserDataJson = await UserData;
-  console.log("UserData", UserDataJson);
-
+  // menusList
   const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
   const Menus = await data.json();
-  return { props: { Menus } };
+  return { props: { Menus, UserData, UserRoles } };
 };
 
-const Dashboard = ({ Menus }) => {
-  let CenterID = "";
+let CenterID = null;
+const Dashboard = ({ Menus, UserData, UserRoles }) => {
+  CenterID = UserRoles.CenterID;
+
   const [selectedDuration, setSelectedDuration] = useState("today");
   const [stats, setStats] = useState(null);
   const [statsIsLoading, setStatsIsLoading] = useState(true);
@@ -77,10 +71,10 @@ const Dashboard = ({ Menus }) => {
         <title>داشبورد من</title>
       </Head>
       <div className="main-wrapper">
-        {statsIsLoading ? (
-          <Loading />
-        ) : (
-          <div className="page-wrapper">
+        <div className="page-wrapper">
+          {statsIsLoading ? (
+            <Loading />
+          ) : (
             <div className="content container-fluid pb-0">
               <div className="overview-container">
                 <div className="dashboard-header">
@@ -104,8 +98,8 @@ const Dashboard = ({ Menus }) => {
               </div>
               <OverviewStats stats={stats} />
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </>
   );

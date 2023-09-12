@@ -9,38 +9,45 @@ import CertificationsListTable from "/components/dashboard/certifications/certif
 import AddCertificateModal from "components/dashboard/certifications/addCertificateModal";
 import EditCertificateModal from "components/dashboard/certifications/editCertificateModal";
 import { QuestionAlert } from "class/AlertManage.js";
-import { getMenusData } from "class/getAllMenus.js";
+import { getSession } from "lib/session";
 
-let CenterID = Cookies.get("CenterID");
+export const getServerSideProps = async ({ req, res }) => {
+  // userInfo
+  const { UserData, UserRoles } = await getSession(req);
+  console.log({ UserRoles, UserData });
 
-export const getStaticProps = async () => {
+  // menusList
   const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
   const Menus = await data.json();
-  return { props: { Menus } };
+  return { props: { Menus, UserData, UserRoles } };
 };
 
-const Certifications = ({ Menus }) => {
+let CenterID = null;
+const Certifications = ({ Menus, UserData, UserRoles }) => {
+  CenterID = UserData.CenterID;
+
   const [certificationsList, setCertificationsList] = useState([]);
   const [editedCertificate, setEditedCertificate] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   //Get certifications list
   const getCertifications = () => {
+    setIsLoading(true);
+
     axiosClient
       .get(`CenterProfile/getCenterCertificate/${CenterID}`)
-      .then(function (response) {
+      .then((response) => {
         setCertificationsList(response.data);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
         setIsLoading(false);
       });
   };
 
   useEffect(() => {
-    try {
-      getCertifications();
-    } catch (error) {
-      setIsLoading(true);
-      console.log(error);
-    }
+    getCertifications();
   }, []);
 
   //Add Certifications
@@ -153,59 +160,58 @@ const Certifications = ({ Menus }) => {
         <title>مجوزها</title>
       </Head>
       <div className="page-wrapper">
-        <div className="content container-fluid">
-          <div className="page-header">
-            <div className="row align-items-center">
-              <div className="col-md-12 d-flex justify-content-end">
-                <Link
-                  href="#"
-                  data-bs-toggle="modal"
-                  data-bs-target="#addCertificateModal"
-                  className="btn btn-primary btn-add font-14"
-                >
-                  <i className="me-1">
-                    <FeatherIcon icon="plus-square" />
-                  </i>{" "}
-                  اضافه کردن
-                </Link>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <div className="content container-fluid">
+            <div className="page-header">
+              <div className="row align-items-center">
+                <div className="col-md-12 d-flex justify-content-end">
+                  <Link
+                    href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#addCertificateModal"
+                    className="btn btn-primary btn-add font-14"
+                  >
+                    <i className="me-1">
+                      <FeatherIcon icon="plus-square" />
+                    </i>{" "}
+                    اضافه کردن
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* <!-- Certifications List --> */}
-          <div className="row">
-            <div className="col-sm-12">
-              <div className="card">
-                <div className="card-header border-bottom-0">
-                  <div className="row align-items-center">
-                    <div className="col">
-                      <h5 className="card-title font-16">لیست مجوزها</h5>
-                    </div>
-                    <div className="col-auto d-flex flex-wrap">
-                      <div className="form-custom me-2">
-                        <div
-                          id="tableSearch"
-                          className="dataTables_wrapper"
-                        ></div>
+            <div className="row">
+              <div className="col-sm-12">
+                <div className="card">
+                  <div className="card-header border-bottom-0">
+                    <div className="row align-items-center">
+                      <div className="col">
+                        <h5 className="card-title font-16">لیست مجوزها</h5>
+                      </div>
+                      <div className="col-auto d-flex flex-wrap">
+                        <div className="form-custom me-2">
+                          <div
+                            id="tableSearch"
+                            className="dataTables_wrapper"
+                          ></div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                {isLoading ? (
-                  <Loading />
-                ) : (
                   <CertificationsListTable
                     data={certificationsList}
                     deleteCertificate={deleteCertificate}
                     updateCertificate={updateCertificate}
                   />
-                )}
+                </div>
+                <div id="tablepagination" className="dataTables_wrapper"></div>
               </div>
-              <div id="tablepagination" className="dataTables_wrapper"></div>
             </div>
           </div>
-        </div>
+        )}
       </div>
 
       <AddCertificateModal addCertificate={addCertificate} />

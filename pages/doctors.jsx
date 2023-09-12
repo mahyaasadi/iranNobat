@@ -1,25 +1,30 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import FeatherIcon from "feather-icons-react";
 import Head from "next/head";
+import FeatherIcon from "feather-icons-react";
 import { axiosClient } from "class/axiosConfig.js";
-import Cookies from "js-cookie";
 import { QuestionAlert } from "class/AlertManage.js";
 import Loading from "components/loading/loading";
 import DoctorsListTable from "components/dashboard/doctors/doctorsListTable";
 import AddDoctorModal from "components/dashboard/doctors/addDoctorModal";
 import EditDoctorModal from "components/dashboard/doctors/editDoctorModal";
-import { getMenusData } from "class/getAllMenus.js";
+import { getSession } from "lib/session";
 
-let CenterID = Cookies.get("CenterID");
+export const getServerSideProps = async ({ req, res }) => {
+  // userInfo
+  const { UserData, UserRoles } = await getSession(req);
+  console.log({ UserRoles, UserData });
 
-export const getStaticProps = async () => {
+  // menusList
   const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
   const Menus = await data.json();
-  return { props: { Menus } };
+  return { props: { Menus, UserRoles, UserData } };
 };
 
-const DoctorsList = ({ Menus }) => {
+let CenterID = null;
+const DoctorsList = ({ Menus, UserRoles, UserData }) => {
+  CenterID = UserRoles.CenterID;
+
   const [isLoading, setIsLoading] = useState(true);
   const [doctorsList, setDoctorsList] = useState([]);
   const [editDoctor, setEditDoctor] = useState({});
@@ -40,28 +45,26 @@ const DoctorsList = ({ Menus }) => {
 
   //get doctors list
   const getDoctorsData = () => {
+    setIsLoading(true);
+
     if (CenterID) {
       axiosClient
         .get(`CenterProfile/getCenterPhysician/${CenterID}`)
         .then(function (response) {
           setDoctorsList(response.data);
           setIsLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          setIsLoading(false);
         });
     }
   };
 
-  useEffect(() => {
-    try {
-      getDoctorsData();
-    } catch (error) {
-      setIsLoading(true);
-      console.log(error);
-    }
-  }, []);
-
   // Add Physician
   const addPhysician = (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     let url = "CenterProfile/AddPhysician";
     let data = {
@@ -75,17 +78,21 @@ const DoctorsList = ({ Menus }) => {
       .post(url, data)
       .then((response) => {
         setDoctorsList([...doctorsList, response.data]);
+
         $("#addPhysicianModal").modal("hide");
         reset();
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
+        setIsLoading(false);
       });
   };
 
   // Edit Physician
   const editPhysician = (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     let url = "CenterProfile/UpdatePhysician";
     let formData = new FormData(e.target);
@@ -104,9 +111,11 @@ const DoctorsList = ({ Menus }) => {
       .then((response) => {
         updateItem(formProps.EditDoctorID, response.data);
         $("#editPhysicianModal").modal("hide");
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
+        setIsLoading(false);
       });
   };
 
@@ -114,8 +123,8 @@ const DoctorsList = ({ Menus }) => {
     let index = doctorsList.findIndex((x) => x._id === id);
     let g = doctorsList[index];
     g = newArr;
+
     if (index === -1) {
-      // handle error
       console.log("no match");
     } else
       setDoctorsList([
@@ -132,6 +141,7 @@ const DoctorsList = ({ Menus }) => {
 
   // Delete Physician
   const deletePhysician = async (id) => {
+    setIsLoading(true);
     let result = await QuestionAlert(
       "حذف پزشک !",
       "?آیا از حذف پزشک مطمئن هستید"
@@ -148,12 +158,18 @@ const DoctorsList = ({ Menus }) => {
         .delete(url, { data })
         .then(function () {
           setDoctorsList(doctorsList.filter((a) => a._id !== id));
+          setIsLoading(false);
         })
         .catch(function (error) {
           console.log(error);
+          setIsLoading(false);
         });
     }
   };
+
+  useEffect(() => {
+    getDoctorsData();
+  }, []);
 
   return (
     <>

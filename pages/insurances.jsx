@@ -11,16 +11,23 @@ import EditInsuranceModal from "components/dashboard/insurances/editInsuranceMod
 import insuranceTypeDataClass from "class/insuranceTypeDataClass";
 import insuranceStatusDataClass from "class/insuranceStatusDataClass";
 import { QuestionAlert } from "class/AlertManage.js";
+import { getSession } from "lib/session";
 
-let CenterID = Cookies.get("CenterID");
+export const getServerSideProps = async ({ req, res }) => {
+  // userInfo
+  const { UserData, UserRoles } = await getSession(req);
+  console.log({ UserRoles, UserData });
 
-export const getStaticProps = async () => {
+  // menusList
   const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
   const Menus = await data.json();
-  return { props: { Menus } };
+  return { props: { Menus, UserData, UserRoles } };
 };
 
-const Insurance = ({ Menus }) => {
+let CenterID = null;
+const Insurance = ({ Menus, UserData, UserRoles }) => {
+  CenterID = UserData.CenterID;
+
   const [isLoading, setIsLoading] = useState(true);
   const [insuranceList, setInsuranceList] = useState([]);
   const [editedInsurance, setEditedInsurance] = useState([]);
@@ -38,21 +45,23 @@ const Insurance = ({ Menus }) => {
   let SelectInsuranceType,
     SelectInsuranceStatus = "";
 
-  const FUSelectInsuranceType = (Type) => {
-    SelectInsuranceType = Type;
-  };
-
-  const FUSelectInsuranceStatus = (Status) => {
-    SelectInsuranceStatus = Status;
-  };
+  const FUSelectInsuranceType = (Type) => (SelectInsuranceType = Type);
+  const FUSelectInsuranceStatus = (Status) => (SelectInsuranceStatus = Status);
 
   //Get insurance list
   const getInsuranceData = () => {
+    setIsLoading(true);
+    let url = `CenterProfile/getCenterInsurance/${CenterID}`;
+
     if (CenterID) {
       axiosClient
-        .get(`CenterProfile/getCenterInsurance/${CenterID}`)
-        .then(function (response) {
+        .get(url)
+        .then((response) => {
           setInsuranceList(response.data);
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
           setIsLoading(false);
         });
     }
@@ -61,6 +70,7 @@ const Insurance = ({ Menus }) => {
   // Add Insurance
   const addInsurance = (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     let url = "CenterProfile/AddInsurance";
     let data = {
@@ -76,15 +86,18 @@ const Insurance = ({ Menus }) => {
         setInsuranceList([...insuranceList, response.data]);
         $("#addInsuranceModal").modal("hide");
         reset();
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
+        setIsLoading(false);
       });
   };
 
   // Edit Insurance
   const editInsurance = (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     let url = "CenterProfile/UpdateInsurance";
     let formData = new FormData(e.target);
@@ -102,19 +115,20 @@ const Insurance = ({ Menus }) => {
       .then((response) => {
         updateItem(formProps.EditInsuranceID, response.data);
         $("#editInsuranceModal").modal("hide");
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
+        setIsLoading(false);
       });
   };
 
   const updateItem = (id, newArr) => {
     let index = insuranceList.findIndex((x) => x._id === id);
-
     let g = insuranceList[index];
     g = newArr;
+
     if (index === -1) {
-      // handle error
       console.log("no match");
     } else
       setInsuranceList([
@@ -152,12 +166,7 @@ const Insurance = ({ Menus }) => {
   };
 
   useEffect(() => {
-    try {
-      getInsuranceData();
-    } catch (error) {
-      setIsLoading(true);
-      console.log(error);
-    }
+    getInsuranceData();
   }, []);
 
   return (
@@ -166,61 +175,60 @@ const Insurance = ({ Menus }) => {
         <title>بیمه های تحت پوشش</title>
       </Head>
       <div className="page-wrapper">
-        <div className="content container-fluid">
-          <div className="page-header">
-            <div className="row align-items-center">
-              <div className="col-md-12 d-flex justify-content-end">
-                <Link
-                  href="#"
-                  data-bs-toggle="modal"
-                  data-bs-target="#addInsuranceModal"
-                  className="btn btn-primary btn-add font-14"
-                >
-                  <i className="me-1">
-                    <FeatherIcon icon="plus-square" />
-                  </i>{" "}
-                  اضافه کردن
-                </Link>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <div className="content container-fluid">
+            <div className="page-header">
+              <div className="row align-items-center">
+                <div className="col-md-12 d-flex justify-content-end">
+                  <Link
+                    href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#addInsuranceModal"
+                    className="btn btn-primary btn-add font-14"
+                  >
+                    <i className="me-1">
+                      <FeatherIcon icon="plus-square" />
+                    </i>{" "}
+                    اضافه کردن
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* <!-- Insurance List --> */}
-          <div className="row">
-            <div className="col-sm-12">
-              <div className="card">
-                <div className="card-header border-bottom-0">
-                  <div className="row align-items-center">
-                    <div className="col">
-                      <h5 className="card-title font-16">
-                        لیست بیمه های تحت پوشش مرکز
-                      </h5>
-                    </div>
-                    <div className="col-auto d-flex flex-wrap">
-                      <div className="form-custom me-2">
-                        <div
-                          id="tableSearch"
-                          className="dataTables_wrapper"
-                        ></div>
+            <div className="row">
+              <div className="col-sm-12">
+                <div className="card">
+                  <div className="card-header border-bottom-0">
+                    <div className="row align-items-center">
+                      <div className="col">
+                        <h5 className="card-title font-16">
+                          لیست بیمه های تحت پوشش مرکز
+                        </h5>
+                      </div>
+                      <div className="col-auto d-flex flex-wrap">
+                        <div className="form-custom me-2">
+                          <div
+                            id="tableSearch"
+                            className="dataTables_wrapper"
+                          ></div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                {isLoading ? (
-                  <Loading />
-                ) : (
                   <InsuranceListTable
                     data={insuranceList}
                     deleteInsurance={deleteInsurance}
                     updateInsurance={updateInsurance}
                   />
-                )}
+                </div>
+                <div id="tablepagination" className="dataTables_wrapper"></div>
               </div>
-              <div id="tablepagination" className="dataTables_wrapper"></div>
             </div>
           </div>
-        </div>
+        )}
       </div>
 
       <AddInsuranceModal

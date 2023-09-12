@@ -12,13 +12,13 @@ const DiscountsListTable = ({ data, updateDiscount, deleteDiscount }) => {
       name: "نام",
       selector: (row) => row.Name,
       sortable: true,
-      width: "auto",
+      width: "300px",
     },
     {
       name: "مشخصات",
       selector: (row) => row.Des,
       sortable: true,
-      width: "auto",
+      width: "350px",
     },
     {
       name: "درصد تخفیف",
@@ -39,7 +39,7 @@ const DiscountsListTable = ({ data, updateDiscount, deleteDiscount }) => {
           )}
         </div>
       ),
-      width: "300px",
+      width: "450px",
     },
     {
       name: "عملیات ها",

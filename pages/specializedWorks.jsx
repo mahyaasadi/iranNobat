@@ -1,72 +1,66 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Head from "next/head";
+// import Cookies from "js-cookie";
 import FeatherIcon from "feather-icons-react";
 import { axiosClient } from "class/axiosConfig.js";
-import Cookies from "js-cookie";
+import { getSession } from "lib/session";
 import { QuestionAlert } from "class/AlertManage.js";
 import Loading from "components/loading/loading";
 import SpecializedWorksListTable from "components/dashboard/specializedWorks/specializedWorksListTable";
 import AddSpeWorkModal from "components/dashboard/specializedWorks/addspeWorkModal";
 import EditSpeWorkModal from "components/dashboard/specializedWorks/editSpeWorkModal";
-import { getMenusData } from "class/getAllMenus.js";
 
-let CenterID = Cookies.get("CenterID");
+export const getServerSideProps = async ({ req, res }) => {
+  // userInfo
+  const { UserData, UserRoles } = await getSession(req);
+  console.log({ UserRoles, UserData });
 
-export const getStaticProps = async () => {
+  // menusList
   const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
   const Menus = await data.json();
-  return { props: { Menus } };
+  return { props: { Menus, UserRoles, UserData } };
 };
 
-const SpecializedWorks = ({ Menus }) => {
+let CenterID = null;
+const SpecializedWorks = ({ Menus, UserRoles, UserData }) => {
+  CenterID = UserRoles.CenterID;
+
   const [isLoading, setIsLoading] = useState(true);
   const [speWorks, setSpeWorks] = useState([]);
   const [editSpeWork, setEditSpeWork] = useState({});
-  const [name, setName] = useState("");
-  const [title, setTitle] = useState("");
-  const [engName, setEngName] = useState("");
-
-  const handleNameInput = (e) => setName(e.target.value);
-  const handleTitleInput = (e) => setTitle(e.target.value);
-  const handleEngNameInput = (e) => setEngName(e.target.value);
-
-  //reset form inputs
-  const reset = () => {
-    setName("");
-    setTitle("");
-    setEngName("");
-  };
 
   //get specializedWorks list
   const getSpecializedWorks = () => {
+    setIsLoading(true);
+    let url = `CenterProfile/getCenterSpecializedWorks/${CenterID}`;
+
     axiosClient
-      .get(`CenterProfile/getCenterSpecializedWorks/${CenterID}`)
+      .get(url)
       .then(function (response) {
         setSpeWorks(response.data);
         setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setisLoading(false);
       });
   };
-
-  useEffect(() => {
-    try {
-      getSpecializedWorks();
-    } catch (error) {
-      setIsLoading(true);
-      console.log(error);
-    }
-  }, []);
 
   // Add SpeWork
   const addSpeWork = (e) => {
     e.preventDefault();
+    setIsLoading(true);
+
+    let formData = new FormData(e.target);
+    const formProps = Object.fromEntries(formData);
 
     let url = "CenterProfile/AddSpecializedWorks";
     let data = {
       CenterID: CenterID,
-      Name: name,
-      Title: title,
-      EngName: engName,
+      Name: formProps.AddSpeName,
+      Title: formProps.AddSpeTitle,
+      EngName: formProps.AddSpeEngName,
     };
 
     axiosClient
@@ -74,20 +68,24 @@ const SpecializedWorks = ({ Menus }) => {
       .then((response) => {
         setSpeWorks([...speWorks, response.data]);
         $("#addSpeWorkModal").modal("hide");
-        reset();
+        e.target.reset();
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
+        setIsLoading(false);
       });
   };
 
   // Edit SpeWorks
   const editSpeWorks = (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
-    let url = "CenterProfile/UpdateSpecializedWorks";
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
+
+    let url = "CenterProfile/UpdateSpecializedWorks";
     let Data = {
       CenterID: CenterID,
       SpecializedWorksID: formProps.EditSpeWorkID,
@@ -101,19 +99,19 @@ const SpecializedWorks = ({ Menus }) => {
       .then((response) => {
         updateItem(formProps.EditSpeWorkID, response.data);
         $("#editSpeWorkModal").modal("hide");
-        reset();
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
+        setIsLoading(false);
       });
   };
   const updateItem = (id, newArr) => {
     let index = speWorks.findIndex((x) => x._id === id);
-
     let g = speWorks[index];
     g = newArr;
+
     if (index === -1) {
-      // handle error
       console.log("no match");
     } else
       setSpeWorks([
@@ -152,6 +150,10 @@ const SpecializedWorks = ({ Menus }) => {
         });
     }
   };
+
+  useEffect(() => {
+    getSpecializedWorks();
+  }, []);
 
   return (
     <>
@@ -216,26 +218,9 @@ const SpecializedWorks = ({ Menus }) => {
           </div>
         )}
 
-        <AddSpeWorkModal
-          name={name}
-          title={title}
-          engName={engName}
-          handleNameInput={handleNameInput}
-          handleTitleInput={handleTitleInput}
-          handleEngNameInput={handleEngNameInput}
-          addSpeWork={addSpeWork}
-        />
+        <AddSpeWorkModal addSpeWork={addSpeWork} />
 
-        <EditSpeWorkModal
-          name={name}
-          title={title}
-          engName={engName}
-          data={editSpeWork}
-          editSpeWorks={editSpeWorks}
-          handleNameInput={handleNameInput}
-          handleTitleInput={handleTitleInput}
-          handleEngNameInput={handleEngNameInput}
-        />
+        <EditSpeWorkModal data={editSpeWork} editSpeWorks={editSpeWorks} />
       </div>
     </>
   );

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Head from "next/head";
-import Cookies from "js-cookie";
 import FeatherIcon from "feather-icons-react";
 import { axiosClient } from "class/axiosConfig.js";
 import { QuestionAlert } from "class/AlertManage.js";
@@ -9,28 +8,40 @@ import Loading from "components/loading/loading";
 import SpecialDiseasesListTable from "components/dashboard/specialDiseases/specialDiseasesListTable";
 import AddSpecialDiseaseModal from "components/dashboard/specialDiseases/addSpecialDiseaseModal";
 import EditSpecialDiseaseModal from "components/dashboard/specialDiseases/editSpecialDiseaseModal";
-import { getMenusData } from "class/getAllMenus.js";
+import { getSession } from "lib/session";
 
-let CenterID = Cookies.get("CenterID");
+export const getServerSideProps = async ({ req, res }) => {
+  // userInfo
+  const { UserData, UserRoles } = await getSession(req);
+  console.log({ UserRoles, UserData });
 
-export const getStaticProps = async () => {
+  // menusList
   const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
   const Menus = await data.json();
-  return { props: { Menus } };
+  return { props: { Menus, UserData, UserRoles } };
 };
 
-const SpecialDiseases = ({ Menus }) => {
+let CenterID = null;
+const SpecialDiseases = ({ Menus, UserData, UserRoles }) => {
+  CenterID = UserData.CenterID;
+
   const [diseasesList, setDiseasesList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [editedDisease, setEditedDisease] = useState([]);
 
   // get diseases list
   const getDiseasesData = () => {
+    setIsLoading(true);
+    let url = `Center/getSpecialDiseases/${CenterID}`;
+
     axiosClient
-      .get(`Center/getSpecialDiseases/${CenterID}`)
-      .then(function (response) {
-        console.log(response.data);
+      .get(url)
+      .then((response) => {
         setDiseasesList(response.data);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
         setIsLoading(false);
       });
   };
@@ -55,8 +66,8 @@ const SpecialDiseases = ({ Menus }) => {
       .then((response) => {
         setDiseasesList([...diseasesList, response.data]);
         $("#addSpecialDiseaseModal").modal("hide");
+        e.target.reset();
         setIsLoading(false);
-        $("#myFrm")[0].reset();
       })
       .catch((error) => {
         console.log(error);
@@ -65,6 +76,11 @@ const SpecialDiseases = ({ Menus }) => {
   };
 
   // edit disease
+  const updateDisease = (data) => {
+    setEditedDisease(data);
+    $("#editSpecialDiseaseModal").modal("show");
+  };
+
   const editDisease = (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -80,11 +96,9 @@ const SpecialDiseases = ({ Menus }) => {
       EngName: formProps.editDiseaseEngName,
     };
 
-    console.log("data", data);
     axiosClient
       .post(url, data)
       .then((response) => {
-        console.log(response.data);
         updateItem(formProps.diseaseId, response.data);
         $("#editSpecialDiseaseModal").modal("hide");
         setIsLoading(false);
@@ -97,11 +111,10 @@ const SpecialDiseases = ({ Menus }) => {
 
   const updateItem = (id, newArr) => {
     let index = diseasesList.findIndex((x) => x._id === id);
-
     let g = diseasesList[index];
     g = newArr;
+
     if (index === -1) {
-      // handle error
       console.log("no match");
     } else
       setDiseasesList([
@@ -111,18 +124,14 @@ const SpecialDiseases = ({ Menus }) => {
       ]);
   };
 
-  const updateDisease = (data) => {
-    setEditedDisease(data);
-    $("#editSpecialDiseaseModal").modal("show");
-  };
-
   // delete disease
   const deleteDisease = async (id) => {
+    setIsLoading(true);
+
     let result = await QuestionAlert(
       "حذف بیماری !",
       "آیا از حذف بیماری خاص اطمینان دارید؟"
     );
-    setIsLoading(true);
 
     if (result) {
       let url = "Center/DeleteSpecialDiseases";
@@ -130,8 +139,6 @@ const SpecialDiseases = ({ Menus }) => {
         CenterID: CenterID,
         SDID: id,
       };
-
-      console.log("data", data);
 
       await axiosClient
         .delete(url, { data })
@@ -147,12 +154,7 @@ const SpecialDiseases = ({ Menus }) => {
   };
 
   useEffect(() => {
-    try {
-      getDiseasesData();
-    } catch (error) {
-      setIsLoading(true);
-      console.log(error);
-    }
+    getDiseasesData();
   }, []);
 
   return (
@@ -161,56 +163,59 @@ const SpecialDiseases = ({ Menus }) => {
         <title>بیماری های خاص</title>
       </Head>
       <div className="page-wrapper">
-        <div className="content container-fluid">
-          <div className="page-header">
-            <div className="row align-items-center">
-              <div className="col-md-12 d-flex justify-content-end">
-                <Link
-                  href="#"
-                  data-bs-toggle="modal"
-                  data-bs-target="#addSpecialDiseaseModal"
-                  className="btn btn-primary btn-add font-14 media-font-12"
-                >
-                  <i className="me-1">
-                    <FeatherIcon icon="plus-square" />
-                  </i>{" "}
-                  اضافه کردن
-                </Link>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <div className="content container-fluid">
+            <div className="page-header">
+              <div className="row align-items-center">
+                <div className="col-md-12 d-flex justify-content-end">
+                  <Link
+                    href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#addSpecialDiseaseModal"
+                    className="btn btn-primary btn-add font-14 media-font-12"
+                  >
+                    <i className="me-1">
+                      <FeatherIcon icon="plus-square" />
+                    </i>{" "}
+                    اضافه کردن
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
-
-          <div className="row">
-            <div className="col-sm-12">
-              <div className="card">
-                <div className="card-header border-bottom-0">
-                  <div className="row align-items-center">
-                    <div className="col">
-                      <h5 className="card-title font-16">
-                        لیست بیماری های خاص
-                      </h5>
-                    </div>
-                    <div className="col-auto d-flex flex-wrap">
-                      <div className="form-custom me-2">
-                        <div
-                          id="tableSearch"
-                          className="dataTables_wrapper"
-                        ></div>
+            <div className="row">
+              <div className="col-sm-12">
+                <div className="card">
+                  <div className="card-header border-bottom-0">
+                    <div className="row align-items-center">
+                      <div className="col">
+                        <h5 className="card-title font-16">
+                          لیست بیماری های خاص
+                        </h5>
+                      </div>
+                      <div className="col-auto d-flex flex-wrap">
+                        <div className="form-custom me-2">
+                          <div
+                            id="tableSearch"
+                            className="dataTables_wrapper"
+                          ></div>
+                        </div>
                       </div>
                     </div>
                   </div>
+                  <SpecialDiseasesListTable
+                    data={diseasesList}
+                    updateDisease={updateDisease}
+                    deleteDisease={deleteDisease}
+                  />
                 </div>
-                <SpecialDiseasesListTable
-                  data={diseasesList}
-                  updateDisease={updateDisease}
-                  deleteDisease={deleteDisease}
-                />
-              </div>
 
-              <div id="tablepagination" className="dataTables_wrapper"></div>
+                <div id="tablepagination" className="dataTables_wrapper"></div>
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         <AddSpecialDiseaseModal addDisease={addDisease} />
 

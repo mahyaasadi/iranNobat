@@ -88,12 +88,12 @@ const CertificationsListTable = ({
             defaultSortAsc={false}
             pagination
             highlightOnHover
+            customStyles={tableCustomStyles}
             noDataComponent={
               <div style={{ padding: "24px", fontSize: "13px" }}>
                 موردی برای نمایش وجود ندارد.
               </div>
             }
-            customStyles={tableCustomStyles}
           />
         </DataTableExtensions>
       </div>

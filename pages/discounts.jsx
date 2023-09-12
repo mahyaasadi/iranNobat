@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Head from "next/head";
-import Cookies from "js-cookie";
 import FeatherIcon from "feather-icons-react";
 import { axiosClient } from "class/axiosConfig.js";
 import { QuestionAlert } from "class/AlertManage.js";
@@ -10,16 +9,23 @@ import discountPercentDataClass from "class/discountPercentDataClass";
 import DiscountsListTable from "components/dashboard/discounts/discountsListTable";
 import AddDiscountModal from "components/dashboard/discounts/addDiscountModal";
 import EditDiscountModal from "components/dashboard/discounts/editDiscountModal";
+import { getSession } from "lib/session";
 
-let CenterID = Cookies.get("CenterID");
+export const getServerSideProps = async ({ req, res }) => {
+  // userInfo
+  const { UserData, UserRoles } = await getSession(req);
+  console.log({ UserRoles, UserData });
 
-export const getStaticProps = async () => {
+  // menusList
   const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
   const Menus = await data.json();
-  return { props: { Menus } };
+  return { props: { Menus, UserData, UserRoles } };
 };
 
-const Discounts = ({ Menus }) => {
+let CenterID = null;
+const Discounts = ({ Menus, UserData, UserRoles }) => {
+  CenterID = UserData.CenterID;
+
   const [isLoading, setIsLoading] = useState(true);
   const [discountsList, setDiscountsList] = useState([]);
   const [editedDiscountList, setEditedDiscountList] = useState([]);
@@ -28,9 +34,8 @@ const Discounts = ({ Menus }) => {
   );
 
   let SelectDiscountPercent = "";
-  const FUSelectDiscountPercent = (Percent) => {
-    SelectDiscountPercent = Percent;
-  };
+  const FUSelectDiscountPercent = (Percent) =>
+    (SelectDiscountPercent = Percent);
 
   // get discounts list
   const getDiscountsData = () => {
@@ -159,60 +164,61 @@ const Discounts = ({ Menus }) => {
         <title>تخفیفات</title>
       </Head>
       <div className="page-wrapper">
-        <div className="content container-fluid">
-          <div className="page-header">
-            <div className="row align-items-center">
-              <div className="col-md-12 d-flex justify-content-end">
-                <Link
-                  href="#"
-                  data-bs-toggle="modal"
-                  data-bs-target="#addDiscountModal"
-                  className="btn btn-primary btn-add font-14"
-                >
-                  <i className="me-1">
-                    <FeatherIcon icon="plus-square" />
-                  </i>{" "}
-                  اضافه کردن
-                </Link>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <div className="content container-fluid">
+            <div className="page-header">
+              <div className="row align-items-center">
+                <div className="col-md-12 d-flex justify-content-end">
+                  <Link
+                    href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#addDiscountModal"
+                    className="btn btn-primary btn-add font-14"
+                  >
+                    <i className="me-1">
+                      <FeatherIcon icon="plus-square" />
+                    </i>{" "}
+                    اضافه کردن
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* <!-- Discounts List --> */}
-          <div className="row">
-            <div className="col-sm-12">
-              <div className="card">
-                <div className="card-header border-bottom-0">
-                  <div className="row align-items-center">
-                    <div className="col">
-                      <h5 className="card-title font-16">لیست تخفیفات پذیرش</h5>
-                    </div>
-                    <div className="col-auto d-flex flex-wrap">
-                      <div className="form-custom me-2">
-                        <div
-                          id="tableSearch"
-                          className="dataTables_wrapper"
-                        ></div>
+            <div className="row">
+              <div className="col-sm-12">
+                <div className="card">
+                  <div className="card-header border-bottom-0">
+                    <div className="row align-items-center">
+                      <div className="col">
+                        <h5 className="card-title font-16">
+                          لیست تخفیفات پذیرش
+                        </h5>
+                      </div>
+                      <div className="col-auto d-flex flex-wrap">
+                        <div className="form-custom me-2">
+                          <div
+                            id="tableSearch"
+                            className="dataTables_wrapper"
+                          ></div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                {isLoading ? (
-                  <Loading />
-                ) : (
                   <DiscountsListTable
                     data={discountsList}
                     updateDiscount={updateDiscount}
                     deleteDiscount={deleteDiscount}
                   />
-                )}
-              </div>
+                </div>
 
-              <div id="tablepagination" className="dataTables_wrapper"></div>
+                <div id="tablepagination" className="dataTables_wrapper"></div>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
 
       <AddDiscountModal

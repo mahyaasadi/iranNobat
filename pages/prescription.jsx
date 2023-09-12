@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
-import { axiosClient } from "class/axiosConfig.js";
-import Cookies from "js-cookie";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { getSession } from "lib/session";
+import { axiosClient } from "class/axiosConfig.js";
 import Loading from "components/loading/loading";
-import { taminPrescriptionCreator } from "class/taminPrescriptionCreator.js";
 import PrescriptionCard from "components/dashboard/prescription/prescriptionCard/prescriptionCard";
 import PatientInfo from "components/dashboard/prescription/PatientInfo";
 import TaminHeader from "components/dashboard/prescription/TaminVsArteshHeader";
@@ -16,7 +15,6 @@ import {
   TaminServiceType,
 } from "components/dashboard/prescription/taminprescriptionData";
 
-let CenterID = Cookies.get("CenterID");
 let prescId = 1;
 let ActiveServiceTypeID = "01";
 let ActivePrscName = "دارو";
@@ -33,21 +31,25 @@ let ActiveSrvCode,
   ActivePatientID,
   count = null;
 
-const ChangeActiveServiceTypeID = (id) => {
-  ActiveServiceTypeID = id;
-};
+const ChangeActiveServiceTypeID = (id) => (ActiveServiceTypeID = id);
 
-const selectPrescriptionType = () => {
-  console.log("select");
-};
+const selectPrescriptionType = () => console.log("select");
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async ({ req, res }) => {
+  // userInfo
+  const { UserData, UserRoles } = await getSession(req);
+  console.log({ UserRoles, UserData });
+
+  // menusList
   const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
   const Menus = await data.json();
-  return { props: { Menus } };
+  return { props: { Menus, UserData, UserRoles } };
 };
 
-const Prescription = ({Menus}) => {
+let CenterID = null;
+const Prescription = ({ Menus, UserData, UserRoles }) => {
+  CenterID = UserData.CenterID;
+
   const Router = useRouter();
   const prescriptionHeadID = Router.query.id;
   ActivePatientID = Router.query.pid;
@@ -459,7 +461,6 @@ const Prescription = ({Menus}) => {
         SrvNames: [],
         prescTypeName: "ویزیت",
       };
-      // console.log(Data);
 
       axiosClient
         .post(url, Data)
@@ -491,8 +492,6 @@ const Prescription = ({Menus}) => {
         SrvNames: addPrescriptionSrvNameitems,
         prescTypeName: ActivePrscName,
       };
-
-      // console.log(Data);
 
       axiosClient
         .post(url, Data)

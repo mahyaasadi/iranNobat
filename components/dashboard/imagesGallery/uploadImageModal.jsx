@@ -41,10 +41,10 @@ const UploadImageModal = ({ uploadImage, isLoading }) => {
                 </label>
                 <input
                   className="form-control floating inputPadding rounded"
-                  type="text"
                   name="Title"
                   id="Title"
                   required
+                  type="text"
                 />
               </div>
 
@@ -52,8 +52,8 @@ const UploadImageModal = ({ uploadImage, isLoading }) => {
                 <label className="lblAbs font-12">توضیحات</label>
                 <input
                   className="form-control floating inputPadding rounded"
-                  type="text"
                   name="Des"
+                  type="text"
                 />
               </div>
 

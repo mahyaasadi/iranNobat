@@ -1,12 +1,6 @@
 import FeatherIcon from "feather-icons-react";
 
-const AddMessageModal = ({
-  addMessage,
-  messageText,
-  messageTitle,
-  handleMessageTextInput,
-  handleMessageTitleInput,
-}) => {
+const AddMessageModal = ({ addMessage }) => {
   return (
     <div
       className="modal fade contentmodal"
@@ -40,9 +34,7 @@ const AddMessageModal = ({
                 <input
                   type="text"
                   className="form-control floating inputPadding rounded"
-                  id="AddMessageTitle"
-                  value={messageTitle}
-                  onChange={handleMessageTitleInput}
+                  name="addMessageTitle"
                   required
                 />
               </div>
@@ -54,9 +46,7 @@ const AddMessageModal = ({
                 <textarea
                   type="text"
                   className="form-control floating inputPadding rounded"
-                  id="AddMessageText"
-                  value={messageText}
-                  onChange={handleMessageTextInput}
+                  name="addMessageText"
                   required
                 ></textarea>
               </div>

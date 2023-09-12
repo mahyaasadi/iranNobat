@@ -1,68 +1,64 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Head from "next/head";
-import { axiosClient } from "class/axiosConfig.js";
-import Cookies from "js-cookie";
 import FeatherIcon from "feather-icons-react";
+import { axiosClient } from "class/axiosConfig.js";
+import { QuestionAlert } from "class/AlertManage.js";
 import Loading from "components/loading/loading";
 import CannedMessagesListTable from "components/dashboard/cannedMessages/cannedMessagesListTable";
 import AddMessageModal from "components/dashboard/cannedMessages/addMessageModal";
 import EditMessageModal from "components/dashboard/cannedMessages/editMessageModal";
-import { QuestionAlert } from "class/AlertManage.js";
+import { getSession } from "lib/session";
 
-let CenterID = Cookies.get("CenterID");
+export const getServerSideProps = async ({ req, res }) => {
+  // userInfo
+  const { UserData, UserRoles } = await getSession(req);
+  console.log({ UserRoles, UserData });
 
-export const getStaticProps = async () => {
+  // menusList
   const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
   const Menus = await data.json();
-  return { props: { Menus } };
+  return { props: { Menus, UserData, UserRoles } };
 };
 
-const CannedMessages = ({ Menus }) => {
+let CenterID = null;
+const CannedMessages = ({ Menus, UserData, UserRoles }) => {
+  CenterID = UserData.CenterID;
+
   const [isLoading, setIsLoading] = useState(true);
   const [messagesData, setMessagesData] = useState([]);
-  const [messageText, setMessageText] = useState("");
-  const [messageTitle, setMessageTitle] = useState("");
-  const [messageType, setMessageType] = useState("Text");
-  const [editedMessage, setEditedMessage] = useState("");
-
-  const handleMessageTextInput = (e) => setMessageText(e.target.value);
-  const handleMessageTitleInput = (e) => setMessageTitle(e.target.value);
-
-  //reset form inputs
-  const reset = () => {
-    setMessageText("");
-    setMessageTitle("");
-  };
+  const [editMessageData, setEditedMessage] = useState("");
 
   //get CannedMessages list
   const getCannedMessages = () => {
+    setIsLoading(true);
     let url = `Center/getCannedMessages/${CenterID}`;
 
-    axiosClient.get(url).then(function (response) {
-      setMessagesData(response.data.result.CannedMessages);
-      setIsLoading(false);
-    });
+    axiosClient
+      .get(url)
+      .then(function (response) {
+        setMessagesData(response.data.result.CannedMessages);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false);
+      });
   };
-
-  useEffect(() => {
-    try {
-      getCannedMessages();
-    } catch (error) {
-      setIsLoading(true);
-      console.log(error);
-    }
-  }, []);
 
   // Add Message
   const addMessage = (e) => {
     e.preventDefault();
+    setIsLoading(true);
+
+    let formData = new FormData(e.target);
+    const formProps = Object.fromEntries(formData);
 
     let url = "Center/addCannedMessages";
     let data = {
       CenterID: CenterID,
-      Text: messageText,
-      Title: messageTitle,
+      Text: formProps.addMessageText,
+      Title: formProps.addMessageTitle,
       Type: "Text",
     };
 
@@ -71,21 +67,24 @@ const CannedMessages = ({ Menus }) => {
       .then((response) => {
         setMessagesData([...messagesData, response.data]);
         $("#addMessageModal").modal("hide");
-        reset();
+        e.target.reset();
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
+        setIsLoading(false);
       });
   };
 
   // Edit Message
   const editMessage = (e) => {
     e.preventDefault();
+    setIsLoading(true);
+
+    let formData = new FormData(e.target);
+    const formProps = Object.fromEntries(formData);
 
     let url = "Center/EditCannedMessages";
-    let formData = new FormData(e.target);
-
-    const formProps = Object.fromEntries(formData);
     let Data = {
       CenterID: CenterID,
       CMID: formProps.EditMessageID,
@@ -99,20 +98,20 @@ const CannedMessages = ({ Menus }) => {
       .then((response) => {
         updateItem(formProps.EditMessageID, response.data);
         $("#editMessageModal").modal("hide");
-        reset();
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
+        setIsLoading(false);
       });
   };
 
   const updateItem = (id, newArr) => {
     let index = messagesData.findIndex((x) => x._id === id);
-
     let g = messagesData[index];
     g = newArr;
+
     if (index === -1) {
-      // handle error
       console.log("no match");
     } else
       setMessagesData([
@@ -152,85 +151,75 @@ const CannedMessages = ({ Menus }) => {
     }
   };
 
+  useEffect(() => {
+    getCannedMessages();
+  }, []);
+
   return (
     <>
       <Head>
         <title>پیام های پیش فرض</title>
       </Head>
       <div className="page-wrapper">
-        <div className="content container-fluid">
-          <div className="page-header">
-            <div className="row align-items-center">
-              <div className="col-md-12 d-flex justify-content-end">
-                <Link
-                  href="#"
-                  data-bs-toggle="modal"
-                  data-bs-target="#addMessageModal"
-                  className="btn btn-primary btn-add font-14"
-                >
-                  <i className="me-1">
-                    <FeatherIcon icon="plus-square" />
-                  </i>{" "}
-                  اضافه کردن
-                </Link>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <div className="content container-fluid">
+            <div className="page-header">
+              <div className="row align-items-center">
+                <div className="col-md-12 d-flex justify-content-end">
+                  <Link
+                    href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#addMessageModal"
+                    className="btn btn-primary btn-add font-14"
+                  >
+                    <i className="me-1">
+                      <FeatherIcon icon="plus-square" />
+                    </i>{" "}
+                    اضافه کردن
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* <!-- CannedMessages List --> */}
-          <div className="row">
-            <div className="col-sm-12">
-              <div className="card">
-                <div className="card-header border-bottom-0">
-                  <div className="row align-items-center">
-                    <div className="col">
-                      <h5 className="card-title font-16">
-                        لیست پیام های پیش فرض
-                      </h5>
-                    </div>
-                    <div className="col-auto d-flex flex-wrap">
-                      <div className="form-custom me-2">
-                        <div
-                          id="tableSearch"
-                          className="dataTables_wrapper"
-                        ></div>
+            <div className="row">
+              <div className="col-sm-12">
+                <div className="card">
+                  <div className="card-header border-bottom-0">
+                    <div className="row align-items-center">
+                      <div className="col">
+                        <h5 className="card-title font-16">
+                          لیست پیام های پیش فرض
+                        </h5>
+                      </div>
+                      <div className="col-auto d-flex flex-wrap">
+                        <div className="form-custom me-2">
+                          <div
+                            id="tableSearch"
+                            className="dataTables_wrapper"
+                          ></div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                {isLoading ? (
-                  <Loading />
-                ) : (
                   <CannedMessagesListTable
                     data={messagesData}
                     updateMessage={updateMessage}
                     deleteMessage={deleteMessage}
                   />
-                )}
+                </div>
+                <div id="tablepagination" className="dataTables_wrapper"></div>
               </div>
-              <div id="tablepagination" className="dataTables_wrapper"></div>
             </div>
           </div>
-        </div>
+        )}
       </div>
 
-      <AddMessageModal
-        addMessage={addMessage}
-        messageText={messageText}
-        messageTitle={messageTitle}
-        handleMessageTextInput={handleMessageTextInput}
-        handleMessageTitleInput={handleMessageTitleInput}
-      />
+      <AddMessageModal addMessage={addMessage} />
 
-      <EditMessageModal
-        data={editedMessage}
-        editMessage={editMessage}
-        messageText={messageText}
-        messageTitle={messageTitle}
-        handleMessageTextInput={handleMessageTextInput}
-        handleMessageTitleInput={handleMessageTitleInput}
-      />
+      <EditMessageModal data={editMessageData} editMessage={editMessage} />
     </>
   );
 };

@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Head from "next/head";
-import Cookies from "js-cookie";
 import { useState, useEffect } from "react";
 import { axiosClient } from "class/axiosConfig.js";
 import FeatherIcon from "feather-icons-react";
@@ -16,22 +15,29 @@ import AddLoeingModal from "components/dashboard/tariff/loeing/addLoeingModal";
 import EditLoeingModal from "components/dashboard/tariff/loeing/editLoeingModal";
 import applyCalculationsDataClass from "class/applyCalculationsDataClass";
 import serviceGroupDifDataClass from "class/serviceGroupDifDataClass";
+import { getSession } from "lib/session";
 
-let CenterID = Cookies.get("CenterID");
 let activeServiceId = null;
 let activeServiceName = null;
 let activeDepId = null;
 let activeDepName = null;
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async ({ req, res }) => {
+  // userInfo
+  const { UserData, UserRoles } = await getSession(req);
+  console.log({ UserRoles, UserData });
+
+  // menusList
   const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
   const Menus = await data.json();
-  return { props: { Menus } };
+  return { props: { Menus, UserData, UserRoles } };
 };
 
-const Tariff = ({ Menus }) => {
-  const [isLoading, setIsLoading] = useState(true);
+let CenterID = null;
+const Tariff = ({ Menus, UserData, UserRoles }) => {
+  CenterID = UserData.CenterID;
 
+  const [isLoading, setIsLoading] = useState(true);
   const [departmentsData, setDepartmentsData] = useState([]);
   const [services, setServices] = useState([]);
   const [editedServices, setEditedServices] = useState([]);
@@ -55,67 +61,76 @@ const Tariff = ({ Menus }) => {
 
   //get departments -> In Tariff Header
   const getDepartments = () => {
-    let UrlGetDep = `Center/GetDepartments/${CenterID}`;
     setIsLoading(true);
+    let url = `Center/GetDepartments/${CenterID}`;
 
-    axiosClient.get(UrlGetDep).then(function (response) {
-      setIsLoading(false);
-      setDepartmentsData(response.data);
-    });
+    axiosClient
+      .get(url)
+      .then((response) => {
+        setDepartmentsData(response.data);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false);
+      });
   };
 
   useEffect(() => {
-    try {
-      getDepartments();
-    } catch (error) {
-      console.log(error);
-      setIsLoading(true);
-    }
+    getDepartments();
   }, []);
 
   // get services
   const getServices = (DepID, PerFullName) => {
+    setIsLoading(true);
     activeDepId = DepID;
     activeDepName = PerFullName;
+
     let url = `CenterServicessInfo/getByDepID/${CenterID}/${DepID}`;
-    setIsLoading(true);
 
-    axiosClient.get(url).then(function (response) {
-      console.log("services", response.data);
-      setIsLoading(false);
-      if (response.data.ServicesInfo.length > 0) {
-        setServices(response.data.ServicesInfo);
+    axiosClient
+      .get(url)
+      .then((response) => {
+        console.log("services", response.data);
+        if (response.data.ServicesInfo.length > 0) {
+          setServices(response.data.ServicesInfo);
 
-        //srvGroupName Options
-        let selectServiceGroup = [];
-        for (let i = 0; i < response.data.GroupDetail.length; i++) {
-          const item = response.data.GroupDetail[i];
-          let obj = {
-            value: item.Name,
-            label: item.Name,
-          };
-          selectServiceGroup.push(obj);
+          //srvGroupName Options
+          let selectServiceGroup = [];
+          for (let i = 0; i < response.data.GroupDetail.length; i++) {
+            const item = response.data.GroupDetail[i];
+            let obj = {
+              value: item.Name,
+              label: item.Name,
+            };
+            selectServiceGroup.push(obj);
+          }
+          setSrvGroupList(selectServiceGroup);
+        } else if (
+          !response.data.ServiceInfo ||
+          response.data.ServicesInfo.length === 0
+        ) {
+          getDefaultServices(activeDepId, activeDepName);
         }
-        setSrvGroupList(selectServiceGroup);
-      } else if (
-        !response.data.ServiceInfo ||
-        response.data.ServicesInfo.length === 0
-      ) {
-        getDefaultServices(activeDepId, activeDepName);
-      }
-    });
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false);
+      });
   };
 
   //return to default services
   const getDefaultServices = async (DepID, PerFullName) => {
+    setIsLoading(true);
+
     let result = await QuestionAlert(
       "بازگشت به تنظیمات مرکز!",
       "آیا از بازگشت به تنظیمات مرکز مطمئن هستید؟"
     );
 
     if (result) {
-      let defaultUrl = "CenterServicessInfo/SyncToDefault";
-
+      let url = "CenterServicessInfo/SyncToDefault";
       let data = {
         CenterID: CenterID,
         ModalityID: DepID,
@@ -123,16 +138,14 @@ const Tariff = ({ Menus }) => {
       };
 
       await axiosClient
-        .post(defaultUrl, data)
+        .post(url, data)
         .then((response) => {
-          setIsLoading(false);
-
-          console.log("defaultServices", response.data);
           setServices(response.data.ServicesInfo);
+          setIsLoading(false);
         })
         .catch((error) => {
           console.log(error);
-          setIsLoading(true);
+          setIsLoading(false);
         });
     }
   };
@@ -140,6 +153,7 @@ const Tariff = ({ Menus }) => {
   //Add service
   const addService = (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
@@ -189,12 +203,12 @@ const Tariff = ({ Menus }) => {
   //edit service
   const editService = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
 
     let url = "CenterServicessInfo/EditServiceTariff";
-
     let editData = {
       CenterID: CenterID,
       DepID: activeDepId,
@@ -226,10 +240,11 @@ const Tariff = ({ Menus }) => {
         console.log("response", response.data);
         updateItem(formProps.serviceId, response.data);
         $("#editTariffModal").modal("hide");
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
-        setIsLoading(true);
+        setIsLoading(false);
         ErrorAlert("خطا", "ویرایش اطلاعات با خطا مواجه گردید!");
       });
   };
@@ -292,12 +307,12 @@ const Tariff = ({ Menus }) => {
   // Add Loeing
   const addLoeing = (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
 
     let url = "CenterServicessInfo/AddLoeing";
-
     let addData = {
       CenterID: CenterID,
       ServiceID: activeServiceId,
@@ -310,7 +325,6 @@ const Tariff = ({ Menus }) => {
       .then((response) => {
         SetLoeingData([...loeingData, response.data]);
 
-        setIsLoading(false);
         $("#addLoeingModal").modal("hide");
         $("#loeingModal").modal("show");
 
@@ -322,10 +336,11 @@ const Tariff = ({ Menus }) => {
 
         getServices(activeDepId, activeDepName);
         e.target.reset();
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
-        setIsLoading(true);
+        setIsLoading(false);
       });
   };
 
@@ -337,15 +352,15 @@ const Tariff = ({ Menus }) => {
     );
 
     if (result) {
-      let deleteData = {
+      let url = `CenterServicessInfo/DeleteLoeing`;
+      let data = {
         CenterID: CenterID,
         ServiceID: activeServiceId,
         LoeingID: id,
       };
-      let url = `CenterServicessInfo/DeleteLoeing`;
 
       await axiosClient
-        .delete(url, { data: deleteData })
+        .delete(url, { data: data })
         .then(function () {
           SetLoeingData(loeingData.filter((a) => a._id !== id));
 
@@ -371,7 +386,6 @@ const Tariff = ({ Menus }) => {
     const formProps = Object.fromEntries(formData);
 
     let url = "CenterServicessInfo/EditLoeing";
-
     let editData = {
       CenterID: CenterID,
       ServiceID: activeServiceId,
@@ -401,7 +415,6 @@ const Tariff = ({ Menus }) => {
     g = newArr;
 
     if (index === -1) {
-      // handle error
       console.log("no match");
     } else
       SetLoeingData([
@@ -443,10 +456,10 @@ const Tariff = ({ Menus }) => {
     await axiosClient
       .put(url, data)
       .then((response) => {
-        setIsLoading(false);
         setServices(response.data.ServicesInfo);
         $("#tariffCalcModal").modal("hide");
         e.target.reset();
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
@@ -457,8 +470,8 @@ const Tariff = ({ Menus }) => {
   // Apply Calculations based on Price
   const applyPriceCalculations = async (e) => {
     e.preventDefault();
-
     setIsLoading(true);
+
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
 
@@ -472,10 +485,10 @@ const Tariff = ({ Menus }) => {
     await axiosClient
       .put(url, data)
       .then((response) => {
-        setIsLoading(false);
         setServices(response.data.ServicesInfo);
         $("#tariffCalcModal").modal("hide");
         e.target.reset();
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
@@ -486,8 +499,8 @@ const Tariff = ({ Menus }) => {
   // Apply Calculations based on Percentage
   const applyPercentCalculations = async (e) => {
     e.preventDefault();
-
     setIsLoading(true);
+
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
 
@@ -501,10 +514,10 @@ const Tariff = ({ Menus }) => {
     await axiosClient
       .put(url, data)
       .then((response) => {
-        setIsLoading(false);
         setServices(response.data.ServicesInfo);
         $("#tariffCalcModal").modal("hide");
         e.target.reset();
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
@@ -519,75 +532,75 @@ const Tariff = ({ Menus }) => {
       </Head>
 
       <div className="page-wrapper">
-        <div className="content container-fluid">
-          <TariffHeader data={departmentsData} getServices={getServices} />
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <div className="content container-fluid">
+            <TariffHeader data={departmentsData} getServices={getServices} />
 
-          <div className="tariff-btn-container">
-            <div className="media-md-w-100">
-              <Link
-                href="#"
-                data-bs-toggle="modal"
-                data-bs-target="#addTariffModal"
-                className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
-              >
-                <i className="me-1">
-                  <FeatherIcon icon="plus-square" />
-                </i>{" "}
-                سرویس جدید
-              </Link>
+            <div className="tariff-btn-container">
+              <div className="media-md-w-100">
+                <Link
+                  href="#"
+                  data-bs-toggle="modal"
+                  data-bs-target="#addTariffModal"
+                  className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
+                >
+                  <i className="me-1">
+                    <FeatherIcon icon="plus-square" />
+                  </i>{" "}
+                  سرویس جدید
+                </Link>
+              </div>
+
+              <div className="media-md-w-100">
+                <Link
+                  href="#"
+                  data-bs-toggle="modal"
+                  data-bs-target="#tariffCalcModal"
+                  className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
+                >
+                  <i className="me-1">
+                    <FeatherIcon icon="percent" />
+                  </i>{" "}
+                  اعمال محاسبات
+                </Link>
+              </div>
+
+              <div className="media-md-w-100">
+                <Link
+                  href="#"
+                  className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
+                  onClick={() => getDefaultServices(activeDepId, activeDepName)}
+                >
+                  <i className="me-1 ">
+                    <FeatherIcon icon="refresh-cw" />
+                  </i>{" "}
+                  بازگشت به تنظیمات مرکز
+                </Link>
+              </div>
             </div>
 
-            <div className="media-md-w-100">
-              <Link
-                href="#"
-                data-bs-toggle="modal"
-                data-bs-target="#tariffCalcModal"
-                className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
-              >
-                <i className="me-1">
-                  <FeatherIcon icon="percent" />
-                </i>{" "}
-                اعمال محاسبات
-              </Link>
-            </div>
-
-            <div className="media-md-w-100">
-              <Link
-                href="#"
-                className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
-                onClick={() => getDefaultServices(activeDepId, activeDepName)}
-              >
-                <i className="me-1 ">
-                  <FeatherIcon icon="refresh-cw" />
-                </i>{" "}
-                بازگشت به تنظیمات مرکز
-              </Link>
-            </div>
-          </div>
-
-          {/* <!--  services Table --> */}
-          <div className="row">
-            <div className="col-sm-12">
-              <div className="card">
-                <div className="card-header border-bottom-0">
-                  <div className="row align-items-center">
-                    <div className="col">
-                      <h5 className="card-title font-16">لیست خدمات</h5>
-                    </div>
-                    <div className="col-auto d-flex flex-wrap">
-                      <div className="form-custom me-2">
-                        <div
-                          id="tableSearch"
-                          className="dataTables_wrapper"
-                        ></div>
+            {/* <!--  services Table --> */}
+            <div className="row">
+              <div className="col-sm-12">
+                <div className="card">
+                  <div className="card-header border-bottom-0">
+                    <div className="row align-items-center">
+                      <div className="col">
+                        <h5 className="card-title font-16">لیست خدمات</h5>
+                      </div>
+                      <div className="col-auto d-flex flex-wrap">
+                        <div className="form-custom me-2">
+                          <div
+                            id="tableSearch"
+                            className="dataTables_wrapper"
+                          ></div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                {isLoading ? (
-                  <Loading />
-                ) : (
                   <div className="col-sm-12 font-size-12">
                     <TariffListTable
                       data={services}
@@ -596,13 +609,13 @@ const Tariff = ({ Menus }) => {
                       SetLoeingModalData={SetLoeingModalData}
                     />
                   </div>
-                )}
-              </div>
+                </div>
 
-              <div id="tablepagination" className="dataTables_wrapper"></div>
+                <div id="tablepagination" className="dataTables_wrapper"></div>
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         <TariffCalcModal
           applyKCalculations={applyKCalculations}

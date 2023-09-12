@@ -1,26 +1,21 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Link from "next/link";
 import Image from "next/image";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import { axiosClient } from "class/axiosConfig.js";
 import FeatherIcon from "feather-icons-react";
-import { avatar01, headerLogo, logoSmall } from "components/imagepath";
 import { getSession } from "@/lib/SessionMange";
 import { ErrorAlert } from "class/AlertManage.js";
-// import getUserToken from "../../../pages/api/getUserToken";
-
-let user = null;
-let centerId = null;
+import { avatar01, headerLogo, logoSmall } from "components/imagepath";
 
 const Header = () => {
   let router = useRouter();
+
   const [task, settask] = useState(true);
   const [task1, settask1] = useState(true);
-  const [dropdown, setdropdown] = useState(false);
-  const [dropdown1, setdropdown1] = useState(false);
+  // const [dropdown, setdropdown] = useState(false);
+  // const [dropdown1, setdropdown1] = useState(false);
 
   const handletheme = () => {
     document.body.classList.toggle("darkmode");
@@ -38,10 +33,10 @@ const Header = () => {
 
   const fetchUserToken = async () => {
     let data = await getSession(Cookies.get("session"));
-    console.log({ data });
+    // console.log({ data });
 
     let roles = await getSession(Cookies.get("roles"));
-    console.log({ roles });
+    // console.log({ roles });
 
     if (data == null) {
       ErrorAlert("خطا", "خطای ورود به سایت");
@@ -59,24 +54,12 @@ const Header = () => {
         .getElementById("dropdownAvatar")
         .setAttribute("srcSet", data.Avatar);
     }
-
     return data;
   };
 
   useEffect(() => {
     fetchUserToken();
   }, []);
-
-  // let data = { Token: sessionStorage.getItem("SEID") };
-  //       if (data) {
-  //   axiosClient
-  //     .post("AdminUser/getUserByToken", data)
-  //     .then(function (response) {
-  //       user = response.data;
-  //       let centerId = user.CenterID;
-  //       Cookies.set("CenterID", centerId);
-  //     })
-  // }
 
   return (
     <>

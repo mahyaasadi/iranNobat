@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Head from "next/head";
-import Cookies from "js-cookie";
 import FeatherIcon from "feather-icons-react";
 import { axiosClient } from "class/axiosConfig.js";
 import { QuestionAlert, SuccessAlert } from "class/AlertManage.js";
@@ -11,17 +10,25 @@ import AddUserModal from "components/dashboard/centerUsers/addUserModal";
 import EditUserModal from "components/dashboard/centerUsers/editUserModal";
 import ChatPermissionModal from "components/dashboard/centerUsers/chatPermissionModal";
 import AssignRoleModal from "components/dashboard/centerUsers/assignRoleModal";
+import { getSession } from "lib/session";
 
-let CenterID = Cookies.get("CenterID");
-let ActiveUserID = null;
+let ActiveUserID,
+  CenterID = null;
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async ({ req, res }) => {
+  // userInfo
+  const { UserData, UserRoles } = await getSession(req);
+  console.log({ UserRoles, UserData });
+
+  // menusList
   const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
   const Menus = await data.json();
-  return { props: { Menus } };
+  return { props: { Menus, UserData, UserRoles } };
 };
 
-const CenterUsers = ({ Menus }) => {
+const CenterUsers = ({ Menus, UserData, UserRoles }) => {
+  CenterID = UserData.CenterID;
+
   const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState([]);
   const [editedUserData, setEditedUserData] = useState([]);
@@ -30,19 +37,17 @@ const CenterUsers = ({ Menus }) => {
   const [eye, setEye] = useState(true);
   const onEyeClick = () => setEye(!eye);
 
-  const handlePassword = (e) => {
-    setPassword(e.target.value);
-  };
+  const handlePassword = (e) => setPassword(e.target.value);
 
   let userRole = "";
-
   const FUSelectUserRole = (role) => {
     userRole = role;
   };
+
   // Get users data
   const getCenterUsers = () => {
-    let url = `AdminUser/getCenterUsers/${CenterID}`;
     setIsLoading(true);
+    let url = `AdminUser/getCenterUsers/${CenterID}`;
 
     axiosClient
       .get(url)
@@ -75,8 +80,6 @@ const CenterUsers = ({ Menus }) => {
       Password: password,
     };
 
-    console.log(data);
-
     axiosClient
       .post(url, data)
       .then((response) => {
@@ -84,8 +87,8 @@ const CenterUsers = ({ Menus }) => {
         setUserData([...userData, response.data]);
 
         $("#addUserModal").modal("hide");
-        setIsLoading(false);
         e.target.reset();
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
@@ -94,7 +97,7 @@ const CenterUsers = ({ Menus }) => {
   };
 
   // change active state
-  const ChangeActiveUser = (id, type) => {
+  const changeActiveUser = (id, type) => {
     let findUser = userData.find((x) => x._id === id);
     findUser.Deactive = type;
     let findIndex = userData.findIndex((x) => x._id === id);
@@ -104,6 +107,8 @@ const CenterUsers = ({ Menus }) => {
 
   // Activate user
   const activateUser = async (id) => {
+    setIsLoading(true);
+
     let result = await QuestionAlert(
       "تغییر وضعیت غیر فعال کاربر!",
       "آیا از فعال کردن کاربر اطمینان دارید؟"
@@ -115,14 +120,10 @@ const CenterUsers = ({ Menus }) => {
         UserID: id,
       };
 
-      console.log(data);
-      setIsLoading(true);
-
       await axiosClient
         .put(url, data)
         .then((response) => {
-          console.log(response.data);
-          ChangeActiveUser(id, false);
+          changeActiveUser(id, false);
           setIsLoading(false);
         })
         .catch((error) => {
@@ -134,6 +135,8 @@ const CenterUsers = ({ Menus }) => {
 
   // Deactivate user
   const deActivateUser = async (id) => {
+    setIsLoading(true);
+
     let result = await QuestionAlert(
       "تغییر وضعیت فعال کاربر!",
       "آیا از غیر فعال کردن کاربر اطمینان دارید؟"
@@ -145,14 +148,10 @@ const CenterUsers = ({ Menus }) => {
         UserID: id,
       };
 
-      setIsLoading(true);
-      console.log(data);
-
       await axiosClient
         .put(url, data)
         .then((response) => {
-          ChangeActiveUser(id, true);
-
+          changeActiveUser(id, true);
           setIsLoading(false);
         })
         .catch((error) => {
@@ -165,12 +164,13 @@ const CenterUsers = ({ Menus }) => {
   //edit user info
   const editUserInfo = (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
-    let url = "AdminUser/updateUser";
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
     ActiveUserID = formProps.editUserId;
 
+    let url = "AdminUser/updateUser";
     let data = {
       CenterID,
       UserID: ActiveUserID,
@@ -191,21 +191,22 @@ const CenterUsers = ({ Menus }) => {
           Tel: formProps.editUserTel,
           User: formProps.editUserName,
         });
+
         $("#editUserModal").modal("hide");
-        console.log(response.data);
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
+        setIsLoading(false);
       });
   };
 
   const updateItem = (id, newArr) => {
     let index = userData.findIndex((x) => x._id === id);
-
     let g = userData[index];
     g = newArr;
+
     if (index === -1) {
-      // handle error
       console.log("no match");
     } else
       setUserData([
@@ -220,13 +221,8 @@ const CenterUsers = ({ Menus }) => {
     $("#editUserModal").modal("show");
   };
 
-  const chatPermissionOpenModal = () => {
-    $("#chatPermissionModal").modal("show");
-  };
-
-  const userPermissionOpenModal = () => {
-    $("#userPermissionModal").modal("show");
-  };
+  const chatPermissionOpenModal = () => $("#chatPermissionModal").modal("show");
+  const userPermissionOpenModal = () => $("#userPermissionModal").modal("show");
 
   const assignRoleModal = (id) => {
     ActiveUserID = id;
@@ -235,27 +231,28 @@ const CenterUsers = ({ Menus }) => {
 
   const assignRole = (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
+
+    let url = "/AdminUser/setUserRoles";
     let data = {
       CenterID: CenterID,
       UserID: ActiveUserID,
       roleID: formProps.assignUserRole,
     };
 
-    console.log("data", data);
-
-    let url = "/AdminUser/setUserRoles";
     axiosClient
       .put(url, data)
       .then((response) => {
-        console.log(response.data);
         SuccessAlert("موفق", "نقش کاربر با موفقیت ثبت گردید!");
         $("#assignRoleToUserModal").modal("hide");
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
+        setIsLoading(false);
       });
   };
 
@@ -273,48 +270,48 @@ const CenterUsers = ({ Menus }) => {
         <title>کاربران مرکز</title>
       </Head>
       <div className="page-wrapper">
-        <div className="content container-fluid">
-          <div className="page-header">
-            <div className="row align-items-center">
-              <div className="col-md-12 d-flex justify-content-end">
-                <Link
-                  href="#"
-                  data-bs-toggle="modal"
-                  data-bs-target="#addUserModal"
-                  className="btn btn-primary btn-add font-14 media-font-12"
-                >
-                  <i className="me-1">
-                    <FeatherIcon icon="plus-square" />
-                  </i>{" "}
-                  اضافه کردن
-                </Link>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <div className="content container-fluid">
+            <div className="page-header">
+              <div className="row align-items-center">
+                <div className="col-md-12 d-flex justify-content-end">
+                  <Link
+                    href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#addUserModal"
+                    className="btn btn-primary btn-add font-14 media-font-12"
+                  >
+                    <i className="me-1">
+                      <FeatherIcon icon="plus-square" />
+                    </i>{" "}
+                    اضافه کردن
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="row">
-            <div className="col-sm-12">
-              <div className="card">
-                <div className="card-header border-bottom-0">
-                  <div className="row align-items-center">
-                    <div className="col">
-                      <h5 className="card-title font-16">لیست کاربران</h5>
-                    </div>
+            <div className="row">
+              <div className="col-sm-12">
+                <div className="card">
+                  <div className="card-header border-bottom-0">
+                    <div className="row align-items-center">
+                      <div className="col">
+                        <h5 className="card-title font-16">لیست کاربران</h5>
+                      </div>
 
-                    <div className="col-auto d-flex flex-wrap">
-                      <div className="form-custom me-2">
-                        <div
-                          id="tableSearch"
-                          className="dataTables_wrapper"
-                        ></div>
+                      <div className="col-auto d-flex flex-wrap">
+                        <div className="form-custom me-2">
+                          <div
+                            id="tableSearch"
+                            className="dataTables_wrapper"
+                          ></div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                {isLoading ? (
-                  <Loading />
-                ) : (
                   <UsersListTable
                     data={userData}
                     updateUserInfo={updateUserInfo}
@@ -325,13 +322,13 @@ const CenterUsers = ({ Menus }) => {
                     assignRoleModal={assignRoleModal}
                     assignRole={assignRole}
                   />
-                )}
-              </div>
+                </div>
 
-              <div id="tablepagination" className="dataTables_wrapper"></div>
+                <div id="tablepagination" className="dataTables_wrapper"></div>
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         <AddUserModal
           eye={eye}

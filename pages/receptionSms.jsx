@@ -2,22 +2,28 @@ import { useState, useEffect } from "react";
 import { axiosClient } from "class/axiosConfig.js";
 import Link from "next/link";
 import Head from "next/head";
-import Cookies from "js-cookie";
 import FeatherIcon from "feather-icons-react";
 import Loading from "components/loading/loading";
 import ExtraSmallLoader from "components/loading/extraSmallLoader";
 import { ErrorAlert, SuccessAlert } from "class/AlertManage.js";
 import SendMessagesListTable from "components/dashboard/receptionSms/sendMessagesListTable";
+import { getSession } from "lib/session";
 
-let CenterID = Cookies.get("CenterID");
+export const getServerSideProps = async ({ req, res }) => {
+  // userInfo
+  const { UserData, UserRoles } = await getSession(req);
+  console.log({ UserRoles, UserData });
 
-export const getStaticProps = async () => {
+  // menusList
   const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
   const Menus = await data.json();
-  return { props: { Menus } };
+  return { props: { Menus, UserData, UserRoles } };
 };
 
-const ReceptionSms = ({ Menus }) => {
+let CenterID = null;
+const ReceptionSms = ({ Menus, UserData, UserRoles }) => {
+  CenterID = UserData.CenterID;
+
   const [isLoading, setIsLoading] = useState(true);
   const [creditIsLoading, setCreditIsLoading] = useState(true);
   const [sendMessages, setSendMessages] = useState([]);
@@ -25,9 +31,10 @@ const ReceptionSms = ({ Menus }) => {
 
   // get remaining credit
   const getPanelCredit = () => {
+    setCreditIsLoading(true);
+
     let url = "Sms/getCredit";
     let data = { CenterID };
-    setCreditIsLoading(true);
 
     axiosClient
       .post(url, data)
@@ -42,14 +49,13 @@ const ReceptionSms = ({ Menus }) => {
   };
 
   const getSendMessages = () => {
+    setIsLoading(true);
     let url = "Sms/getCenterSendMessage";
     let data = { CenterID };
-    setIsLoading(true);
 
     axiosClient
       .post(url, data)
       .then((response) => {
-        // console.log("sendMessages", response.data);
         setSendMessages(response.data);
         setIsLoading(false);
       })
@@ -60,13 +66,14 @@ const ReceptionSms = ({ Menus }) => {
   };
 
   const checkMessageDelivery = (id) => {
+    setIsLoading(true);
+
     let url = "Sms/Delivery";
     let data = {
       CenterID,
       uniqID: id,
     };
 
-    setIsLoading(true);
     axiosClient
       .post(url, data)
       .then((response) => {

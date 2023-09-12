@@ -1,14 +1,6 @@
 import FeatherIcon from "feather-icons-react";
 
-const AddSpeWorkModal = ({
-  name,
-  title,
-  engName,
-  handleNameInput,
-  handleTitleInput,
-  handleEngNameInput,
-  addSpeWork,
-}) => {
+const AddSpeWorkModal = ({ addSpeWork }) => {
   return (
     <div
       className="modal fade contentmodal"
@@ -42,9 +34,7 @@ const AddSpeWorkModal = ({
                 <input
                   className="form-control floating inputPadding rounded"
                   type="text"
-                  id="AddSpeName"
-                  value={name}
-                  onChange={handleNameInput}
+                  name="AddSpeName"
                   required
                 />
               </div>
@@ -56,9 +46,7 @@ const AddSpeWorkModal = ({
                 <input
                   className="form-control floating inputPadding rounded"
                   type="text"
-                  id="AddSpeTitle"
-                  value={title}
-                  onChange={handleTitleInput}
+                  name="AddSpeTitle"
                   required
                 />
               </div>
@@ -70,9 +58,7 @@ const AddSpeWorkModal = ({
                 <input
                   className="form-control floating inputPadding rounded"
                   type="text"
-                  id="AddSpeEngName"
-                  value={engName}
-                  onChange={handleEngNameInput}
+                  name="AddSpeEngName"
                   required
                 />
               </div>

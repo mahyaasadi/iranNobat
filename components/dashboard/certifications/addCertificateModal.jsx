@@ -73,7 +73,7 @@ const AddCertificateModal = ({ addCertificate }) => {
                 <input
                   className="form-control floating inputPadding rounded"
                   type="number"
-                  id="addCertificateYear"
+                  name="addCertificateYear"
                   required
                 />
               </div>

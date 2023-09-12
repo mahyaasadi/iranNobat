@@ -3,11 +3,13 @@ import Image from "next/image";
 import { useEffect } from "react";
 
 const NavLink = ({ data, getServices, activeClass }) => {
-  useEffect(() => {
-    if (activeClass == "active") {
-      getServices(data._id, data.PerFullName);
-    }
-  }, []);
+  console.log({ activeClass });
+
+  // useEffect(() => {
+  //   if (activeClass == "active") {
+  //     getServices(data._id, data.PerFullName);
+  //   }
+  // }, [activeClass]);
 
   return (
     <>

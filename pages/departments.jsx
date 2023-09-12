@@ -1,25 +1,32 @@
 import { useState, useEffect } from "react";
-import Cookies from "js-cookie";
 import Head from "next/head";
 import { axiosClient } from "class/axiosConfig.js";
 import Loading from "components/loading/loading";
-import { SuccessAlert } from "class/AlertManage.js";
+import { SuccessAlert, ErrorAlert } from "class/AlertManage.js";
 import DepartmentsList from "components/dashboard/departments/departmentsList";
+import { getSession } from "lib/session";
 
-let CenterID = Cookies.get("CenterID");
+export const getServerSideProps = async ({ req, res }) => {
+  // userInfo
+  const { UserData, UserRoles } = await getSession(req);
+  console.log({ UserRoles, UserData });
 
-export const getStaticProps = async () => {
+  // menusList
   const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
   const Menus = await data.json();
-  return { props: { Menus } };
+  return { props: { Menus, UserData, UserRoles } };
 };
 
-const Departments = ({ Menus }) => {
+let CenterID = null;
+const Departments = ({ Menus, UserData, UserRoles }) => {
+  CenterID = UserData.CenterID;
+
   const [departmentsData, setDepartmentsData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const SubmitFrmSetDepartment = (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     let data = $(".checkbox-input:checked").serialize();
     data = data.split("&");
@@ -52,44 +59,50 @@ const Departments = ({ Menus }) => {
 
     axiosClient
       .post(url, PostData)
-      .then((response) =>
-        SuccessAlert("موفق !", "ذخیره اطلاعات با موفقیت انجام گردید")
-      )
+      .then((response) => {
+        SuccessAlert("موفق !", "ذخیره اطلاعات با موفقیت انجام گردید");
+        setIsLoading(false);
+      })
       .catch((error) => {
         console.log(error);
+        setIsLoading(false);
+        ErrorAlert("خطا", "ثبت بخش ها ی انتخابی با خطا مواجه گردید!");
       });
   };
 
   //get departments
   const getDepartments = () => {
-    let UrlGetDep = `Center/GetDepartments/${CenterID}`;
-    axiosClient.get(UrlGetDep).then(function (response) {
-      if (response.data) {
+    setIsLoading(true);
+    let url = `Center/GetDepartments/${CenterID}`;
+
+    axiosClient
+      .get(url)
+      .then((response) => {
+        if (response.data) {
+          console.log(response.data);
+          setDepartmentsData(response.data);
+        } else {
+          getModality();
+        }
         setIsLoading(false);
-        console.log(response.data);
-        setDepartmentsData(response.data);
-      } else {
-        getModality();
-      }
-    });
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false);
+      });
   };
 
-  function getModality() {
+  const getModality = () => {
     let url = "Modality/getAll";
-    setIsLoading(true);
-    axiosClient.get(url).then(function (response) {
-      setIsLoading(false);
-      setDepartmentsData(response.data);
-    });
-  }
+
+    axiosClient
+      .get(url)
+      .then((response) => setDepartmentsData(response.data))
+      .catch((err) => console.log(err));
+  };
 
   useEffect(() => {
-    try {
-      getDepartments();
-    } catch (error) {
-      console.log(error);
-      setIsLoading(true);
-    }
+    getDepartments();
   }, []);
 
   return (

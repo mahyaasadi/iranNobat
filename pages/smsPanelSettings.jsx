@@ -2,20 +2,26 @@ import { useState, useEffect } from "react";
 import { axiosClient } from "class/axiosConfig.js";
 import Link from "next/link";
 import Head from "next/head";
-import Cookies from "js-cookie";
 import FeatherIcon from "feather-icons-react";
 import Loading from "components/loading/loading";
 import { ErrorAlert, SuccessAlert } from "class/AlertManage.js";
+import { getSession } from "lib/session";
 
-let CenterID = Cookies.get("CenterID");
+export const getServerSideProps = async ({ req, res }) => {
+  // userInfo
+  const { UserData, UserRoles } = await getSession(req);
+  console.log({ UserRoles, UserData });
 
-export const getStaticProps = async () => {
+  // menusList
   const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
   const Menus = await data.json();
-  return { props: { Menus } };
+  return { props: { Menus, UserData, UserRoles } };
 };
 
-const SmsPanelSettings = ({ Menus }) => {
+let CenterID = null;
+const SmsPanelSettings = ({ Menus, UserData, UserRoles }) => {
+  CenterID = UserData.CenterID;
+
   const [isLoading, setIsLoading] = useState(false);
   const [panelData, setPanelData] = useState([]);
   const [eye, setEye] = useState(true);
@@ -24,6 +30,7 @@ const SmsPanelSettings = ({ Menus }) => {
 
   const changeSmsPanelSettings = (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     let url = "Center/ChangeSmsPanelPassword";
     let formData = new FormData(e.target);
@@ -34,19 +41,22 @@ const SmsPanelSettings = ({ Menus }) => {
       password: formProps.smsPanelPassword,
     };
 
-    setIsLoading(true);
-
     axiosClient
       .post(url, data)
       .then((response) => {
         console.log(response.data);
-        setIsLoading(false);
         SuccessAlert("موفق", "تغییر رمز عبور با موفقیت انجام شد!");
+        setIsLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
   };
 
   const getPanelData = () => {
+    setIsLoading(true);
+
     let url = "Sms/getCenterPanelData";
     let data = { CenterID };
 
@@ -54,8 +64,12 @@ const SmsPanelSettings = ({ Menus }) => {
       .post(url, data)
       .then((response) => {
         setPanelData(response.data);
+        setIsLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
   };
 
   useEffect(() => {
