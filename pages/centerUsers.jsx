@@ -3,7 +3,7 @@ import Link from "next/link";
 import Head from "next/head";
 import FeatherIcon from "feather-icons-react";
 import { axiosClient } from "class/axiosConfig.js";
-import { QuestionAlert, SuccessAlert } from "class/AlertManage.js";
+import { QuestionAlert, SuccessAlert, ErrorAlert } from "class/AlertManage.js";
 import Loading from "components/loading/loading";
 import UsersListTable from "components/dashboard/centerUsers/usersListTable";
 import AddUserModal from "components/dashboard/centerUsers/addUserModal";
@@ -56,7 +56,7 @@ const CenterUsers = ({ Menus, UserData, UserRoles }) => {
         setIsLoading(false);
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.response.data);
         setIsLoading(false);
       });
   };
@@ -107,8 +107,6 @@ const CenterUsers = ({ Menus, UserData, UserRoles }) => {
 
   // Activate user
   const activateUser = async (id) => {
-    setIsLoading(true);
-
     let result = await QuestionAlert(
       "تغییر وضعیت غیر فعال کاربر!",
       "آیا از فعال کردن کاربر اطمینان دارید؟"
@@ -124,19 +122,16 @@ const CenterUsers = ({ Menus, UserData, UserRoles }) => {
         .put(url, data)
         .then((response) => {
           changeActiveUser(id, false);
-          setIsLoading(false);
         })
         .catch((error) => {
           console.log(error);
-          setIsLoading(false);
+          ErrorAlert("خطا", "ویرایش وضعیت کاربر با خطا مواجه گردید!");
         });
     }
   };
 
   // Deactivate user
   const deActivateUser = async (id) => {
-    setIsLoading(true);
-
     let result = await QuestionAlert(
       "تغییر وضعیت فعال کاربر!",
       "آیا از غیر فعال کردن کاربر اطمینان دارید؟"
@@ -152,11 +147,10 @@ const CenterUsers = ({ Menus, UserData, UserRoles }) => {
         .put(url, data)
         .then((response) => {
           changeActiveUser(id, true);
-          setIsLoading(false);
         })
         .catch((error) => {
           console.log(error);
-          setIsLoading(false);
+          ErrorAlert("خطا", "ویرایش وضعیت کاربر با خطا مواجه گردید!");
         });
     }
   };
@@ -345,11 +339,12 @@ const CenterUsers = ({ Menus, UserData, UserRoles }) => {
           onEyeClick={onEyeClick}
         />
 
-        <ChatPermissionModal />
+        <ChatPermissionModal CenterID={CenterID} />
 
         <AssignRoleModal
           FUSelectUserRole={FUSelectUserRole}
           assignRole={assignRole}
+          CenterID={CenterID}
         />
       </div>
     </>

@@ -1,12 +1,9 @@
 import { useState, useEffect } from "react";
 import FeatherIcon from "feather-icons-react";
-import Cookies from "js-cookie";
 import { axiosClient } from "class/axiosConfig.js";
 import Loading from "components/loading/loading";
 
-let CenterID = Cookies.get("CenterID");
-
-const ChatPermissionModal = () => {
+const ChatPermissionModal = ({ CenterID }) => {
   const [departmentsData, setDepartmentsData] = useState([]);
   const [diseasesList, setDiseasesList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);

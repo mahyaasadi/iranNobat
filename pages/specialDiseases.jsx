@@ -41,7 +41,7 @@ const SpecialDiseases = ({ Menus, UserData, UserRoles }) => {
         setIsLoading(false);
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.response.data);
         setIsLoading(false);
       });
   };

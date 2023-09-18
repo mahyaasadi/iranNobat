@@ -9,7 +9,7 @@ import { getSession } from "@/lib/SessionMange";
 import { ErrorAlert } from "class/AlertManage.js";
 import { avatar01, headerLogo, logoSmall } from "components/imagepath";
 
-const Header = () => {
+const Header = ({ UserData }) => {
   let router = useRouter();
 
   const [task, settask] = useState(true);
@@ -31,35 +31,19 @@ const Header = () => {
     document.body.classList.toggle("slide-nav");
   };
 
-  const fetchUserToken = async () => {
-    let data = await getSession(Cookies.get("session"));
-    // console.log({ data });
-
-    let roles = await getSession(Cookies.get("roles"));
-    // console.log({ roles });
-
-    if (data == null) {
-      ErrorAlert("خطا", "خطای ورود به سایت");
-      setTimeout(() => {
-        router.push("/");
-      }, 2000);
-    } else {
-      document.getElementById("userName").innerHTML = data.FullName;
-      document.getElementById("avatar").setAttribute("src", data.Avatar);
-      document.getElementById("avatar").setAttribute("srcSet", data.Avatar);
-      document
-        .getElementById("dropdownAvatar")
-        .setAttribute("src", data.Avatar);
-      document
-        .getElementById("dropdownAvatar")
-        .setAttribute("srcSet", data.Avatar);
-    }
-    return data;
+  const fetchUserToken = async (data) => {
+    document.getElementById("userName").innerHTML = data.FullName;
+    document.getElementById("avatar").setAttribute("src", data.Avatar);
+    document.getElementById("avatar").setAttribute("srcSet", data.Avatar);
+    document.getElementById("dropdownAvatar").setAttribute("src", data.Avatar);
+    document
+      .getElementById("dropdownAvatar")
+      .setAttribute("srcSet", data.Avatar);
   };
 
   useEffect(() => {
-    fetchUserToken();
-  }, []);
+    fetchUserToken(UserData);
+  }, [UserData]);
 
   return (
     <>

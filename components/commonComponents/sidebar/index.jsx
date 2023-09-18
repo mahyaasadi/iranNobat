@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import FeatherIcon from "feather-icons-react";
 
-const Sidebar = ({ Menus }) => {
+const Sidebar = ({ Menus, UserData, UserRoles }) => {
   // console.log("menus in sidebar", Menus);
   const router = useRouter();
 

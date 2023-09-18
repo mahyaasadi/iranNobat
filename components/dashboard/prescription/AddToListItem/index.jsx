@@ -10,6 +10,7 @@ const AddToListItem = ({
   data,
   prescId,
 }) => {
+  console.log("addedItems", data);
   let count = null;
   let Drug = null;
   if (TimesADay) {

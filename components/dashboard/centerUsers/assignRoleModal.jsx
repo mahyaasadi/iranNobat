@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import Cookies from "js-cookie";
 import FeatherIcon from "feather-icons-react";
 import { axiosClient } from "class/axiosConfig.js";
 import SelectField from "components/commonComponents/selectfield";
@@ -7,9 +6,7 @@ import Loading from "components/loading/loading";
 import { ErrorAlert } from "class/AlertManage.js";
 import selectfieldColourStyles from "class/selectfieldStyle";
 
-let CenterID = Cookies.get("CenterID");
-
-const AssignRoleModal = ({ FUSelectUserRole, assignRole }) => {
+const AssignRoleModal = ({ FUSelectUserRole, assignRole, CenterID }) => {
   const [selectRoleOptions, setSelectRoleOptions] = useState([]);
   const [allRoles, setAllRoles] = useState([]);
 

@@ -672,6 +672,10 @@ table.table td h2.table-avatar a>img {
   margin-bottom: 1.25rem;
 }
 
+.marginb-3 {
+  margin-bottom: 3rem;
+}
+
 @media (min-width: 768px) {
   .dashboard-selector {
     width: 25%;

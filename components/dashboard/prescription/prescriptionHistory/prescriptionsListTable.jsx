@@ -8,6 +8,7 @@ import "react-data-table-component-extensions/dist/index.css";
 import { tableCustomStyles } from "components/commonComponents/customTableStyle/tableStyle.jsx";
 
 const PrescriptionsListTable = ({ data }) => {
+  console.log({ data });
   const dateFormat = (str) => {
     if (str !== "" || str !== null) {
       let date =

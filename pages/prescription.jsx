@@ -29,7 +29,8 @@ let ActiveSrvCode,
   ActiveInsuranceID,
   ActiveParaCode,
   ActivePatientID,
-  count = null;
+  count,
+  prescriptionHeadID = null;
 
 const ChangeActiveServiceTypeID = (id) => (ActiveServiceTypeID = id);
 
@@ -51,8 +52,7 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
   CenterID = UserData.CenterID;
 
   const Router = useRouter();
-  const prescriptionHeadID = Router.query.id;
-  ActivePatientID = Router.query.pid;
+  // ActivePatientID = Router.query.pid;
 
   const [isLoading, setIsLoading] = useState(true);
   const [patientsInfo, setPatientsInfo] = useState([]);
@@ -143,7 +143,6 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
       .post(url, data)
       .then((response) => {
         setIsLoading(false);
-        // console.log(response.data);
         ActiveInsuranceID = response.data.user.Insurance;
         setPatientsInfo(response.data.user);
         $("#patientInfoSection").show("");
@@ -176,7 +175,7 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
     prescId = id;
 
     count = $("#srvItemCountId" + prescId).html();
-    console.log("count", count);
+    // console.log("count", count);
     $(".unsuccessfullSearch").hide();
 
     if (ActiveSrvCode) {
@@ -330,24 +329,20 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
           };
         }
 
-        console.log("ActiveSrvCode", ActiveSrvCode);
-        // console.log(srvId.srvCode);
-        console.log("SrvCode", SrvCode);
-
         // let findSrvCode = addPrescriptionitems.find(
         //   ({ x }) => x.srvId.srvCode === SrvCode
         // );
 
         // console.log("findSrvCode", findSrvCode);
 
-        if (
-          addPrescriptionitems.length > 0 &&
-          addPrescriptionitems.find(({ srvId }) => srvId.srvCode === SrvCode)
-        ) {
-          ErrorAlert("خطا", "سرویس انتخابی تکراری می باشد");
-          // console.log(srvId);
-          return false;
-        }
+        // if (
+        //   addPrescriptionitems.length > 0 &&
+        //   addPrescriptionitems.find(({ srvId }) => srvId.srvCode === SrvCode)
+        // ) {
+        //   ErrorAlert("خطا", "سرویس انتخابی تکراری می باشد");
+        //   // console.log(srvId);
+        //   return false;
+        // }
 
         // count badge //
         count = $("#srvItemCountId" + prescId).html();
@@ -411,14 +406,15 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
       if (drugAmntLbl) {
         drugAmntLbl = drugAmntLbl.label;
       }
+
       let drugInstId = presc.drugInstId;
       let InstructionLbl = selectInstructionArray.find(
         (o) => o.value === drugInstId
       );
+
       if (InstructionLbl) {
         InstructionLbl = InstructionLbl.label;
       }
-      console.log(drugAmntLbl);
 
       let { prescData, prescItems } = await prescItemCreator(
         presc.srvId.srvType.prescTypeId,
@@ -432,7 +428,7 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
         drugAmntLbl,
         presc.srvId.srvType.srvTypeDes,
         presc.srvId.srvType.srvType,
-        presc.srvId.parTarefGrp.parGrpCode
+        presc.srvId.parTarefGrp?.parGrpCode
       );
 
       if (prescData) {
@@ -493,6 +489,8 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
         prescTypeName: ActivePrscName,
       };
 
+      console.log({ Data });
+
       axiosClient
         .post(url, Data)
         .then(function (response) {
@@ -514,86 +512,86 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
     }
   };
 
-  const responseObj = {
-    status: 200,
-    family: "SUCCESSFUL",
-    reason: "OK",
-    data: [
-      {
-        noteDetailsEprscId: 3881192726,
-        srvId: {
-          srvId: 123730,
-          srvType: {
-            srvType: "02",
-            srvTypeDes: "آزمايشگاه",
-            status: "1",
-            statusstDate: "13940101",
-            custType: "4",
-            prescTypeId: 2,
-          },
-          srvCode: "807307-004",
-          srvName:
-            "396902002-نمونه از غده تيموس که با بيوپسي سوزني ترانس قفسه سينه (نمونه) به دست آمده است",
-          srvName2:
-            "396902002-Specimen from thymus gland obtained by transthoracic needle biopsy (specimen)",
-          srvBimSw: "1",
-          srvSex: null,
-          srvPrice: 1488300,
-          srvPriceDate: "14000226",
-          doseCode: null,
-          parTarefGrp: {
-            parGrpCode: "001",
-            parGrpDesc: "آسيب شناسي",
-            parGrpRem: "1",
-            status: "1",
-            statusStDate: "13830101",
-          },
-          status: "1",
-          statusstDate: "14010231",
-          bGType: null,
-          gSrvCode: null,
-          agreementFlag: null,
-          isDeleted: "0",
-          visible: null,
-          dentalServiceType: null,
-          wsSrvCode: "807307-004",
-          hosprescType: null,
-          countIsRestricted: null,
-          terminology: null,
-          srvCodeComplete: "807307-004",
-        },
-        srvQty: 1,
-        srvRem: 1,
-        srvPrice: 1488300,
-        timesAday: null,
-        dose: null,
-        doseCode: null,
-        repeat: null,
-        isBrand: null,
-        dateDo: null,
-        isOk: "0",
-        drugInstruction: null,
-        isPayable: null,
-        organId: null,
-        organDesc: null,
-        illnessId: null,
-        illnessDesc: null,
-        planId: null,
-        planDesc: null,
-        organDet: null,
-        organDetDesc: null,
-        confirmStatusflag: null,
-        drugAmntId: null,
-        drugInstId: null,
-        isDentalService: null,
-        noteHeadEprscId: null,
-        toothId: null,
-        referenceStatus: null,
-        repeatDays: null,
-        readOnly: false,
-      },
-    ],
-  };
+  // const responseObj = {
+  //   status: 200,
+  //   family: "SUCCESSFUL",
+  //   reason: "OK",
+  //   data: [
+  //     {
+  //       noteDetailsEprscId: 3881192726,
+  //       srvId: {
+  //         srvId: 123730,
+  //         srvType: {
+  //           srvType: "02",
+  //           srvTypeDes: "آزمايشگاه",
+  //           status: "1",
+  //           statusstDate: "13940101",
+  //           custType: "4",
+  //           prescTypeId: 2,
+  //         },
+  //         srvCode: "807307-004",
+  //         srvName:
+  //           "396902002-نمونه از غده تيموس که با بيوپسي سوزني ترانس قفسه سينه (نمونه) به دست آمده است",
+  //         srvName2:
+  //           "396902002-Specimen from thymus gland obtained by transthoracic needle biopsy (specimen)",
+  //         srvBimSw: "1",
+  //         srvSex: null,
+  //         srvPrice: 1488300,
+  //         srvPriceDate: "14000226",
+  //         doseCode: null,
+  //         parTarefGrp: {
+  //           parGrpCode: "001",
+  //           parGrpDesc: "آسيب شناسي",
+  //           parGrpRem: "1",
+  //           status: "1",
+  //           statusStDate: "13830101",
+  //         },
+  //         status: "1",
+  //         statusstDate: "14010231",
+  //         bGType: null,
+  //         gSrvCode: null,
+  //         agreementFlag: null,
+  //         isDeleted: "0",
+  //         visible: null,
+  //         dentalServiceType: null,
+  //         wsSrvCode: "807307-004",
+  //         hosprescType: null,
+  //         countIsRestricted: null,
+  //         terminology: null,
+  //         srvCodeComplete: "807307-004",
+  //       },
+  //       srvQty: 1,
+  //       srvRem: 1,
+  //       srvPrice: 1488300,
+  //       timesAday: null,
+  //       dose: null,
+  //       doseCode: null,
+  //       repeat: null,
+  //       isBrand: null,
+  //       dateDo: null,
+  //       isOk: "0",
+  //       drugInstruction: null,
+  //       isPayable: null,
+  //       organId: null,
+  //       organDesc: null,
+  //       illnessId: null,
+  //       illnessDesc: null,
+  //       planId: null,
+  //       planDesc: null,
+  //       organDet: null,
+  //       organDetDesc: null,
+  //       confirmStatusflag: null,
+  //       drugAmntId: null,
+  //       drugInstId: null,
+  //       isDentalService: null,
+  //       noteHeadEprscId: null,
+  //       toothId: null,
+  //       referenceStatus: null,
+  //       repeatDays: null,
+  //       readOnly: false,
+  //     },
+  //   ],
+  // };
 
   //get prescription data by headId to edit
   const getEprscData = () => {
@@ -607,26 +605,27 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
       axiosClient
         .post(url, data)
         .then((response) => {
-          console.log(response.data.data);
-          SetPrescriptionItemsData(response.data.data);
+          updatePrescriptionAddItem(response.data);
         })
         .catch((error) => console.log(error));
     }
   };
 
   useEffect(() => {
-    updatePrescriptionAddItem(responseObj);
+    prescriptionHeadID = Router.query.id;
+    ActivePatientID = Router.query.pid;
+
     if (ActivePatientID) {
       $("#frmPatientInfoBtnSubmit").click();
     }
     // window.onbeforeunload = function () {
     //   return 'Changes you made may not be saved';
     // }
-    // getEprscData();
+    getEprscData();
   }, [prescriptionHeadID]);
 
   useEffect(() => {
-    console.log("Presc list", PrescriptionItemsData);
+    console.log("PrescriptionItemsData", PrescriptionItemsData);
     $(".unsuccessfullSearch").hide();
   }, [PrescriptionItemsData]);
 
@@ -674,7 +673,6 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
                 <PrescriptionItems
                   data={PrescriptionItemsData}
                   SetPrescriptionItemsData={SetPrescriptionItemsData}
-                  count={count}
                   prescId={prescId}
                 />
               </div>

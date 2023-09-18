@@ -1,6 +1,6 @@
 import FeatherIcon from "feather-icons-react";
 
-const EditUserModal = ({ data, editUserInfo, eye, onEyeClick }) => {
+const EditUserModal = ({ data, editUserInfo }) => {
   return (
     <div
       className="modal fade contentmodal"

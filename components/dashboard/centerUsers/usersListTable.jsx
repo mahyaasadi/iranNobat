@@ -39,7 +39,7 @@ const UsersListTable = ({
       name: "وضعیت کاربر",
       selector: (row) => (row.Deactive == true ? "غیر فعال" : "فعال"),
       sortable: true,
-      width: "550px",
+      width: "500px",
     },
     {
       name: "عملیات ها",
@@ -81,9 +81,8 @@ const UsersListTable = ({
             </button>
           )}
 
-          <Link
+          <button
             className="btn btn-sm btn-outline-secondary"
-            href="#"
             data-bs-toggle="tooltip"
             data-bs-placement="top"
             title="ویرایش"
@@ -93,11 +92,10 @@ const UsersListTable = ({
               style={{ width: "16px", height: "16px" }}
               icon="edit-3"
             />
-          </Link>
+          </button>
 
-          <Link
+          <button
             className="btn btn-sm btn-outline-secondary btn-border-left"
-            href="#"
             data-bs-toggle="tooltip"
             data-bs-placement="top"
             title={"دسترسی گفتگو : " + row.FullName}
@@ -107,10 +105,9 @@ const UsersListTable = ({
               style={{ width: "16px", height: "16px" }}
               icon="message-circle"
             />
-          </Link>
-          <Link
+          </button>
+          <button
             className="btn btn-sm btn-outline-secondary btn-border-left"
-            href="#"
             data-bs-toggle="tooltip"
             data-bs-placement="top"
             title="نقش کاربر"
@@ -120,7 +117,7 @@ const UsersListTable = ({
               style={{ width: "16px", height: "16px" }}
               icon="unlock"
             />
-          </Link>
+          </button>
         </div>
       ),
       width: "150px",

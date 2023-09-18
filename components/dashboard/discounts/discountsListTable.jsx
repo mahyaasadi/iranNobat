@@ -18,7 +18,7 @@ const DiscountsListTable = ({ data, updateDiscount, deleteDiscount }) => {
       name: "مشخصات",
       selector: (row) => row.Des,
       sortable: true,
-      width: "350px",
+      width: "400px",
     },
     {
       name: "درصد تخفیف",
@@ -39,7 +39,7 @@ const DiscountsListTable = ({ data, updateDiscount, deleteDiscount }) => {
           )}
         </div>
       ),
-      width: "450px",
+      width: "420px",
     },
     {
       name: "عملیات ها",
@@ -75,7 +75,7 @@ const DiscountsListTable = ({ data, updateDiscount, deleteDiscount }) => {
           </Link>
         </div>
       ),
-      width: "200px",
+      width: "150px",
     },
   ];
 

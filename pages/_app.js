@@ -20,7 +20,11 @@ export default function MyApp({ Component, pageProps }) {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <DashboardLayout Menus={pageProps.Menus}>
+        <DashboardLayout
+          Menus={pageProps.Menus}
+          UserData={pageProps.UserData}
+          UserRoles={pageProps.UserRoles}
+        >
           <Component {...pageProps} />
         </DashboardLayout>
       </QueryClientProvider>

@@ -82,9 +82,10 @@ const Tariff = ({ Menus, UserData, UserRoles }) => {
 
   // get services
   const getServices = (DepID, PerFullName) => {
-    setIsLoading(true);
+    // $(".ServiceNav").removeClass("active");
     activeDepId = DepID;
     activeDepName = PerFullName;
+    setIsLoading(true);
 
     let url = `CenterServicessInfo/getByDepID/${CenterID}/${DepID}`;
 
@@ -92,9 +93,11 @@ const Tariff = ({ Menus, UserData, UserRoles }) => {
       .get(url)
       .then((response) => {
         console.log("services", response.data);
-        if (response.data.ServicesInfo.length > 0) {
+        if (response.data.error) {
+          console.log("error");
+          getDefaultServices(DepID, PerFullName);
+        } else {
           setServices(response.data.ServicesInfo);
-
           //srvGroupName Options
           let selectServiceGroup = [];
           for (let i = 0; i < response.data.GroupDetail.length; i++) {
@@ -106,11 +109,6 @@ const Tariff = ({ Menus, UserData, UserRoles }) => {
             selectServiceGroup.push(obj);
           }
           setSrvGroupList(selectServiceGroup);
-        } else if (
-          !response.data.ServiceInfo ||
-          response.data.ServicesInfo.length === 0
-        ) {
-          getDefaultServices(activeDepId, activeDepName);
         }
         setIsLoading(false);
       })
@@ -532,90 +530,96 @@ const Tariff = ({ Menus, UserData, UserRoles }) => {
       </Head>
 
       <div className="page-wrapper">
-        {isLoading ? (
-          <Loading />
-        ) : (
-          <div className="content container-fluid">
-            <TariffHeader data={departmentsData} getServices={getServices} />
+        <div className="content container-fluid">
+          <TariffHeader data={departmentsData} getServices={getServices} />
+          {isLoading ? (
+            <Loading />
+          ) : (
+            ((
+              <div className="tariff-btn-container">
+                <div className="media-md-w-100">
+                  <Link
+                    href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#addTariffModal"
+                    className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
+                  >
+                    <i className="me-1">
+                      <FeatherIcon icon="plus-square" />
+                    </i>{" "}
+                    سرویس جدید
+                  </Link>
+                </div>
 
-            <div className="tariff-btn-container">
-              <div className="media-md-w-100">
-                <Link
-                  href="#"
-                  data-bs-toggle="modal"
-                  data-bs-target="#addTariffModal"
-                  className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
-                >
-                  <i className="me-1">
-                    <FeatherIcon icon="plus-square" />
-                  </i>{" "}
-                  سرویس جدید
-                </Link>
+                <div className="media-md-w-100">
+                  <Link
+                    href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#tariffCalcModal"
+                    className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
+                  >
+                    <i className="me-1">
+                      <FeatherIcon icon="percent" />
+                    </i>{" "}
+                    اعمال محاسبات
+                  </Link>
+                </div>
+
+                <div className="media-md-w-100">
+                  <Link
+                    href="#"
+                    className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
+                    onClick={() =>
+                      getDefaultServices(activeDepId, activeDepName)
+                    }
+                  >
+                    <i className="me-1 ">
+                      <FeatherIcon icon="refresh-cw" />
+                    </i>{" "}
+                    بازگشت به تنظیمات مرکز
+                  </Link>
+                </div>
               </div>
-
-              <div className="media-md-w-100">
-                <Link
-                  href="#"
-                  data-bs-toggle="modal"
-                  data-bs-target="#tariffCalcModal"
-                  className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
-                >
-                  <i className="me-1">
-                    <FeatherIcon icon="percent" />
-                  </i>{" "}
-                  اعمال محاسبات
-                </Link>
-              </div>
-
-              <div className="media-md-w-100">
-                <Link
-                  href="#"
-                  className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
-                  onClick={() => getDefaultServices(activeDepId, activeDepName)}
-                >
-                  <i className="me-1 ">
-                    <FeatherIcon icon="refresh-cw" />
-                  </i>{" "}
-                  بازگشت به تنظیمات مرکز
-                </Link>
-              </div>
-            </div>
-
-            {/* <!--  services Table --> */}
-            <div className="row">
-              <div className="col-sm-12">
-                <div className="card">
-                  <div className="card-header border-bottom-0">
-                    <div className="row align-items-center">
-                      <div className="col">
-                        <h5 className="card-title font-16">لیست خدمات</h5>
-                      </div>
-                      <div className="col-auto d-flex flex-wrap">
-                        <div className="form-custom me-2">
-                          <div
-                            id="tableSearch"
-                            className="dataTables_wrapper"
-                          ></div>
+            ),
+            (
+              <div className="row">
+                <div className="col-sm-12">
+                  <div className="card">
+                    <div className="card-header border-bottom-0">
+                      <div className="row align-items-center">
+                        <div className="col">
+                          <h5 className="card-title font-16">لیست خدمات</h5>
+                        </div>
+                        <div className="col-auto d-flex flex-wrap">
+                          <div className="form-custom me-2">
+                            <div
+                              id="tableSearch"
+                              className="dataTables_wrapper"
+                            ></div>
+                          </div>
                         </div>
                       </div>
                     </div>
+
+                    <div className="col-sm-12 font-size-12">
+                      <TariffListTable
+                        data={services}
+                        updateService={updateService}
+                        deleteService={deleteService}
+                        SetLoeingModalData={SetLoeingModalData}
+                      />
+                    </div>
                   </div>
 
-                  <div className="col-sm-12 font-size-12">
-                    <TariffListTable
-                      data={services}
-                      updateService={updateService}
-                      deleteService={deleteService}
-                      SetLoeingModalData={SetLoeingModalData}
-                    />
-                  </div>
+                  <div
+                    id="tablepagination"
+                    className="dataTables_wrapper"
+                  ></div>
                 </div>
-
-                <div id="tablepagination" className="dataTables_wrapper"></div>
               </div>
-            </div>
-          </div>
-        )}
+            ))
+          )}
+        </div>
 
         <TariffCalcModal
           applyKCalculations={applyKCalculations}
