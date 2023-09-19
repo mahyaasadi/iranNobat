@@ -4429,7 +4429,9 @@ html.menu-opened body {
 .permissionCheckboxTile {
   position: relative;
   border-radius: 10px !important;
-  width: 25vw !important;
+  width: 23vw !important;
+  height: 5vh;
+  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9383,104 +9385,14 @@ ul li .active {
   }
 
   .permissionCheckboxTile {
-    width: 50vw !important;
+    width: 45vw !important;
+    height: 10vh;
   }
 }
 
-/* monthly schedule */
-
-/* .timeTable {
-  border: 1px solid lightgray;
-  border-radius: 30px;
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1), 0px 10px 20px rgba(0, 0, 0, 0.02),
-    0px 20px 20px rgba(0, 0, 0, 0.05), 0px 30px 20px rgba(0, 0, 0, 0.05);
-  overflow-x: auto;
-  width: 85%;
-}
-
-.timeTableHeader {
-  padding: 20px 15px;
-  font-weight: 200;
-  font-size: 15px;
-  color: #425b6b;
-}
-
-.cardBodyPadding {
-  padding: 3.5rem !important;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-} */
-
-/* .calendar-body {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-} */
-
-/* .cells {
-  border: 1px solid #a5bbc9;
-  padding: 3rem 3rem;
-  position: relative;
-} */
-
-/* .cells .scheduleFeatures {
-  visibility: hidden;
-}
-
-.cells:hover .scheduleFeatures {
-  visibility: visible;
-
-} */
-
-/* .cells:hover {
-  background-color: #c5d8e3;
-  color: #1b5a90;
-} */
-
-/* .scheduleFeatures {
-  display: none;
-  position: absolute;
-  top: 0px;
-  left: -3px;
-} */
-
-/* .noRightBorder {
-  border-right: none;
-}
-
-.noLeftBorder {
-  border-left: none;
-}
-
-.noBottomBorder {
-  border-bottom: none;
-}
-
-.monthContainer {
-  display: flex;
-  justify-content: center;
-  font-size: 22px;
-  font-weight: 600;
-  margin-bottom: 1rem;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-tr {
-  text-align: center;
-} */
-
-
-/*////////////// calendar /////////////*/
+/*    monthly schedule     */
 .calendarCard {
   overflow-x: auto;
-  /* overflow-y: auto; */
   max-width: 100%;
   width: 80%;
   display: flex;
@@ -9630,7 +9542,7 @@ tr {
   background-color: #1b5a90 !important;
 }
 
-/* ///// draggable permissions ////// */
+/*   draggable permissions   */
 .permissionCard {
   padding: 3rem !important;
   margin-bottom: 4rem;

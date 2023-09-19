@@ -1,23 +1,27 @@
 import { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import Head from "next/head";
-import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { resetServerContext } from "react-beautiful-dnd";
 import { axiosClient } from "class/axiosConfig.js";
 import Loading from "components/loading/loading";
 import { ErrorAlert, SuccessAlert, WarningAlert } from "class/AlertManage.js";
+import { getSession } from "lib/session";
 
-let CenterID = Cookies.get("CenterID");
+export const getServerSideProps = async ({ req, res }) => {
+  const { UserData, UserRoles } = await getSession(req);
+  console.log({ UserRoles, UserData });
 
-export const getStaticProps = async () => {
   const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
   const Menus = await data.json();
-  return { props: { Menus } };
+  return { props: { Menus, UserData, UserRoles } };
 };
 
-const Permissions = ({ Menus }) => {
+let CenterID = null;
+const Permissions = ({ Menus, UserData, UserRoles }) => {
+  CenterID = UserData.CenterID;
+
   resetServerContext();
   const Router = useRouter();
 
