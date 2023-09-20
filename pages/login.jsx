@@ -42,11 +42,11 @@ const Login = (req, res) => {
         const session = response.data;
         let rolesSession = await setSession(roles);
 
-        var in30Minutes = 1 / 24;
-        Cookies.set("roles", rolesSession, { expires: in30Minutes });
+        var in6Hours = 6 / 24;
+        Cookies.set("roles", rolesSession, { expires: in6Hours });
 
         let resSession = await setSession(session);
-        Cookies.set("session", resSession, { expires: in30Minutes });
+        Cookies.set("session", resSession, { expires: in6Hours });
         router.push("/dashboard");
       })
       .catch(function (error) {

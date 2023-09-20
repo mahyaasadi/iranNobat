@@ -11,14 +11,21 @@ import EditMessageModal from "components/dashboard/cannedMessages/editMessageMod
 import { getSession } from "lib/session";
 
 export const getServerSideProps = async ({ req, res }) => {
-  // userInfo
-  const { UserData, UserRoles } = await getSession(req);
-  console.log({ UserRoles, UserData });
+  const result = await getSession(req, res);
 
-  // menusList
-  const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
-  const Menus = await data.json();
-  return { props: { Menus, UserData, UserRoles } };
+  if (result) {
+    const { UserData, UserRoles } = result;
+    const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
+    const Menus = await data.json();
+    return { props: { Menus, UserData, UserRoles } };
+  } else {
+    return {
+      redirect: {
+        permanent: false,
+        destination: `/login`,
+      },
+    };
+  }
 };
 
 let CenterID = null;

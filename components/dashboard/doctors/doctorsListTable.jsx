@@ -13,19 +13,19 @@ const DoctorsListTable = ({ data, deletePhysician, updatePhysician }) => {
       name: "نام پزشک",
       selector: (row) => row.Name,
       sortable: true,
-      width: "auto",
+      width: "350px",
     },
     {
       name: "عنوان",
       selector: (row) => row.Title,
       sortable: true,
-      width: "auto",
+      width: "300px",
     },
     {
       name: "تخصص",
       selector: (row) => row.Spe,
       sortable: true,
-      width: "auto",
+      width: "600px",
     },
     {
       name: "عملیات ها",

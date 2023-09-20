@@ -39,7 +39,7 @@ const TariffListTable = ({
             ? row.Service.substr(0, 40) + " ..."
             : row.Service,
         sortable: true,
-        width: "300px",
+        width: "310px",
       },
       {
         name: "تعرفه دولتی",
@@ -69,14 +69,14 @@ const TariffListTable = ({
         selector: (row) =>
           row.PatientCost ? numberWithCommas(row.PatientCost) : "",
         sortable: true,
-        width: "190px",
+        width: "180px",
       },
       {
         name: "س . ب . ارتش",
         selector: (row) =>
           row.ArteshPatientCost ? numberWithCommas(row.ArteshPatientCost) : "",
         sortable: true,
-        width: "250px",
+        width: "180px",
       },
       {
         name: "عملیات ها",

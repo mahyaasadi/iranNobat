@@ -21,14 +21,21 @@ let activeDepId = null;
 let activeDepName = null;
 
 export const getServerSideProps = async ({ req, res }) => {
-  // userInfo
-  const { UserData, UserRoles } = await getSession(req);
-  console.log({ UserRoles, UserData });
+  const result = await getSession(req, res);
 
-  // menusList
-  const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
-  const Menus = await data.json();
-  return { props: { Menus, UserData, UserRoles } };
+  if (result) {
+    const { UserData, UserRoles } = result;
+    const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
+    const Menus = await data.json();
+    return { props: { Menus, UserData, UserRoles } };
+  } else {
+    return {
+      redirect: {
+        permanent: false,
+        destination: `/login`,
+      },
+    };
+  }
 };
 
 let CenterID = null;
@@ -368,80 +375,80 @@ const ServiceGroupDetails = ({ Menus, UserData, UserRoles }) => {
       </Head>
 
       <div className="page-wrapper">
-        {isLoading ? (
+        {/* {isLoading ? (
           <Loading />
-        ) : (
-          <div className="content container-fluid">
-            <TariffHeader data={departmentsData} getServices={getServices} />
+        ) : ( */}
+        <div className="content container-fluid">
+          <TariffHeader data={departmentsData} getServices={getServices} />
 
-            <div className="tariff-btn-container">
-              <div className="media-md-w-100 d-flex gap-2">
-                <Link
-                  href="#"
-                  data-bs-toggle="modal"
-                  data-bs-target="#addSrvGroupModal"
-                  className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
-                >
-                  <i className="me-1">
-                    <FeatherIcon icon="plus-square" />
-                  </i>{" "}
-                  گروه جدید
-                </Link>
-              </div>
+          <div className="tariff-btn-container">
+            <div className="media-md-w-100 d-flex gap-2">
+              <Link
+                href="#"
+                data-bs-toggle="modal"
+                data-bs-target="#addSrvGroupModal"
+                className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
+              >
+                <i className="me-1">
+                  <FeatherIcon icon="plus-square" />
+                </i>{" "}
+                گروه جدید
+              </Link>
             </div>
+          </div>
 
-            {/* <!--  services Table --> */}
-            <div className="row">
-              <div className="col-sm-12">
-                <div className="card">
-                  <div className="card-header border-bottom-0">
-                    <div className="row align-items-center">
-                      <div className="col marginb-1">
-                        <p className="card-title font-16">لیست گروه ها</p>
+          {/* <!--  services Table --> */}
+          <div className="row">
+            <div className="col-sm-12">
+              <div className="card">
+                <div className="card-header border-bottom-0">
+                  <div className="row align-items-center">
+                    <div className="col marginb-1">
+                      <p className="card-title font-16">لیست گروه ها</p>
+                    </div>
+                  </div>
+
+                  <div className="flex-col">
+                    <div className="col-sm-12">
+                      <ServiceGroupListTable
+                        data={groupDetail}
+                        updateGroup={updateGroup}
+                        deleteSrvGroup={deleteSrvGroup}
+                      />
+                    </div>
+                    <div className="col d-flex justify-between align-items-center margint-5 marginb-1 media-srvHeader">
+                      <p className="card-title font-16">لیست خدمات</p>
+                      <div className="media-md-w-100">
+                        <Link
+                          href="#"
+                          data-bs-toggle="modal"
+                          data-bs-target="#addTariffModal"
+                          className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
+                        >
+                          <i className="me-1">
+                            <FeatherIcon icon="plus-square" />
+                          </i>{" "}
+                          سرویس جدید
+                        </Link>
                       </div>
                     </div>
 
-                    <div className="flex-col">
-                      <div className="col-sm-12">
-                        <ServiceGroupListTable
-                          data={groupDetail}
-                          updateGroup={updateGroup}
-                          deleteSrvGroup={deleteSrvGroup}
-                        />
-                      </div>
-                      <div className="col d-flex justify-between align-items-center margint-5 marginb-1 media-srvHeader">
-                        <p className="card-title font-16">لیست خدمات</p>
-                        <div className="media-md-w-100">
-                          <Link
-                            href="#"
-                            data-bs-toggle="modal"
-                            data-bs-target="#addTariffModal"
-                            className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
-                          >
-                            <i className="me-1">
-                              <FeatherIcon icon="plus-square" />
-                            </i>{" "}
-                            سرویس جدید
-                          </Link>
-                        </div>
-                      </div>
-
-                      <div className="col-sm-12">
-                        <TariffListTable
-                          data={services}
-                          updateServiceGroup={updateServiceGroup}
-                          deleteService={deleteService}
-                        />
-                      </div>
+                    <div className="col-sm-12">
+                      <TariffListTable
+                        data={services}
+                        updateServiceGroup={updateServiceGroup}
+                        deleteService={deleteService}
+                      />
                     </div>
                   </div>
                 </div>
-
-                <div id="tablepagination" className="dataTables_wrapper"></div>
               </div>
+
+              <div id="tablepagination" className="dataTables_wrapper"></div>
             </div>
           </div>
-        )}
+        </div>
+        {/* )} */}
 
         <AddTariffModal
           addService={addService}

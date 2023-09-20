@@ -5,6 +5,7 @@ import Loading from "components/loading/Loading";
 import DatePicker from "components/commonComponents/datepicker/DatePicker";
 import PrescriptionsListTable from "components/dashboard/prescription/prescriptionHistory/prescriptionsListTable";
 import { getSession } from "lib/session";
+import { ErrorAlert } from "class/AlertManage";
 
 let dateFrom,
   dateTo,

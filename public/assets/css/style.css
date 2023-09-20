@@ -9590,6 +9590,14 @@ ul li .active {
   margin-top: 7rem;
 }
 
+.subMenuOpen {
+  display: block;
+}
+
+.ServiceNav {
+  cursor: pointer;
+}
+
 /* srcollbar */
 @media (max-width: 1200px) {
   .nav-tabs-scroll {

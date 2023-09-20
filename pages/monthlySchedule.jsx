@@ -11,13 +11,25 @@ import ShiftDetailsModal from "components/dashboard/monthlySchedule/shiftDetails
 import AddShiftModal from "components/dashboard/monthlySchedule/addShiftModal";
 import CopyShiftModal from "components/dashboard/monthlySchedule/copyShiftModal";
 
-export const getStaticProps = async () => {
-  const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
-  const Menus = await data.json();
-  return { props: { Menus } };
+export const getServerSideProps = async ({ req, res }) => {
+  const result = await getSession(req, res);
+
+  if (result) {
+    const { UserData, UserRoles } = result;
+    const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
+    const Menus = await data.json();
+    return { props: { Menus, UserData, UserRoles } };
+  } else {
+    return {
+      redirect: {
+        permanent: false,
+        destination: `/login`,
+      },
+    };
+  }
 };
 
-const MonthlySchedule = ({ Menus }) => {
+const MonthlySchedule = ({ Menus, UserData, UserRoles }) => {
   const dateObject = new DateObject();
   const toDateObject = (day) => new DateObject(dateObject).setDay(day);
 
