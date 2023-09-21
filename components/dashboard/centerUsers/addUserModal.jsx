@@ -7,7 +7,6 @@ const AddUserModal = ({
   password,
   handlePassword,
 }) => {
-
   // user password validation
   const validatePassword = (e) => {
     e.preventDefault();
@@ -92,7 +91,7 @@ const AddUserModal = ({
             <form onSubmit={addUser} id="addUserFrm">
               <div className="form-group">
                 <label className="lblAbs font-12">
-                  نام و نام خانوادگی<span className="text-danger">*</span>
+                  نام و نام خانوادگی <span className="text-danger">*</span>
                 </label>
                 <div className="col p-0">
                   <input
@@ -144,7 +143,7 @@ const AddUserModal = ({
 
               <div className="form-group">
                 <label className="lblAbs font-12">
-                  شماره موبایل<span className="text-danger">*</span>
+                  شماره موبایل <span className="text-danger">*</span>
                 </label>
                 <div className="col p-0">
                   <input

@@ -136,7 +136,7 @@ const Header = ({ UserData }) => {
               <a className="dropdown-item" href="profile.html">
                 پروفایل من
               </a>
-              <a className="dropdown-item" href="settings.html">
+              <a className="dropdown-item" href="/profileSettings">
                 تنظیمات
               </a>
               <a className="dropdown-item" href="login.html">

@@ -142,9 +142,11 @@ const Permissions = ({ Menus, UserData, UserRoles }) => {
 
   // get selected Role
   const getSelectedRole = () => {
+    setIsLoading(true);
+
     let roleID = Router.query.id;
     let url = `Roles/getOne/${roleID}`;
-    setIsLoading(true);
+
     if (roleID) {
       axiosClient
         .get(url)
@@ -154,7 +156,6 @@ const Permissions = ({ Menus, UserData, UserRoles }) => {
 
           for (let i = 0; i < response.data.PermisionsID.length; i++) {
             const item = response.data.PermisionsID[i];
-
             let accessObj = {
               id: item.PermisionID._id,
               name: item.PermisionID.Name,
@@ -164,7 +165,6 @@ const Permissions = ({ Menus, UserData, UserRoles }) => {
             permissionItems.push(accessObj);
             setItems(permissionItems);
           }
-
           setIsLoading(false);
         })
         .catch((error) => {
@@ -212,6 +212,7 @@ const Permissions = ({ Menus, UserData, UserRoles }) => {
 
   const changeRolePermission = (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     let roleID = Router.query.id;
     let url = `Roles/changeRolesPermisions/${roleID}`;
@@ -225,7 +226,6 @@ const Permissions = ({ Menus, UserData, UserRoles }) => {
       PermisionsID: PermisionsID,
     };
 
-    setIsLoading(true);
     console.log("data", data);
 
     axiosClient
