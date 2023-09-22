@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const PasswordSettings = ({ newPassword, handleNewPassword }) => {
+const PasswordSettings = ({ newPassword, handleNewPassword, editUserPassword, userInfo }) => {
   const [eye, setEye] = useState(true);
   const onEyeClick = () => setEye(!eye);
 
@@ -31,16 +31,36 @@ const PasswordSettings = ({ newPassword, handleNewPassword }) => {
       $("#submitNewPasswordBtn").attr("disabled", false);
     }
   };
+
+  const handleCancelBtn = () => {
+    let passValue = $("#newPassword").val();
+    let confpassValue = $("#confirmNewPassword").val();
+    let currentPassword = $("#currentPassword")
+
+    passValue = null;
+    currentPassword = null;
+    confpassValue = null;
+  }
+
   return (
     <>
-      <div className="col-xl-6 col-12">
-        <div className="card">
-          <div className="card-body pt-0">
+      {/* <div className="card w-75 p-4"> */}
+      {/* <div className="card-body"> */}
+      <div className="d-flex justify-center">
+        <div className="card w-75 p-4">
+          <div className="card-body">
             <div className="card-header">
               <p className="font-16 fw-bold text-secondary">تغییر رمز عبور</p>
             </div>
-            <form id="passwordSettingsFrm">
+            <form id="passwordSettingsFrm" onSubmit={editUserPassword}>
               <div className="form-group mt-4">
+                <input
+                  type="hidden"
+                  className="form-control floating"
+                  name="userId"
+                  value={userInfo._id}
+                />
+
                 <label className="lblAbs font-12">
                   رمز عبور فعلی <span className="text-danger">*</span>
                 </label>
@@ -51,13 +71,12 @@ const PasswordSettings = ({ newPassword, handleNewPassword }) => {
                     id="currentPassword"
                     className="form-control floating inputPadding rounded"
                     required
-                    // defaultValue={panelData.Password}
+                  // defaultValue={panelData.Password}
                   />
                   <span
                     onClick={onEyeClick}
-                    className={`fa toggle-password" ${
-                      eye ? "fa-eye-slash" : "fa-eye"
-                    }`}
+                    className={`fa toggle-password-current" ${eye ? "fa-eye-slash" : "fa-eye"
+                      }`}
                   />
                 </div>
 
@@ -76,13 +95,12 @@ const PasswordSettings = ({ newPassword, handleNewPassword }) => {
                       autoComplete="false"
                       onBlur={validatePassword}
                       required
-                      // defaultValue={panelData.Password}
+                    // defaultValue={panelData.Password}
                     />
                     <span
                       onClick={onEyeClick}
-                      className={`fa toggle-password" ${
-                        eye ? "fa-eye-slash" : "fa-eye"
-                      }`}
+                      className={`fa toggle-password-newPass" ${eye ? "fa-eye-slash" : "fa-eye"
+                        }`}
                     />
                   </div>
                 </div>
@@ -103,13 +121,18 @@ const PasswordSettings = ({ newPassword, handleNewPassword }) => {
                   </label>
                   <div className="col p-0">
                     <input
-                      type="text"
+                      type={eye ? "password" : "text"}
                       name="confirmNewPassword"
                       id="confirmNewPassword"
                       className="form-control floating inputPadding rounded"
                       autoComplete="false"
                       onBlur={validatePassword}
                       required
+                    />
+                    <span
+                      onClick={onEyeClick}
+                      className={`fa toggle-password-confPass" ${eye ? "fa-eye-slash" : "fa-eye"
+                        }`}
                     />
                   </div>
                 </div>
@@ -135,6 +158,7 @@ const PasswordSettings = ({ newPassword, handleNewPassword }) => {
                     type="submit"
                     className="btn btn-outline-dark rounded btn-save font-13"
                     id="cancelNewPasswordBtn"
+                    onClick={handleCancelBtn}
                   >
                     انصراف
                   </button>
@@ -142,6 +166,9 @@ const PasswordSettings = ({ newPassword, handleNewPassword }) => {
               </div>
             </form>
           </div>
+          {/* </div> */}
+          {/* </div> */}
+
         </div>
       </div>
     </>

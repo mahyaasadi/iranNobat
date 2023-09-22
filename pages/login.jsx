@@ -7,7 +7,7 @@ import { useForm, Controller } from "react-hook-form";
 import { axiosClient } from "class/axiosConfig.js";
 import { ErrorAlert } from "class/AlertManage.js";
 import { setSession } from "@/lib/SessionMange";
-import { logo } from "components/imagePath";
+import { logo } from "components/imagepath";
 import Loading from "components/loading/loading";
 import "public/assets/css/bootstrap.min.css";
 import "public/assets/css/feather.css";
@@ -115,9 +115,8 @@ const Login = (req, res) => {
                             />
                             <span
                               onClick={onEyeClick}
-                              className={`fa toggle-password" ${
-                                eye ? "fa-eye-slash" : "fa-eye"
-                              }`}
+                              className={`fa toggle-password" ${eye ? "fa-eye-slash" : "fa-eye"
+                                }`}
                             />
                           </div>
                         )}

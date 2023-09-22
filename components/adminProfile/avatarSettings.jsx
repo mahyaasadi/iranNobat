@@ -1,22 +1,114 @@
+import React, { useState, useRef, useEffect } from 'react';
+import Cropper from 'cropperjs';
+import 'cropperjs/dist/cropper.css';
 import Link from "next/link";
 import FeatherIcon from "feather-icons-react";
 
-const AvatarSettings = ({ UserData }) => {
+// let cropper;
+const AvatarSettings = ({ UserData, changeUserAvatar, isLoading }) => {
+  const [avatarSrc, setAvatarSrc] = useState(UserData.Avatar);
+  const [cropper, setCropper] = useState(null);
+  const imageElement = useRef(null);
+
+  const displayNewAvatar = (e) => {
+    if (e.target.files.length !== 0) {
+      var urlCreator = window.URL || window.webkitURL;
+      var imageUrl = urlCreator.createObjectURL(e.target.files[0]);
+      setAvatarSrc(imageUrl);
+    }
+  };
+
+  // useEffect(() => {
+  //   console.log("ooo");
+  //   if (avatarSrc !== UserData.Avatar && imageElement.current) {
+  //     if (cropper) {
+  //       cropper.destroy();
+  //     }
+
+  //     cropper = new Cropper(imageElement.current, {
+  //       aspectRatio: 1,
+  //     });
+  //   }
+
+  //   // return () => {
+  //   //   if (cropper) {
+  //   //     cropper.destroy();
+  //   //   }
+  //   // };
+  // }, [avatarSrc, UserData.Avatar]);
+
+  useEffect(() => {
+    console.log('avatarSrc:', avatarSrc);
+    console.log('imageElement.current:', imageElement.current);
+    if (avatarSrc !== UserData.Avatar && imageElement.current) {
+      if (cropper) {
+        cropper.destroy();
+      }
+
+      const newCropper = new Cropper(imageElement.current, {
+        aspectRatio: 1,
+      });
+
+      setCropper(newCropper);
+    }
+
+    return () => {
+      if (cropper) {
+        cropper.destroy();
+        setCropper(null);
+      }
+    };
+  }, [avatarSrc]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    console.log({ cropper });
+    if (cropper) {
+      const croppedCanvas = cropper.getCroppedCanvas();
+
+      if (!croppedCanvas) {
+        return;
+      }
+
+      croppedCanvas.toBlob(async (blob) => {
+
+        console.log({ blob });
+        let formData = new FormData();
+        formData.append('editUserAvatar', blob);
+        formData.append('userId', UserData._id);
+
+        await changeUserAvatar(formData);
+      });
+    }
+
+    console.log("hii");
+  };
+
   return (
     <>
       <div className="col-xl-6 col-12">
         <div className="card">
-          <div className="card-body pt-0">
+          <div className="card-body p-4">
             <div className="card-header">
               <p className="font-16 fw-bold text-secondary">تغییر آواتار</p>
             </div>
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="settings-form">
                 <p className="font-12 lblAbs">آواتار فعلی</p>
                 <div className="upload-images">
+                  <input
+                    type="hidden"
+                    className="form-control floating"
+                    name="userId"
+                    value={UserData._id}
+                  />
+
                   <img
-                    src={UserData.Avatar}
+                    src={avatarSrc}
+                    ref={imageElement}
                     alt="Image"
+                    id="currentAvatar"
                     style={{
                       width: "fit-content",
                       height: "fit-content",
@@ -28,6 +120,7 @@ const AvatarSettings = ({ UserData }) => {
                     </i>
                   </Link>
                 </div>
+
                 <div className="form-group">
                   <div className="change-photo-btn mt-4">
                     <div>
@@ -39,8 +132,8 @@ const AvatarSettings = ({ UserData }) => {
                     <input
                       type="file"
                       className="upload"
-                      name="img"
-                      // onChange={displayNewAvatar}
+                      name="editUserAvatar"
+                      onChange={displayNewAvatar}
                       required
                     />
                   </div>
