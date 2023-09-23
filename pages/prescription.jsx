@@ -439,17 +439,15 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
       if (prescData) {
         addPrescriptionitems.push(prescData);
         // console.log({ addPrescriptionitems });
-        // console.log({ prescItems });
+        // SetPrescriptionItemsData([...PrescriptionItemsData, prescItems]);
+        SetPrescriptionItemsData(addPrescriptionitems);
         ActiveSearch();
         $("#QtyInput").val("1");
         SelectedAmount = null;
         SelectedInstruction = null;
       }
     });
-    // SetPrescriptionItemsData([...PrescriptionItemsData, prescItems]);
-    SetPrescriptionItemsData(addPrescriptionitems);
   };
-  // console.log("PrescriptionItemsData in updateFunc", PrescriptionItemsData);
 
   // only Visit
   const registerEpresc = (visit) => {
