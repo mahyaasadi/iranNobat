@@ -1,11 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react';
-import Cropper from 'cropperjs';
-import 'cropperjs/dist/cropper.css';
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import FeatherIcon from "feather-icons-react";
+import Cropper from "cropperjs";
+import "cropperjs/dist/cropper.css";
 
-// let cropper;
 const AvatarSettings = ({ UserData, changeUserAvatar, isLoading }) => {
+  const router = useRouter();
+
   const [avatarSrc, setAvatarSrc] = useState(UserData.Avatar);
   const [cropper, setCropper] = useState(null);
   const imageElement = useRef(null);
@@ -18,28 +20,7 @@ const AvatarSettings = ({ UserData, changeUserAvatar, isLoading }) => {
     }
   };
 
-  // useEffect(() => {
-  //   console.log("ooo");
-  //   if (avatarSrc !== UserData.Avatar && imageElement.current) {
-  //     if (cropper) {
-  //       cropper.destroy();
-  //     }
-
-  //     cropper = new Cropper(imageElement.current, {
-  //       aspectRatio: 1,
-  //     });
-  //   }
-
-  //   // return () => {
-  //   //   if (cropper) {
-  //   //     cropper.destroy();
-  //   //   }
-  //   // };
-  // }, [avatarSrc, UserData.Avatar]);
-
   useEffect(() => {
-    console.log('avatarSrc:', avatarSrc);
-    console.log('imageElement.current:', imageElement.current);
     if (avatarSrc !== UserData.Avatar && imageElement.current) {
       if (cropper) {
         cropper.destroy();
@@ -63,26 +44,25 @@ const AvatarSettings = ({ UserData, changeUserAvatar, isLoading }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log({ cropper });
     if (cropper) {
       const croppedCanvas = cropper.getCroppedCanvas();
 
       if (!croppedCanvas) {
         return;
       }
-
       croppedCanvas.toBlob(async (blob) => {
-
-        console.log({ blob });
         let formData = new FormData();
-        formData.append('editUserAvatar', blob);
-        formData.append('userId', UserData._id);
+        formData.append("editUserAvatar", blob);
+        formData.append("userId", UserData._id);
 
         await changeUserAvatar(formData);
       });
     }
+  };
 
-    console.log("hii");
+  const handleCancelBtn = (e) => {
+    e.preventDefault();
+    router.push("/profile");
   };
 
   return (
@@ -109,10 +89,7 @@ const AvatarSettings = ({ UserData, changeUserAvatar, isLoading }) => {
                     ref={imageElement}
                     alt="Image"
                     id="currentAvatar"
-                    style={{
-                      width: "fit-content",
-                      height: "fit-content",
-                    }}
+                    className="profileSettingsImg"
                   />
                   <Link href="#" className="btn-icon logo-hide-btn">
                     <i>
@@ -134,26 +111,42 @@ const AvatarSettings = ({ UserData, changeUserAvatar, isLoading }) => {
                       className="upload"
                       name="editUserAvatar"
                       onChange={displayNewAvatar}
-                      required
+                      // required
                     />
                   </div>
                 </div>
 
-                <div className="d-flex gap-1 justify-center margin-top-2 media-flex-column">
-                  <button
-                    type="submit"
-                    className="btn btn-primary rounded btn-save font-13"
-                    id="submitUserBtn"
-                  >
-                    ثبت
-                  </button>
-                  <button
-                    type="submit"
-                    className="btn btn-outline-dark rounded btn-save font-13"
-                    id="submitUserBtn"
+                <div className="d-flex gap-1 justify-center margin-top-3 media-flex-column">
+                  {!isLoading ? (
+                    <button
+                      type="submit"
+                      className="btn btn-primary rounded profileSettingsBtn font-13"
+                      id="submitUserBtn"
+                    >
+                      ثبت
+                    </button>
+                  ) : (
+                    <button
+                      type="submit"
+                      className="btn btn-primary rounded d-flex profileSettingsBtn justify-center align-items-center"
+                      disabled
+                    >
+                      <span
+                        className="spinner-border spinner-border-sm me-2"
+                        role="status"
+                      ></span>
+                      <span className="font-13">در حال ثبت</span>
+                    </button>
+                  )}
+                  <Link
+                    type="button"
+                    href="/profileSettings"
+                    className="btn btn-outline-dark rounded profileSettingsBtn font-13"
+                    id="cancelAvatarEdit"
+                    onClick={handleCancelBtn}
                   >
                     انصراف
-                  </button>
+                  </Link>
                 </div>
               </div>
             </form>

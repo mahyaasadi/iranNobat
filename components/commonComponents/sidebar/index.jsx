@@ -17,8 +17,8 @@ const Sidebar = ({ Menus, UserData, UserRoles }) => {
 
   const UserPer = extractPermissionIds(UserRoles.PermisionsID);
 
-  console.log({ UserPer });
-  console.log({ Menus });
+  // console.log({ UserPer });
+  // console.log({ Menus });
 
   // const [activeSubMenu, setActiveSubMenu] = useState(null);
 
@@ -89,7 +89,7 @@ const Sidebar = ({ Menus, UserData, UserRoles }) => {
                                   //   : "hidden"
                                   router.pathname == sub.Url ? "active" : ""
                                 }`}
-                                key={index}
+                                key={sub._id}
                               >
                                 <Link href={sub.Url} className="font-12">
                                   {sub.Name}

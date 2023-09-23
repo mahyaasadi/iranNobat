@@ -4,13 +4,14 @@ import Cookies from "js-cookie";
 import Select from "react-select";
 import SelectField from "components/commonComponents/selectfield";
 import FeatherIcon from "feather-icons-react";
+import selectfieldColourStyles from "class/selectfieldStyle";
 
 let CenterID = Cookies.get("CenterID");
 
 const ChangeInsuranceTypeModal = ({
   changeInsuranceType,
   selectInsuranceType,
-  data
+  data,
 }) => {
   const [insuranceOptionsList, setInsuranceOptionsList] = useState([]);
 
@@ -21,7 +22,6 @@ const ChangeInsuranceTypeModal = ({
     axiosClient
       .get(url)
       .then((response) => {
-        // console.log(response.data);
         let selectData = [];
         for (let i = 0; i < response.data.length; i++) {
           const sel = response.data[i];
@@ -31,7 +31,6 @@ const ChangeInsuranceTypeModal = ({
           };
           selectData.push(obj);
         }
-        // console.log(selectData);
         setInsuranceOptionsList(selectData);
       })
       .catch((error) => console.log(error));
@@ -40,16 +39,6 @@ const ChangeInsuranceTypeModal = ({
   useEffect(() => {
     getInsuranceList();
   }, []);
-
-   const colourStyles = {
-    menu: (provided) => ({ ...provided, zIndex: 9999 }),
-    control: (styles) => ({
-      ...styles,
-      minHeight: 43,
-      borderRadius: 20,
-      border: "1px solid #E6E9F4",
-    }),
-  };
 
   return (
     <>
@@ -63,7 +52,7 @@ const ChangeInsuranceTypeModal = ({
           <div className="modal-content">
             <div className="modal-header">
               <p className="mb-0 text-secondary font-14 fw-bold">
-               تغییر نوع بیمه
+                تغییر نوع بیمه
               </p>
               <button
                 type="button"
@@ -86,8 +75,8 @@ const ChangeInsuranceTypeModal = ({
                     value={data.NationalID}
                   />
                   <Select
-                    className="mt-3"
-                    styles={colourStyles}
+                    className="mt-3 text-center"
+                    styles={selectfieldColourStyles}
                     options={insuranceOptionsList}
                     required
                     name="insuranceTypeOptions"
@@ -99,7 +88,10 @@ const ChangeInsuranceTypeModal = ({
                 </div>
 
                 <div className="submit-section">
-                  <button type="submit" className="btn btn-primary btn-save rounded">
+                  <button
+                    type="submit"
+                    className="btn btn-primary btn-save rounded"
+                  >
                     ثبت تغییرات
                   </button>
                 </div>

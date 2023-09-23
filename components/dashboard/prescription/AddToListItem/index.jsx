@@ -1,45 +1,35 @@
-const AddToListItem = ({
-  SrvName,
-  SrvCode,
-  Img,
-  SrvTypeDes,
-  SrvQty,
-  TimesADay,
-  DrugInstruction,
-  SetPrescriptionItemsData,
-  data,
-  prescId,
-}) => {
-  console.log("addedItems", data);
-  let count = null;
-  let Drug = null;
-  if (TimesADay) {
+import Image from "next/image";
+
+let count,
+  Drug = null;
+const AddToListItem = ({ data, SetPrescriptionItemsData, srv }) => {
+  if (srv.TimesADay) {
     Drug = (
       <>
-        <div className="srvTypeInfo">تعداد مصرف در روز : {TimesADay}</div>
-        <div className="srvTypeInfo">دستور مصرف : {DrugInstruction}</div>
+        <div className="srvTypeInfo">تعداد مصرف در روز : {srv.TimesADay}</div>
+        <div className="srvTypeInfo">دستور مصرف : {srv.DrugInstruction}</div>
       </>
     );
   } else {
     <div></div>;
   }
 
-  //Delete Service from prescItems
-  const DeleteService = (id, prescId) => {
-    SetPrescriptionItemsData(data.filter((a) => a.SrvCode !== id));
+  // Delete Service from prescItems
+  // const DeleteService = (id, prescId) => {
+  //   SetPrescriptionItemsData(data.filter((a) => a.SrvCode !== id));
 
-    count = $("#srvItemCountId" + prescId).html();
-    if (count == "") {
-      count = 0;
-    }
-    count = parseInt(count);
-    count--;
-    $("#srvItemCountId" + prescId).html(count);
+  //   count = $("#srvItemCountId" + prescId).html();
+  //   if (count == "") {
+  //     count = 0;
+  //   }
+  //   count = parseInt(count);
+  //   count--;
+  //   $("#srvItemCountId" + prescId).html(count);
 
-    // if (count === 0) {
-    //   $("#srvItemCountId" + prescId).hide();
-    // }
-  };
+  //   // if (count === 0) {
+  //   //   $("#srvItemCountId" + prescId).hide();
+  //   // }
+  // };
 
   return (
     <>
@@ -48,18 +38,27 @@ const AddToListItem = ({
           <div className="card-body">
             <div className="row">
               <div className="col-auto">
-                <img src={Img} height="30" />
+                {srv.Img ? (
+                  <Image
+                    src={srv.Img}
+                    alt="serviceIcon"
+                    width="30"
+                    height="30"
+                  />
+                ) : (
+                  ""
+                )}
               </div>
               <div className="row col">
                 <div className="col d-flex gap-2 marginb-1 font-13">
-                  <p>{SrvCode}</p>
+                  <p>{srv.SrvCode}</p>
                   <p>|</p>
-                  <p>{SrvName}</p>
+                  <p>{srv.SrvName}</p>
                 </div>
                 <hr />
                 <div className="d-flex gap-2 mt-2 flex-wrap">
-                  <div className="srvTypeInfo">نوع نسخه : {SrvTypeDes}</div>
-                  <div className="srvTypeInfo">تعداد : {SrvQty}</div>
+                  <div className="srvTypeInfo">نوع نسخه : {srv.PrescType}</div>
+                  <div className="srvTypeInfo">تعداد : {srv.Qty}</div>
                   {Drug}
                 </div>
               </div>
@@ -74,7 +73,7 @@ const AddToListItem = ({
                 <button
                   type="button"
                   className="btn btn-outline-danger"
-                  onClick={() => DeleteService(SrvCode, prescId)}
+                  onClick={() => DeleteService(srv.SrvCode, srv.prescId)}
                 >
                   <i className="fe fe-trash"></i>
                 </button>
@@ -86,4 +85,5 @@ const AddToListItem = ({
     </>
   );
 };
+
 export default AddToListItem;

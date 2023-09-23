@@ -48,7 +48,7 @@ export const getServerSideProps = async ({ req, res }) => {
     return {
       redirect: {
         permanent: false,
-        destination: `/login`,
+        destination: `/`,
       },
     };
   }
@@ -56,10 +56,8 @@ export const getServerSideProps = async ({ req, res }) => {
 
 let CenterID = null;
 const Prescription = ({ Menus, UserData, UserRoles }) => {
-  CenterID = UserData.CenterID;
-
   const Router = useRouter();
-  // ActivePatientID = Router.query.pid;
+  CenterID = UserData.CenterID;
 
   const [isLoading, setIsLoading] = useState(true);
   const [patientsInfo, setPatientsInfo] = useState([]);
@@ -210,12 +208,10 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
       NID: formProps.patientNID,
     };
 
-    console.log(data);
-
     axiosClient
       .post(url, data)
       .then((response) => {
-        console.log("changeInsurance", response.data);
+        // console.log("changeInsurance", response.data);
         if (response.data.isCovered) {
           SuccessAlert("موفق", "!تغییر نوع بیمه با موفقیت انجام شد");
         } else if (response.data.isCovered !== "true") {
@@ -253,8 +249,9 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
             $(".unsuccessfullSearch").show();
           }
         })
-        .catch(function (response) {
-          console.log(response);
+        .catch((err) => {
+          console.log(err);
+          setIsLoading(false);
         });
     }
   };
@@ -351,7 +348,7 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
         //   return false;
         // }
 
-        // count badge //
+        // count badge
         count = $("#srvItemCountId" + prescId).html();
         if (count == "") {
           count = 0;
@@ -406,6 +403,7 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
   };
 
   const updatePrescriptionAddItem = async (obj) => {
+    let arr = [];
     obj.data.map(async (presc) => {
       let drugAmntId = presc.drugAmntId;
       let drugAmntLbl = selectAmountArray.find((o) => o.value === drugAmntId);
@@ -440,19 +438,22 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
 
       if (prescData) {
         addPrescriptionitems.push(prescData);
-        SetPrescriptionItemsData([...PrescriptionItemsData, prescItems]);
+        // console.log({ addPrescriptionitems });
+        // console.log({ prescItems });
         ActiveSearch();
         $("#QtyInput").val("1");
         SelectedAmount = null;
         SelectedInstruction = null;
       }
     });
+    // SetPrescriptionItemsData([...PrescriptionItemsData, prescItems]);
+    SetPrescriptionItemsData(addPrescriptionitems);
   };
+  // console.log("PrescriptionItemsData in updateFunc", PrescriptionItemsData);
 
   // only Visit
   const registerEpresc = (visit) => {
     if (visit === 1) {
-      console.log("visit");
       let url = "TaminEprsc/PrescriptionAdd";
       let Data = {
         CenterID,
@@ -468,7 +469,6 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
       axiosClient
         .post(url, Data)
         .then(function (response) {
-          console.log(response.data);
           if (response.data.res.trackingCode !== null) {
             SuccessAlert(
               "ویزیت با موفقیت ثبت شد!",
@@ -501,7 +501,7 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
       axiosClient
         .post(url, Data)
         .then(function (response) {
-          console.log(response.data);
+          // console.log(response.data);
           if (response.data.res.trackingCode !== null) {
             SuccessAlert(
               "نسخه نهایی با موفقیت ثبت شد!",
@@ -612,6 +612,7 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
       axiosClient
         .post(url, data)
         .then((response) => {
+          console.log(response.data);
           updatePrescriptionAddItem(response.data);
         })
         .catch((error) => console.log(error));
@@ -632,7 +633,7 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
   }, [prescriptionHeadID]);
 
   useEffect(() => {
-    console.log("PrescriptionItemsData", PrescriptionItemsData);
+    // console.log("PrescriptionItemsData", PrescriptionItemsData);
     $(".unsuccessfullSearch").hide();
   }, [PrescriptionItemsData]);
 
@@ -674,6 +675,7 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
                 FUSelectInstructionArray={FUSelectInstructionArray}
                 handleOnFocus={handleOnFocus}
                 handleOnBlur={handleOnBlur}
+                isLoading={isLoading}
               />
 
               <div className="prescList">

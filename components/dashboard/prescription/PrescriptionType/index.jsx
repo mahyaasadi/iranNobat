@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const PrescriptionType = ({ img, name, active, id, changePrescId }) => {
   const Select = () => {
     $(".prescService").hide();
@@ -52,7 +54,7 @@ const PrescriptionType = ({ img, name, active, id, changePrescId }) => {
           data-bs-toggle="tab"
           onClick={Select}
         >
-          <img src={img} height="20" /> &nbsp;
+          <Image src={img} alt="prescTypeIcon" height="20" width="20" /> &nbsp;
           {name}{" "}
           <span
             className="badge badge-primary"
@@ -65,3 +67,4 @@ const PrescriptionType = ({ img, name, active, id, changePrescId }) => {
 };
 
 export default PrescriptionType;
+

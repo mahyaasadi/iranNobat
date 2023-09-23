@@ -5,9 +5,10 @@ import Image from "next/image";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import FeatherIcon from "feather-icons-react";
-import { getSession } from "@/lib/SessionMange";
+import { setSession } from "@/lib/SessionMange";
 import { ErrorAlert } from "class/AlertManage.js";
 import { avatar01, headerLogo, logoSmall } from "components/imagepath";
+// import { destroySession } from "lib/session";
 
 const Header = ({ UserData }) => {
   let router = useRouter();
@@ -39,6 +40,13 @@ const Header = ({ UserData }) => {
     document
       .getElementById("dropdownAvatar")
       .setAttribute("srcSet", data.Avatar);
+  };
+
+  const handleLogout = async (UserData) => {
+    let resSession = await setSession(UserData);
+    Cookies.set("session", " ", { expires: 1 });
+    console.log({ resSession });
+    router.push("/");
   };
 
   useEffect(() => {
@@ -133,15 +141,18 @@ const Header = ({ UserData }) => {
                   <p id="role" className="text-muted mb-0"></p>
                 </div>
               </div>
-              <a className="dropdown-item" href="profile.html">
+              <Link className="dropdown-item" href="/profile">
                 پروفایل من
-              </a>
-              <a className="dropdown-item" href="/profileSettings">
+              </Link>
+              <Link className="dropdown-item" href="/profileSettings">
                 تنظیمات
-              </a>
-              <a className="dropdown-item" href="login.html">
+              </Link>
+              <button
+                className="dropdown-item"
+                onClick={() => handleLogout(UserData)}
+              >
                 خروج
-              </a>
+              </button>
             </div>
           </li>
         </ul>

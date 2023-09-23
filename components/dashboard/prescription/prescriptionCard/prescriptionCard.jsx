@@ -1,13 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { axiosClient } from "class/axiosConfig";
-import Select from "react-select";
 import SelectField from "components/commonComponents/selectfield";
 import RequiredSelect from "components/commonComponents/selectfield";
-import FeatherIcon from "feather-icons-react";
 import PrescriptionType from "components/dashboard/prescription/prescriptionType";
 import ServiceType from "components/dashboard/prescription/serviceType";
 import TaminSrvSearch from "components/dashboard/prescription/TaminSrvSearch";
 import ExtraSmallLoader from "components/loading/extraSmallLoader";
+import selectfieldColourStyles from "class/selectfieldStyle";
 
 const PrescriptionCard = ({
   lists,
@@ -25,7 +24,6 @@ const PrescriptionCard = ({
   ActiveSearch,
   FUSelectAmountArray,
   FUSelectInstructionArray,
-  ActiveSrvCode,
   handleOnBlur,
   handleOnFocus,
 }) => {
@@ -48,22 +46,24 @@ const PrescriptionCard = ({
 
   // search recommendation
   const handleSearchKeyUp = () => {
-    let inputCount = $("#srvSearchInput").val().length;
     setIsLoading(true);
+    let inputCount = $("#srvSearchInput").val().length;
+
     if (inputCount > 2) {
       setTimeout(() => {
-        setIsLoading(false);
         $("#BtnServiceSearch").click();
       }, 100);
+      setIsLoading(false);
     } else {
       $("#srvSearchInput").val() == "";
-      setIsLoading(false);
       $(".SearchDiv").hide();
+      setIsLoading(false);
     }
   };
 
   const getDrugInstructionsList = () => {
     let url = "TaminEprsc/DrugInstruction";
+
     axiosClient
       .post(url)
       .then((response) => {
@@ -107,16 +107,6 @@ const PrescriptionCard = ({
     getDrugAmountList();
   }, []);
 
-  const colourStyles = {
-    menu: (provided) => ({ ...provided, zIndex: 9999 }),
-    control: (styles) => ({
-      ...styles,
-      minHeight: 43,
-      borderRadius: 20,
-      border: "1px solid #E6E9F4",
-    }),
-  };
-
   return (
     <>
       <div>
@@ -153,7 +143,6 @@ const PrescriptionCard = ({
                       img={item.img}
                       active={item.Active}
                       id={item.id}
-                      onSelect={onSelect}
                       changePrescId={changePrescId}
                       ChangeActiveServiceTypeID={ChangeActiveServiceTypeID}
                     />
@@ -268,7 +257,7 @@ const PrescriptionCard = ({
                 <div className="col media-w-100" id="drugInstruction">
                   <label className="lblDrugIns font-12">زمان مصرف</label>
                   <SelectField
-                    styles={colourStyles}
+                    styles={selectfieldColourStyles}
                     className="w-100 font-12 text-center prescForm"
                     id="drugInsSelect"
                     options={drugInstructionList}
@@ -283,7 +272,7 @@ const PrescriptionCard = ({
                 <div className="col media-w-100" id="drugAmount">
                   <label className="lblDrugIns font-12">تعداد در وعده</label>
                   <SelectField
-                    styles={colourStyles}
+                    styles={selectfieldColourStyles}
                     className="w-100 font-12 text-center prescForm"
                     id="drugAmountSelect"
                     options={drugAmountList}

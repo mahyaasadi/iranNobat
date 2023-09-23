@@ -89,7 +89,7 @@ const EditUserModal = ({ data, editUserInfo }) => {
 
               <div className="form-group">
                 <label className="lblAbs font-12">
-                  شماره موبایل<span className="text-danger">*</span>
+                  شماره موبایل <span className="text-danger">*</span>
                 </label>
                 <div className="col p-0">
                   <input
@@ -112,7 +112,8 @@ const EditUserModal = ({ data, editUserInfo }) => {
                     type="text"
                     name="editUserName"
                     className="form-control floating inputPadding rounded"
-                    required
+                    // required
+                    readOnly
                     autoComplete="false"
                     defaultValue={data.User}
                     key={data.User}

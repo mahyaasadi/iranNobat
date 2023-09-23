@@ -16,13 +16,15 @@ export const getServerSideProps = async ({ req, res }) => {
   if (result) {
     const { UserData, UserRoles } = result;
     const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
-    const Menus = await data.json();
+    if (data) {
+      const Menus = await data.json();
+    }
     return { props: { Menus, UserData, UserRoles } };
   } else {
     return {
       redirect: {
         permanent: false,
-        destination: `/login`,
+        destination: `/`,
       },
     };
   }

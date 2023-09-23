@@ -1,17 +1,18 @@
 import { useState } from "react";
+import { useRouter } from "next/router";
 
-const PasswordSettings = ({ newPassword, handleNewPassword, editUserPassword, userInfo }) => {
+const PasswordSettings = ({
+  newPassword,
+  handleNewPassword,
+  editUserPassword,
+  userInfo,
+}) => {
+  const router = useRouter();
   const [eye, setEye] = useState(true);
   const onEyeClick = () => setEye(!eye);
 
-  const validatePassword = (e) => {
+  const validatePasswordLength = (e) => {
     e.preventDefault();
-
-    let formData = new FormData(document.getElementById("passwordSettingsFrm"));
-    const formProps = Object.fromEntries(formData);
-
-    let passValue = $("#newPassword").val();
-    let confpassValue = $("#confirmNewPassword").val();
 
     // password length
     if (newPassword.length < 7) {
@@ -22,6 +23,17 @@ const PasswordSettings = ({ newPassword, handleNewPassword, editUserPassword, us
       $("#newPassValidationText1").hide();
       $("#submitNewPasswordBtn").attr("disabled", false);
     }
+  };
+
+  const validateConfirmPassword = (e) => {
+    e.preventDefault();
+
+    let formData = new FormData(document.getElementById("passwordSettingsFrm"));
+    const formProps = Object.fromEntries(formData);
+
+    let passValue = $("#newPassword").val();
+    let confpassValue = $("#confirmNewPassword").val();
+
     // confirm password validation
     if (passValue !== confpassValue) {
       $("#newPassValidationText2").show();
@@ -32,22 +44,15 @@ const PasswordSettings = ({ newPassword, handleNewPassword, editUserPassword, us
     }
   };
 
-  const handleCancelBtn = () => {
-    let passValue = $("#newPassword").val();
-    let confpassValue = $("#confirmNewPassword").val();
-    let currentPassword = $("#currentPassword")
-
-    passValue = null;
-    currentPassword = null;
-    confpassValue = null;
-  }
+  const handleCancelBtn = (e) => {
+    e.preventDefault();
+    router.push("/profile");
+  };
 
   return (
     <>
-      {/* <div className="card w-75 p-4"> */}
-      {/* <div className="card-body"> */}
       <div className="d-flex justify-center">
-        <div className="card w-75 p-4">
+        <div className="col-lg-8 col-12 p-4">
           <div className="card-body">
             <div className="card-header">
               <p className="font-16 fw-bold text-secondary">تغییر رمز عبور</p>
@@ -71,12 +76,12 @@ const PasswordSettings = ({ newPassword, handleNewPassword, editUserPassword, us
                     id="currentPassword"
                     className="form-control floating inputPadding rounded"
                     required
-                  // defaultValue={panelData.Password}
                   />
                   <span
                     onClick={onEyeClick}
-                    className={`fa toggle-password-current" ${eye ? "fa-eye-slash" : "fa-eye"
-                      }`}
+                    className={`fa toggle-password-current" ${
+                      eye ? "fa-eye-slash" : "fa-eye"
+                    }`}
                   />
                 </div>
 
@@ -93,14 +98,14 @@ const PasswordSettings = ({ newPassword, handleNewPassword, editUserPassword, us
                       value={newPassword}
                       onChange={handleNewPassword}
                       autoComplete="false"
-                      onBlur={validatePassword}
+                      onBlur={validatePasswordLength}
                       required
-                    // defaultValue={panelData.Password}
                     />
                     <span
                       onClick={onEyeClick}
-                      className={`fa toggle-password-newPass" ${eye ? "fa-eye-slash" : "fa-eye"
-                        }`}
+                      className={`fa toggle-password-newPass" ${
+                        eye ? "fa-eye-slash" : "fa-eye"
+                      }`}
                     />
                   </div>
                 </div>
@@ -126,13 +131,14 @@ const PasswordSettings = ({ newPassword, handleNewPassword, editUserPassword, us
                       id="confirmNewPassword"
                       className="form-control floating inputPadding rounded"
                       autoComplete="false"
-                      onBlur={validatePassword}
+                      onBlur={validateConfirmPassword}
                       required
                     />
                     <span
                       onClick={onEyeClick}
-                      className={`fa toggle-password-confPass" ${eye ? "fa-eye-slash" : "fa-eye"
-                        }`}
+                      className={`fa toggle-password-confPass" ${
+                        eye ? "fa-eye-slash" : "fa-eye"
+                      }`}
                     />
                   </div>
                 </div>
@@ -146,17 +152,17 @@ const PasswordSettings = ({ newPassword, handleNewPassword, editUserPassword, us
                   </div>
                 </div>
 
-                <div className="d-flex gap-1 justify-center media-flex-column">
+                <div className="settings-btns d-flex gap-1 justify-center media-flex-column margin-top-3">
                   <button
                     type="submit"
-                    className="btn btn-primary rounded btn-save font-13"
+                    className="btn btn-primary rounded profileSettingsBtn font-13"
                     id="submitNewPasswordBtn"
                   >
                     ثبت
                   </button>
                   <button
                     type="submit"
-                    className="btn btn-outline-dark rounded btn-save font-13"
+                    className="btn btn-outline-dark rounded profileSettingsBtn font-13"
                     id="cancelNewPasswordBtn"
                     onClick={handleCancelBtn}
                   >
@@ -166,9 +172,6 @@ const PasswordSettings = ({ newPassword, handleNewPassword, editUserPassword, us
               </div>
             </form>
           </div>
-          {/* </div> */}
-          {/* </div> */}
-
         </div>
       </div>
     </>

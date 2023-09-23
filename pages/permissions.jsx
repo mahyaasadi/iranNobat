@@ -21,7 +21,7 @@ export const getServerSideProps = async ({ req, res }) => {
     return {
       redirect: {
         permanent: false,
-        destination: `/login`,
+        destination: `/`,
       },
     };
   }
@@ -89,7 +89,7 @@ const Permissions = ({ Menus, UserData, UserRoles }) => {
     const { value, checked } = e.target;
     const { roleAccessList } = rolePermissionStatus;
 
-    console.log(`${value} is ${checked}`);
+    // console.log(`${value} is ${checked}`);
 
     checked
       ? (setRolePermissionStatus({
@@ -183,7 +183,7 @@ const Permissions = ({ Menus, UserData, UserRoles }) => {
   };
 
   const onDragEnd = (result) => {
-    console.log("result", result);
+    // console.log("result", result);
     const { source, destination } = result;
     if (!destination) {
       return;
