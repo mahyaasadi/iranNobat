@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Cookies from "js-cookie";
@@ -7,8 +7,7 @@ import { useRouter } from "next/navigation";
 import FeatherIcon from "feather-icons-react";
 import { setSession } from "@/lib/SessionMange";
 import { ErrorAlert } from "class/AlertManage.js";
-import { avatar01, headerLogo, logoSmall } from "components/imagepath";
-// import { destroySession } from "lib/session";
+import { avatar01, headerLogo, logoSmall } from "@/components/commonComponents/imagepath";
 
 const Header = ({ UserData }) => {
   let router = useRouter();

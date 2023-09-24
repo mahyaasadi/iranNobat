@@ -4,7 +4,7 @@ import Head from "next/head";
 import FeatherIcon from "feather-icons-react";
 import { axiosClient } from "class/axiosConfig.js";
 import { QuestionAlert } from "class/AlertManage.js";
-import Loading from "components/loading/loading";
+import Loading from "components/commonComponents/loading/loading";
 import discountPercentDataClass from "class/discountPercentDataClass";
 import DiscountsListTable from "components/dashboard/discounts/discountsListTable";
 import AddDiscountModal from "components/dashboard/discounts/addDiscountModal";

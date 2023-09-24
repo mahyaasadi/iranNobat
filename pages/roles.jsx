@@ -3,7 +3,7 @@ import Link from "next/link";
 import Head from "next/head";
 import { axiosClient } from "class/axiosConfig.js";
 import FeatherIcon from "feather-icons-react";
-import Loading from "components/loading/loading";
+import Loading from "components/commonComponents/loading/loading";
 import { QuestionAlert } from "class/AlertManage.js";
 import RolesListTable from "components/dashboard/roles/rolesListTable";
 import AddRoleModal from "components/dashboard/roles/addRoleModal";

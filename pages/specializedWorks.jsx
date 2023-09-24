@@ -6,7 +6,7 @@ import FeatherIcon from "feather-icons-react";
 import { axiosClient } from "class/axiosConfig.js";
 import { getSession } from "lib/session";
 import { QuestionAlert } from "class/AlertManage.js";
-import Loading from "components/loading/loading";
+import Loading from "components/commonComponents/loading/loading";
 import SpecializedWorksListTable from "components/dashboard/specializedWorks/specializedWorksListTable";
 import AddSpeWorkModal from "components/dashboard/specializedWorks/addspeWorkModal";
 import EditSpeWorkModal from "components/dashboard/specializedWorks/editSpeWorkModal";

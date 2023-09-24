@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import FeatherIcon from "feather-icons-react";
 import { axiosClient } from "class/axiosConfig.js";
-import Loading from "components/loading/loading";
+import Loading from "components/commonComponents/loading/loading";
 
 const ChatPermissionModal = ({ CenterID }) => {
   const [departmentsData, setDepartmentsData] = useState([]);

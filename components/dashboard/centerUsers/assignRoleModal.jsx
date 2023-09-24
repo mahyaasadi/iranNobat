@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import FeatherIcon from "feather-icons-react";
 import { axiosClient } from "class/axiosConfig.js";
 import SelectField from "components/commonComponents/selectfield";
-import Loading from "components/loading/loading";
+import Loading from "components/commonComponents/loading/loading";
 import { ErrorAlert } from "class/AlertManage.js";
 import selectfieldColourStyles from "class/selectfieldStyle";
 

@@ -5,7 +5,7 @@ import JDate from "jalali-date";
 import Select from "react-select";
 import { getSession } from "lib/session";
 import { axiosClient } from "class/axiosConfig.js";
-import Loading from "components/loading/loading";
+import Loading from "components/commonComponents/loading/loading";
 import OverviewStats from "components/dashboard/overview/overviewStats";
 
 const jdate = new JDate();

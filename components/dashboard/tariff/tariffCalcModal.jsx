@@ -2,7 +2,7 @@ import FeatherIcon from "feather-icons-react";
 import SelectField from "components/commonComponents/selectfield";
 import Select from "react-select";
 import Link from "next/link";
-import Loading from "components/loading/loading";
+import Loading from "components/commonComponents/loading/loading";
 
 const TariffCalcModal = ({
   data,

@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import Head from "next/head";
 import { axiosClient } from "class/axiosConfig.js";
-import Loading from "components/loading/Loading";
+import Loading from "components/commonComponents/loading/loading";
 import DatePicker from "components/commonComponents/datepicker/DatePicker";
-import PrescriptionsListTable from "components/dashboard/prescription/prescriptionHistory/prescriptionsListTable";
+import PrescriptionsListTable from "components/dashboard/prescription/prescriptionsHistoryList";
 import { getSession } from "lib/session";
 import { ErrorAlert } from "class/AlertManage";
 

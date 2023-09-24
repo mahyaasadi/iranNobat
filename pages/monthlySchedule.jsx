@@ -10,6 +10,7 @@ import { Calendar, DateObject } from "react-multi-date-picker";
 import ShiftDetailsModal from "components/dashboard/monthlySchedule/shiftDetailsModal";
 import AddShiftModal from "components/dashboard/monthlySchedule/addShiftModal";
 import CopyShiftModal from "components/dashboard/monthlySchedule/copyShiftModal";
+import { getSession } from "lib/session";
 
 export const getServerSideProps = async ({ req, res }) => {
   const result = await getSession(req, res);

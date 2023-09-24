@@ -4,7 +4,7 @@ import Link from "next/link";
 import Head from "next/head";
 import FeatherIcon from "feather-icons-react";
 import { QuestionAlert } from "class/AlertManage.js";
-import Loading from "components/loading/loading";
+import Loading from "components/commonComponents/loading/loading";
 import TariffHeader from "components/dashboard/tariff/tariffHeader";
 import TariffListTable from "components/dashboard/tariff/tariffListTable";
 import serviceGroupDifDataClass from "class/serviceGroupDifDataClass";
@@ -375,80 +375,80 @@ const ServiceGroupDetails = ({ Menus, UserData, UserRoles }) => {
       </Head>
 
       <div className="page-wrapper">
-        {/* {isLoading ? (
-          <Loading />
-        ) : ( */}
         <div className="content container-fluid">
           <TariffHeader data={departmentsData} getServices={getServices} />
+          {isLoading ? (
+            <Loading />
+          ) : (
 
-          <div className="tariff-btn-container">
-            <div className="media-md-w-100 d-flex gap-2">
-              <Link
-                href="#"
-                data-bs-toggle="modal"
-                data-bs-target="#addSrvGroupModal"
-                className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
-              >
-                <i className="me-1">
-                  <FeatherIcon icon="plus-square" />
-                </i>{" "}
-                گروه جدید
-              </Link>
-            </div>
-          </div>
+            <div className="tariff-btn-container">
+              <div className="media-md-w-100 d-flex gap-2">
+                <Link
+                  href="#"
+                  data-bs-toggle="modal"
+                  data-bs-target="#addSrvGroupModal"
+                  className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
+                >
+                  <i className="me-1">
+                    <FeatherIcon icon="plus-square" />
+                  </i>{" "}
+                  گروه جدید
+                </Link>
+              </div>
+            </div>,
 
-          {/* <!--  services Table --> */}
-          <div className="row">
-            <div className="col-sm-12">
-              <div className="card">
-                <div className="card-header border-bottom-0">
-                  <div className="row align-items-center">
-                    <div className="col marginb-1">
-                      <p className="card-title font-16">لیست گروه ها</p>
-                    </div>
-                  </div>
 
-                  <div className="flex-col">
-                    <div className="col-sm-12">
-                      <ServiceGroupListTable
-                        data={groupDetail}
-                        updateGroup={updateGroup}
-                        deleteSrvGroup={deleteSrvGroup}
-                      />
-                    </div>
-                    <div className="col d-flex justify-between align-items-center margint-5 marginb-1 media-srvHeader">
-                      <p className="card-title font-16">لیست خدمات</p>
-                      <div className="media-md-w-100">
-                        <Link
-                          href="#"
-                          data-bs-toggle="modal"
-                          data-bs-target="#addTariffModal"
-                          className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
-                        >
-                          <i className="me-1">
-                            <FeatherIcon icon="plus-square" />
-                          </i>{" "}
-                          سرویس جدید
-                        </Link>
+            <div className="row">
+              <div className="col-sm-12">
+                <div className="card">
+                  <div className="card-header border-bottom-0">
+                    <div className="row align-items-center">
+                      <div className="col marginb-1">
+                        <p className="card-title font-16">لیست گروه ها</p>
                       </div>
                     </div>
 
-                    <div className="col-sm-12">
-                      <TariffListTable
-                        data={services}
-                        updateServiceGroup={updateServiceGroup}
-                        deleteService={deleteService}
-                      />
+                    <div className="flex-col">
+                      <div className="col-sm-12">
+                        <ServiceGroupListTable
+                          data={groupDetail}
+                          updateGroup={updateGroup}
+                          deleteSrvGroup={deleteSrvGroup}
+                        />
+                      </div>
+                      <div className="col d-flex justify-between align-items-center margint-5 marginb-1 media-srvHeader">
+                        <p className="card-title font-16">لیست خدمات</p>
+                        <div className="media-md-w-100">
+                          <Link
+                            href="#"
+                            data-bs-toggle="modal"
+                            data-bs-target="#addTariffModal"
+                            className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
+                          >
+                            <i className="me-1">
+                              <FeatherIcon icon="plus-square" />
+                            </i>{" "}
+                            سرویس جدید
+                          </Link>
+                        </div>
+                      </div>
+
+                      <div className="col-sm-12">
+                        <TariffListTable
+                          data={services}
+                          updateServiceGroup={updateServiceGroup}
+                          deleteService={deleteService}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div id="tablepagination" className="dataTables_wrapper"></div>
+                <div id="tablepagination" className="dataTables_wrapper"></div>
+              </div>
             </div>
-          </div>
+          )}
         </div>
-        {/* )} */}
 
         <AddTariffModal
           addService={addService}

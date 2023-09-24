@@ -1,7 +1,7 @@
 import Link from "next/link";
 import FeatherIcon from "feather-icons-react";
-import ChangeInsuranceTypeModal from "components/dashboard/prescription/changeInsuranceTypeModal/changeInsuranceTypeModal";
-import EditPhoneNumberModal from "components/dashboard/prescription/editPhoneNumberModal";
+import ChangeInsuranceTypeModal from "components/dashboard/prescription/changeInsuranceTypeModal";
+import EditPhoneNumberModal from "@/components/dashboard/prescription/editPhoneNumberModal";
 
 const PatientInfo = ({
   getPatientInfo,

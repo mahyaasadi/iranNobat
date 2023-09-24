@@ -3,7 +3,7 @@ import Link from "next/link";
 import Head from "next/head";
 import FeatherIcon from "feather-icons-react";
 import { axiosClient } from "class/axiosConfig.js";
-import Loading from "components/loading/loading";
+import Loading from "components/commonComponents/loading/loading";
 import { WarningAlert, QuestionAlert, ErrorAlert } from "class/AlertManage.js";
 import ImagesListTable from "components/dashboard/imagesGallery/imagesListTable";
 import UploadImageModal from "components/dashboard/imagesGallery/uploadImageModal";

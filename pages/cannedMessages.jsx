@@ -4,7 +4,7 @@ import Head from "next/head";
 import FeatherIcon from "feather-icons-react";
 import { axiosClient } from "class/axiosConfig.js";
 import { QuestionAlert } from "class/AlertManage.js";
-import Loading from "components/loading/loading";
+import Loading from "components/commonComponents/loading/loading";
 import CannedMessagesListTable from "components/dashboard/cannedMessages/cannedMessagesListTable";
 import AddMessageModal from "components/dashboard/cannedMessages/addMessageModal";
 import EditMessageModal from "components/dashboard/cannedMessages/editMessageModal";
@@ -16,9 +16,8 @@ export const getServerSideProps = async ({ req, res }) => {
   if (result) {
     const { UserData, UserRoles } = result;
     const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
-    if (data) {
-      const Menus = await data.json();
-    }
+    const Menus = await data.json();
+
     return { props: { Menus, UserData, UserRoles } };
   } else {
     return {

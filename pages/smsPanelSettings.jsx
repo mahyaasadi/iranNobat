@@ -3,7 +3,7 @@ import { axiosClient } from "class/axiosConfig.js";
 import Link from "next/link";
 import Head from "next/head";
 import FeatherIcon from "feather-icons-react";
-import Loading from "components/loading/loading";
+import Loading from "components/commonComponents/loading/loading";
 import { ErrorAlert, SuccessAlert } from "class/AlertManage.js";
 import { getSession } from "lib/session";
 
@@ -121,9 +121,8 @@ const SmsPanelSettings = ({ Menus, UserData, UserRoles }) => {
                         />
                         <span
                           onClick={onEyeClick}
-                          className={`fa toggle-password" ${
-                            eye ? "fa-eye-slash" : "fa-eye"
-                          }`}
+                          className={`fa toggle-password" ${eye ? "fa-eye-slash" : "fa-eye"
+                            }`}
                         />
                       </div>
                     </div>

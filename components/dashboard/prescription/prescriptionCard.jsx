@@ -1,11 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { axiosClient } from "class/axiosConfig";
 import SelectField from "components/commonComponents/selectfield";
-import RequiredSelect from "components/commonComponents/selectfield";
-import PrescriptionType from "components/dashboard/prescription/prescriptionType";
-import ServiceType from "components/dashboard/prescription/serviceType";
+import PrescriptionType from "@/components/dashboard/prescription/prescriptionType";
+import PrescriptionServiceType from "@/components/dashboard/prescription/prescriptionServiceType";
 import TaminSrvSearch from "components/dashboard/prescription/TaminSrvSearch";
-import ExtraSmallLoader from "components/loading/extraSmallLoader";
+import ExtraSmallLoader from "@/components/commonComponents/loading/extraSmallLoader";
 import selectfieldColourStyles from "class/selectfieldStyle";
 
 const PrescriptionCard = ({
@@ -175,7 +174,7 @@ const PrescriptionCard = ({
                   >
                     {ServiceList.map((item) => {
                       return (
-                        <ServiceType
+                        <PrescriptionServiceType
                           key={item.srvType}
                           srvType={item.srvType}
                           srvTypeDes={item.srvTypeDes}

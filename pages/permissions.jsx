@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { resetServerContext } from "react-beautiful-dnd";
 import { axiosClient } from "class/axiosConfig.js";
-import Loading from "components/loading/loading";
+import Loading from "components/commonComponents/loading/loading";
 import { ErrorAlert, SuccessAlert, WarningAlert } from "class/AlertManage.js";
 import { getSession } from "lib/session";
 
@@ -93,12 +93,12 @@ const Permissions = ({ Menus, UserData, UserRoles }) => {
 
     checked
       ? (setRolePermissionStatus({
-          roleAccessList: [...roleAccessList, value],
-        }),
+        roleAccessList: [...roleAccessList, value],
+      }),
         setCheckedState(true))
       : (setRolePermissionStatus({
-          roleAccessList: roleAccessList.filter((e) => e !== value),
-        }),
+        roleAccessList: roleAccessList.filter((e) => e !== value),
+      }),
         setCheckedState(false));
   };
 
@@ -198,9 +198,9 @@ const Permissions = ({ Menus, UserData, UserRoles }) => {
         items.map((item) =>
           item.id === result.draggableId
             ? {
-                ...item,
-                category: parseInt(result.destination.droppableId),
-              }
+              ...item,
+              category: parseInt(result.destination.droppableId),
+            }
             : item
         )
       );

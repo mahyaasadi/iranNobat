@@ -1,7 +1,7 @@
 import FeatherIcon from "feather-icons-react";
 import Image from "next/image";
-import ExtraSmallLoader from "components/loading/extraSmallLoader";
-import { eventsAccepted, payment, talking } from "components/imagePath";
+import ExtraSmallLoader from "@/components/commonComponents/loading/extraSmallLoader";
+import { eventsAccepted, payment, talking } from "@/components/commonComponents/imagepath";
 
 const OverviewStats = ({ stats }) => {
   return (

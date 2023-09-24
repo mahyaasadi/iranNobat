@@ -4,7 +4,7 @@ import Head from "next/head";
 import FeatherIcon from "feather-icons-react";
 import { axiosClient } from "class/axiosConfig.js";
 import { QuestionAlert } from "class/AlertManage.js";
-import Loading from "components/loading/loading";
+import Loading from "components/commonComponents/loading/loading";
 import DoctorsListTable from "components/dashboard/doctors/doctorsListTable";
 import AddDoctorModal from "components/dashboard/doctors/addDoctorModal";
 import EditDoctorModal from "components/dashboard/doctors/editDoctorModal";

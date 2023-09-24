@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { loading } from "components/imagepath";
+import { loading } from "@/components/commonComponents/imagepath";
 
 const Loading = () => {
   return (

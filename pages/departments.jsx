@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Head from "next/head";
 import { axiosClient } from "class/axiosConfig.js";
-import Loading from "components/loading/loading";
+import Loading from "components/commonComponents/loading/loading";
 import { SuccessAlert, ErrorAlert } from "class/AlertManage.js";
 import DepartmentsList from "components/dashboard/departments/departmentsList";
 import { getSession } from "lib/session";

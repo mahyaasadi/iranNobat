@@ -3,17 +3,18 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { getSession } from "lib/session";
 import { axiosClient } from "class/axiosConfig.js";
-import Loading from "components/loading/loading";
-import PrescriptionCard from "components/dashboard/prescription/prescriptionCard/prescriptionCard";
-import PatientInfo from "components/dashboard/prescription/PatientInfo";
-import TaminHeader from "components/dashboard/prescription/TaminVsArteshHeader";
+import Loading from "components/commonComponents/loading/loading";
+import PrescriptionCard from "@/components/dashboard/prescription/prescriptionCard";
+import PatientInfo from "components/dashboard/prescription/patientInfo";
+import TaminHeader from "@/components/dashboard/prescription/TaminVsArteshHeader";
 import ArteshDoctorsListTable from "components/dashboard/prescription/arteshDoctorsListTable";
-import PrescriptionItems from "components/dashboard/prescription/PrescriptionItems";
+// import PrescriptionItems from "components/dashboard/prescription/PrescriptionItems";
+import AddToListItem from "@/components/dashboard/prescription/PrescriptionItems";
 import { ErrorAlert, SuccessAlert, WarningAlert } from "class/AlertManage.js";
 import {
   TaminPrescType,
   TaminServiceType,
-} from "components/dashboard/prescription/taminprescriptionData";
+} from "class/taminprescriptionData";
 
 let prescId = 1;
 let ActiveServiceTypeID = "01";
@@ -677,7 +678,7 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
               />
 
               <div className="prescList">
-                <PrescriptionItems
+                <AddToListItem
                   data={PrescriptionItemsData}
                   SetPrescriptionItemsData={SetPrescriptionItemsData}
                   prescId={prescId}

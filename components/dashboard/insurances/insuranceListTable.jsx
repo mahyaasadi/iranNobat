@@ -6,7 +6,7 @@ import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import { tableCustomStyles } from "components/commonComponents/customTableStyle/tableStyle.jsx";
 
-const InsuranceListTable = ({ data, deleteInsurance, updateInsurance }) => {
+const InsuranceListTable = ({ data, deleteInsurance, openEditModal }) => {
   const columns = [
     {
       name: "نام بیمه",
@@ -49,7 +49,7 @@ const InsuranceListTable = ({ data, deleteInsurance, updateInsurance }) => {
           <Link
             href="#"
             className="btn btn-sm btn-outline-secondary btn-border-left"
-            onClick={() => updateInsurance(row)}
+            onClick={() => openEditModal(row)}
             data-bs-toggle="tooltip"
             data-bs-placement="top"
             title="ویرایش"

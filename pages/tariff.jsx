@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { axiosClient } from "class/axiosConfig.js";
 import FeatherIcon from "feather-icons-react";
 import { QuestionAlert, ErrorAlert } from "class/AlertManage.js";
-import Loading from "components/loading/loading";
+import Loading from "components/commonComponents/loading/loading";
 import TariffHeader from "components/dashboard/tariff/tariffHeader";
 import TariffListTable from "components/dashboard/tariff/tariffListTable";
 import AddTariffModal from "components/dashboard/tariff/addTariffModal";
@@ -588,43 +588,43 @@ const Tariff = ({ Menus, UserData, UserRoles }) => {
                 </div>
               </div>
             ),
-            (
-              <div className="row">
-                <div className="col-sm-12">
-                  <div className="card">
-                    <div className="card-header border-bottom-0">
-                      <div className="row align-items-center">
-                        <div className="col">
-                          <h5 className="card-title font-16">لیست خدمات</h5>
-                        </div>
-                        <div className="col-auto d-flex flex-wrap">
-                          <div className="form-custom me-2">
-                            <div
-                              id="tableSearch"
-                              className="dataTables_wrapper"
-                            ></div>
+              (
+                <div className="row">
+                  <div className="col-sm-12">
+                    <div className="card">
+                      <div className="card-header border-bottom-0">
+                        <div className="row align-items-center">
+                          <div className="col">
+                            <h5 className="card-title font-16">لیست خدمات</h5>
+                          </div>
+                          <div className="col-auto d-flex flex-wrap">
+                            <div className="form-custom me-2">
+                              <div
+                                id="tableSearch"
+                                className="dataTables_wrapper"
+                              ></div>
+                            </div>
                           </div>
                         </div>
                       </div>
+
+                      <div className="col-sm-12 font-size-12">
+                        <TariffListTable
+                          data={services}
+                          updateService={updateService}
+                          deleteService={deleteService}
+                          SetLoeingModalData={SetLoeingModalData}
+                        />
+                      </div>
                     </div>
 
-                    <div className="col-sm-12 font-size-12">
-                      <TariffListTable
-                        data={services}
-                        updateService={updateService}
-                        deleteService={deleteService}
-                        SetLoeingModalData={SetLoeingModalData}
-                      />
-                    </div>
+                    <div
+                      id="tablepagination"
+                      className="dataTables_wrapper"
+                    ></div>
                   </div>
-
-                  <div
-                    id="tablepagination"
-                    className="dataTables_wrapper"
-                  ></div>
                 </div>
-              </div>
-            ))
+              ))
           )}
         </div>
 
