@@ -1,18 +1,20 @@
 import { useState, useEffect } from "react";
 import { axiosClient } from "class/axiosConfig.js";
-import Cookies from "js-cookie";
-import Select from "react-select";
 import SelectField from "components/commonComponents/selectfield";
 import FeatherIcon from "feather-icons-react";
 import selectfieldColourStyles from "class/selectfieldStyle";
 
-let CenterID = Cookies.get("CenterID");
+let CenterID = null;
 
 const ChangeInsuranceTypeModal = ({
   changeInsuranceType,
   selectInsuranceType,
   data,
+  UserData,
+  isLoading,
 }) => {
+  CenterID = UserData.CenterID;
+
   const [insuranceOptionsList, setInsuranceOptionsList] = useState([]);
 
   //get insuranceType optionsList
@@ -74,7 +76,7 @@ const ChangeInsuranceTypeModal = ({
                     name="patientNID"
                     value={data.NationalID}
                   />
-                  <Select
+                  <SelectField
                     className="mt-3 text-center"
                     styles={selectfieldColourStyles}
                     options={insuranceOptionsList}
@@ -87,13 +89,27 @@ const ChangeInsuranceTypeModal = ({
                   />
                 </div>
 
-                <div className="submit-section">
-                  <button
-                    type="submit"
-                    className="btn btn-primary btn-save rounded"
-                  >
-                    ثبت تغییرات
-                  </button>
+                <div className="submit-section d-flex justify-center">
+                  {!isLoading ? (
+                    <button
+                      type="submit"
+                      className="btn btn-primary btn-save rounded font-13"
+                    >
+                      ثبت تغییرات
+                    </button>
+                  ) : (
+                    <button
+                      type="submit"
+                      className="btn btn-primary rounded d-flex justify-center align-items-center"
+                      disabled
+                    >
+                      <span
+                        className="spinner-border spinner-border-sm me-2"
+                        role="status"
+                      ></span>
+                      <span className="font-13">در حال ثبت</span>
+                    </button>
+                  )}
                 </div>
               </form>
             </div>

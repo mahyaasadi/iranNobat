@@ -1,89 +1,123 @@
-// import Image from "next/image";
+import Image from "next/image";
+import FeatherIcon from "feather-icons-react";
 
-// let count,
-//   Drug = null;
-// const AddToListItem = ({ data, SetPrescriptionItemsData, srv }) => {
-//   if (srv.TimesADay) {
-//     Drug = (
-//       <>
-//         <div className="srvTypeInfo">تعداد مصرف در روز : {srv.TimesADay}</div>
-//         <div className="srvTypeInfo">دستور مصرف : {srv.DrugInstruction}</div>
-//       </>
-//     );
-//   } else {
-//     <div></div>;
-//   }
+let count,
+  Drug = null;
 
-//   // Delete Service from prescItems
-//   // const DeleteService = (id, prescId) => {
-//   //   SetPrescriptionItemsData(data.filter((a) => a.SrvCode !== id));
+const AddToListItem = ({
+  data,
+  setPrescriptionItemsData,
+  handleEditService,
+}) => {
+  // Delete Service from prescItems
+  const DeleteService = (id, prescId) => {
+    setPrescriptionItemsData(data.filter((a) => a.SrvCode !== id));
 
-//   //   count = $("#srvItemCountId" + prescId).html();
-//   //   if (count == "") {
-//   //     count = 0;
-//   //   }
-//   //   count = parseInt(count);
-//   //   count--;
-//   //   $("#srvItemCountId" + prescId).html(count);
+    count = $("#srvItemCountId" + prescId).html();
+    if (count == "") {
+      count = 0;
+    }
+    count = parseInt(count);
+    count--;
+    $("#srvItemCountId" + prescId).html(count);
 
-//   //   // if (count === 0) {
-//   //   //   $("#srvItemCountId" + prescId).hide();
-//   //   // }
-//   // };
+    // if (count === 0) {
+    //   $("#srvItemCountId" + prescId).hide();
+    // }
+  };
 
-//   return (
-//     <>
-//       <div dir="rtl">
-//         <div className="card PrescItem" id="{response.data.res.info.checkCode}">
-//           <div className="card-body">
-//             <div className="row">
-//               <div className="col-auto">
-//                 {srv.Img ? (
-//                   <Image
-//                     src={srv.Img}
-//                     alt="serviceIcon"
-//                     width="30"
-//                     height="30"
-//                   />
-//                 ) : (
-//                   ""
-//                 )}
-//               </div>
-//               <div className="row col">
-//                 <div className="col d-flex gap-2 marginb-1 font-13">
-//                   <p>{srv.SrvCode}</p>
-//                   <p>|</p>
-//                   <p>{srv.SrvName}</p>
-//                 </div>
-//                 <hr />
-//                 <div className="d-flex gap-2 mt-2 flex-wrap">
-//                   <div className="srvTypeInfo">نوع نسخه : {srv.PrescType}</div>
-//                   <div className="srvTypeInfo">تعداد : {srv.Qty}</div>
-//                   {Drug}
-//                 </div>
-//               </div>
+  return data.map((srv, index) => {
+    console.log({ srv });
+    return (
+      <>
+        <div dir="rtl" id={index}>
+          <div className="card PrescItem">
+            <div className="card-body">
+              <div className="row">
+                <div className="d-flex justify-between align-items-center marginb-1">
+                  <div className="row">
+                    {srv.Img ? (
+                      <Image
+                        src={srv.Img}
+                        alt="serviceIcon"
+                        width="30"
+                        height="30"
+                      />
+                    ) : (
+                      ""
+                    )}
 
-//               <div className="col-auto prescMediaBtn">
-//                 <button
-//                   type="button"
-//                   className="btn btn-outline-primary margin-left-4"
-//                 >
-//                   <i className="fe fe-star"></i>
-//                 </button>
-//                 <button
-//                   type="button"
-//                   className="btn btn-outline-danger"
-//                   onClick={() => DeleteService(srv.SrvCode, srv.prescId)}
-//                 >
-//                   <i className="fe fe-trash"></i>
-//                 </button>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </>
-//   );
-// };
+                    <div className="d-flex gap-2 font-13 align-items-center">
+                      <p className="mb-0">{srv.SrvCode}</p>
+                      <p className="mb-0">|</p>
+                      <p>{srv.SrvName}</p>
+                    </div>
+                  </div>
 
-// export default AddToListItem;
+                  <div className="d-flex gap-1">
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-outline-secondary"
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="top"
+                      title="ویرایش"
+                      onClick={() => handleEditService(srv)}
+                    >
+                      <FeatherIcon icon="edit-2" style={{ width: "13px" }} />
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-outline-primary"
+                      // data-bs-toggle="tooltip"
+                      // data-bs-placement="top"
+                      // title="ویرایش"
+                    >
+                      <FeatherIcon icon="star" style={{ width: "13px" }} />
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-outline-danger"
+                      onClick={() => DeleteService(srv.SrvCode, srv.prescId)}
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="top"
+                      title="حذف"
+                    >
+                      <FeatherIcon icon="trash" style={{ width: "13px" }} />
+                    </button>
+                  </div>
+                </div>
+                <hr />
+
+                <div className="row">
+                  <div className="d-flex mt-2 gap-2 flex-wrap">
+                    <div className="d-flex gap-2">
+                      <div className="srvTypeInfo">
+                        نوع نسخه : {srv.PrescType}
+                      </div>
+                      <div className="srvTypeInfo">تعداد : {srv.Qty}</div>
+                    </div>
+
+                    {srv.TimesADay ? (
+                      <div className="d-flex gap-2">
+                        <div className="srvTypeInfo">
+                          تعداد مصرف در روز : {srv.TimesADay}
+                        </div>
+                        <div className="srvTypeInfo">
+                          دستور مصرف : {srv.DrugInstruction}
+                        </div>
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  });
+};
+
+export default AddToListItem;

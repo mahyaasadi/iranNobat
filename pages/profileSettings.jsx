@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Head from "next/head";
 import FeatherIcon from "feather-icons-react";
+import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import { getSession } from "lib/session";
 import { setSession } from "@/lib/SessionMange";
@@ -31,7 +32,7 @@ export const getServerSideProps = async ({ req, res }) => {
 };
 
 const ProfileSettings = ({ Menus, UserData, UserRoles }) => {
-  console.log({ UserData });
+  const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(true);
   const [newPassword, setNewPassword] = useState("");
@@ -66,7 +67,6 @@ const ProfileSettings = ({ Menus, UserData, UserRoles }) => {
 
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
-    ActiveUserID = formProps.userId;
 
     let url = "AdminUser/updateUser";
     let data = {
@@ -162,8 +162,6 @@ const ProfileSettings = ({ Menus, UserData, UserRoles }) => {
         axiosClient
           .put(url, data)
           .then(async (response) => {
-            // console.log(response.data);
-
             document
               .getElementById("avatar")
               .setAttribute(
@@ -194,6 +192,9 @@ const ProfileSettings = ({ Menus, UserData, UserRoles }) => {
             let resSession = await setSession(UserData);
             Cookies.set("session", resSession, { expires: 1 });
             SuccessAlert("موفق", "تغییر آواتار با موفقیت انجام گردید!");
+            setTimeout(() => {
+              router.push("/profile");
+            }, 300);
             setIsLoading(false);
           })
           .catch((err) => {

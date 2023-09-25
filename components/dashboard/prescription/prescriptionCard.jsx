@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { axiosClient } from "class/axiosConfig";
 import SelectField from "components/commonComponents/selectfield";
-import PrescriptionType from "@/components/dashboard/prescription/prescriptionType";
-import PrescriptionServiceType from "@/components/dashboard/prescription/prescriptionServiceType";
+import PrescriptionType from "components/dashboard/prescription/prescriptionType";
+import PrescriptionServiceType from "components/dashboard/prescription/prescriptionServiceType";
 import TaminSrvSearch from "components/dashboard/prescription/TaminSrvSearch";
-import ExtraSmallLoader from "@/components/commonComponents/loading/extraSmallLoader";
+import ExtraSmallLoader from "components/commonComponents/loading/extraSmallLoader";
 import selectfieldColourStyles from "class/selectfieldStyle";
 
 const PrescriptionCard = ({
@@ -25,10 +25,15 @@ const PrescriptionCard = ({
   FUSelectInstructionArray,
   handleOnBlur,
   handleOnFocus,
+  editSrvData,
+  srvEditMode,
+  drugInstructionList,
+  drugAmountList,
 }) => {
-  const [drugInstructionList, setDrugInstructionList] = useState([]);
-  const [drugAmountList, setDrugAmountList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  // const selectedInstruction = { value: editSrvData.DrugInstruction , label: editSrvData. };
+  // const selectedAmout = {value: , label:  }
 
   function QtyChange(ac) {
     let qty = $("#QtyInput").val();
@@ -60,60 +65,13 @@ const PrescriptionCard = ({
     }
   };
 
-  const getDrugInstructionsList = () => {
-    let url = "TaminEprsc/DrugInstruction";
-
-    axiosClient
-      .post(url)
-      .then((response) => {
-        let selectInstructionData = [];
-        for (let i = 0; i < response.data.res.data.length; i++) {
-          const item = response.data.res.data[i];
-          let obj = {
-            value: item.drugInstId,
-            label: item.drugInstConcept,
-          };
-          selectInstructionData.push(obj);
-        }
-        setDrugInstructionList(selectInstructionData);
-        FUSelectInstructionArray(selectInstructionData);
-      })
-      .catch((error) => console.log(error));
-  };
-
-  const getDrugAmountList = () => {
-    let url = "TaminEprsc/DrugAmount";
-    axiosClient
-      .post(url)
-      .then((response) => {
-        let selectAmountData = [];
-        for (let i = 0; i < response.data.res.data.length; i++) {
-          const item = response.data.res.data[i];
-          let obj = {
-            value: item.drugAmntId,
-            label: item.drugAmntConcept,
-          };
-          selectAmountData.push(obj);
-        }
-        setDrugAmountList(selectAmountData);
-        FUSelectAmountArray(selectAmountData);
-      })
-      .catch((error) => console.log(error));
-  };
-
-  useEffect(() => {
-    getDrugInstructionsList();
-    getDrugAmountList();
-  }, []);
-
   return (
     <>
       <div>
         <div className="card presCard">
           <div className="card-body">
             <div className="prescript-header">
-              <div className="prescript-title">نسخه جدید</div>
-
+              <div className="prescript-title text-secondary">نسخه جدید</div>
               <div className="prescript-btns d-flex gap-2">
                 <div
                   className="btn border-radius visitBtn font-13"
@@ -131,7 +89,6 @@ const PrescriptionCard = ({
               </div>
             </div>
 
-            {/*  */}
             <div className="card-body">
               <ul className="nav nav-tabs nav-tabs-bottom nav-tabs-scroll">
                 {lists.map((item, index) => {
@@ -149,6 +106,7 @@ const PrescriptionCard = ({
                 })}
               </ul>
               <hr />
+
               <form className="w-100 pt-2" onSubmit={SearchTaminSrv}>
                 <div className="input-group mb-3 inputServiceContainer">
                   <label className="lblAbs font-12">
@@ -163,6 +121,7 @@ const PrescriptionCard = ({
                     id="srvSearchInput"
                     name="srvSearchInput"
                     className="form-control rounded-right w-50 padding-right-2"
+                    value={editSrvData?.SrvName}
                   />
 
                   <select
@@ -240,6 +199,7 @@ const PrescriptionCard = ({
                         name="QTY"
                         dir="ltr"
                         defaultValue="1"
+                        value={editSrvData?.Qty}
                       />
                     </div>
                     <div className="col-auto">
@@ -292,12 +252,21 @@ const PrescriptionCard = ({
                   />
                 </div>
                 <div className="col-md-4 media-w-100">
-                  <button
-                    className="btn rounded w-100 addToListBtn font-13"
-                    onClick={FuAddToListItem}
-                  >
-                    اضافه به لیست
-                  </button>
+                  {!srvEditMode ? (
+                    <button
+                      className="btn rounded w-100 addToListBtn font-13"
+                      onClick={FuAddToListItem}
+                    >
+                      اضافه به لیست
+                    </button>
+                  ) : (
+                    <button
+                      className="btn rounded w-100 addToListBtn font-13"
+                      // onClick={}
+                    >
+                      ثبت تغییرات
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

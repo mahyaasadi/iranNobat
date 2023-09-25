@@ -4,17 +4,13 @@ import { useRouter } from "next/router";
 import { getSession } from "lib/session";
 import { axiosClient } from "class/axiosConfig.js";
 import Loading from "components/commonComponents/loading/loading";
-import PrescriptionCard from "@/components/dashboard/prescription/prescriptionCard";
-import PatientInfo from "components/dashboard/prescription/patientInfo";
-import TaminHeader from "@/components/dashboard/prescription/TaminVsArteshHeader";
-import ArteshDoctorsListTable from "components/dashboard/prescription/arteshDoctorsListTable";
-// import PrescriptionItems from "components/dashboard/prescription/PrescriptionItems";
-import AddToListItem from "@/components/dashboard/prescription/PrescriptionItems";
 import { ErrorAlert, SuccessAlert, WarningAlert } from "class/AlertManage.js";
-import {
-  TaminPrescType,
-  TaminServiceType,
-} from "class/taminprescriptionData";
+import PatientInfo from "components/dashboard/prescription/patientInfo";
+import PrescriptionCard from "components/dashboard/prescription/prescriptionCard";
+import ArteshDoctorsListTable from "components/dashboard/prescription/arteshDoctorsListTable";
+import AddToListItem from "components/dashboard/prescription/addToListItem";
+import { TaminPrescType, TaminServiceType } from "class/taminprescriptionData";
+import TaminHeader from "components/dashboard/prescription/TaminVsArteshHeader";
 
 let prescId = 1;
 let ActiveServiceTypeID = "01";
@@ -33,18 +29,46 @@ let ActiveSrvCode,
   count,
   prescriptionHeadID = null;
 
+const getDrugInstructionsList = async () => {
+  // console.log("start getDrugInstructionsList");
+  let url = "TaminEprsc/DrugInstruction";
+  return await axiosClient.post(url);
+};
+
+const getDrugAmountList = async () => {
+  // console.log("start getDrugAmountList");
+  let url = "TaminEprsc/DrugAmount";
+  let result = await axiosClient.post(url);
+  return result;
+};
+
 const ChangeActiveServiceTypeID = (id) => (ActiveServiceTypeID = id);
 
 const selectPrescriptionType = () => console.log("select");
 
 export const getServerSideProps = async ({ req, res }) => {
-  const result = await getSession(req, res);
+  let DrugAmountList = await getDrugAmountList();
+  let drugInstructionList = await getDrugInstructionsList();
+
+  console.log(drugInstructionList);
+
+  const result = getSession(req, res);
 
   if (result) {
     const { UserData, UserRoles } = result;
     const data = await fetch("https://api.irannobat.ir/InoMenu/getAll");
-    const Menus = await data.json();
-    return { props: { Menus, UserData, UserRoles } };
+    if (data) {
+      const Menus = await data.json();
+      return {
+        props: {
+          Menus,
+          UserData,
+          UserRoles,
+          drugAmountList: DrugAmountList.data.res.data,
+          drugInstructionList: drugInstructionList.data.res.data,
+        },
+      };
+    }
   } else {
     return {
       redirect: {
@@ -56,19 +80,51 @@ export const getServerSideProps = async ({ req, res }) => {
 };
 
 let CenterID = null;
-const Prescription = ({ Menus, UserData, UserRoles }) => {
+const Prescription = ({
+  Menus,
+  UserData,
+  UserRoles,
+  drugAmountList,
+  drugInstructionList,
+}) => {
   const Router = useRouter();
   CenterID = UserData.CenterID;
+  let selectInstructionData = [];
+
+  for (let i = 0; i < drugInstructionList.length; i++) {
+    const item = drugInstructionList[i];
+    let obj = {
+      value: item.drugInstId,
+      label: item.drugInstConcept,
+    };
+    selectInstructionData.push(obj);
+  }
+  drugInstructionList = selectInstructionData;
+
+  selectInstructionData = [];
+  for (let i = 0; i < drugAmountList.length; i++) {
+    const item = drugAmountList[i];
+    let obj = {
+      value: item.drugAmntId,
+      label: item.drugAmntConcept,
+    };
+    selectInstructionData.push(obj);
+  }
+  drugAmountList = selectInstructionData;
+  selectInstructionData = null;
 
   const [isLoading, setIsLoading] = useState(true);
   const [patientsInfo, setPatientsInfo] = useState([]);
   const [TaminSrvSearchList, setTaminSrvSearchList] = useState([]);
-  const [PrescriptionItemsData, SetPrescriptionItemsData] = useState([]);
+  const [PrescriptionItemsData, setPrescriptionItemsData] = useState([]);
   const [selectAmountArray, setSelectAmountArray] = useState([]);
   const [selectInstructionArray, setSelectInstructionArray] = useState([]);
   const [taminHeaderList, settaminHeaderList] = useState(TaminPrescType);
   const [TaminServiceTypeList, setTaminServiceTypeList] =
     useState(TaminServiceType);
+
+  const [editSrvData, setEditSrvData] = useState([]);
+  const [srvEditMode, setSrvEditMode] = useState(false);
 
   let insuranceType = null;
 
@@ -79,12 +135,12 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
     SelectedAmountLbl = "";
 
   // get amount options full list
-  const FUSelectAmountArray = (amountArray) => {
+  const FUSelectAmountArray = async (amountArray) => {
     setSelectAmountArray(amountArray);
   };
 
   // set the selected value for drug amount
-  const FUSelectDrugAmount = (amount) => {
+  const FUSelectDrugAmount = async (amount) => {
     SelectedAmount = amount;
     let amountObj = selectAmountArray.find((o) => o.value === SelectedAmount);
     SelectedAmountLbl = amountObj.label;
@@ -105,11 +161,10 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
 
   const ActiveSearch = () => {
     ActiveSrvCode = null;
-    $("#BtnServiceSearch").show();
+    $("#srvSearchInput").val("");
     $("#BtnActiveSearch").hide();
     $("#srvSearchInput").prop("readonly", false);
-
-    $("#srvSearchInput").val("");
+    $("#BtnServiceSearch").show();
     $("#srvSearchInput").focus();
   };
 
@@ -191,13 +246,14 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
         $("#srvSearchInput").val("");
       }
     }
-    if (Img !== undefined) {
+    if (Img) {
       ActivePrscImg = Img;
     }
   };
 
   const changeInsuranceType = (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
@@ -209,10 +265,12 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
       NID: formProps.patientNID,
     };
 
+    console.log({ data });
+
     axiosClient
       .post(url, data)
       .then((response) => {
-        // console.log("changeInsurance", response.data);
+        console.log("changeInsurance", response.data);
         if (response.data.isCovered) {
           SuccessAlert("موفق", "!تغییر نوع بیمه با موفقیت انجام شد");
         } else if (response.data.isCovered !== "true") {
@@ -222,8 +280,12 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
           );
         }
         $("#changeInsuranceTypeModal").hide("");
+        setIsLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
   };
 
   //search services
@@ -340,14 +402,16 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
 
         // console.log("findSrvCode", findSrvCode);
 
-        // if (
-        //   addPrescriptionitems.length > 0 &&
-        //   addPrescriptionitems.find(({ srvId }) => srvId.srvCode === SrvCode)
-        // ) {
-        //   ErrorAlert("خطا", "سرویس انتخابی تکراری می باشد");
-        //   // console.log(srvId);
-        //   return false;
-        // }
+        // console.log({ addPrescriptionitems });
+
+        if (
+          addPrescriptionitems.length > 0 &&
+          addPrescriptionitems.find(({ srvId }) => srvId.srvCode === SrvCode)
+        ) {
+          ErrorAlert("خطا", "سرویس انتخابی تکراری می باشد");
+          // console.log(srvId);
+          return false;
+        }
 
         // count badge
         count = $("#srvItemCountId" + prescId).html();
@@ -369,7 +433,7 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
     }
   };
 
-  // add to list function
+  // add to list
   const FuAddToListItem = async (e) => {
     e.preventDefault();
 
@@ -393,9 +457,12 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
         Name: ActiveSrvName,
         Code: ActiveSrvCode,
       };
+
+      // console.log({ prescData });
+
       addPrescriptionitems.push(prescData);
       addPrescriptionSrvNameitems.push(onlyVisitPrescData);
-      SetPrescriptionItemsData([...PrescriptionItemsData, prescItems]);
+      setPrescriptionItemsData([...PrescriptionItemsData, prescItems]);
       ActiveSearch();
       $("#QtyInput").val("1");
       SelectedAmount = null;
@@ -405,16 +472,18 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
 
   const updatePrescriptionAddItem = async (obj) => {
     let arr = [];
-    obj.data.map(async (presc) => {
+    for (let i = 0; i < obj.data.length; i++) {
+      const presc = obj.data[i];
+      console.log({ drugInstructionList });
       let drugAmntId = presc.drugAmntId;
-      let drugAmntLbl = selectAmountArray.find((o) => o.value === drugAmntId);
+      let drugAmntLbl = drugAmountList.find((o) => o.value === drugAmntId);
 
       if (drugAmntLbl) {
         drugAmntLbl = drugAmntLbl.label;
       }
 
       let drugInstId = presc.drugInstId;
-      let InstructionLbl = selectInstructionArray.find(
+      let InstructionLbl = drugInstructionList.find(
         (o) => o.value === drugInstId
       );
 
@@ -437,17 +506,15 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
         presc.srvId.parTarefGrp?.parGrpCode
       );
 
+      console.log({ prescData });
+
       if (prescData) {
         addPrescriptionitems.push(prescData);
-        // console.log({ addPrescriptionitems });
-        // SetPrescriptionItemsData([...PrescriptionItemsData, prescItems]);
-        SetPrescriptionItemsData(addPrescriptionitems);
-        ActiveSearch();
-        $("#QtyInput").val("1");
-        SelectedAmount = null;
-        SelectedInstruction = null;
+        // console.log(prescItems);
+        arr.push(prescItems);
       }
-    });
+    }
+    setPrescriptionItemsData(arr);
   };
 
   // only Visit
@@ -518,86 +585,170 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
     }
   };
 
-  // const responseObj = {
-  //   status: 200,
-  //   family: "SUCCESSFUL",
-  //   reason: "OK",
-  //   data: [
-  //     {
-  //       noteDetailsEprscId: 3881192726,
-  //       srvId: {
-  //         srvId: 123730,
-  //         srvType: {
-  //           srvType: "02",
-  //           srvTypeDes: "آزمايشگاه",
-  //           status: "1",
-  //           statusstDate: "13940101",
-  //           custType: "4",
-  //           prescTypeId: 2,
-  //         },
-  //         srvCode: "807307-004",
-  //         srvName:
-  //           "396902002-نمونه از غده تيموس که با بيوپسي سوزني ترانس قفسه سينه (نمونه) به دست آمده است",
-  //         srvName2:
-  //           "396902002-Specimen from thymus gland obtained by transthoracic needle biopsy (specimen)",
-  //         srvBimSw: "1",
-  //         srvSex: null,
-  //         srvPrice: 1488300,
-  //         srvPriceDate: "14000226",
-  //         doseCode: null,
-  //         parTarefGrp: {
-  //           parGrpCode: "001",
-  //           parGrpDesc: "آسيب شناسي",
-  //           parGrpRem: "1",
-  //           status: "1",
-  //           statusStDate: "13830101",
-  //         },
-  //         status: "1",
-  //         statusstDate: "14010231",
-  //         bGType: null,
-  //         gSrvCode: null,
-  //         agreementFlag: null,
-  //         isDeleted: "0",
-  //         visible: null,
-  //         dentalServiceType: null,
-  //         wsSrvCode: "807307-004",
-  //         hosprescType: null,
-  //         countIsRestricted: null,
-  //         terminology: null,
-  //         srvCodeComplete: "807307-004",
-  //       },
-  //       srvQty: 1,
-  //       srvRem: 1,
-  //       srvPrice: 1488300,
-  //       timesAday: null,
-  //       dose: null,
-  //       doseCode: null,
-  //       repeat: null,
-  //       isBrand: null,
-  //       dateDo: null,
-  //       isOk: "0",
-  //       drugInstruction: null,
-  //       isPayable: null,
-  //       organId: null,
-  //       organDesc: null,
-  //       illnessId: null,
-  //       illnessDesc: null,
-  //       planId: null,
-  //       planDesc: null,
-  //       organDet: null,
-  //       organDetDesc: null,
-  //       confirmStatusflag: null,
-  //       drugAmntId: null,
-  //       drugInstId: null,
-  //       isDentalService: null,
-  //       noteHeadEprscId: null,
-  //       toothId: null,
-  //       referenceStatus: null,
-  //       repeatDays: null,
-  //       readOnly: false,
-  //     },
-  //   ],
-  // };
+  const responseObj = {
+    status: 200,
+    family: "SUCCESSFUL",
+    reason: "OK",
+    data: [
+      {
+        noteDetailsEprscId: 4333946612,
+        srvId: {
+          srvId: 63005,
+          srvType: {
+            srvType: "01",
+            srvTypeDes: "دارويي",
+            status: "1",
+            statusstDate: "13940101",
+            custType: "3",
+            prescTypeId: 1,
+          },
+          srvCode: "05760",
+          srvName:
+            "FORMOTEROL 12MCG Pre-dispensed singledose Strips-Blister/CAP",
+          srvName2: null,
+          srvBimSw: "1",
+          srvSex: null,
+          srvPrice: 8390,
+          srvPriceDate: "13990723",
+          doseCode: null,
+          parTarefGrp: null,
+          status: "1",
+          statusstDate: "13980201",
+          bGType: "1",
+          gSrvCode: null,
+          agreementFlag: null,
+          isDeleted: null,
+          visible: "1",
+          dentalServiceType: null,
+          wsSrvCode: "05760",
+          hosprescType: "0",
+          countIsRestricted: null,
+          terminology: null,
+          srvCodeComplete: "0000005760",
+        },
+        srvQty: 3,
+        srvRem: 3,
+        srvPrice: 8390,
+        timesAday: {
+          drugAmntId: 186,
+          drugAmntCode: "186",
+          drugAmntSumry: "Syrup/Susp\n",
+          drugAmntLatin: "0.5 cc",
+          drugAmntConcept: "نيم سي سي-Syrup/Susp\n",
+          visibled: "1",
+        },
+        dose: null,
+        doseCode: 0,
+        repeat: null,
+        isBrand: null,
+        dateDo: null,
+        isOk: "0",
+        drugInstruction: {
+          drugInstId: 61,
+          drugInstCode: "61",
+          drugInstSumry: null,
+          drugInstLatin: null,
+          drugInstConcept: "دو بار در روز",
+        },
+        isPayable: null,
+        organId: null,
+        organDesc: null,
+        illnessId: null,
+        illnessDesc: null,
+        planId: null,
+        planDesc: null,
+        organDet: null,
+        organDetDesc: null,
+        confirmStatusflag: null,
+        drugAmntId: 186,
+        drugInstId: 61,
+        isDentalService: null,
+        noteHeadEprscId: null,
+        toothId: null,
+        referenceStatus: null,
+        repeatDays: null,
+        readOnly: false,
+      },
+      {
+        noteDetailsEprscId: 4333946613,
+        srvId: {
+          srvId: 64413,
+          srvType: {
+            srvType: "01",
+            srvTypeDes: "دارويي",
+            status: "1",
+            statusstDate: "13940101",
+            custType: "3",
+            prescTypeId: 1,
+          },
+          srvCode: "52185",
+          srvName: "Codeine/guaifenesine  10 mg/100 mg/5 mL, 60 mL ORAL SYRUP",
+          srvName2: null,
+          srvBimSw: null,
+          srvSex: null,
+          srvPrice: 0,
+          srvPriceDate: "13980216",
+          doseCode: null,
+          parTarefGrp: null,
+          status: "2",
+          statusstDate: "13980216",
+          bGType: "1",
+          gSrvCode: null,
+          agreementFlag: null,
+          isDeleted: null,
+          visible: "1",
+          dentalServiceType: null,
+          wsSrvCode: "52185",
+          hosprescType: "0",
+          countIsRestricted: null,
+          terminology: null,
+          srvCodeComplete: "0000052185",
+        },
+        srvQty: 3,
+        srvRem: 3,
+        srvPrice: 0,
+        timesAday: {
+          drugAmntId: 185,
+          drugAmntCode: "185",
+          drugAmntSumry: "INJ\n",
+          drugAmntLatin: "2",
+          drugAmntConcept: "دو عدد-INJ\n",
+          visibled: "1",
+        },
+        dose: null,
+        doseCode: 0,
+        repeat: null,
+        isBrand: null,
+        dateDo: null,
+        isOk: "0",
+        drugInstruction: {
+          drugInstId: 62,
+          drugInstCode: "62",
+          drugInstSumry: null,
+          drugInstLatin: null,
+          drugInstConcept: "سه بار در روز",
+        },
+        isPayable: null,
+        organId: null,
+        organDesc: null,
+        illnessId: null,
+        illnessDesc: null,
+        planId: null,
+        planDesc: null,
+        organDet: null,
+        organDetDesc: null,
+        confirmStatusflag: null,
+        drugAmntId: 185,
+        drugInstId: 62,
+        isDentalService: null,
+        noteHeadEprscId: null,
+        toothId: null,
+        referenceStatus: null,
+        repeatDays: null,
+        readOnly: false,
+      },
+    ],
+  };
 
   //get prescription data by headId to edit
   const getEprscData = () => {
@@ -618,21 +769,31 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
     }
   };
 
+  // edit services in prescript
+  const handleEditService = (srvData) => {
+    setEditSrvData(srvData);
+    setSrvEditMode(true);
+  };
+  console.log({ editSrvData });
+
   useEffect(() => {
     prescriptionHeadID = Router.query.id;
-    ActivePatientID = Router.query.pid;
+    // ActivePatientID = Router.query.pid;
 
-    if (ActivePatientID) {
-      $("#frmPatientInfoBtnSubmit").click();
-    }
+    // if (ActivePatientID) {
+    //   $("#frmPatientInfoBtnSubmit").click();
+    // }
+
+    if (prescriptionHeadID) getEprscData();
+
+    // updatePrescriptionAddItem(responseObj);
+
     // window.onbeforeunload = function () {
     //   return 'Changes you made may not be saved';
     // }
-    getEprscData();
-  }, [prescriptionHeadID]);
+  }, []);
 
   useEffect(() => {
-    // console.log("PrescriptionItemsData", PrescriptionItemsData);
     $(".unsuccessfullSearch").hide();
   }, [PrescriptionItemsData]);
 
@@ -652,6 +813,8 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
                 changeInsuranceType={changeInsuranceType}
                 selectInsuranceType={selectInsuranceType}
                 ActivePatientID={ActivePatientID}
+                UserData={UserData}
+                isLoading={isLoading}
               />
             </div>
 
@@ -675,13 +838,17 @@ const Prescription = ({ Menus, UserData, UserRoles }) => {
                 handleOnFocus={handleOnFocus}
                 handleOnBlur={handleOnBlur}
                 isLoading={isLoading}
+                editSrvData={editSrvData}
+                srvEditMode={srvEditMode}
+                drugInstructionList={drugInstructionList}
+                drugAmountList={drugAmountList}
               />
 
               <div className="prescList">
                 <AddToListItem
                   data={PrescriptionItemsData}
-                  SetPrescriptionItemsData={SetPrescriptionItemsData}
-                  prescId={prescId}
+                  setPrescriptionItemsData={setPrescriptionItemsData}
+                  handleEditService={handleEditService}
                 />
               </div>
             </div>

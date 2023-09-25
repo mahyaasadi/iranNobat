@@ -42,11 +42,11 @@ const Login = (req, res) => {
         const session = response.data;
         let rolesSession = await setSession(roles);
 
-        var in6Hours = 6 / 24;
-        Cookies.set("roles", rolesSession, { expires: in6Hours });
+        var in9Hours = 9 / 24;
+        Cookies.set("roles", rolesSession, { expires: in9Hours });
 
         let resSession = await setSession(session);
-        Cookies.set("session", resSession, { expires: in6Hours });
+        Cookies.set("session", resSession, { expires: in9Hours });
         router.push("/dashboard");
       })
       .catch(function (error) {
@@ -115,8 +115,9 @@ const Login = (req, res) => {
                             />
                             <span
                               onClick={onEyeClick}
-                              className={`fa toggle-password" ${eye ? "fa-eye-slash" : "fa-eye"
-                                }`}
+                              className={`fa toggle-password" ${
+                                eye ? "fa-eye-slash" : "fa-eye"
+                              }`}
                             />
                           </div>
                         )}

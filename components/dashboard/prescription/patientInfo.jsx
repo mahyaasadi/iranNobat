@@ -11,6 +11,8 @@ const PatientInfo = ({
   insuranceType,
   selectInsuranceType,
   getAppointment,
+  UserData,
+  isLoading,
 }) => {
   const dateFormat = (str) => {
     if (str !== " " || str !== null) {
@@ -98,6 +100,8 @@ const PatientInfo = ({
               changeInsuranceType={changeInsuranceType}
               selectInsuranceType={selectInsuranceType}
               data={data}
+              UserData={UserData}
+              isLoading={isLoading}
             />
 
             <EditPhoneNumberModal />
