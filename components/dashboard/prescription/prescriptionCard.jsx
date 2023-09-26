@@ -29,6 +29,7 @@ const PrescriptionCard = ({
   srvEditMode,
   drugInstructionList,
   drugAmountList,
+  favEprescItems,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -168,6 +169,7 @@ const PrescriptionCard = ({
                 <div className="col-12 SearchDiv" id="searchDiv">
                   <TaminSrvSearch
                     data={TaminSrvSearchList}
+                    favEprescItems={favEprescItems}
                     SelectSrvSearch={SelectSrvSearch}
                   />
                 </div>

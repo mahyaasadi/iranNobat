@@ -4,13 +4,18 @@ import { useRouter } from "next/router";
 import { getSession } from "lib/session";
 import { axiosClient } from "class/axiosConfig.js";
 import Loading from "components/commonComponents/loading/loading";
-import { ErrorAlert, SuccessAlert, WarningAlert } from "class/AlertManage.js";
 import PatientInfo from "components/dashboard/prescription/patientInfo";
 import PrescriptionCard from "components/dashboard/prescription/prescriptionCard";
 import ArteshDoctorsListTable from "components/dashboard/prescription/arteshDoctorsListTable";
 import AddToListItem from "components/dashboard/prescription/addToListItem";
 import { TaminPrescType, TaminServiceType } from "class/taminprescriptionData";
 import TaminHeader from "components/dashboard/prescription/TaminVsArteshHeader";
+import {
+  ErrorAlert,
+  SuccessAlert,
+  WarningAlert,
+  QuestionAlert,
+} from "class/AlertManage.js";
 
 let prescId = 1;
 let ActiveServiceTypeID = "01";
@@ -30,13 +35,11 @@ let ActiveSrvCode,
   prescriptionHeadID = null;
 
 const getDrugInstructionsList = async () => {
-  // console.log("start getDrugInstructionsList");
   let url = "TaminEprsc/DrugInstruction";
   return await axiosClient.post(url);
 };
 
 const getDrugAmountList = async () => {
-  // console.log("start getDrugAmountList");
   let url = "TaminEprsc/DrugAmount";
   let result = await axiosClient.post(url);
   return result;
@@ -125,6 +128,7 @@ const Prescription = ({
 
   const [editSrvData, setEditSrvData] = useState([]);
   const [srvEditMode, setSrvEditMode] = useState(false);
+  const [favEprescItems, setFavEprescItems] = useState([]);
 
   let insuranceType = null;
 
@@ -142,7 +146,7 @@ const Prescription = ({
   // set the selected value for drug amount
   const FUSelectDrugAmount = async (amount) => {
     SelectedAmount = amount;
-    let amountObj = selectAmountArray.find((o) => o.value === SelectedAmount);
+    let amountObj = drugAmountList.find((o) => o.value === SelectedAmount);
     SelectedAmountLbl = amountObj.label;
   };
 
@@ -153,7 +157,7 @@ const Prescription = ({
 
   const FUSelectInstructionType = (instruction) => {
     SelectedInstruction = instruction;
-    let instructionObj = selectInstructionArray.find(
+    let instructionObj = drugInstructionList.find(
       (o) => o.value === SelectedInstruction
     );
     SelectedInstructionLbl = instructionObj.label;
@@ -215,7 +219,12 @@ const Prescription = ({
 
   const handleOnFocus = () => {
     if (ActiveSrvCode === null && $("#srvSearchInput").val().length > 2) {
-      $(".SearchDiv").show();
+      // $(".SearchDiv").show();
+      setTimeout(() => {
+        $("#BtnServiceSearch").show();
+        $("#srvSearchInput").focus();
+        $(".SearchDiv").show();
+      }, 100);
     }
   };
 
@@ -231,6 +240,7 @@ const Prescription = ({
   };
 
   const changePrescId = (Sid, Img, name, id) => {
+    console.log({ Img });
     ActiveServiceTypeID = Sid;
     ActivePrscName = name;
     prescId = id;
@@ -303,14 +313,15 @@ const Prescription = ({
 
       axiosClient
         .post("TaminServices/SearchSrv", data)
-        .then(function (response) {
+        .then((response) => {
           setTaminSrvSearchList(response.data);
+
           $(".SearchDiv").show();
           $(".unsuccessfullSearch").hide();
-          setIsLoading(false);
           if (response.data.length === 0) {
             $(".unsuccessfullSearch").show();
           }
+          setIsLoading(false);
         })
         .catch((err) => {
           console.log(err);
@@ -400,10 +411,6 @@ const Prescription = ({
         //   ({ x }) => x.srvId.srvCode === SrvCode
         // );
 
-        // console.log("findSrvCode", findSrvCode);
-
-        // console.log({ addPrescriptionitems });
-
         if (
           addPrescriptionitems.length > 0 &&
           addPrescriptionitems.find(({ srvId }) => srvId.srvCode === SrvCode)
@@ -458,7 +465,8 @@ const Prescription = ({
         Code: ActiveSrvCode,
       };
 
-      // console.log({ prescData });
+      console.log({ prescData });
+      console.log({ prescItems });
 
       addPrescriptionitems.push(prescData);
       addPrescriptionSrvNameitems.push(onlyVisitPrescData);
@@ -474,7 +482,6 @@ const Prescription = ({
     let arr = [];
     for (let i = 0; i < obj.data.length; i++) {
       const presc = obj.data[i];
-      console.log({ drugInstructionList });
       let drugAmntId = presc.drugAmntId;
       let drugAmntLbl = drugAmountList.find((o) => o.value === drugAmntId);
 
@@ -506,15 +513,16 @@ const Prescription = ({
         presc.srvId.parTarefGrp?.parGrpCode
       );
 
-      console.log({ prescData });
+      // console.log({ prescData });
+      // console.log({ prescItems });
 
       if (prescData) {
         addPrescriptionitems.push(prescData);
-        // console.log(prescItems);
         arr.push(prescItems);
       }
     }
     setPrescriptionItemsData(arr);
+    console.log({ PrescriptionItemsData });
   };
 
   // only Visit
@@ -776,21 +784,56 @@ const Prescription = ({
   };
   console.log({ editSrvData });
 
+  // favourite items
+  const getFavEprescItems = () => {
+    let url = `FavEprscItem/getTamin/${CenterID}`;
+
+    axiosClient
+      .get(url)
+      .then((response) => {
+        console.log(response.data);
+        setFavEprescItems(response.data);
+        // setTaminSrvSearchList(response.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const selectFavEprescItem = async (selectedPrescData) => {
+    let url = "FavEprscItem/addTamin";
+    let data = {
+      CenterID: CenterID,
+      prescItem: selectedPrescData,
+    };
+
+    console.log({ data });
+
+    axiosClient
+      .post(url, data)
+      .then((response) => {
+        console.log(response.data);
+        console.log({ favEprescItems });
+        setFavEprescItems([...response.data, favEprescItems]);
+        SuccessAlert("موفق", "سرویس به لیست علاقه مندی ها اضافه گردید!");
+      })
+      .catch((err) => console.log(err));
+  };
+
   useEffect(() => {
-    prescriptionHeadID = Router.query.id;
+    // prescriptionHeadID = Router.query.id;
     // ActivePatientID = Router.query.pid;
 
     // if (ActivePatientID) {
     //   $("#frmPatientInfoBtnSubmit").click();
     // }
 
-    if (prescriptionHeadID) getEprscData();
+    // if (prescriptionHeadID) getEprscData();
 
-    // updatePrescriptionAddItem(responseObj);
+    updatePrescriptionAddItem(responseObj);
 
     // window.onbeforeunload = function () {
     //   return 'Changes you made may not be saved';
     // }
+    getFavEprescItems();
   }, []);
 
   useEffect(() => {
@@ -825,6 +868,7 @@ const Prescription = ({
                 SelectSrvSearch={SelectSrvSearch}
                 SearchTaminSrv={SearchTaminSrv}
                 TaminSrvSearchList={TaminSrvSearchList}
+                favEprescItems={favEprescItems}
                 ServiceList={TaminServiceTypeList}
                 lists={taminHeaderList}
                 onSelect={selectPrescriptionType}
@@ -849,6 +893,7 @@ const Prescription = ({
                   data={PrescriptionItemsData}
                   setPrescriptionItemsData={setPrescriptionItemsData}
                   handleEditService={handleEditService}
+                  selectFavEprescItem={selectFavEprescItem}
                 />
               </div>
             </div>

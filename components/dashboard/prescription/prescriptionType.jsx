@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Image from "next/image";
 
 const PrescriptionType = ({ img, name, active, id, changePrescId }) => {
@@ -43,6 +44,10 @@ const PrescriptionType = ({ img, name, active, id, changePrescId }) => {
         break;
     }
   };
+
+  // useEffect(() => {
+  //   changePrescId("01", img, name, 1);
+  // }, []);
 
   return (
     <>

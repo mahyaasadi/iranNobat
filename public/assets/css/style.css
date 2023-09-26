@@ -9192,6 +9192,17 @@ ul li .active {
   position: relative;
 }
 
+.prescItembtns {
+  width: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.prescItem {
+  margin-bottom: 20px !important;
+}
+
 .srvTypeInfo {
   font-size: 12px;
   align-items: center;

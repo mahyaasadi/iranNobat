@@ -13,9 +13,9 @@ const Srv = ({ name, code, SelectSrvSearch, type, paraTarefCode }) => {
       className="btn btn-outline-info border-radius btn-sm w-100 mb-1 right-text"
       onClick={Select}
     >
-      {code}
-      {" | "}
       {name}
+      {" | "}
+      {code}
     </button>
   );
 };
