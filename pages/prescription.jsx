@@ -513,8 +513,8 @@ const Prescription = ({
         presc.srvId.parTarefGrp?.parGrpCode
       );
 
-      // console.log({ prescData });
-      // console.log({ prescItems });
+      console.log({ prescData });
+      console.log({ prescItems });
 
       if (prescData) {
         addPrescriptionitems.push(prescData);

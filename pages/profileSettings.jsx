@@ -211,7 +211,7 @@ const ProfileSettings = ({ Menus, UserData, UserRoles }) => {
     $("#newPassValidationText2").hide();
     getUserById();
   }, []);
-  2;
+
   return (
     <>
       <Head>

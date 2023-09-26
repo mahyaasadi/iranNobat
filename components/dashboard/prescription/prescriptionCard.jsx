@@ -33,8 +33,13 @@ const PrescriptionCard = ({
 }) => {
   const [isLoading, setIsLoading] = useState(false);
 
-  // const selectedInstruction = { value: editSrvData.DrugInstruction , label: editSrvData. };
-  // const selectedAmout = {value: , label:  }
+  console.log({ drugAmountList });
+
+  const findDrugInsId = drugAmountList.find((x) => x.label = editSrvData.DrugInstruction)
+  console.log({ findDrugInsId });
+
+  const selectedInstruction = { value: editSrvData.DrugInstruction, label: editSrvData.DrugInstruction };
+  const selectedAmount = { value: editSrvData.TimesADay, label: editSrvData.TimesADay }
 
   function QtyChange(ac) {
     let qty = $("#QtyInput").val();
@@ -227,6 +232,7 @@ const PrescriptionCard = ({
                     onChangeValue={(value) =>
                       FUSelectInstructionType(value?.value)
                     }
+                    value={selectedInstruction}
                   />
                 </div>
 
@@ -240,6 +246,7 @@ const PrescriptionCard = ({
                     placeholder={" "}
                     required
                     onChangeValue={(value) => FUSelectDrugAmount(value?.value)}
+                    value={selectedAmount}
                   />
                 </div>
               </div>
@@ -264,7 +271,7 @@ const PrescriptionCard = ({
                   ) : (
                     <button
                       className="btn rounded w-100 addToListBtn font-13"
-                      // onClick={}
+                    // onClick={}
                     >
                       ثبت تغییرات
                     </button>
