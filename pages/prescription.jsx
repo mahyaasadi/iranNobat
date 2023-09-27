@@ -10,12 +10,7 @@ import ArteshDoctorsListTable from "components/dashboard/prescription/arteshDoct
 import AddToListItem from "components/dashboard/prescription/addToListItem";
 import { TaminPrescType, TaminServiceType } from "class/taminprescriptionData";
 import TaminHeader from "components/dashboard/prescription/TaminVsArteshHeader";
-import {
-  ErrorAlert,
-  SuccessAlert,
-  WarningAlert,
-  QuestionAlert,
-} from "class/AlertManage.js";
+import { ErrorAlert, SuccessAlert, WarningAlert } from "class/AlertManage.js";
 
 let prescId = 1;
 let ActiveServiceTypeID = "01";
@@ -52,8 +47,6 @@ const selectPrescriptionType = () => console.log("select");
 export const getServerSideProps = async ({ req, res }) => {
   let DrugAmountList = await getDrugAmountList();
   let drugInstructionList = await getDrugInstructionsList();
-
-  console.log(drugInstructionList);
 
   const result = getSession(req, res);
 
@@ -92,8 +85,8 @@ const Prescription = ({
 }) => {
   const Router = useRouter();
   CenterID = UserData.CenterID;
-  let selectInstructionData = [];
 
+  let selectInstructionData = [];
   for (let i = 0; i < drugInstructionList.length; i++) {
     const item = drugInstructionList[i];
     let obj = {
@@ -120,8 +113,6 @@ const Prescription = ({
   const [patientsInfo, setPatientsInfo] = useState([]);
   const [TaminSrvSearchList, setTaminSrvSearchList] = useState([]);
   const [PrescriptionItemsData, setPrescriptionItemsData] = useState([]);
-  const [selectAmountArray, setSelectAmountArray] = useState([]);
-  const [selectInstructionArray, setSelectInstructionArray] = useState([]);
   const [taminHeaderList, settaminHeaderList] = useState(TaminPrescType);
   const [TaminServiceTypeList, setTaminServiceTypeList] =
     useState(TaminServiceType);
@@ -138,29 +129,15 @@ const Prescription = ({
     SelectedAmount,
     SelectedAmountLbl = "";
 
-  // get amount options full list
-  const FUSelectAmountArray = async (amountArray) => {
-    setSelectAmountArray(amountArray);
-  };
-
   // set the selected value for drug amount
-  const FUSelectDrugAmount = async (amount) => {
-    SelectedAmount = amount;
-    let amountObj = drugAmountList.find((o) => o.value === SelectedAmount);
-    SelectedAmountLbl = amountObj.label;
+  const FUSelectDrugAmount = (amount) => {
+    SelectedAmount = amount?.value;
+    SelectedAmountLbl = amount ? amount.label : "";
   };
 
-  // get instruction options full list
-  const FUSelectInstructionArray = (instructionArray) => {
-    setSelectInstructionArray(instructionArray);
-  };
-
-  const FUSelectInstructionType = (instruction) => {
-    SelectedInstruction = instruction;
-    let instructionObj = drugInstructionList.find(
-      (o) => o.value === SelectedInstruction
-    );
-    SelectedInstructionLbl = instructionObj.label;
+  const FUSelectInstruction = (instruction) => {
+    SelectedInstruction = instruction?.value;
+    SelectedInstructionLbl = instruction ? instruction.label : "";
   };
 
   const ActiveSearch = () => {
@@ -219,12 +196,7 @@ const Prescription = ({
 
   const handleOnFocus = () => {
     if (ActiveSrvCode === null && $("#srvSearchInput").val().length > 2) {
-      // $(".SearchDiv").show();
-      setTimeout(() => {
-        $("#BtnServiceSearch").show();
-        $("#srvSearchInput").focus();
-        $(".SearchDiv").show();
-      }, 100);
+      $(".SearchDiv").show();
     }
   };
 
@@ -240,13 +212,14 @@ const Prescription = ({
   };
 
   const changePrescId = (Sid, Img, name, id) => {
-    console.log({ Img });
+    // console.log({ Img });
     ActiveServiceTypeID = Sid;
     ActivePrscName = name;
     prescId = id;
 
     count = $("#srvItemCountId" + prescId).html();
     // console.log("count", count);
+
     $(".unsuccessfullSearch").hide();
 
     if (ActiveSrvCode) {
@@ -261,6 +234,7 @@ const Prescription = ({
     }
   };
 
+  // change insurance type
   const changeInsuranceType = (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -301,11 +275,13 @@ const Prescription = ({
   //search services
   const SearchTaminSrv = (e) => {
     e.preventDefault();
+
     if (ActiveSrvCode == null) {
       setIsLoading(true);
 
       let formData = new FormData(e.target);
       const formProps = Object.fromEntries(formData);
+
       let data = {
         Text: formProps.srvSearchInput,
         srvType: ActiveServiceTypeID,
@@ -415,8 +391,8 @@ const Prescription = ({
           addPrescriptionitems.length > 0 &&
           addPrescriptionitems.find(({ srvId }) => srvId.srvCode === SrvCode)
         ) {
-          ErrorAlert("خطا", "سرویس انتخابی تکراری می باشد");
           // console.log(srvId);
+          ErrorAlert("خطا", "سرویس انتخابی تکراری می باشد");
           return false;
         }
 
@@ -465,12 +441,13 @@ const Prescription = ({
         Code: ActiveSrvCode,
       };
 
-      console.log({ prescData });
-      console.log({ prescItems });
+      // console.log({ prescData });
+      // console.log({ prescItems });
 
       addPrescriptionitems.push(prescData);
       addPrescriptionSrvNameitems.push(onlyVisitPrescData);
       setPrescriptionItemsData([...PrescriptionItemsData, prescItems]);
+
       ActiveSearch();
       $("#QtyInput").val("1");
       SelectedAmount = null;
@@ -513,8 +490,8 @@ const Prescription = ({
         presc.srvId.parTarefGrp?.parGrpCode
       );
 
-      console.log({ prescData });
-      console.log({ prescItems });
+      // console.log({ prescData });
+      // console.log({ prescItems });
 
       if (prescData) {
         addPrescriptionitems.push(prescData);
@@ -522,7 +499,6 @@ const Prescription = ({
       }
     }
     setPrescriptionItemsData(arr);
-    console.log({ PrescriptionItemsData });
   };
 
   // only Visit
@@ -777,12 +753,60 @@ const Prescription = ({
     }
   };
 
-  // edit services in prescript
-  const handleEditService = (srvData) => {
+  // edit prescItem
+  const handleEditPrescItem = (srvData) => {
     setEditSrvData(srvData);
     setSrvEditMode(true);
   };
-  console.log({ editSrvData });
+
+  const editPrescItem = async (e) => {
+    e.preventDefault();
+
+    // let formData = new FormData(e.target);
+    // const formProps = Object.fromEntries(formData);
+
+    // // let url = "";
+    // let data = {
+    //   srvCode: formProps.srvCode,
+    //   srvName: formProps.srvSearchInput,
+    //   qty: formProps,
+    //   instruction: formProps,
+    //   amount: formProps,
+    // };
+
+    // console.log({ data });
+
+    // let { prescData, prescItems } = await prescItemCreator(
+    //   presc.srvId.srvType.prescTypeId,
+    //   drugInstId,
+    //   drugAmntId,
+    //   presc.srvId.srvCode,
+    //   presc.srvId.srvName,
+    //   presc.srvQty,
+    //   "",
+    //   InstructionLbl,
+    //   drugAmntLbl,
+    //   presc.srvId.srvType.srvTypeDes,
+    //   presc.srvId.srvType.srvType,
+    //   presc.srvId.parTarefGrp?.parGrpCode
+    // );
+  };
+
+  const cancelEditPresc = (e) => {
+    // empties all fields
+    e.preventDefault();
+
+    $("#srvSearchInput").val("");
+    $("#QtyInput").val("1");
+    SelectedAmount = null;
+    SelectedInstruction = null;
+    // SelectedInstructionLbl = null;
+    // SelectedAmountLbl = null;
+    FUSelectInstruction(null);
+    FUSelectDrugAmount(null);
+
+    console.log({ SelectedInstructionLbl, SelectedAmountLbl });
+  };
 
   // favourite items
   const getFavEprescItems = () => {
@@ -791,7 +815,7 @@ const Prescription = ({
     axiosClient
       .get(url)
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         setFavEprescItems(response.data);
         // setTaminSrvSearchList(response.data);
       })
@@ -875,10 +899,8 @@ const Prescription = ({
                 changePrescId={changePrescId}
                 ChangeActiveServiceTypeID={ChangeActiveServiceTypeID}
                 FuAddToListItem={FuAddToListItem}
-                FUSelectInstructionType={FUSelectInstructionType}
+                FUSelectInstruction={FUSelectInstruction}
                 FUSelectDrugAmount={FUSelectDrugAmount}
-                FUSelectAmountArray={FUSelectAmountArray}
-                FUSelectInstructionArray={FUSelectInstructionArray}
                 handleOnFocus={handleOnFocus}
                 handleOnBlur={handleOnBlur}
                 isLoading={isLoading}
@@ -886,13 +908,15 @@ const Prescription = ({
                 srvEditMode={srvEditMode}
                 drugInstructionList={drugInstructionList}
                 drugAmountList={drugAmountList}
+                editPrescItem={editPrescItem}
+                cancelEditPresc={cancelEditPresc}
               />
 
               <div className="prescList">
                 <AddToListItem
                   data={PrescriptionItemsData}
                   setPrescriptionItemsData={setPrescriptionItemsData}
-                  handleEditService={handleEditService}
+                  handleEditPrescItem={handleEditPrescItem}
                   selectFavEprescItem={selectFavEprescItem}
                 />
               </div>

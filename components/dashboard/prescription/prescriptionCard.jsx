@@ -18,11 +18,9 @@ const PrescriptionCard = ({
   SelectSrvSearch,
   FuAddToListItem,
   registerEpresc,
-  FUSelectInstructionType,
+  FUSelectInstruction,
   FUSelectDrugAmount,
   ActiveSearch,
-  FUSelectAmountArray,
-  FUSelectInstructionArray,
   handleOnBlur,
   handleOnFocus,
   editSrvData,
@@ -30,16 +28,11 @@ const PrescriptionCard = ({
   drugInstructionList,
   drugAmountList,
   favEprescItems,
+  SelectedAmountLbl,
+  editPrescItem,
+  cancelEditPresc,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-
-  console.log({ drugAmountList });
-
-  const findDrugInsId = drugAmountList.find((x) => x.label = editSrvData.DrugInstruction)
-  console.log({ findDrugInsId });
-
-  const selectedInstruction = { value: editSrvData.DrugInstruction, label: editSrvData.DrugInstruction };
-  const selectedAmount = { value: editSrvData.TimesADay, label: editSrvData.TimesADay }
 
   function QtyChange(ac) {
     let qty = $("#QtyInput").val();
@@ -70,6 +63,36 @@ const PrescriptionCard = ({
       setIsLoading(false);
     }
   };
+
+  console.log({ editSrvData });
+
+  const editDrugInstructionData = drugInstructionList.find(
+    (x) => x.label == editSrvData.DrugInstruction
+  );
+
+  const editDrugAmountData = drugAmountList.find(
+    (x) => x.label == editSrvData.TimesADay
+  );
+
+  const [defaultDrugAmount, setDefaultDrugAmount] = useState(null);
+  const [defaultDrugInstruction, setDefaultDrugInstruction] = useState(null);
+
+  const handleDrugAmountSelectfield = (e) => {
+    setDefaultDrugAmount(e);
+    FUSelectDrugAmount(e);
+  };
+
+  const handleDrugInstructionSelectfield = (e) => {
+    setDefaultDrugInstruction(e);
+    FUSelectInstruction(e);
+  };
+
+  useEffect(() => {
+    if (editDrugAmountData && editDrugInstructionData) {
+      setDefaultDrugAmount(null);
+      setDefaultDrugInstruction(null);
+    }
+  }, [editDrugAmountData, editDrugInstructionData]);
 
   return (
     <>
@@ -115,6 +138,12 @@ const PrescriptionCard = ({
 
               <form className="w-100 pt-2" onSubmit={SearchTaminSrv}>
                 <div className="input-group mb-3 inputServiceContainer">
+                  <input
+                    type="hidden"
+                    name="srvCode"
+                    value={editSrvData?.SrvCode}
+                  />
+
                   <label className="lblAbs font-12">
                     نام / کد خدمت یا دارو
                   </label>
@@ -130,6 +159,7 @@ const PrescriptionCard = ({
                     value={editSrvData?.SrvName}
                   />
 
+                  {/* paraClinic */}
                   <select
                     className="form-select disNone"
                     id="ServiceSearchSelect"
@@ -227,12 +257,14 @@ const PrescriptionCard = ({
                     className="w-100 font-12 text-center prescForm"
                     id="drugInsSelect"
                     options={drugInstructionList}
-                    placeholder={" "}
+                    placeholder={"انتخاب نمایید"}
                     required
-                    onChangeValue={(value) =>
-                      FUSelectInstructionType(value?.value)
+                    onChange={handleDrugInstructionSelectfield}
+                    value={
+                      defaultDrugInstruction
+                        ? defaultDrugInstruction
+                        : editDrugInstructionData
                     }
-                    value={selectedInstruction}
                   />
                 </div>
 
@@ -243,10 +275,12 @@ const PrescriptionCard = ({
                     className="w-100 font-12 text-center prescForm"
                     id="drugAmountSelect"
                     options={drugAmountList}
-                    placeholder={" "}
+                    placeholder={"انتخاب نمایید"}
                     required
-                    onChangeValue={(value) => FUSelectDrugAmount(value?.value)}
-                    value={selectedAmount}
+                    onChange={handleDrugAmountSelectfield}
+                    value={
+                      defaultDrugAmount ? defaultDrugAmount : editDrugAmountData
+                    }
                   />
                 </div>
               </div>
@@ -269,12 +303,20 @@ const PrescriptionCard = ({
                       اضافه به لیست
                     </button>
                   ) : (
-                    <button
-                      className="btn rounded w-100 addToListBtn font-13"
-                    // onClick={}
-                    >
-                      ثبت تغییرات
-                    </button>
+                    <div className="d-flex gap-1">
+                      <button
+                        className="btn rounded w-100 addToListBtn font-13"
+                        onClick={editPrescItem}
+                      >
+                        ثبت تغییرات
+                      </button>
+                      <button
+                        className="btn btn-sm btn-outline-dark rounded w-100  font-13"
+                        onClick={cancelEditPresc}
+                      >
+                        انصراف
+                      </button>
+                    </div>
                   )}
                 </div>
               </div>

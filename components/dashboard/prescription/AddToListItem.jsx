@@ -7,10 +7,10 @@ let count,
 const AddToListItem = ({
   data,
   setPrescriptionItemsData,
-  handleEditService,
+  handleEditPrescItem,
   selectFavEprescItem,
 }) => {
-  // console.log({ data });
+  console.log({ data });
 
   // Delete Service from prescItems
   const DeleteService = (id, prescId) => {
@@ -64,10 +64,11 @@ const AddToListItem = ({
                       data-bs-toggle="tooltip"
                       data-bs-placement="top"
                       title="ویرایش"
-                      onClick={() => handleEditService(srv)}
+                      onClick={() => handleEditPrescItem(srv)}
                     >
                       <FeatherIcon icon="edit-2" className="prescItembtns" />
                     </button>
+
                     <button
                       type="button"
                       className="btn btn-sm btn-outline-primary"
@@ -78,6 +79,7 @@ const AddToListItem = ({
                     >
                       <FeatherIcon icon="star" className="prescItembtns" />
                     </button>
+
                     <button
                       type="button"
                       className="btn btn-sm btn-outline-danger"
