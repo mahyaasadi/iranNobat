@@ -1,5 +1,6 @@
 import Image from "next/image";
 import FeatherIcon from "feather-icons-react";
+import { Accordion, AccordionTab } from 'primereact/accordion';
 
 let count,
   Drug = null;
@@ -34,11 +35,15 @@ const AddToListItem = ({
     return (
       <>
         <div dir="rtl" id={index}>
-          <div className="card prescItem">
-            <div className="card-body">
-              <div className="row">
-                <div className="d-flex justify-between align-items-center marginb-1">
-                  <div className="d-flex gap-2 font-13 align-items-center">
+          {/* <div className="card prescItem">
+            <div className="card-body"> */}
+
+
+          <Accordion multiple activeIndex={[0]}>
+            <AccordionTab
+              header={
+                <div className="row justify-between align-items-center marginb-1">
+                  <div className="d-flex col gap-2 font-13 align-items-center">
                     {srv.Img ? (
                       <Image
                         src={srv.Img}
@@ -57,7 +62,7 @@ const AddToListItem = ({
                     </div>
                   </div>
 
-                  <div className="d-flex gap-1">
+                  <div className="d-flex col gap-1">
                     <button
                       type="button"
                       className="btn btn-sm btn-outline-secondary"
@@ -92,35 +97,40 @@ const AddToListItem = ({
                     </button>
                   </div>
                 </div>
-                <hr />
+              }
+            >
+              <div className="row">
+                <div className="d-flex mt-2 gap-2 flex-wrap">
+                  <div className="d-flex gap-2">
+                    <div className="srvTypeInfo">
+                      نوع نسخه : {srv.PrescType}
+                    </div>
+                    <div className="srvTypeInfo">تعداد : {srv.Qty}</div>
+                  </div>
 
-                <div className="row">
-                  <div className="d-flex mt-2 gap-2 flex-wrap">
+                  {srv.TimesADay ? (
                     <div className="d-flex gap-2">
                       <div className="srvTypeInfo">
-                        نوع نسخه : {srv.PrescType}
+                        تعداد مصرف در روز : {srv.TimesADay}
                       </div>
-                      <div className="srvTypeInfo">تعداد : {srv.Qty}</div>
+                      <div className="srvTypeInfo">
+                        دستور مصرف : {srv.DrugInstruction}
+                      </div>
                     </div>
-
-                    {srv.TimesADay ? (
-                      <div className="d-flex gap-2">
-                        <div className="srvTypeInfo">
-                          تعداد مصرف در روز : {srv.TimesADay}
-                        </div>
-                        <div className="srvTypeInfo">
-                          دستور مصرف : {srv.DrugInstruction}
-                        </div>
-                      </div>
-                    ) : (
-                      ""
-                    )}
-                  </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
-            </div>
-          </div>
+            </AccordionTab>
+          </Accordion>
+
+
         </div>
+        {/* </div>
+        </div> */}
+        {/* </div >
+        </div > */}
       </>
     );
   });
