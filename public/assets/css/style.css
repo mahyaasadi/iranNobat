@@ -445,6 +445,10 @@ p:last-child {
   justify-content: center;
 }
 
+.justify-end {
+  justify-content: flex-end;
+}
+
 .margint-5 {
   margin-top: 5rem;
 }
@@ -9929,6 +9933,19 @@ ul li .active {
 .p-dropdown {
   border: 1px solid lightgray;
   border-radius: 20px;
-  width: 500px;
+  width: 250px;
+  height: 40px;
   text-align: center;
+  display: flex;
+  align-items: center;
+}
+
+.p-accordion-header-link {
+  background-color: white;
+  color: #6c757d;
+}
+
+.p-accordion-header-text {
+  width: 100%;
+  padding-right: 2rem;
 }

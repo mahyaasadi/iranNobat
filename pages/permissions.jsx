@@ -313,19 +313,6 @@ const Permissions = ({ Menus, UserData, UserRoles }) => {
                                               >
                                                 <div className="checkbox permissionCheckbox">
                                                   <div className="checkbox-wrapper checkbox-wrapper-per">
-                                                    {/* <input
-                                                    type="checkbox"
-                                                    name="roleAccessList"
-                                                    value={item.name}
-                                                    id={item.id}
-                                                    className="checkbox-input"
-                                                    onChange={() =>
-                                                      dropCheckedPermission(
-                                                        item.id.toString(),
-                                                        item.category
-                                                      )
-                                                    }
-                                                  /> */}
                                                     <div className="permissionCheckboxTile permissionItem">
                                                       <div
                                                         className="checkbox"

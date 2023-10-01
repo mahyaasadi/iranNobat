@@ -1,12 +1,10 @@
-import { useState, useEffect, useCallback, useRef } from "react";
-import { axiosClient } from "class/axiosConfig";
+import { useState, useEffect, useRef, useId } from "react";
 import SelectField from "components/commonComponents/selectfield";
 import PrescriptionType from "components/dashboard/prescription/prescriptionType";
 import PrescriptionServiceType from "components/dashboard/prescription/prescriptionServiceType";
 import TaminSrvSearch from "components/dashboard/prescription/TaminSrvSearch";
 import ExtraSmallLoader from "components/commonComponents/loading/extraSmallLoader";
 import selectfieldColourStyles from "class/selectfieldStyle";
-// import { Select } from "react-functional-select";
 import { Dropdown } from 'primereact/dropdown';
 
 const PrescriptionCard = ({
@@ -33,72 +31,15 @@ const PrescriptionCard = ({
   SelectedAmountLbl,
   editPrescItem,
   cancelEditPresc,
+  setSrvEditMode,
+  SelectedInstruction,
+  setSelectedInstruction,
+  setEditSrvData
 }) => {
-
-  // const options = [
-  //   { id: 1, value: "abadia", label: "abadía", esoo: "abadia" },
-  //   { id: 2, value: "milk", label: "milk", esoo: "milk" },
-  //   { id: 3, value: "caramel", label: "caramel", esoo: "caramel" },
-  //   { id: 4, value: "sugar", label: "sugar", esoo: "sugar" },
-  //   { id: 5, value: "eggs", label: "eggs", esoo: "eggs" }
-  // ];
-
-  // const [currentValue, setCurrentValue] = useState("");
-  // const element = useRef(null);
-
-  // const getOptionValue = useCallback(option => {
-  //   return option.label;
-  // }, []);
-
-  // const handleOnKeyDown = useCallback(event => {
-  //   setCurrentValue(event.target.value);
-  // }, []);
-
-  // const handleOnChange = useCallback(event => {
-  //   console.log(event);
-  // }, []);
-
-  const [selectedCountry, setSelectedCountry] = useState(null);
-  // const countries = [
-  //   { name: 'Australia', code: 'AU' },
-  //   { name: 'Brazil', code: 'BR' },
-  //   { name: 'China', code: 'CN' },
-  //   { name: 'Egypt', code: 'EG' },
-  //   { name: 'France', code: 'FR' },
-  //   { name: 'Germany', code: 'DE' },
-  //   { name: 'India', code: 'IN' },
-  //   { name: 'Japan', code: 'JP' },
-  //   { name: 'Spain', code: 'ES' },
-  //   { name: 'United States', code: 'US' }
-  // ];
-
-  const selectedCountryTemplate = (option, props) => {
-    if (option) {
-      return (
-        <div className="flex align-items-center">
-          {/* <img alt={option.name} src="https://primefaces.org/cdn/primereact/images/flag/flag_placeholder.png" className={`mr-2 flag flag-${option.code.toLowerCase()}`} style={{ width: '18px' }} /> */}
-          <div>{option.label}</div>
-        </div>
-      );
-    }
-
-    return <span>{props.placeholder}</span>;
-  };
-
-  const handleCancel = () => {
-
-  }
-
-  const countryOptionTemplate = (option) => {
-    return (
-      <div className="flex align-items-center">
-        {/* <img alt={option.name} src="https://primefaces.org/cdn/primereact/images/flag/flag_placeholder.png" className={`mr-2 flag flag-${option.code.toLowerCase()}`} style={{ width: '18px' }} /> */}
-        <div>{option.name}</div>
-      </div>
-    );
-  };
+  console.log({ editSrvData });
 
   const [isLoading, setIsLoading] = useState(false);
+  const dropdownRef = useRef(null);
 
   function QtyChange(ac) {
     let qty = $("#QtyInput").val();
@@ -130,8 +71,6 @@ const PrescriptionCard = ({
     }
   };
 
-  console.log({ editSrvData });
-
   const editDrugInstructionData = drugInstructionList.find(
     (x) => x.label == editSrvData.DrugInstruction
   );
@@ -141,24 +80,46 @@ const PrescriptionCard = ({
   );
 
   const [defaultDrugAmount, setDefaultDrugAmount] = useState(null);
-  const [defaultDrugInstruction, setDefaultDrugInstruction] = useState(null);
+  // const [defaultDrugInstruction, setDefaultDrugInstruction] = useState(null);
 
   const handleDrugAmountSelectfield = (e) => {
     setDefaultDrugAmount(e);
     FUSelectDrugAmount(e);
   };
 
-  const handleDrugInstructionSelectfield = (e) => {
-    setDefaultDrugInstruction(e);
-    FUSelectInstruction(e);
+  const handleDrugInstructionSelect = (e) => {
+    // setDefaultDrugInstruction(e.value);
+    console.log({ e });
+    setSelectedInstruction(e.value)
+
+    FUSelectInstruction(e.value);
   };
 
+  // useEffect(() => {
+  //   if (editDrugAmountData && editDrugInstructionData) {
+  //     setDefaultDrugAmount(null);
+  //     setDefaultDrugInstruction(null);
+  //   }
+  // }, [editDrugAmountData, editDrugInstructionData]);
+
+  const handleCancel = () => {
+    // console.log({ dropdownRef });
+    setSrvEditMode(false)
+    dropdownRef.current.clear();
+    setEditSrvData([])
+
+    setSelectedInstruction(editDrugInstructionData?.value)
+    $("#srvSearchInput").val(editSrvData?.SrvName)
+    $("#QtyInput").val(editSrvData?.Qty)
+    setDefaultDrugAmount(null);
+  }
+
   useEffect(() => {
-    if (editDrugAmountData && editDrugInstructionData) {
-      setDefaultDrugAmount(null);
-      setDefaultDrugInstruction(null);
+    if (editDrugInstructionData && editDrugAmountData) {
+      handleCancel()
+      setSrvEditMode(true)
     }
-  }, [editDrugAmountData, editDrugInstructionData]);
+  }, [editDrugAmountData, editDrugInstructionData])
 
   return (
     <>
@@ -316,18 +277,19 @@ const PrescriptionCard = ({
                   </div>
                 </div>
 
-                {/* <Dropdown
-                  value={selectedCountry}
-                  onChange={(e) => setSelectedCountry(e.value)}
+                <Dropdown
+                  ref={dropdownRef}
+                  value={SelectedInstruction}
+                  onChange={handleDrugInstructionSelect}
                   options={drugInstructionList}
                   optionLabel="label"
                   placeholder="انتخاب کنید"
                   filter
-                  // valueTemplate={selectedCountryTemplate}
-                  // itemTemplate={countryOptionTemplate}
-                  className="w-full md:w-14rem"
                   showClear
-                /> */}
+                // dataKey={}
+                />
+
+
 
                 {/* <Select
                   // ref={element}
@@ -338,7 +300,8 @@ const PrescriptionCard = ({
                 // isClearable="true"
                 // isSearchable="true"
                 /> */}
-                <div className="col media-w-100" id="drugInstruction">
+
+                {/* <div className="col media-w-100" id="drugInstruction">
                   <label className="lblDrugIns font-12">زمان مصرف</label>
                   <SelectField
                     styles={selectfieldColourStyles}
@@ -354,7 +317,7 @@ const PrescriptionCard = ({
                         : editDrugInstructionData
                     }
                   />
-                </div>
+                </div> */}
 
                 <div className="col media-w-100" id="drugAmount">
                   <label className="lblDrugIns font-12">تعداد در وعده</label>
@@ -400,7 +363,7 @@ const PrescriptionCard = ({
                       </button>
                       <button
                         className="btn btn-sm btn-outline-dark rounded w-100  font-12"
-                        onClick={cancelEditPresc}
+                        onClick={handleCancel}
                       >
                         انصراف
                       </button>

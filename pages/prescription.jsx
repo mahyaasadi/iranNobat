@@ -123,22 +123,29 @@ const Prescription = ({
 
   let insuranceType = null;
 
+  const [SelectedInstruction, setSelectedInstruction] = useState(null);
+  const [SelectedInstructionLbl, setSelectedInstructionLbl] = useState(null);
+
   // Drug instruction & amount
-  let SelectedInstruction,
-    SelectedInstructionLbl,
-    SelectedAmount,
+  let SelectedAmount,
     SelectedAmountLbl = "";
 
   // set the selected value for drug amount
+  const FUSelectInstruction = (instruction) => {
+    const findInsLbl = drugInstructionList.find(
+      (x) => x.value == instruction
+    );
+    setSelectedInstructionLbl(findInsLbl?.label)
+
+    console.log({ instruction });
+    console.log(findInsLbl?.label);
+  };
+
   const FUSelectDrugAmount = (amount) => {
     SelectedAmount = amount?.value;
     SelectedAmountLbl = amount ? amount.label : "";
   };
 
-  const FUSelectInstruction = (instruction) => {
-    SelectedInstruction = instruction?.value;
-    SelectedInstructionLbl = instruction ? instruction.label : "";
-  };
 
   const ActiveSearch = () => {
     ActiveSrvCode = null;
@@ -451,7 +458,7 @@ const Prescription = ({
       ActiveSearch();
       $("#QtyInput").val("1");
       SelectedAmount = null;
-      SelectedInstruction = null;
+      setSelectedInstruction(null)
     }
   };
 
@@ -799,13 +806,13 @@ const Prescription = ({
     $("#srvSearchInput").val("");
     $("#QtyInput").val("1");
     SelectedAmount = null;
-    SelectedInstruction = null;
+    setSelectedInstruction(null)
     // SelectedInstructionLbl = null;
     // SelectedAmountLbl = null;
     FUSelectInstruction(null);
     FUSelectDrugAmount(null);
 
-    console.log({ SelectedInstructionLbl, SelectedAmountLbl });
+    // console.log({ SelectedInstructionLbl, SelectedAmountLbl });
   };
 
   // favourite items
@@ -910,6 +917,10 @@ const Prescription = ({
                 drugAmountList={drugAmountList}
                 editPrescItem={editPrescItem}
                 cancelEditPresc={cancelEditPresc}
+                setSrvEditMode={setSrvEditMode}
+                SelectedInstruction={SelectedInstruction}
+                setSelectedInstruction={setSelectedInstruction}
+                setEditSrvData={setEditSrvData}
               />
 
               <div className="prescList">

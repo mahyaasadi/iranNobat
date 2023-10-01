@@ -2,9 +2,7 @@ import Image from "next/image";
 import FeatherIcon from "feather-icons-react";
 import { Accordion, AccordionTab } from 'primereact/accordion';
 
-let count,
-  Drug = null;
-
+let count = null;
 const AddToListItem = ({
   data,
   setPrescriptionItemsData,
@@ -30,19 +28,15 @@ const AddToListItem = ({
     // }
   };
 
-  return data.map((srv, index) => {
-    // console.log({ srv });
-    return (
-      <>
-        <div dir="rtl" id={index}>
-          {/* <div className="card prescItem">
-            <div className="card-body"> */}
-
-
-          <Accordion multiple activeIndex={[0]}>
+  return (
+    <>
+      <div dir="rtl">
+        <Accordion multiple>
+          {data.map((srv, index) => (
             <AccordionTab
+              key={index}
               header={
-                <div className="row justify-between align-items-center marginb-1">
+                <div className="d-flex" >
                   <div className="d-flex col gap-2 font-13 align-items-center">
                     {srv.Img ? (
                       <Image
@@ -62,7 +56,7 @@ const AddToListItem = ({
                     </div>
                   </div>
 
-                  <div className="d-flex col gap-1">
+                  <div className="d-flex col gap-1 justify-end">
                     <button
                       type="button"
                       className="btn btn-sm btn-outline-secondary"
@@ -123,17 +117,11 @@ const AddToListItem = ({
                 </div>
               </div>
             </AccordionTab>
-          </Accordion>
-
-
-        </div>
-        {/* </div>
-        </div> */}
-        {/* </div >
-        </div > */}
-      </>
-    );
-  });
+          ))}
+        </Accordion>
+      </div>
+    </>
+  )
 };
 
 export default AddToListItem;
