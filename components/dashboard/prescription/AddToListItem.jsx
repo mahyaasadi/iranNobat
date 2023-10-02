@@ -1,6 +1,6 @@
 import Image from "next/image";
 import FeatherIcon from "feather-icons-react";
-import { Accordion, AccordionTab } from 'primereact/accordion';
+import { Accordion, AccordionTab } from "primereact/accordion";
 
 let count = null;
 const AddToListItem = ({
@@ -9,7 +9,7 @@ const AddToListItem = ({
   handleEditPrescItem,
   selectFavEprescItem,
 }) => {
-  console.log({ data });
+  // console.log({ data });
 
   // Delete Service from prescItems
   const DeleteService = (id, prescId) => {
@@ -36,7 +36,7 @@ const AddToListItem = ({
             <AccordionTab
               key={index}
               header={
-                <div className="d-flex" >
+                <div className="d-flex">
                   <div className="d-flex col gap-2 font-13 align-items-center">
                     {srv.Img ? (
                       <Image
@@ -95,7 +95,7 @@ const AddToListItem = ({
             >
               <div className="row">
                 <div className="d-flex mt-2 gap-2 flex-wrap">
-                  <div className="d-flex gap-2">
+                  <div className="d-flex gap-2 ">
                     <div className="srvTypeInfo">
                       نوع نسخه : {srv.PrescType}
                     </div>
@@ -121,7 +121,7 @@ const AddToListItem = ({
         </Accordion>
       </div>
     </>
-  )
+  );
 };
 
 export default AddToListItem;

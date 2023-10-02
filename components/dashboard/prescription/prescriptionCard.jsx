@@ -5,7 +5,7 @@ import PrescriptionServiceType from "components/dashboard/prescription/prescript
 import TaminSrvSearch from "components/dashboard/prescription/TaminSrvSearch";
 import ExtraSmallLoader from "components/commonComponents/loading/extraSmallLoader";
 import selectfieldColourStyles from "class/selectfieldStyle";
-import { Dropdown } from 'primereact/dropdown';
+import { Dropdown } from "primereact/dropdown";
 
 const PrescriptionCard = ({
   lists,
@@ -34,7 +34,7 @@ const PrescriptionCard = ({
   setSrvEditMode,
   SelectedInstruction,
   setSelectedInstruction,
-  setEditSrvData
+  setEditSrvData,
 }) => {
   console.log({ editSrvData });
 
@@ -90,7 +90,7 @@ const PrescriptionCard = ({
   const handleDrugInstructionSelect = (e) => {
     // setDefaultDrugInstruction(e.value);
     console.log({ e });
-    setSelectedInstruction(e.value)
+    setSelectedInstruction(e.value);
 
     FUSelectInstruction(e.value);
   };
@@ -103,23 +103,23 @@ const PrescriptionCard = ({
   // }, [editDrugAmountData, editDrugInstructionData]);
 
   const handleCancel = () => {
-    // console.log({ dropdownRef });
-    setSrvEditMode(false)
-    dropdownRef.current.clear();
-    setEditSrvData([])
+    setSrvEditMode(false);
 
-    setSelectedInstruction(editDrugInstructionData?.value)
-    $("#srvSearchInput").val(editSrvData?.SrvName)
-    $("#QtyInput").val(editSrvData?.Qty)
+    dropdownRef.current.clear();
+    setEditSrvData([]);
+    setSelectedInstruction(editDrugInstructionData?.value);
     setDefaultDrugAmount(null);
-  }
+    $("#srvSearchInput").val(editSrvData?.SrvName);
+    $("#QtyInput").val("1");
+  };
 
   useEffect(() => {
     if (editDrugInstructionData && editDrugAmountData) {
-      handleCancel()
-      setSrvEditMode(true)
+      handleCancel();
+      $("#QtyInput").val(editSrvData.Qty);
+      setSrvEditMode(true);
     }
-  }, [editDrugAmountData, editDrugInstructionData])
+  }, [editDrugAmountData, editDrugInstructionData]);
 
   return (
     <>
@@ -286,20 +286,7 @@ const PrescriptionCard = ({
                   placeholder="انتخاب کنید"
                   filter
                   showClear
-                // dataKey={}
                 />
-
-
-
-                {/* <Select
-                  // ref={element}
-                  options={drugInstructionList}
-                // getFilterOptionString={getOptionValue}
-                // onKeyDown={handleOnKeyDown}
-                // onChange={handleOnChange}
-                // isClearable="true"
-                // isSearchable="true"
-                /> */}
 
                 {/* <div className="col media-w-100" id="drugInstruction">
                   <label className="lblDrugIns font-12">زمان مصرف</label>
