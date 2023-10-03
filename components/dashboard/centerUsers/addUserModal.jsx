@@ -132,12 +132,13 @@ const AddUserModal = ({
               </div>
 
               {/* userNID validation */}
-              <div className="marginb-med">
+              <div className="marginb-med ">
                 <div
-                  className="text-secondary font-13 frmValidationTxt form-control inputPadding rounded mb-1"
+                  className="text-secondary frmValidation form-control inputPadding rounded mb-1"
                   id="formValidationText4"
                 >
-                  <p>کد ملی باید دارای 10 رقم باشد!</p>
+                  <FeatherIcon icon="alert-triangle" className="frmValidationTxt" />
+                  <div className="frmValidationTxt">کد ملی باید دارای 10 رقم باشد!</div>
                 </div>
               </div>
 
@@ -160,10 +161,11 @@ const AddUserModal = ({
               {/* userTel validation */}
               <div className="marginb-med">
                 <div
-                  className="text-secondary font-13 frmValidationTxt form-control inputPadding rounded mb-1"
+                  className="text-secondary font-13 frmValidation form-control inputPadding rounded mb-1"
                   id="formValidationText3"
                 >
-                  <p>شماره همراه باید دارای 11 رقم باشد!</p>
+                  <FeatherIcon icon="alert-triangle" className="frmValidationTxt" />
+                  <div className="frmValidationTxt">شماره همراه باید دارای 11 رقم باشد!</div>
                 </div>
               </div>
 
@@ -198,19 +200,19 @@ const AddUserModal = ({
                 />
                 <span
                   onClick={onEyeClick}
-                  className={`fa toggle-password" ${
-                    eye ? "fa-eye-slash" : "fa-eye"
-                  }`}
+                  className={`fa toggle-password" ${eye ? "fa-eye-slash" : "fa-eye"
+                    }`}
                 />
               </div>
 
               {/* password validation */}
               <div className="marginb-med">
                 <div
-                  className="text-secondary font-13 frmValidationTxt form-control inputPadding rounded mb-1"
+                  className="text-secondary font-13 frmValidation form-control inputPadding rounded mb-1"
                   id="formValidationText1"
                 >
-                  <p>رمز عبور باید حداقل 7 رقم باشد!</p>
+                  <FeatherIcon icon="alert-triangle" className="frmValidationTxt" />
+                  <div className="frmValidationTxt">رمز عبور باید حداقل 7 رقم باشد!</div>
                 </div>
               </div>
 
@@ -229,19 +231,19 @@ const AddUserModal = ({
                 />
                 <span
                   onClick={onEyeClick}
-                  className={`fa toggle-password" ${
-                    eye ? "fa-eye-slash" : "fa-eye"
-                  }`}
+                  className={`fa toggle-password" ${eye ? "fa-eye-slash" : "fa-eye"
+                    }`}
                 />
               </div>
 
               {/* confirmPassword Validation */}
               <div className="marginb-med">
                 <div
-                  className="text-secondary font-13 frmValidationTxt form-control inputPadding rounded mb-1"
+                  className="text-secondary font-13 frmValidation form-control inputPadding rounded mb-1"
                   id="formValidationText2"
                 >
-                  <p>رمز عبور تطابق ندارد!</p>
+                  <FeatherIcon icon="alert-triangle" className="frmValidationTxt" />
+                  <div className="frmValidationTxt">رمز عبور تطابق ندارد!</div>
                 </div>
               </div>
 

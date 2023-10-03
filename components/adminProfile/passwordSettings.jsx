@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
+import FeatherIcon from "feather-icons-react";
 
 const PasswordSettings = ({
   newPassword,
@@ -79,9 +80,8 @@ const PasswordSettings = ({
                   />
                   <span
                     onClick={onEyeClick}
-                    className={`fa toggle-password-current" ${
-                      eye ? "fa-eye-slash" : "fa-eye"
-                    }`}
+                    className={`fa toggle-password-current" ${eye ? "fa-eye-slash" : "fa-eye"
+                      }`}
                   />
                 </div>
 
@@ -103,9 +103,8 @@ const PasswordSettings = ({
                     />
                     <span
                       onClick={onEyeClick}
-                      className={`fa toggle-password-newPass" ${
-                        eye ? "fa-eye-slash" : "fa-eye"
-                      }`}
+                      className={`fa toggle-password-newPass" ${eye ? "fa-eye-slash" : "fa-eye"
+                        }`}
                     />
                   </div>
                 </div>
@@ -113,10 +112,11 @@ const PasswordSettings = ({
                 {/* password validation */}
                 <div className="marginb-med mt-4">
                   <div
-                    className="text-secondary font-13 frmValidationTxt form-control inputPadding rounded mb-1"
+                    className="text-secondary font-13 frmValidation form-control inputPadding rounded mb-1"
                     id="newPassValidationText1"
                   >
-                    <p>رمز عبور باید حداقل 7 رقم باشد!</p>
+                    <FeatherIcon icon="alert-triangle" className="frmValidationTxt" />
+                    <div className="frmValidationTxt">رمز عبور باید حداقل 7 رقم باشد!</div>
                   </div>
                 </div>
 
@@ -136,19 +136,19 @@ const PasswordSettings = ({
                     />
                     <span
                       onClick={onEyeClick}
-                      className={`fa toggle-password-confPass" ${
-                        eye ? "fa-eye-slash" : "fa-eye"
-                      }`}
+                      className={`fa toggle-password-confPass" ${eye ? "fa-eye-slash" : "fa-eye"
+                        }`}
                     />
                   </div>
                 </div>
 
                 <div className="marginb-med mt-4">
                   <div
-                    className="text-secondary font-13 frmValidationTxt form-control inputPadding rounded mb-1"
+                    className="text-secondary font-13 frmValidation form-control inputPadding rounded mb-1"
                     id="newPassValidationText2"
                   >
-                    <p>رمز عبور باید تطابق داشته باشد!</p>
+                    <FeatherIcon icon="alert-triangle" className="frmValidationTxt" />
+                    <div className="frmValidationTxt">رمز عبور باید تطابق داشته باشد!</div>
                   </div>
                 </div>
 

@@ -17,6 +17,18 @@ const Sidebar = ({ Menus, UserData, UserRoles }) => {
 
   const UserPer = extractPermissionIds(UserRoles.PermisionsID);
 
+  const [openSubMenu, setOpenSubMenu] = useState(null);
+
+  useEffect(() => {
+    Menus?.forEach((menu, index) => {
+      menu?.subMenu?.forEach((sub) => {
+        if (router.pathname === sub.Url) {
+          setOpenSubMenu(menu.Name); // Assuming `menu.Name` is unique for each menu
+        }
+      });
+    });
+  }, []);
+
   // console.log({ UserPer });
   // console.log({ Menus });
 
@@ -63,15 +75,15 @@ const Sidebar = ({ Menus, UserData, UserRoles }) => {
                 if (isInArray) {
                   return (
                     <li className="submenu" key={index}>
-                      <a href={menu.Url}>
+                      <a href={menu.Url} onClick={() => setOpenSubMenu(menu.Name !== openSubMenu ? menu.Name : null)}>
                         <FeatherIcon icon={menu.Icon} className="width-15" />
                         <span>{menu.Name}</span>
                         <span
                           className="menu-arrow"
-                          // onClick={() => handleSubMenuClick(index)}
+                        // onClick={() => handleSubMenuClick(index)}
                         ></span>
                       </a>
-                      <ul className="hidden hiddenSidebar">
+                      <ul className={menu.Name === openSubMenu ? "hiddenSidebar" : "hidden hiddenSidebar"}>
                         {menu?.subMenu?.map((sub) => {
                           let subIsInArray = false;
                           sub.Permissions?.forEach((per) => {
@@ -88,7 +100,7 @@ const Sidebar = ({ Menus, UserData, UserRoles }) => {
                                   //   ? "subMenuOpen"
                                   //   : "hidden"
                                   router.pathname == sub.Url ? "active" : ""
-                                }`}
+                                  }`}
                                 key={sub._id}
                               >
                                 <Link href={sub.Url} className="font-12">
