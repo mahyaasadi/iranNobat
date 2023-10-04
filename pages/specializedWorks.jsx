@@ -112,6 +112,7 @@ const SpecializedWorks = ({ Menus, UserRoles, UserData }) => {
         setIsLoading(false);
       });
   };
+
   const updateItem = (id, newArr) => {
     let index = speWorks.findIndex((x) => x._id === id);
     let g = speWorks[index];
@@ -140,6 +141,7 @@ const SpecializedWorks = ({ Menus, UserRoles, UserData }) => {
     );
 
     if (result) {
+      setIsLoading(true);
       let url = "CenterProfile/DeleteSpecializedWorks";
       let data = {
         CenterID: CenterID,
@@ -150,9 +152,11 @@ const SpecializedWorks = ({ Menus, UserRoles, UserData }) => {
         .delete(url, { data })
         .then(function (response) {
           setSpeWorks(speWorks.filter((a) => a._id !== id));
+          setIsLoading(false);
         })
         .catch(function (error) {
           console.log(error);
+          setIsLoading(false);
         });
     }
   };

@@ -5,6 +5,7 @@ import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import { tableCustomStyles } from "components/commonComponents/customTableStyle/tableStyle.jsx";
+import { Tooltip } from "primereact/tooltip";
 
 const SpecialDiseasesListTable = ({ data, updateDisease, deleteDisease }) => {
   const columns = [
@@ -26,32 +27,28 @@ const SpecialDiseasesListTable = ({ data, updateDisease, deleteDisease }) => {
       sortable: true,
       cell: (row) => (
         <div className="actions d-flex gap-1">
-          <Link
-            className="btn btn-sm btn-outline-danger"
-            href="#"
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            title="حذف"
+          <button
+            className="btn btn-sm btn-outline-danger removeBtn"
             onClick={() => deleteDisease(row._id)}
+            data-pr-position="top"
           >
+            <Tooltip target=".removeBtn">حذف</Tooltip>
             <FeatherIcon
               icon="trash-2"
               style={{ width: "16px", height: "16px" }}
             />
-          </Link>
-          <Link
-            className="btn btn-sm btn-outline-secondary btn-border-left"
-            href="#"
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            title="ویرایش"
+          </button>
+          <button
+            className="btn btn-sm btn-outline-secondary btn-border-left editBtn"
+            data-pr-position="top"
             onClick={() => updateDisease(row)}
           >
+            <Tooltip target=".editBtn">ویرایش</Tooltip>
             <FeatherIcon
               icon="edit-3"
               style={{ width: "16px", height: "16px" }}
             />
-          </Link>
+          </button>
         </div>
       ),
       width: "200px",

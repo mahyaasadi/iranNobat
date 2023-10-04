@@ -1,11 +1,12 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import FeatherIcon from "feather-icons-react";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import { tableCustomStyles } from "components/commonComponents/customTableStyle/tableStyle.jsx";
 import numberWithCommas from "class/numberWithComma";
-import { useRouter } from "next/router";
+import { Tooltip } from "primereact/tooltip";
 
 const TariffListTable = ({
   data,
@@ -84,12 +85,11 @@ const TariffListTable = ({
         cell: (row) => (
           <div className="actions d-flex gap-2">
             <button
-              className="btn btn-sm btn-outline-danger"
-              data-bs-toggle="tooltip"
-              data-bs-placement="top"
-              title="حذف"
+              className="btn btn-sm btn-outline-danger removeBtn"
               onClick={() => deleteService(row._id)}
+              data-pr-position="top"
             >
+              <Tooltip target=".removeBtn">حذف</Tooltip>
               <FeatherIcon
                 icon="trash-2"
                 style={{ width: "16px", height: "16px" }}
@@ -97,12 +97,11 @@ const TariffListTable = ({
             </button>
 
             <button
-              className="btn btn-sm btn-outline-secondary btn-border-left"
-              data-bs-toggle="tooltip"
-              data-bs-placement="top"
-              title="ویرایش"
+              className="btn btn-sm btn-outline-secondary btn-border-left editBtn"
+              data-pr-position="top"
               onClick={() => updateService(row)}
             >
+              <Tooltip target=".editBtn">ویرایش</Tooltip>
               <FeatherIcon
                 icon="edit-3"
                 style={{ width: "16px", height: "16px" }}
@@ -158,12 +157,11 @@ const TariffListTable = ({
         cell: (row) => (
           <div className="actions d-flex gap-1">
             <button
-              className="btn btn-sm btn-outline-danger"
-              data-bs-toggle="tooltip"
-              data-bs-placement="top"
-              title="حذف"
+              className="btn btn-sm btn-outline-danger removeSrvBtn"
+              data-pr-position="top"
               onClick={() => deleteService(row._id)}
             >
+              <Tooltip target=".removeSrvBtn">حذف</Tooltip>
               <FeatherIcon
                 icon="trash-2"
                 style={{ width: "16px", height: "16px" }}
@@ -171,12 +169,11 @@ const TariffListTable = ({
             </button>
 
             <button
-              className="btn btn-sm btn-outline-secondary btn-border-left"
-              data-bs-toggle="tooltip"
-              data-bs-placement="top"
-              title="ویرایش"
+              className="btn btn-sm btn-outline-secondary btn-border-left editSrvBtn"
+              data-pr-position="top"
               onClick={() => updateServiceGroup(row)}
             >
+              <Tooltip target=".editSrvBtn">ویرایش</Tooltip>
               <FeatherIcon
                 icon="edit-3"
                 style={{ width: "16px", height: "16px" }}

@@ -135,13 +135,13 @@ const Roles = ({ Menus, UserData, UserRoles }) => {
 
   // Delete Role
   const deleteRole = async (id) => {
-    setIsLoading(true);
     let result = await QuestionAlert(
       "حذف نقش !",
       "?آیا از حذف نقش مطمئن هستید"
     );
 
     if (result) {
+      setIsLoading(true);
       let url = `Roles/delete/${id}`;
       let data = {
         CenterID: CenterID,

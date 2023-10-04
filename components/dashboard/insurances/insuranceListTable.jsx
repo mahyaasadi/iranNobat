@@ -5,6 +5,7 @@ import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import { tableCustomStyles } from "components/commonComponents/customTableStyle/tableStyle.jsx";
+import { Tooltip } from "primereact/tooltip";
 
 const InsuranceListTable = ({ data, deleteInsurance, openEditModal }) => {
   const columns = [
@@ -33,27 +34,24 @@ const InsuranceListTable = ({ data, deleteInsurance, openEditModal }) => {
 
       cell: (row) => (
         <div className="actions d-flex gap-1">
-          <Link
-            href="#"
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            title="حذف"
-            className="btn btn-sm btn-outline-danger"
+          <button
+            className="btn btn-sm btn-outline-danger removeBtn"
             onClick={() => deleteInsurance(row._id)}
+            data-pr-position="top"
           >
+            <Tooltip target=".removeBtn">حذف</Tooltip>
             <FeatherIcon
               icon="trash-2"
               style={{ width: "16px", height: "16px" }}
             />
-          </Link>
+          </button>
           <Link
             href="#"
-            className="btn btn-sm btn-outline-secondary btn-border-left"
+            className="btn btn-sm btn-outline-secondary btn-border-left editBtn"
             onClick={() => openEditModal(row)}
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            title="ویرایش"
+            data-pr-position="top"
           >
+            <Tooltip target=".editBtn">ویرایش</Tooltip>
             <FeatherIcon
               icon="edit-3"
               style={{ width: "16px", height: "16px" }}

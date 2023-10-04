@@ -4,6 +4,7 @@ import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import { tableCustomStyles } from "components/commonComponents/customTableStyle/tableStyle.jsx";
+import { Tooltip } from "primereact/tooltip";
 
 const PrescriptionsListTable = ({ data }) => {
   console.log({ data });
@@ -81,11 +82,10 @@ const PrescriptionsListTable = ({ data }) => {
               pathname: "/prescription",
               query: { id: row.head_EPRSC_ID, pid: row.NID },
             }}
-            className="btn btn-sm btn-outline-secondary btn-border-left"
-            // data-bs-toggle="tooltip"
-            // data-bs-placement="top"
-            // title="ویرایش نسخه"
+            className="btn btn-sm btn-outline-secondary btn-border-left editBtn"
+            data-pr-position="top"
           >
+            <Tooltip target=".editBtn">ویرایش نسخه</Tooltip>
             <FeatherIcon
               icon="edit-3"
               style={{ width: "16px", height: "16px" }}

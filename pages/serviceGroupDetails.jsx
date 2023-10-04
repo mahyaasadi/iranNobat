@@ -377,27 +377,25 @@ const ServiceGroupDetails = ({ Menus, UserData, UserRoles }) => {
       <div className="page-wrapper">
         <div className="content container-fluid">
           <TariffHeader data={departmentsData} getServices={getServices} />
+          <div className="tariff-btn-container">
+            <div className="media-md-w-100 d-flex gap-2">
+              <Link
+                href="#"
+                data-bs-toggle="modal"
+                data-bs-target="#addSrvGroupModal"
+                className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
+              >
+                <i className="me-1">
+                  <FeatherIcon icon="plus-square" />
+                </i>{" "}
+                گروه جدید
+              </Link>
+            </div>
+          </div>
+
           {isLoading ? (
             <Loading />
           ) : (
-
-            <div className="tariff-btn-container">
-              <div className="media-md-w-100 d-flex gap-2">
-                <Link
-                  href="#"
-                  data-bs-toggle="modal"
-                  data-bs-target="#addSrvGroupModal"
-                  className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
-                >
-                  <i className="me-1">
-                    <FeatherIcon icon="plus-square" />
-                  </i>{" "}
-                  گروه جدید
-                </Link>
-              </div>
-            </div>,
-
-
             <div className="row">
               <div className="col-sm-12">
                 <div className="card">

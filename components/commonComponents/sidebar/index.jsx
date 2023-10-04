@@ -1,11 +1,14 @@
 "use client";
-import Link from "next/link";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import FeatherIcon from "feather-icons-react";
 
 const Sidebar = ({ Menus, UserData, UserRoles }) => {
   const router = useRouter();
+  console.log({ Menus });
+
+  const [openSubMenu, setOpenSubMenu] = useState(null);
 
   function extractPermissionIds(a) {
     let arr = [];
@@ -17,36 +20,15 @@ const Sidebar = ({ Menus, UserData, UserRoles }) => {
 
   const UserPer = extractPermissionIds(UserRoles.PermisionsID);
 
-  const [openSubMenu, setOpenSubMenu] = useState(null);
-
   useEffect(() => {
     Menus?.forEach((menu, index) => {
       menu?.subMenu?.forEach((sub) => {
         if (router.pathname === sub.Url) {
-          setOpenSubMenu(menu.Name); // Assuming `menu.Name` is unique for each menu
+          setOpenSubMenu(menu.Name);
         }
       });
     });
-  }, []);
-
-  // console.log({ UserPer });
-  // console.log({ Menus });
-
-  // const [activeSubMenu, setActiveSubMenu] = useState(null);
-
-  // useEffect(() => {
-  //   const savedSubMenu = localStorage.getItem("activeSubMenu");
-  //   if (savedSubMenu) {
-  //     setActiveSubMenu(savedSubMenu);
-  //   }
-  // }, []);
-
-  // function handleSubMenuClick(menuIndex) {
-  //   setActiveSubMenu(menuIndex);
-  //   if (typeof window !== "undefined") {
-  //     window.localStorage.setItem("activeSubMenu", menuIndex);
-  //   }
-  // }
+  }, [Menus, router.pathname]);
 
   return (
     <>
@@ -67,23 +49,29 @@ const Sidebar = ({ Menus, UserData, UserRoles }) => {
               {Menus?.map((menu, index) => {
                 let isInArray = false;
                 menu.Permissions?.forEach((per) => {
-                  if (UserPer.includes(per.PermisionID)) {
-                    isInArray = true;
-                  }
+                  if (UserPer.includes(per.PermisionID)) isInArray = true;
                 });
 
                 if (isInArray) {
                   return (
                     <li className="submenu" key={index}>
-                      <a href={menu.Url} onClick={() => setOpenSubMenu(menu.Name !== openSubMenu ? menu.Name : null)}>
+                      <a
+                        href={menu.Url}
+                        onClick={() =>
+                          setOpenSubMenu(
+                            menu.Name !== openSubMenu ? menu.Name : null
+                          )
+                        }
+                      >
                         <FeatherIcon icon={menu.Icon} className="width-15" />
                         <span>{menu.Name}</span>
-                        <span
-                          className="menu-arrow"
-                        // onClick={() => handleSubMenuClick(index)}
-                        ></span>
+                        <span className="menu-arrow"></span>
                       </a>
-                      <ul className={menu.Name === openSubMenu ? "hiddenSidebar" : "hidden hiddenSidebar"}>
+                      <ul
+                        className={`hiddenSidebar ${
+                          menu.Name === openSubMenu ? "d-block" : "hidden"
+                        }`}
+                      >
                         {menu?.subMenu?.map((sub) => {
                           let subIsInArray = false;
                           sub.Permissions?.forEach((per) => {
@@ -96,11 +84,8 @@ const Sidebar = ({ Menus, UserData, UserRoles }) => {
                             return (
                               <li
                                 className={`${
-                                  // activeSubMenu === index
-                                  //   ? "subMenuOpen"
-                                  //   : "hidden"
                                   router.pathname == sub.Url ? "active" : ""
-                                  }`}
+                                }`}
                                 key={sub._id}
                               >
                                 <Link href={sub.Url} className="font-12">

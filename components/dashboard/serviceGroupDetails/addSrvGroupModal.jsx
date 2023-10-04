@@ -28,7 +28,7 @@ const AddSrvGroupModal = ({
         <div className="modal-content doctor-profile">
           <div className="modal-header">
             <p className="mb-0 text-secondary font-14 fw-bold">
-               اضافه کردن گروه خدمت
+              اضافه کردن گروه خدمت
             </p>
             <button
               type="button"
@@ -68,6 +68,7 @@ const AddSrvGroupModal = ({
               <SelectField
                 styles={colourStyles}
                 options={srvGroupDifOptions}
+                className="text-center font-12"
                 errorMessage={""}
                 error={false}
                 label={true}

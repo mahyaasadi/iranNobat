@@ -5,6 +5,7 @@ import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import { tableCustomStyles } from "components/commonComponents/customTableStyle/tableStyle.jsx";
+import { Tooltip } from "primereact/tooltip";
 
 const RolesListTable = ({ data, updateRole, deleteRole }) => {
   const columns = [
@@ -20,43 +21,39 @@ const RolesListTable = ({ data, updateRole, deleteRole }) => {
       sortable: true,
       cell: (row) => (
         <div className="actions d-flex gap-1">
-          <Link
-            className="btn btn-sm btn-outline-danger"
-            href="#"
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            title="حذف"
+          <button
+            className="btn btn-sm btn-outline-danger removeBtn"
             onClick={() => deleteRole(row._id)}
+            data-pr-position="top"
           >
+            <Tooltip target=".removeBtn">حذف</Tooltip>
             <FeatherIcon
               icon="trash-2"
               style={{ width: "16px", height: "16px" }}
             />
-          </Link>
+          </button>
 
-          <Link
-            className="btn btn-sm btn-outline-secondary btn-border-left"
-            href="#"
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            title="ویرایش"
+          <button
+            className="btn btn-sm btn-outline-secondary btn-border-left editBtn"
             onClick={() => updateRole(row)}
+            data-pr-position="top"
           >
+            <Tooltip target=".editBtn">ویرایش</Tooltip>
             <FeatherIcon
               icon="edit-3"
               style={{ width: "16px", height: "16px" }}
             />
-          </Link>
+          </button>
+
           <Link
             href={{
               pathname: "/permissions",
               query: { id: row._id, name: row.Name },
             }}
-            className="btn btn-sm btn-outline-secondary btn-border-left"
-            // data-bs-toggle="tooltip"
-            // data-bs-placement="top"
-            // title=""
+            className="btn btn-sm btn-outline-secondary btn-border-left permissionBtn"
+            data-pr-position="top"
           >
+            <Tooltip target=".permissionBtn">تنظیم سطح دسترسی</Tooltip>
             <FeatherIcon
               style={{ width: "16px", height: "16px" }}
               icon="unlock"

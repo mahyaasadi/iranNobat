@@ -148,13 +148,13 @@ const DoctorsList = ({ Menus, UserRoles, UserData }) => {
 
   // Delete Physician
   const deletePhysician = async (id) => {
-    setIsLoading(true);
     let result = await QuestionAlert(
       "حذف پزشک !",
       "?آیا از حذف پزشک مطمئن هستید"
     );
 
     if (result) {
+      setIsLoading(true);
       let url = "CenterProfile/DeletePhysician";
       let data = {
         CenterID: CenterID,

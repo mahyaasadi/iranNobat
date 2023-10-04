@@ -14,7 +14,6 @@ const EditDiscountModal = ({
   discountPercentDataClass,
   editDiscount,
 }) => {
-  
   let percentLabel = "محاسبه بر اساس مبلغ";
   let percent = 0;
   if (data.Percent) {
@@ -59,82 +58,83 @@ const EditDiscountModal = ({
           </div>
           <div className="modal-body">
             <form onSubmit={editDiscount}>
-                <div className="form-group">
-                  <input
-                    type="hidden"
-                    className="form-control floating"
-                    name="EditDiscountID"
-                    value={data._id}
-                  />
+              <div className="form-group">
+                <input
+                  type="hidden"
+                  className="form-control floating"
+                  name="EditDiscountID"
+                  value={data._id}
+                />
 
-                  <label className="lblAbs font-12">
-                    نام <span className="text-danger">*</span>
-                  </label>
-                  <input
-                    className="form-control floating inputPadding rounded"
-                    name="EditDiscountName"
-                    defaultValue={data.Name}
-                    onChange={handlediscountNameInput}
-                    required
-                    key={data.Name}
-                  />
-                </div>
+                <label className="lblAbs font-12">
+                  نام <span className="text-danger">*</span>
+                </label>
+                <input
+                  className="form-control floating inputPadding rounded"
+                  name="EditDiscountName"
+                  defaultValue={data.Name}
+                  onChange={handlediscountNameInput}
+                  required
+                  key={data.Name}
+                />
+              </div>
 
-                <div className="form-group">
-                  <label className="lblAbs font-12">
-                      مشخصات<span className="text-danger">*</span>
-                  </label>
-                  <input
-                    className="form-control floating inputPadding rounded"
-                    name="EditDiscountDes"
-                    defaultValue={data.Des}
-                    onChange={handleDescriptionInput}
-                    required
-                    key={data.Des}
-                  />
-                </div>
+              <div className="form-group">
+                <label className="lblAbs font-12">
+                  مشخصات<span className="text-danger">*</span>
+                </label>
+                <input
+                  className="form-control floating inputPadding rounded"
+                  name="EditDiscountDes"
+                  defaultValue={data.Des}
+                  onChange={handleDescriptionInput}
+                  required
+                  key={data.Des}
+                />
+              </div>
 
-                <div className="form-group">
-                  <label className="lblAbs font-12">
-                    درصد تخفیف <span className="text-danger">*</span>
-                  </label>
-                  <input
-                    className="form-control floating inputPadding rounded"
-                    name="EditDiscountValue"
-                    defaultValue={data.Value}
-                    onChange={handlediscountValueInput}
-                    required
-                    key={data.Value}
-                  />
-                </div>
+              <div className="form-group">
+                <label className="lblAbs font-12">
+                  درصد تخفیف <span className="text-danger">*</span>
+                </label>
+                <input
+                  className="form-control floating inputPadding rounded"
+                  name="EditDiscountValue"
+                  defaultValue={data.Value}
+                  onChange={handlediscountValueInput}
+                  required
+                  key={data.Value}
+                />
+              </div>
 
-                <div className="col media-w-100 font-12">
-                  <label className="lblDrugIns font-12">
+              <div className="col media-w-100 font-12">
+                <label className="lblDrugIns font-12">
                   روش محاسبه<span className="text-danger">*</span>
-                  </label>
+                </label>
 
-                  <SelectField
-                    styles={colourStyles}
-                    options={discountPercentDataClass}
-                    errorMessage={""}
-                    error={false}
-                    label={true}
-                    placeholder={"روش محاسبه را انتخاب کنید"}
-                    required
-                    name="EditDiscountPercent"
-                    defaultValue={selectedPercent}
-                    onChangeValue={(value) =>
-                      FUSelectDiscountPercent(value?.value)
-                    }
-                    key={data.Percent}
-                  />
-                </div>
+                <SelectField
+                  styles={colourStyles}
+                  options={discountPercentDataClass}
+                  errorMessage={""}
+                  error={false}
+                  label={true}
+                  className="text-center"
+                  placeholder={"روش محاسبه را انتخاب کنید"}
+                  required
+                  name="EditDiscountPercent"
+                  defaultValue={selectedPercent}
+                  onChangeValue={(value) =>
+                    FUSelectDiscountPercent(value?.value)
+                  }
+                  key={data.Percent}
+                />
+              </div>
 
-                <div className="submit-section">
-                  <button type="submit" className="btn btn-primary btn-save">
-                    ثبت تغییرات
-                  </button>
-                </div>
+              <div className="submit-section">
+                <button type="submit" className="btn btn-primary btn-save">
+                  ثبت تغییرات
+                </button>
+              </div>
             </form>
           </div>
         </div>

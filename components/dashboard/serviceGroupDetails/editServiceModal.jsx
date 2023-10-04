@@ -78,15 +78,16 @@ const EditServiceModal = ({
                 <SelectField
                   styles={colourStyles}
                   options={srvGroupList}
+                  className="text-center font-12"
                   errorMessage={""}
                   error={false}
                   label={true}
                   placeholder={"نام گروه را انتخاب کنید"}
-                  required
                   name="srvGroupName"
                   onChangeValue={(value) => FUSelectSrvGroupName(value?.value)}
                   key={groupDetail.Service}
                   defaultValue={selectedSrvGroupName}
+                  required
                 />
 
                 <div className="submit-section">

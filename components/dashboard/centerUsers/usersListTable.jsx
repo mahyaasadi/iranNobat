@@ -5,6 +5,7 @@ import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import { tableCustomStyles } from "components/commonComponents/customTableStyle/tableStyle.jsx";
+import { Tooltip } from "primereact/tooltip";
 
 const UsersListTable = ({
   data,
@@ -49,13 +50,12 @@ const UsersListTable = ({
         <div className="actions d-flex gap-1">
           {!row.Deactive ? (
             <button
-              className="btn btn-sm btn-outline-success font-13"
+              className="btn btn-sm btn-outline-success font-13 deActivateBtn"
               type="button"
+              data-pr-position="top"
               onClick={() => deActivateUser(row._id)}
-              data-bs-toggle="tooltip"
-              data-bs-placement="top"
-              title="غیر فعال سازی"
             >
+              <Tooltip target=".deActivateBtn">غیر فعال سازی</Tooltip>
               <i className="d-flex align-items-center gap-3">
                 <FeatherIcon
                   style={{ width: "16px", height: "16px" }}
@@ -65,13 +65,12 @@ const UsersListTable = ({
             </button>
           ) : (
             <button
-              className="btn btn-sm btn-outline-danger"
+              className="btn btn-sm btn-outline-danger activateBtn"
               type="button"
+              data-pr-position="top"
               onClick={() => activateUser(row._id)}
-              data-bs-toggle="tooltip"
-              data-bs-placement="top"
-              title="فعال سازی"
             >
+              <Tooltip target=".activateBtn">فعال سازی</Tooltip>
               <i className="d-flex align-items-center gap-3">
                 <FeatherIcon
                   style={{ width: "16px", height: "16px" }}
@@ -82,12 +81,11 @@ const UsersListTable = ({
           )}
 
           <button
-            className="btn btn-sm btn-outline-secondary"
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            title="ویرایش"
+            className="btn btn-sm btn-outline-secondary editBtn"
+            data-pr-position="top"
             onClick={() => updateUserInfo(row)}
           >
+            <Tooltip target=".editBtn">ویرایش</Tooltip>
             <FeatherIcon
               style={{ width: "16px", height: "16px" }}
               icon="edit-3"
@@ -95,27 +93,25 @@ const UsersListTable = ({
           </button>
 
           <button
-            className="btn btn-sm btn-outline-secondary btn-border-left"
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            title={"دسترسی گفتگو : " + row.FullName}
+            className="btn btn-sm btn-outline-secondary btn-border-left chatPermission"
+            data-pr-position="top"
             onClick={chatPermissionOpenModal}
           >
+            <Tooltip target=".chatPermission">دسترسی گفتگو</Tooltip>
             <FeatherIcon
               style={{ width: "16px", height: "16px" }}
               icon="message-circle"
             />
           </button>
           <button
-            className="btn btn-sm btn-outline-secondary btn-border-left"
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            title="نقش کاربر"
+            className="btn btn-sm btn-outline-secondary btn-border-left assignRole"
+            data-pr-position="top"
             onClick={() => assignRoleModal(row._id)}
           >
+            <Tooltip target=".assignRole">نقش کاربر</Tooltip>
             <FeatherIcon
               style={{ width: "16px", height: "16px" }}
-              icon="unlock"
+              icon="user"
             />
           </button>
         </div>

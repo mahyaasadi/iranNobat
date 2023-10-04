@@ -38,7 +38,6 @@ const Insurance = ({ Menus, UserData, UserRoles }) => {
 
   const modalRef = useRef(null);
 
-
   const [isLoading, setIsLoading] = useState(true);
   const [insuranceList, setInsuranceList] = useState([]);
   const [editedInsurance, setEditedInsurance] = useState([]);
@@ -47,7 +46,7 @@ const Insurance = ({ Menus, UserData, UserRoles }) => {
   const [insuranceStatus, setInsuranceStatus] = useState(
     insuranceStatusDataClass
   );
-  const [modalMode, setModalMode] = useState('add'); // Default mode
+  const [modalMode, setModalMode] = useState("add"); // Default mode
 
   const handleNameInput = (e) => setName(e.target.value);
 
@@ -155,6 +154,7 @@ const Insurance = ({ Menus, UserData, UserRoles }) => {
     let result = await QuestionAlert("حذف بیمه!", "آیا از حذف مطمئن هستید");
 
     if (result) {
+      setIsLoading(true);
       let url = "CenterProfile/DeleteInsurance";
       let data = {
         CenterID: CenterID,
@@ -165,9 +165,11 @@ const Insurance = ({ Menus, UserData, UserRoles }) => {
         .delete(url, { data })
         .then(function () {
           setInsuranceList(insuranceList.filter((a) => a._id !== id));
+          setIsLoading(false);
         })
         .catch(function (error) {
           console.log(error);
+          setIsLoading(false);
         });
     }
   };
@@ -175,14 +177,14 @@ const Insurance = ({ Menus, UserData, UserRoles }) => {
   // -------------
 
   const openAddModal = () => {
-    $("#addInsuranceModal").modal("show")
+    $("#addInsuranceModal").modal("show");
 
-    setModalMode('add');
+    setModalMode("add");
     // $("#addInsuranceModal").modal("show");
   };
 
   const openEditModal = (data) => {
-    setModalMode('edit');
+    setModalMode("edit");
     setEditedInsurance(data);
     $("#editInsuranceModal").modal("show");
   };
@@ -209,7 +211,7 @@ const Insurance = ({ Menus, UserData, UserRoles }) => {
                 <div className="col-md-12 d-flex justify-content-end">
                   <button
                     id="openAddBtn"
-                    onClick={() => $(modalRef?.current).modal('show')}
+                    onClick={() => $(modalRef?.current).modal("show")}
                     className="btn btn-primary btn-add font-14"
                   >
                     <i className="me-1">
@@ -279,7 +281,7 @@ const Insurance = ({ Menus, UserData, UserRoles }) => {
 
       <InsuranceModal
         mode={modalMode}
-        onSubmit={modalMode === 'add' ? addInsurance : editInsurance}
+        onSubmit={modalMode === "add" ? addInsurance : editInsurance}
         data={editedInsurance}
         name={name}
         insuranceType={insuranceType}

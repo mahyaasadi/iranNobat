@@ -1,7 +1,8 @@
 import Link from "next/link";
 import FeatherIcon from "feather-icons-react";
 import ChangeInsuranceTypeModal from "components/dashboard/prescription/changeInsuranceTypeModal";
-import EditPhoneNumberModal from "@/components/dashboard/prescription/editPhoneNumberModal";
+import EditPhoneNumberModal from "components/dashboard/prescription/editPhoneNumberModal";
+import { Tooltip } from "primereact/tooltip";
 
 const PatientInfo = ({
   getPatientInfo,
@@ -58,8 +59,10 @@ const PatientInfo = ({
                   href="#"
                   data-bs-toggle="modal"
                   data-bs-target="#editPhoneNumberModal"
-                  className="editPhone-icon "
+                  className="editPhone-icon"
+                  data-pr-position="top"
                 >
+                  <Tooltip target=".editPhone-icon">تغییر شماره همراه</Tooltip>
                   <FeatherIcon icon="edit-2" className="themeColor" />
                 </Link>
               </div>
@@ -78,7 +81,10 @@ const PatientInfo = ({
                   href="#"
                   data-bs-toggle="modal"
                   data-bs-target="#changeInsuranceTypeModal"
+                  className="changeInsuranceBtn"
+                  data-pr-position="top"
                 >
+                  <Tooltip target=".changeInsuranceBtn">تغییر نوع بیمه</Tooltip>
                   <i className="margin-right-2 themecolor">
                     <FeatherIcon icon="refresh-cw" />
                   </i>

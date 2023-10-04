@@ -87,12 +87,13 @@ const EditServiceGroupModal = ({
                 errorMessage={""}
                 error={false}
                 label={true}
+                className="text-center font-12"
                 placeholder={"میزان سختی را انتخاب کنید"}
-                required
                 name="editGroupDif"
                 onChangeValue={(value) => FUSelectSrvGroupDif(value?.value)}
                 defaultValue={groupDetail.Dif}
                 key={groupDetail.Dif}
+                required
               />
 
               <div className="form-group">

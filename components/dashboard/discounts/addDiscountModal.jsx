@@ -79,6 +79,7 @@ const AddDiscountModal = ({
                   error={false}
                   label={true}
                   required
+                  className="text-center"
                   placeholder={"روش محاسبه را انتخاب کنید"}
                   key={data.Percent}
                   onChangeValue={(value) =>

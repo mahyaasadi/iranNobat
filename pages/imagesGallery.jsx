@@ -118,6 +118,7 @@ const ImagesGallery = ({ Menus, UserData, UserRoles }) => {
     );
 
     if (result) {
+      setIsLoading(true);
       let url = "CenterProfile/DeleteGallery";
       let deleteData = {
         data: {
@@ -136,10 +137,12 @@ const ImagesGallery = ({ Menus, UserData, UserRoles }) => {
         .delete(url, deleteData)
         .then(function (response) {
           setImagesData(imagesData.filter((a) => a._id !== data._id));
+          setIsLoading(false);
         })
         .catch(function (error) {
           console.log(error);
           ErrorAlert("خطا", "حذف تصویر با خطا مواجه گردید!");
+          setIsLoading(false);
         });
     }
   };

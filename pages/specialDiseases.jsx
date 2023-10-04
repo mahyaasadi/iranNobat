@@ -133,14 +133,13 @@ const SpecialDiseases = ({ Menus, UserData, UserRoles }) => {
 
   // delete disease
   const deleteDisease = async (id) => {
-    setIsLoading(true);
-
     let result = await QuestionAlert(
       "حذف بیماری !",
       "آیا از حذف بیماری خاص اطمینان دارید؟"
     );
 
     if (result) {
+      setIsLoading(true);
       let url = "Center/DeleteSpecialDiseases";
       let data = {
         CenterID: CenterID,

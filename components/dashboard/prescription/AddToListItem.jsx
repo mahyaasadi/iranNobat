@@ -1,6 +1,7 @@
 import Image from "next/image";
 import FeatherIcon from "feather-icons-react";
 import { Accordion, AccordionTab } from "primereact/accordion";
+import { Tooltip } from "primereact/tooltip";
 
 let count = null;
 const AddToListItem = ({
@@ -59,34 +60,33 @@ const AddToListItem = ({
                   <div className="d-flex col gap-1 justify-end">
                     <button
                       type="button"
-                      className="btn btn-sm btn-outline-secondary"
-                      data-bs-toggle="tooltip"
-                      data-bs-placement="top"
-                      title="ویرایش"
+                      className="btn btn-sm btn-outline-secondary editBtn"
+                      data-pr-position="top"
                       onClick={() => handleEditPrescItem(srv)}
                     >
+                      <Tooltip target=".editBtn">ویرایش</Tooltip>
                       <FeatherIcon icon="edit-2" className="prescItembtns" />
                     </button>
 
                     <button
                       type="button"
-                      className="btn btn-sm btn-outline-primary"
-                      data-bs-toggle="tooltip"
-                      data-bs-placement="top"
-                      title="اضافه به لیست علاقه مندی"
+                      className="btn btn-sm btn-outline-primary favItem"
+                      data-pr-position="top"
                       onClick={() => selectFavEprescItem(srv)}
                     >
+                      <Tooltip target=".favItem">
+                        اضافه به علاقه مندی ها
+                      </Tooltip>
                       <FeatherIcon icon="star" className="prescItembtns" />
                     </button>
 
                     <button
                       type="button"
-                      className="btn btn-sm btn-outline-danger"
+                      className="btn btn-sm btn-outline-danger removeBtn"
                       onClick={() => DeleteService(srv.SrvCode, srv.prescId)}
-                      data-bs-toggle="tooltip"
-                      data-bs-placement="top"
-                      title="حذف"
+                      data-pr-position="top"
                     >
+                      <Tooltip target=".removeBtn">حذف</Tooltip>
                       <FeatherIcon icon="trash" className="prescItembtns" />
                     </button>
                   </div>

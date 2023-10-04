@@ -4,6 +4,7 @@ import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import { tableCustomStyles } from "components/commonComponents/customTableStyle/tableStyle.jsx";
+import { Tooltip } from "primereact/tooltip";
 
 const ImagesListTable = ({ data, deleteImage }) => {
   const columns = [
@@ -38,19 +39,17 @@ const ImagesListTable = ({ data, deleteImage }) => {
 
       cell: (row) => (
         <div className="actions">
-          <Link
-            href="#"
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            title="حذف"
-            className="btn btn-sm btn-outline-danger"
+          <button
+            className="btn btn-sm btn-outline-danger removeBtn"
             onClick={() => deleteImage(row)}
+            data-pr-position="top"
           >
+            <Tooltip target=".removeBtn">حذف</Tooltip>
             <FeatherIcon
               icon="trash-2"
               style={{ width: "16px", height: "16px" }}
             />
-          </Link>
+          </button>
         </div>
       ),
       width: "200px",

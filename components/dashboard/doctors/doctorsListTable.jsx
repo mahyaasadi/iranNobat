@@ -6,6 +6,7 @@ import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import { tableCustomStyles } from "components/commonComponents/customTableStyle/tableStyle.jsx";
+import { Tooltip } from "primereact/tooltip";
 
 const DoctorsListTable = ({ data, deletePhysician, updatePhysician }) => {
   const columns = [
@@ -34,33 +35,29 @@ const DoctorsListTable = ({ data, deletePhysician, updatePhysician }) => {
 
       cell: (row) => (
         <div className="actions d-flex gap-2">
-          <Link
-            href="#"
-            className="btn btn-sm btn-outline-danger"
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            title={"حذف پزشک : " + row.Name}
+          <button
+            className="btn btn-sm btn-outline-danger removeBtn"
             onClick={() => deletePhysician(row._id)}
+            data-pr-position="top"
           >
+            <Tooltip target=".removeBtn">حذف</Tooltip>
             <FeatherIcon
               style={{ width: "16px", height: "16px" }}
               icon="trash-2"
             />
-          </Link>
+          </button>
 
-          <Link
-            href="#"
-            className="btn btn-sm btn-outline-secondary btn-border-left"
+          <button
+            className="btn btn-sm btn-outline-secondary btn-border-left editBtn"
             onClick={() => updatePhysician(row)}
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            title={"ویرایش پزشک : " + row.Name}
+            data-pr-position="top"
           >
+            <Tooltip target=".editBtn">ویرایش</Tooltip>
             <FeatherIcon
               style={{ width: "16px", height: "16px" }}
               icon="edit-3"
             />
-          </Link>
+          </button>
         </div>
       ),
       width: "200px",
