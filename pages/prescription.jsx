@@ -125,10 +125,12 @@ const Prescription = ({
 
   const [SelectedInstruction, setSelectedInstruction] = useState(null);
   const [SelectedInstructionLbl, setSelectedInstructionLbl] = useState(null);
+  const [SelectedAmount, setSelectedAmount] = useState(null);
+  const [SelectedAmountLbl, setSelectedAmountLbl] = useState(null)
 
   // Drug instruction & amount
-  let SelectedAmount,
-    SelectedAmountLbl = "";
+  // let SelectedAmount,
+  //   SelectedAmountLbl = "";
 
   // set the selected value for drug amount
   const FUSelectInstruction = (instruction) => {
@@ -142,8 +144,16 @@ const Prescription = ({
   };
 
   const FUSelectDrugAmount = (amount) => {
-    SelectedAmount = amount?.value;
-    SelectedAmountLbl = amount ? amount.label : "";
+    // SelectedAmount = amount?.value;
+    // SelectedAmountLbl = amount ? amount.label : "";
+
+    const findAmntLbl = drugAmountList.find(
+      (x) => x.value == amount
+    );
+    setSelectedAmountLbl(findAmntLbl?.label)
+
+    console.log({ amount });
+    console.log(findAmntLbl?.label);
   };
 
 
@@ -457,7 +467,7 @@ const Prescription = ({
 
       ActiveSearch();
       $("#QtyInput").val("1");
-      SelectedAmount = null;
+      setSelectedAmount(null);
       setSelectedInstruction(null)
     }
   };
@@ -800,15 +810,12 @@ const Prescription = ({
   };
 
   const cancelEditPresc = (e) => {
-    // empties all fields
     e.preventDefault();
 
     $("#srvSearchInput").val("");
     $("#QtyInput").val("1");
-    SelectedAmount = null;
+    setSelectedAmount(null);
     setSelectedInstruction(null)
-    // SelectedInstructionLbl = null;
-    // SelectedAmountLbl = null;
     FUSelectInstruction(null);
     FUSelectDrugAmount(null);
 
@@ -921,6 +928,7 @@ const Prescription = ({
                 SelectedInstruction={SelectedInstruction}
                 setSelectedInstruction={setSelectedInstruction}
                 setEditSrvData={setEditSrvData}
+                SelectedAmount={SelectedAmount}
               />
 
               <div className="prescList">

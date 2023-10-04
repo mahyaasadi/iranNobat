@@ -28,12 +28,13 @@ const PrescriptionCard = ({
   drugInstructionList,
   drugAmountList,
   favEprescItems,
-  SelectedAmountLbl,
   editPrescItem,
   cancelEditPresc,
   setSrvEditMode,
   SelectedInstruction,
   setSelectedInstruction,
+  SelectedAmount,
+  setSelectedAmount,
   setEditSrvData,
 }) => {
   console.log({ editSrvData });
@@ -82,16 +83,13 @@ const PrescriptionCard = ({
   const [defaultDrugAmount, setDefaultDrugAmount] = useState(null);
   // const [defaultDrugInstruction, setDefaultDrugInstruction] = useState(null);
 
-  const handleDrugAmountSelectfield = (e) => {
-    setDefaultDrugAmount(e);
-    FUSelectDrugAmount(e);
+  const handleDrugAmountSelect = (e) => {
+    setSelectedAmount(e.value);
+    FUSelectDrugAmount(e.value);
   };
 
   const handleDrugInstructionSelect = (e) => {
-    // setDefaultDrugInstruction(e.value);
-    console.log({ e });
     setSelectedInstruction(e.value);
-
     FUSelectInstruction(e.value);
   };
 
@@ -288,6 +286,17 @@ const PrescriptionCard = ({
                   showClear
                 />
 
+                <Dropdown
+                  ref={dropdownRef}
+                  value={SelectedAmount}
+                  onChange={setSelectedInstruction}
+                  options={drugAmountList}
+                  optionLabel="label"
+                  placeholder="انتخاب کنید"
+                  filter
+                  showClear
+                />
+
                 {/* <div className="col media-w-100" id="drugInstruction">
                   <label className="lblDrugIns font-12">زمان مصرف</label>
                   <SelectField
@@ -306,7 +315,7 @@ const PrescriptionCard = ({
                   />
                 </div> */}
 
-                <div className="col media-w-100" id="drugAmount">
+                {/* <div className="col media-w-100" id="drugAmount">
                   <label className="lblDrugIns font-12">تعداد در وعده</label>
                   <SelectField
                     styles={selectfieldColourStyles}
@@ -320,7 +329,7 @@ const PrescriptionCard = ({
                       defaultDrugAmount ? defaultDrugAmount : editDrugAmountData
                     }
                   />
-                </div>
+                </div> */}
               </div>
 
               <div className="d-flex align-items-center gap-2 media-flex-column media-gap margin-top-1">
