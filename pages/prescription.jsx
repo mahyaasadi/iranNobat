@@ -126,36 +126,20 @@ const Prescription = ({
   const [SelectedInstruction, setSelectedInstruction] = useState(null);
   const [SelectedInstructionLbl, setSelectedInstructionLbl] = useState(null);
   const [SelectedAmount, setSelectedAmount] = useState(null);
-  const [SelectedAmountLbl, setSelectedAmountLbl] = useState(null)
+  const [SelectedAmountLbl, setSelectedAmountLbl] = useState(null);
 
-  // Drug instruction & amount
-  // let SelectedAmount,
-  //   SelectedAmountLbl = "";
-
-  // set the selected value for drug amount
   const FUSelectInstruction = (instruction) => {
-    const findInsLbl = drugInstructionList.find(
-      (x) => x.value == instruction
-    );
-    setSelectedInstructionLbl(findInsLbl?.label)
-
-    console.log({ instruction });
-    console.log(findInsLbl?.label);
+    const findInsLbl = drugInstructionList.find((x) => x.value == instruction);
+    setSelectedInstructionLbl(findInsLbl ? findInsLbl.label : instruction);
   };
 
   const FUSelectDrugAmount = (amount) => {
     // SelectedAmount = amount?.value;
     // SelectedAmountLbl = amount ? amount.label : "";
 
-    const findAmntLbl = drugAmountList.find(
-      (x) => x.value == amount
-    );
-    setSelectedAmountLbl(findAmntLbl?.label)
-
-    console.log({ amount });
-    console.log(findAmntLbl?.label);
+    const findAmntLbl = drugAmountList.find((x) => x.value == amount);
+    setSelectedAmountLbl(findAmntLbl ? findAmntLbl.label : amount);
   };
-
 
   const ActiveSearch = () => {
     ActiveSrvCode = null;
@@ -468,7 +452,7 @@ const Prescription = ({
       ActiveSearch();
       $("#QtyInput").val("1");
       setSelectedAmount(null);
-      setSelectedInstruction(null)
+      setSelectedInstruction(null);
     }
   };
 
@@ -774,6 +758,8 @@ const Prescription = ({
   const handleEditPrescItem = (srvData) => {
     setEditSrvData(srvData);
     setSrvEditMode(true);
+    console.log({ SelectedInstructionLbl });
+    console.log({ SelectedAmountLbl });
   };
 
   const editPrescItem = async (e) => {
@@ -815,7 +801,7 @@ const Prescription = ({
     $("#srvSearchInput").val("");
     $("#QtyInput").val("1");
     setSelectedAmount(null);
-    setSelectedInstruction(null)
+    setSelectedInstruction(null);
     FUSelectInstruction(null);
     FUSelectDrugAmount(null);
 
@@ -929,6 +915,7 @@ const Prescription = ({
                 setSelectedInstruction={setSelectedInstruction}
                 setEditSrvData={setEditSrvData}
                 SelectedAmount={SelectedAmount}
+                setSelectedAmount={setSelectedAmount}
               />
 
               <div className="prescList">
