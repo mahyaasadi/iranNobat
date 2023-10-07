@@ -40,7 +40,8 @@ const PrescriptionCard = ({
   console.log({ editSrvData });
 
   const [isLoading, setIsLoading] = useState(false);
-  const dropdownRef = useRef(null);
+  const instDropdownRef = useRef(null);
+  const amntDropdownRef = useRef(null);
 
   function QtyChange(ac) {
     let qty = $("#QtyInput").val();
@@ -80,7 +81,7 @@ const PrescriptionCard = ({
     (x) => x.label == editSrvData.TimesADay
   );
 
-  const [defaultDrugAmount, setDefaultDrugAmount] = useState(null);
+  // const [defaultDrugAmount, setDefaultDrugAmount] = useState(null);
   // const [defaultDrugInstruction, setDefaultDrugInstruction] = useState(null);
 
   const handleDrugAmountSelect = (e) => {
@@ -93,26 +94,23 @@ const PrescriptionCard = ({
     FUSelectInstruction(e.value);
   };
 
-  // useEffect(() => {
-  //   if (editDrugAmountData && editDrugInstructionData) {
-  //     setDefaultDrugAmount(null);
-  //     setDefaultDrugInstruction(null);
-  //   }
-  // }, [editDrugAmountData, editDrugInstructionData]);
-
   const handleCancel = () => {
     setSrvEditMode(false);
 
-    dropdownRef.current.clear();
+    // instDropdownRef.current.clear();
     setEditSrvData([]);
     setSelectedInstruction(editDrugInstructionData?.value);
-    setDefaultDrugAmount(null);
+    setSelectedAmount(editDrugAmountData?.value);
     $("#srvSearchInput").val(editSrvData?.SrvName);
     $("#QtyInput").val("1");
   };
 
   useEffect(() => {
     if (editDrugInstructionData && editDrugAmountData) {
+      FUSelectDrugAmount(editDrugAmountData.label);
+      FUSelectInstruction(editDrugInstructionData.label);
+      // console.log(editDrugInstructionData.label);
+      // console.log(editDrugAmountData.label);
       handleCancel();
       $("#QtyInput").val(editSrvData.Qty);
       setSrvEditMode(true);
@@ -239,8 +237,8 @@ const PrescriptionCard = ({
                 </div>
               </form>
 
-              <div className="d-flex align-items-center gap-2 media-flex-column flex-wrap">
-                <div className="col-auto media-w-100">
+              <div className="d-flex align-items-center gap-1 media-flex-column flex-wrap row">
+                <div className="col media-w-100">
                   <label className="lblAbs margin-top-left font-12">
                     تعداد
                   </label>
@@ -275,45 +273,33 @@ const PrescriptionCard = ({
                   </div>
                 </div>
 
-                <Dropdown
-                  ref={dropdownRef}
-                  value={SelectedInstruction}
-                  onChange={handleDrugInstructionSelect}
-                  options={drugInstructionList}
-                  optionLabel="label"
-                  placeholder="انتخاب کنید"
-                  filter
-                  showClear
-                />
-
-                <Dropdown
-                  ref={dropdownRef}
-                  value={SelectedAmount}
-                  onChange={setSelectedInstruction}
-                  options={drugAmountList}
-                  optionLabel="label"
-                  placeholder="انتخاب کنید"
-                  filter
-                  showClear
-                />
-
-                {/* <div className="col media-w-100" id="drugInstruction">
-                  <label className="lblDrugIns font-12">زمان مصرف</label>
-                  <SelectField
-                    styles={selectfieldColourStyles}
-                    className="w-100 font-12 text-center prescForm"
-                    id="drugInsSelect"
+                <div id="drugInstruction" className="col media-mt-1">
+                  <label className="lblAbs font-12">زمان مصرف</label>
+                  <Dropdown
+                    ref={instDropdownRef}
+                    value={SelectedInstruction}
+                    onChange={handleDrugInstructionSelect}
                     options={drugInstructionList}
-                    placeholder={"انتخاب نمایید"}
-                    required
-                    onChange={handleDrugInstructionSelectfield}
-                    value={
-                      defaultDrugInstruction
-                        ? defaultDrugInstruction
-                        : editDrugInstructionData
-                    }
+                    optionLabel="label"
+                    placeholder="انتخاب کنید"
+                    filter
+                    showClear
                   />
-                </div> */}
+                </div>
+
+                <div id="drugAmount" className="col media-mt-1">
+                  <label className="lblAbs font-12">تعداد در وعده</label>
+                  <Dropdown
+                    ref={amntDropdownRef}
+                    value={SelectedAmount}
+                    onChange={handleDrugAmountSelect}
+                    options={drugAmountList}
+                    optionLabel="label"
+                    placeholder="انتخاب کنید"
+                    filter
+                    showClear
+                  />
+                </div>
 
                 {/* <div className="col media-w-100" id="drugAmount">
                   <label className="lblDrugIns font-12">تعداد در وعده</label>

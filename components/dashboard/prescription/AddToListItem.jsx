@@ -38,7 +38,7 @@ const AddToListItem = ({
               key={index}
               header={
                 <div className="d-flex">
-                  <div className="d-flex col gap-2 font-13 align-items-center">
+                  <div className="d-flex col-9 gap-2 font-13 align-items-center">
                     {srv.Img ? (
                       <Image
                         src={srv.Img}
@@ -57,7 +57,7 @@ const AddToListItem = ({
                     </div>
                   </div>
 
-                  <div className="d-flex col gap-1 justify-end">
+                  <div className="d-flex col-3 gap-1 justify-end">
                     <button
                       type="button"
                       className="btn btn-sm btn-outline-secondary editBtn"
