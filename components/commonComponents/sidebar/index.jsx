@@ -6,7 +6,7 @@ import FeatherIcon from "feather-icons-react";
 
 const Sidebar = ({ Menus, UserData, UserRoles }) => {
   const router = useRouter();
-  console.log({ Menus });
+  // console.log({ Menus });
 
   const [openSubMenu, setOpenSubMenu] = useState(null);
 
@@ -68,9 +68,8 @@ const Sidebar = ({ Menus, UserData, UserRoles }) => {
                         <span className="menu-arrow"></span>
                       </a>
                       <ul
-                        className={`hiddenSidebar ${
-                          menu.Name === openSubMenu ? "d-block" : "hidden"
-                        }`}
+                        className={`hiddenSidebar ${menu.Name === openSubMenu ? "d-block" : "hidden"
+                          }`}
                       >
                         {menu?.subMenu?.map((sub) => {
                           let subIsInArray = false;
@@ -83,9 +82,8 @@ const Sidebar = ({ Menus, UserData, UserRoles }) => {
                           if (subIsInArray) {
                             return (
                               <li
-                                className={`${
-                                  router.pathname == sub.Url ? "active" : ""
-                                }`}
+                                className={`${router.pathname == sub.Url ? "active" : ""
+                                  }`}
                                 key={sub._id}
                               >
                                 <Link href={sub.Url} className="font-12">

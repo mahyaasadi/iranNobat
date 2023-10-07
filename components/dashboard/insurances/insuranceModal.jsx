@@ -1,6 +1,6 @@
-import FeatherIcon from "feather-icons-react";
 import SelectField from "components/commonComponents/selectfield";
 import selectfieldColourStyles from "class/selectfieldStyle";
+import { Modal } from 'react-bootstrap';
 
 const InsuranceModal = ({
     mode = 'add', // Default mode is 'add'
@@ -12,28 +12,26 @@ const InsuranceModal = ({
     insuranceStatus,
     FUSelectInsuranceType,
     FUSelectInsuranceStatus,
-    modalRef
+    isLoading,
+    show,
+    onHide
 }) => {
     const title = mode === "edit" ? "ویرایش اطلاعات" : "اضافه کردن بیمه";
     const submitText = mode === "edit" ? "ثبت تغییرات" : "ثبت";
-    // const selectedType = mode === "edit" ? { value: data.Type, label: data.Type } : null;
-    // const selectedStatus = mode === "edit" ? { value: data.Status, label: data.Status } : null;
+    const selectedType = mode === "edit" ? { value: data.Type, label: data.Type } : null;
+    const selectedStatus = mode === "edit" ? { value: data.Status, label: data.Status } : null;
 
-    console.log({ mode });
     return (
-        <div
-            className={`modal fade contentmodal`}
-            ref={modalRef}
-            id={mode === "edit" ? "editInsuranceModal" : "addInsuranceModal"}
-            tabIndex="-1"
-            aria-hidden="true"
-        >
-            <div className="modal-header">
-                <p className="mb-0 text-secondary font-14 fw-bold">{title}</p>
-            </div>
-            <div className="modal-body">
+
+        <Modal show={show} onHide={onHide} centered>
+            <Modal.Header closeButton>
+                <Modal.Title>
+                    <p className="mb-0 text-secondary font-14 fw-bold">{title}</p>
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
                 <form onSubmit={onSubmit}>
-                    {/*  {mode === "edit" && (
+                    {mode === "edit" && (
                         <input type="hidden" className="form-control floating" name="EditInsuranceID" value={data._id} />
                     )}
 
@@ -45,8 +43,9 @@ const InsuranceModal = ({
                             className="form-control floating inputPadding rounded"
                             type="text"
                             name={mode === "edit" ? "EditInsuranceName" : "AddInsuranceName"}
-                            defaultValue={mode === "edit" ? data.Name : ""}
+                            defaultValue={mode === "edit" ? data.Name : name}
                             key={data.Name}
+                            onChange={handleNameInput}
                             required
                         />
                     </div>
@@ -62,6 +61,7 @@ const InsuranceModal = ({
                             error={false}
                             label={false}
                             name="EditInsuranceType"
+                            className="text-center"
                             placeholder={"نوع بیمه را انتخاب کنید "}
                             required
                             onChangeValue={(value) => FUSelectInsuranceType(value?.value)}
@@ -83,6 +83,8 @@ const InsuranceModal = ({
                             name="EditInsuranceStatus"
                             placeholder={"وضعیت بیمه را انتخاب کنید"}
                             required
+                            className="text-center"
+
                             onChangeValue={(value) =>
                                 FUSelectInsuranceStatus(value?.value)
                             }
@@ -90,13 +92,32 @@ const InsuranceModal = ({
                             key={data.Status}
                         />
                     </div>
-                */}
+
                     <div className="submit-section">
-                        <button type="submit" className="btn btn-primary btn-save rounded">{submitText}</button>
+                        {!isLoading ? (
+                            <button
+                                type="submit"
+                                className="btn btn-primary rounded btn-save"
+                            >
+                                {submitText}
+                            </button>
+                        ) : (
+                            <button
+                                type="submit"
+                                className="btn btn-primary rounded"
+                                disabled
+                            >
+                                <span
+                                    className="spinner-border spinner-border-sm me-2"
+                                    role="status"
+                                ></span>
+                                در حال ثبت
+                            </button>
+                        )}
                     </div>
                 </form>
-            </div >
-        </div >
+            </Modal.Body>
+        </Modal>
     );
 };
 

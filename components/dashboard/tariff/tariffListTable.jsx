@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { useRouter } from "next/router";
 import FeatherIcon from "feather-icons-react";
 import DataTable from "react-data-table-component";
@@ -10,15 +9,14 @@ import { Tooltip } from "primereact/tooltip";
 
 const TariffListTable = ({
   data,
-  groupDetail,
   updateService,
   deleteService,
   SetLoeingModalData,
   updateServiceGroup,
 }) => {
   const router = useRouter();
-  let columns = [];
 
+  let columns = [];
   if (router.pathname == "/tariff") {
     columns = [
       {
@@ -109,11 +107,8 @@ const TariffListTable = ({
             </button>
 
             {/* Loeing */}
-            <Link
-              href="#"
+            <button
               className="m-0 btn btn-sm btn-outline-secondary btn-border-left"
-              data-bs-toggle="modal"
-              data-bs-target="#loeingModal"
               onClick={() =>
                 SetLoeingModalData(row["Tamin-Loeing"], row._id, row.Service)
               }
@@ -125,7 +120,7 @@ const TariffListTable = ({
                   {row["Tamin-Loeing"] ? row["Tamin-Loeing"].length : ""}
                 </span>
               </p>
-            </Link>
+            </button>
           </div>
         ),
         width: "200px",

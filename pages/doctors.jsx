@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react";
-import Link from "next/link";
+import { useEffect, useState } from "react";
 import Head from "next/head";
 import FeatherIcon from "feather-icons-react";
 import { axiosClient } from "class/axiosConfig.js";
 import { QuestionAlert } from "class/AlertManage.js";
 import Loading from "components/commonComponents/loading/loading";
 import DoctorsListTable from "components/dashboard/doctors/doctorsListTable";
-import AddDoctorModal from "components/dashboard/doctors/addDoctorModal";
-import EditDoctorModal from "components/dashboard/doctors/editDoctorModal";
 import { getSession } from "lib/session";
+import DoctorModal from "@/components/dashboard/doctors/doctorModal";
 
 export const getServerSideProps = async ({ req, res }) => {
   const result = await getSession(req, res);
@@ -38,10 +36,16 @@ const DoctorsList = ({ Menus, UserRoles, UserData }) => {
   const [name, setName] = useState("");
   const [title, setTitle] = useState("");
   const [specialty, setSpecialty] = useState("");
+  const [modalMode, setModalMode] = useState("add"); // Default mode
+  const [showModal, setShowModal] = useState(false);
 
   const handleNameInput = (e) => setName(e.target.value);
   const handleTitleInput = (e) => setTitle(e.target.value);
   const handleSpecialtyInput = (e) => setSpecialty(e.target.value);
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
 
   //reset form inputs
   const reset = () => {
@@ -69,6 +73,12 @@ const DoctorsList = ({ Menus, UserRoles, UserData }) => {
   };
 
   // Add Physician
+  const openAddModal = () => {
+    setModalMode("add");
+    reset();
+    setShowModal(true);
+  }
+
   const addPhysician = (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -85,8 +95,7 @@ const DoctorsList = ({ Menus, UserRoles, UserData }) => {
       .post(url, data)
       .then((response) => {
         setDoctorsList([...doctorsList, response.data]);
-
-        $("#addPhysicianModal").modal("hide");
+        setShowModal(false)
         reset();
         setIsLoading(false);
       })
@@ -117,7 +126,7 @@ const DoctorsList = ({ Menus, UserRoles, UserData }) => {
       .put(url, Data)
       .then((response) => {
         updateItem(formProps.EditDoctorID, response.data);
-        $("#editPhysicianModal").modal("hide");
+        setShowModal(false)
         setIsLoading(false);
       })
       .catch((error) => {
@@ -143,7 +152,8 @@ const DoctorsList = ({ Menus, UserRoles, UserData }) => {
 
   const updatePhysician = (data) => {
     setEditDoctor(data);
-    $("#editPhysicianModal").modal("show");
+    setShowModal(true)
+    setModalMode("edit")
   };
 
   // Delete Physician
@@ -191,17 +201,15 @@ const DoctorsList = ({ Menus, UserRoles, UserData }) => {
             <div className="page-header">
               <div className="row align-items-center">
                 <div className="col-md-12 d-flex justify-content-end">
-                  <Link
-                    href="#"
-                    data-bs-toggle="modal"
-                    data-bs-target="#addPhysicianModal"
+                  <button
+                    onClick={openAddModal}
                     className="btn btn-primary btn-add font-14"
                   >
                     <i className="me-1">
                       <FeatherIcon icon="plus-square" />
                     </i>{" "}
                     اضافه کردن
-                  </Link>
+                  </button>
                 </div>
               </div>
             </div>
@@ -237,8 +245,10 @@ const DoctorsList = ({ Menus, UserRoles, UserData }) => {
           </div>
         )}
 
-        <AddDoctorModal
-          addPhysician={addPhysician}
+        <DoctorModal
+          mode={modalMode}
+          onSubmit={modalMode === "add" ? addPhysician : editPhysician}
+          data={editDoctor}
           name={name}
           title={title}
           specialty={specialty}
@@ -246,9 +256,10 @@ const DoctorsList = ({ Menus, UserRoles, UserData }) => {
           handleTitleInput={handleTitleInput}
           handleSpecialtyInput={handleSpecialtyInput}
           isLoading={isLoading}
+          show={showModal}
+          onHide={handleCloseModal}
         />
 
-        <EditDoctorModal data={editDoctor} editPhysician={editPhysician} />
       </div>
     </>
   );

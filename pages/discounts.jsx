@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
 import Head from "next/head";
 import FeatherIcon from "feather-icons-react";
 import { axiosClient } from "class/axiosConfig.js";
 import { QuestionAlert } from "class/AlertManage.js";
+import { getSession } from "lib/session";
 import Loading from "components/commonComponents/loading/loading";
 import discountPercentDataClass from "class/discountPercentDataClass";
+import DiscountModal from "components/dashboard/discounts/discountModal";
 import DiscountsListTable from "components/dashboard/discounts/discountsListTable";
-import AddDiscountModal from "components/dashboard/discounts/addDiscountModal";
-import EditDiscountModal from "components/dashboard/discounts/editDiscountModal";
-import { getSession } from "lib/session";
 
 export const getServerSideProps = async ({ req, res }) => {
   const result = await getSession(req, res);
@@ -35,10 +33,13 @@ const Discounts = ({ Menus, UserData, UserRoles }) => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [discountsList, setDiscountsList] = useState([]);
-  const [editedDiscountList, setEditedDiscountList] = useState([]);
-  const [discountPercent, setDiscountPercent] = useState(
-    discountPercentDataClass
-  );
+  const [editDiscountData, setEditDiscountData] = useState([]);
+  const [modalMode, setModalMode] = useState("add"); // Default mode
+  const [showModal, setShowModal] = useState(false);
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
 
   let SelectDiscountPercent = "";
   const FUSelectDiscountPercent = (Percent) =>
@@ -61,6 +62,11 @@ const Discounts = ({ Menus, UserData, UserRoles }) => {
   };
 
   // Add Discount
+  const openAddModal = () => {
+    setModalMode("add")
+    setShowModal(true)
+  };
+
   const addDiscount = (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -81,7 +87,7 @@ const Discounts = ({ Menus, UserData, UserRoles }) => {
       .post(url, data)
       .then((response) => {
         setDiscountsList([...discountsList, response.data]);
-        $("#addDiscountModal").modal("hide");
+        setShowModal(false)
         e.target.reset();
         setIsLoading(false);
       })
@@ -96,6 +102,7 @@ const Discounts = ({ Menus, UserData, UserRoles }) => {
     let result = await QuestionAlert("حذف تخفیف!", "آیا از حذف اطمینان دارید؟");
 
     if (result) {
+      setIsLoading(true)
       let url = `CenterDiscount/delete/${id}`;
       let data = {
         CenterID: CenterID,
@@ -106,26 +113,29 @@ const Discounts = ({ Menus, UserData, UserRoles }) => {
         .delete(url, { data })
         .then(function () {
           setDiscountsList(discountsList.filter((a) => a._id !== id));
+          setIsLoading(false)
         })
         .catch(function (error) {
           console.log(error);
+          setIsLoading(false)
         });
     }
   };
 
   // Edit Discount
   const updateDiscount = (data) => {
-    setEditedDiscountList(data);
-    $("#editDiscountModal").modal("show");
+    setEditDiscountData(data);
+    setModalMode("edit")
+    setShowModal(true)
   };
 
   const editDiscount = (e) => {
     e.preventDefault();
 
-    let url = "CenterDiscount/update";
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
 
+    let url = "CenterDiscount/update";
     let Data = {
       CenterID: CenterID,
       DiscountID: formProps.EditDiscountID,
@@ -139,7 +149,7 @@ const Discounts = ({ Menus, UserData, UserRoles }) => {
       .put(url, Data)
       .then((response) => {
         updateItem(formProps.EditDiscountID, response.data);
-        $("#editDiscountModal").modal("hide");
+        setShowModal(false)
       })
       .catch((error) => {
         console.log(error);
@@ -178,17 +188,15 @@ const Discounts = ({ Menus, UserData, UserRoles }) => {
             <div className="page-header">
               <div className="row align-items-center">
                 <div className="col-md-12 d-flex justify-content-end">
-                  <Link
-                    href="#"
-                    data-bs-toggle="modal"
-                    data-bs-target="#addDiscountModal"
+                  <button
+                    onClick={openAddModal}
                     className="btn btn-primary btn-add font-14"
                   >
                     <i className="me-1">
                       <FeatherIcon icon="plus-square" />
                     </i>{" "}
                     اضافه کردن
-                  </Link>
+                  </button>
                 </div>
               </div>
             </div>
@@ -228,19 +236,15 @@ const Discounts = ({ Menus, UserData, UserRoles }) => {
         )}
       </div>
 
-      <AddDiscountModal
-        data={discountsList}
-        addDiscount={addDiscount}
+      <DiscountModal
+        mode={modalMode}
+        show={showModal}
         isLoading={isLoading}
+        data={editDiscountData}
+        onHide={handleCloseModal}
         FUSelectDiscountPercent={FUSelectDiscountPercent}
         discountPercentDataClass={discountPercentDataClass}
-      />
-
-      <EditDiscountModal
-        data={editedDiscountList}
-        editDiscount={editDiscount}
-        FUSelectDiscountPercent={FUSelectDiscountPercent}
-        discountPercentDataClass={discountPercentDataClass}
+        onSubmit={modalMode == "edit" ? editDiscount : addDiscount}
       />
     </>
   );

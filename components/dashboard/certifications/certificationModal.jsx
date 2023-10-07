@@ -1,6 +1,6 @@
 import { Modal } from 'react-bootstrap';
 
-const LoeingModal = ({
+const CertificationModal = ({
     mode = "add", // Default is 'add'
     onSubmit,
     data = {},
@@ -8,7 +8,7 @@ const LoeingModal = ({
     show,
     onHide
 }) => {
-    const modalTitle = mode === "edit" ? "ویرایش اطلاعات" : "لوئینگ جدید";
+    const modalTitle = mode === "edit" ? "ویرایش اطلاعات" : "اضافه کردن مجوز";
     const submitText = mode === "edit" ? "ثبت تغییرات" : "ثبت";
     return (
         <Modal show={show} onHide={onHide} centered>
@@ -23,38 +23,65 @@ const LoeingModal = ({
                     {mode === "edit" && (
                         <input
                             type="hidden"
-                            name="loeingId"
-                            defaultValue={data._id}
-                            key={data._id}
+                            name="EditCertificateID"
+                            value={data._id}
                         />
                     )}
 
                     <div className="form-group">
                         <label className="lblAbs font-12">
-                            کد لوئینگ <span className="text-danger">*</span>
+                            نام شرکت <span className="text-danger">*</span>
                         </label>
                         <input
+                            className="form-control floating inputPadding rounded"
                             type="text"
-                            className="form-control floating inputPadding rounded marginb-md1"
+                            name={mode == "edit" ? "EditCompanyName" : "addCertificateCompany"}
+                            defaultValue={mode == "edit" ? data.Company : ""}
+                            key={data.Company}
                             required
-                            name="loeingCode"
-                            defaultValue={mode == "edit" ? data.LoeingCode : ""}
-                            key={data.LoeingCode}
                         />
                     </div>
 
                     <div className="form-group ">
                         <label className="lblAbs font-12">
-                            نام خدمت لوئینگ <span className="text-danger">*</span>
+                            لینک <span className="text-danger">*</span>
                         </label>
-                        <textarea
-                            type="text"
+                        <input
                             className="form-control floating inputPadding rounded"
+                            type="text"
+                            name={mode == "edit" ? "EditCertificateLink" : "addCertificateLink"}
+                            defaultValue={mode == "edit" ? data.Link : ""}
+                            key={data.Link}
                             required
-                            name="loeingName"
+                        />
+                    </div>
+
+                    <div className="form-group ">
+                        <label className="lblAbs font-12">
+                            عنوان مجوز <span className="text-danger">*</span>
+                        </label>
+                        <input
+                            className="form-control floating inputPadding rounded"
+                            type="text"
+                            name={mode == "edit" ? "EditCertificateName" : "addCertificateName"}
                             defaultValue={mode == "edit" ? data.Name : ""}
                             key={data.Name}
-                        ></textarea>
+                            required
+                        />
+                    </div>
+
+                    <div className="form-group ">
+                        <label className="lblAbs font-12">
+                            سال صدور <span className="text-danger">*</span>
+                        </label>
+                        <input
+                            className="form-control floating inputPadding rounded"
+                            type="number"
+                            name={mode == "edit" ? "EditCertificateYear" : "addCertificateYear"}
+                            defaultValue={mode == "edit" ? data.Year : ""}
+                            key={data.Year}
+                            required
+                        />
                     </div>
 
                     <div className="submit-section">
@@ -85,4 +112,4 @@ const LoeingModal = ({
     );
 };
 
-export default LoeingModal;
+export default CertificationModal;

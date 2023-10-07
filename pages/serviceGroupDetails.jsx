@@ -49,9 +49,6 @@ const ServiceGroupDetails = ({ Menus, UserData, UserRoles }) => {
   const [groupDetail, setGroupDetail] = useState([]);
   const [editedGroupDetail, setEditedGroupDetail] = useState([]);
   const [srvGroupList, setSrvGroupList] = useState([]);
-  const [srvGroupDifOptions, setSrvGroupDifOptions] = useState(
-    serviceGroupDifDataClass
-  );
 
   let selectSrvGroupName,
     selectSrvGroupDif = "";
@@ -86,36 +83,42 @@ const ServiceGroupDetails = ({ Menus, UserData, UserRoles }) => {
 
   //get services
   const getServices = (DepID, PerFullName) => {
+    setIsLoading(true);
+
     activeDepId = DepID;
     activeDepName = PerFullName;
     let url = `CenterServicessInfo/getByDepID/${CenterID}/${DepID}`;
-    setIsLoading(true);
 
-    axiosClient.get(url).then(function (response) {
-      console.log("services", response.data);
-      setIsLoading(false);
-      if (response.data.ServicesInfo.length > 0) {
-        setServices(response.data.ServicesInfo);
-        setGroupDetail(response.data.GroupDetail);
+    axiosClient.get(url)
+      .then((response) => {
+        console.log("services", response.data);
+        if (response.data.ServicesInfo.length > 0) {
+          setServices(response.data.ServicesInfo);
+          setGroupDetail(response.data.GroupDetail);
 
-        //srvGroupName Options
-        let selectServiceGroup = [];
-        for (let i = 0; i < response.data.GroupDetail.length; i++) {
-          const item = response.data.GroupDetail[i];
-          let obj = {
-            value: item.Name,
-            label: item.Name,
-          };
-          selectServiceGroup.push(obj);
+          //srvGroupName Options
+          let selectServiceGroup = [];
+          for (let i = 0; i < response.data.GroupDetail.length; i++) {
+            const item = response.data.GroupDetail[i];
+            let obj = {
+              value: item.Name,
+              label: item.Name,
+            };
+            selectServiceGroup.push(obj);
+          }
+          setSrvGroupList(selectServiceGroup);
+        } else if (
+          !response.data.ServiceInfo ||
+          response.data.ServicesInfo.length === 0
+        ) {
+          getDefaultServices(activeDepId, activeDepName);
         }
-        setSrvGroupList(selectServiceGroup);
-      } else if (
-        !response.data.ServiceInfo ||
-        response.data.ServicesInfo.length === 0
-      ) {
-        getDefaultServices(activeDepId, activeDepName);
-      }
-    });
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false)
+      })
   };
 
   //Add SrvGroup
@@ -457,14 +460,14 @@ const ServiceGroupDetails = ({ Menus, UserData, UserRoles }) => {
         <AddSrvGroupModal
           data={groupDetail}
           addGroup={addGroup}
-          srvGroupDifOptions={srvGroupDifOptions}
+          srvGroupDifOptions={serviceGroupDifDataClass}
           FUSelectSrvGroupDif={FUSelectSrvGroupDif}
         />
 
         <EditServiceGroupModal
           groupDetail={editedGroupDetail}
           editGroup={editGroup}
-          srvGroupDifOptions={srvGroupDifOptions}
+          srvGroupDifOptions={serviceGroupDifDataClass}
           FUSelectSrvGroupDif={FUSelectSrvGroupDif}
         />
 

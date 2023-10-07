@@ -1,6 +1,6 @@
 import { Modal } from 'react-bootstrap';
 
-const LoeingModal = ({
+const SpecialDiseasesModal = ({
     mode = "add", // Default is 'add'
     onSubmit,
     data = {},
@@ -8,7 +8,7 @@ const LoeingModal = ({
     show,
     onHide
 }) => {
-    const modalTitle = mode === "edit" ? "ویرایش اطلاعات" : "لوئینگ جدید";
+    const modalTitle = mode === "edit" ? "ویرایش اطلاعات" : "اضافه کردن بیماری خاص";
     const submitText = mode === "edit" ? "ثبت تغییرات" : "ثبت";
     return (
         <Modal show={show} onHide={onHide} centered>
@@ -23,38 +23,41 @@ const LoeingModal = ({
                     {mode === "edit" && (
                         <input
                             type="hidden"
-                            name="loeingId"
-                            defaultValue={data._id}
-                            key={data._id}
+                            name="diseaseId"
+                            value={data._id}
                         />
                     )}
 
                     <div className="form-group">
                         <label className="lblAbs font-12">
-                            کد لوئینگ <span className="text-danger">*</span>
+                            نام <span className="text-danger">*</span>
                         </label>
-                        <input
-                            type="text"
-                            className="form-control floating inputPadding rounded marginb-md1"
-                            required
-                            name="loeingCode"
-                            defaultValue={mode == "edit" ? data.LoeingCode : ""}
-                            key={data.LoeingCode}
-                        />
+                        <div className="col p-0">
+                            <input
+                                className="form-control floating inputPadding rounded"
+                                type="text"
+                                name={mode == "edit" ? "editDiseaseName" : "diseaseName"}
+                                defaultValue={mode == "edit" ? data.Name : ""}
+                                key={data.Name}
+                                required
+                            />
+                        </div>
                     </div>
 
-                    <div className="form-group ">
+                    <div className="form-group">
                         <label className="lblAbs font-12">
-                            نام خدمت لوئینگ <span className="text-danger">*</span>
+                            نام تخصصی <span className="text-danger">*</span>
                         </label>
-                        <textarea
-                            type="text"
-                            className="form-control floating inputPadding rounded"
-                            required
-                            name="loeingName"
-                            defaultValue={mode == "edit" ? data.Name : ""}
-                            key={data.Name}
-                        ></textarea>
+                        <div className="col p-0">
+                            <input
+                                className="form-control floating inputPadding rounded"
+                                type="text"
+                                name={mode == "edit" ? "editDiseaseEngName" : "diseaseEngName"}
+                                defaultValue={mode == "edit" ? data.EngName : ""}
+                                key={data.EngName}
+                                required
+                            />
+                        </div>
                     </div>
 
                     <div className="submit-section">
@@ -85,4 +88,4 @@ const LoeingModal = ({
     );
 };
 
-export default LoeingModal;
+export default SpecialDiseasesModal;

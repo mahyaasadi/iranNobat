@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import Head from "next/head";
 import FeatherIcon from "feather-icons-react";
 import { axiosClient } from "class/axiosConfig.js";
 import { QuestionAlert } from "class/AlertManage.js";
+import { getSession } from "lib/session";
 import Loading from "components/commonComponents/loading/loading";
 import SpecialDiseasesListTable from "components/dashboard/specialDiseases/specialDiseasesListTable";
-import AddSpecialDiseaseModal from "components/dashboard/specialDiseases/addSpecialDiseaseModal";
-import EditSpecialDiseaseModal from "components/dashboard/specialDiseases/editSpecialDiseaseModal";
-import { getSession } from "lib/session";
+import SpecialDiseasesModal from "@/components/dashboard/specialDiseases/specialDiseasesModal";
 
 export const getServerSideProps = async ({ req, res }) => {
   const result = await getSession(req, res);
@@ -34,7 +32,13 @@ const SpecialDiseases = ({ Menus, UserData, UserRoles }) => {
 
   const [diseasesList, setDiseasesList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [editedDisease, setEditedDisease] = useState([]);
+  const [editDiseaseData, setEditDiseaseData] = useState([]);
+  const [modalMode, setModalMode] = useState("add"); // Default mode
+  const [showModal, setShowModal] = useState(false);
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
 
   // get diseases list
   const getDiseasesData = () => {
@@ -54,14 +58,19 @@ const SpecialDiseases = ({ Menus, UserData, UserRoles }) => {
   };
 
   // add new disease
+  const openAddModal = () => {
+    setModalMode("add");
+    setShowModal(true)
+  };
+
   const addDisease = (e) => {
     e.preventDefault();
     setIsLoading(true);
 
-    let url = "Center/addSpecialDiseases";
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
 
+    let url = "Center/addSpecialDiseases";
     let data = {
       CenterID: CenterID,
       Name: formProps.diseaseName,
@@ -72,7 +81,8 @@ const SpecialDiseases = ({ Menus, UserData, UserRoles }) => {
       .post(url, data)
       .then((response) => {
         setDiseasesList([...diseasesList, response.data]);
-        $("#addSpecialDiseaseModal").modal("hide");
+        setShowModal(false)
+
         e.target.reset();
         setIsLoading(false);
       })
@@ -84,8 +94,9 @@ const SpecialDiseases = ({ Menus, UserData, UserRoles }) => {
 
   // edit disease
   const updateDisease = (data) => {
-    setEditedDisease(data);
-    $("#editSpecialDiseaseModal").modal("show");
+    setEditDiseaseData(data);
+    setModalMode("edit")
+    setShowModal(true)
   };
 
   const editDisease = (e) => {
@@ -107,7 +118,7 @@ const SpecialDiseases = ({ Menus, UserData, UserRoles }) => {
       .post(url, data)
       .then((response) => {
         updateItem(formProps.diseaseId, response.data);
-        $("#editSpecialDiseaseModal").modal("hide");
+        setShowModal(false)
         setIsLoading(false);
       })
       .catch((error) => {
@@ -176,17 +187,15 @@ const SpecialDiseases = ({ Menus, UserData, UserRoles }) => {
             <div className="page-header">
               <div className="row align-items-center">
                 <div className="col-md-12 d-flex justify-content-end">
-                  <Link
-                    href="#"
-                    data-bs-toggle="modal"
-                    data-bs-target="#addSpecialDiseaseModal"
+                  <button
+                    onClick={openAddModal}
                     className="btn btn-primary btn-add font-14 media-font-12"
                   >
                     <i className="me-1">
                       <FeatherIcon icon="plus-square" />
                     </i>{" "}
                     اضافه کردن
-                  </Link>
+                  </button>
                 </div>
               </div>
             </div>
@@ -223,11 +232,13 @@ const SpecialDiseases = ({ Menus, UserData, UserRoles }) => {
           </div>
         )}
 
-        <AddSpecialDiseaseModal addDisease={addDisease} />
-
-        <EditSpecialDiseaseModal
-          data={editedDisease}
-          editDisease={editDisease}
+        <SpecialDiseasesModal
+          mode={modalMode}
+          data={editDiseaseData}
+          isLoading={isLoading}
+          onHide={handleCloseModal}
+          show={showModal}
+          onSubmit={modalMode == "edit" ? editDisease : addDisease}
         />
       </div>
     </>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Head from "next/head";
 import FeatherIcon from "feather-icons-react";
@@ -6,8 +6,8 @@ import { axiosClient } from "class/axiosConfig.js";
 import Cookies from "js-cookie";
 import Loading from "components/commonComponents/loading/loading";
 import InsuranceListTable from "components/dashboard/insurances/insuranceListTable";
-import AddInsuranceModal from "components/dashboard/insurances/addInsuranceModal";
-import EditInsuranceModal from "components/dashboard/insurances/editInsuranceModal";
+// import AddInsuranceModal from "components/dashboard/insurances/addInsuranceModal";
+// import EditInsuranceModal from "components/dashboard/insurances/editInsuranceModal";
 import insuranceTypeDataClass from "class/insuranceTypeDataClass";
 import insuranceStatusDataClass from "class/insuranceStatusDataClass";
 import { QuestionAlert } from "class/AlertManage.js";
@@ -35,8 +35,6 @@ export const getServerSideProps = async ({ req, res }) => {
 let CenterID = null;
 const Insurance = ({ Menus, UserData, UserRoles }) => {
   CenterID = UserData.CenterID;
-
-  const modalRef = useRef(null);
 
   const [isLoading, setIsLoading] = useState(true);
   const [insuranceList, setInsuranceList] = useState([]);
@@ -81,57 +79,59 @@ const Insurance = ({ Menus, UserData, UserRoles }) => {
   // Add Insurance
   const addInsurance = (e) => {
     e.preventDefault();
-    // setIsLoading(true);
+    setIsLoading(true);
 
-    // let url = "CenterProfile/AddInsurance";
-    // let data = {
-    //   CenterID: CenterID,
-    //   Name: name,
-    //   Type: SelectInsuranceType,
-    //   Status: SelectInsuranceStatus,
-    // };
+    let url = "CenterProfile/AddInsurance";
+    let data = {
+      CenterID: CenterID,
+      Name: name,
+      Type: SelectInsuranceType,
+      Status: SelectInsuranceStatus,
+    };
 
-    // axiosClient
-    //   .post(url, data)
-    //   .then((response) => {
-    //     setInsuranceList([...insuranceList, response.data]);
-    //     $("#addInsuranceModal").modal("hide");
-    //     reset();
-    //     setIsLoading(false);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     setIsLoading(false);
-    //   });
+    axiosClient
+      .post(url, data)
+      .then((response) => {
+        setInsuranceList([...insuranceList, response.data]);
+        // $("#addInsuranceModal").modal("hide");
+        setShowModal(false)
+        reset();
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
   };
 
   // Edit Insurance
   const editInsurance = (e) => {
     e.preventDefault();
-    // setIsLoading(true);
+    setIsLoading(true);
 
-    // let url = "CenterProfile/UpdateInsurance";
-    // let formData = new FormData(e.target);
-    // const formProps = Object.fromEntries(formData);
-    // let Data = {
-    //   CenterID: CenterID,
-    //   InsuranceID: formProps.EditInsuranceID,
-    //   Name: formProps.EditInsuranceName,
-    //   Type: formProps.EditInsuranceType,
-    //   Status: formProps.EditInsuranceStatus,
-    // };
+    let url = "CenterProfile/UpdateInsurance";
+    let formData = new FormData(e.target);
+    const formProps = Object.fromEntries(formData);
+    let Data = {
+      CenterID: CenterID,
+      InsuranceID: formProps.EditInsuranceID,
+      Name: formProps.EditInsuranceName,
+      Type: formProps.EditInsuranceType,
+      Status: formProps.EditInsuranceStatus,
+    };
 
-    // axiosClient
-    //   .put(url, Data)
-    //   .then((response) => {
-    //     updateItem(formProps.EditInsuranceID, response.data);
-    //     $("#editInsuranceModal").modal("hide");
-    //     setIsLoading(false);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     setIsLoading(false);
-    //   });
+    axiosClient
+      .put(url, Data)
+      .then((response) => {
+        updateItem(formProps.EditInsuranceID, response.data);
+        // $("#editInsuranceModal").modal("hide");
+        setShowModal(false)
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
   };
 
   const updateItem = (id, newArr) => {
@@ -174,26 +174,37 @@ const Insurance = ({ Menus, UserData, UserRoles }) => {
     }
   };
 
-  // -------------
+  // const openAddModal = () => {
+  //   setModalMode("add");
+  // $("#addInsuranceModal").modal("show");
+  // };
+
+  // const openEditModal = (data) => {
+  //   setModalMode("edit");
+  // $("#editInsuranceModal").modal("show");
+  //   setEditedInsurance(data);
+  // };
+
+  const [showModal, setShowModal] = useState(false);
 
   const openAddModal = () => {
-    $("#addInsuranceModal").modal("show");
-
-    setModalMode("add");
-    // $("#addInsuranceModal").modal("show");
+    setModalMode('add');
+    setShowModal(true);
+    reset();
   };
 
   const openEditModal = (data) => {
-    setModalMode("edit");
+    setModalMode('edit');
     setEditedInsurance(data);
-    $("#editInsuranceModal").modal("show");
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
   };
 
   useEffect(() => {
     getInsuranceData();
-    // if (modalRef) {
-    //   $(modalRef.current).modal();
-    // }
   }, []);
 
   return (
@@ -211,7 +222,7 @@ const Insurance = ({ Menus, UserData, UserRoles }) => {
                 <div className="col-md-12 d-flex justify-content-end">
                   <button
                     id="openAddBtn"
-                    onClick={() => $(modalRef?.current).modal("show")}
+                    onClick={openAddModal}
                     className="btn btn-primary btn-add font-14"
                   >
                     <i className="me-1">
@@ -289,7 +300,9 @@ const Insurance = ({ Menus, UserData, UserRoles }) => {
         handleNameInput={handleNameInput}
         FUSelectInsuranceType={FUSelectInsuranceType}
         FUSelectInsuranceStatus={FUSelectInsuranceStatus}
-        modalRef={modalRef}
+        isLoading={isLoading}
+        show={showModal}
+        onHide={handleCloseModal}
       />
     </>
   );

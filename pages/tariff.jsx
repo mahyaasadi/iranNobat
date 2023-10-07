@@ -4,18 +4,15 @@ import { useState, useEffect } from "react";
 import { axiosClient } from "class/axiosConfig.js";
 import FeatherIcon from "feather-icons-react";
 import { QuestionAlert, ErrorAlert } from "class/AlertManage.js";
+import { getSession } from "lib/session";
 import Loading from "components/commonComponents/loading/loading";
 import TariffHeader from "components/dashboard/tariff/tariffHeader";
 import TariffListTable from "components/dashboard/tariff/tariffListTable";
-import AddTariffModal from "components/dashboard/tariff/addTariffModal";
-import EditTariffModal from "components/dashboard/tariff/editTariffModal";
+import TariffModal from "components/dashboard/tariff/tariffModal";
 import TariffCalcModal from "components/dashboard/tariff/tariffCalcModal";
-import LoeingModal from "components/dashboard/tariff/loeing/loeingModal";
-import AddLoeingModal from "components/dashboard/tariff/loeing/addLoeingModal";
-import EditLoeingModal from "components/dashboard/tariff/loeing/editLoeingModal";
+import LoeingTableModal from "components/dashboard/tariff/loeing/loeingTableModal";
+import LoeingModal from "components/dashboard/tariff/loeing/LoeingModal";
 import applyCalculationsDataClass from "class/applyCalculationsDataClass";
-import serviceGroupDifDataClass from "class/serviceGroupDifDataClass";
-import { getSession } from "lib/session";
 
 let activeServiceId = null;
 let activeServiceName = null;
@@ -47,24 +44,19 @@ const Tariff = ({ Menus, UserData, UserRoles }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [departmentsData, setDepartmentsData] = useState([]);
   const [services, setServices] = useState([]);
-  const [editedServices, setEditedServices] = useState([]);
+  const [editServiceData, setEditServiceData] = useState([]);
 
   const [loeingData, SetLoeingData] = useState([]);
-  const [editedLoeing, setEditedLoeing] = useState([]);
+  const [editLoeingData, setEditLoeingData] = useState([]);
 
-  const [calculationsOptions, setCalculationsOptions] = useState(
-    applyCalculationsDataClass
-  );
-  const [srvGroupList, setSrvGroupList] = useState([]);
+  const [modalMode, setModalMode] = useState("add"); // Default mode
+  const [showTariffModal, setShowTariffModal] = useState(false);
+  const [showLoeingModal, setShowLoeingModal] = useState(false)
+  const [showLoeingTableModal, setShowLoeingTableModal] = useState(false);
 
-  const [srvGroupDifOptions, setSrvGroupDifOptions] = useState(
-    serviceGroupDifDataClass
-  );
-
-  let selectSrvGroupName = "";
-  const FUSelectSrvGroupName = (srvGroupName) => {
-    selectSrvGroupName = srvGroupName;
-  };
+  const handleCloseTariffModal = () => setShowTariffModal(false);
+  const handleCloseLoeingModal = () => setShowLoeingModal(false)
+  const handleCloseLoeingTableModal = () => setShowLoeingTableModal(false)
 
   //get departments -> In Tariff Header
   const getDepartments = () => {
@@ -89,11 +81,10 @@ const Tariff = ({ Menus, UserData, UserRoles }) => {
 
   // get services
   const getServices = (DepID, PerFullName) => {
-    // $(".ServiceNav").removeClass("active");
-    activeDepId = DepID;
-    activeDepName = PerFullName;
     setIsLoading(true);
 
+    activeDepId = DepID;
+    activeDepName = PerFullName;
     let url = `CenterServicessInfo/getByDepID/${CenterID}/${DepID}`;
 
     axiosClient
@@ -105,17 +96,6 @@ const Tariff = ({ Menus, UserData, UserRoles }) => {
           getDefaultServices(DepID, PerFullName);
         } else {
           setServices(response.data.ServicesInfo);
-          //srvGroupName Options
-          let selectServiceGroup = [];
-          for (let i = 0; i < response.data.GroupDetail.length; i++) {
-            const item = response.data.GroupDetail[i];
-            let obj = {
-              value: item.Name,
-              label: item.Name,
-            };
-            selectServiceGroup.push(obj);
-          }
-          setSrvGroupList(selectServiceGroup);
         }
         setIsLoading(false);
       })
@@ -156,6 +136,11 @@ const Tariff = ({ Menus, UserData, UserRoles }) => {
   };
 
   //Add service
+  const openAddServiceModal = () => {
+    setShowTariffModal(true);
+    setModalMode("add")
+  };
+
   const addService = (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -194,7 +179,7 @@ const Tariff = ({ Menus, UserData, UserRoles }) => {
       .then((response) => {
         console.log("add response", response.data);
         setServices([...services, response.data]);
-        $("#addTariffModal").modal("hide");
+        setShowTariffModal(false)
         e.target.reset();
         setIsLoading(false);
       })
@@ -244,7 +229,7 @@ const Tariff = ({ Menus, UserData, UserRoles }) => {
       .then((response) => {
         console.log("response", response.data);
         updateItem(formProps.serviceId, response.data);
-        $("#editTariffModal").modal("hide");
+        setShowTariffModal(false)
         setIsLoading(false);
       })
       .catch((error) => {
@@ -270,8 +255,9 @@ const Tariff = ({ Menus, UserData, UserRoles }) => {
   };
 
   const updateService = (data) => {
-    setEditedServices(data);
-    $("#editTariffModal").modal("show");
+    setEditServiceData(data);
+    setShowTariffModal(true);
+    setModalMode("edit")
   };
 
   // Delete service
@@ -282,6 +268,7 @@ const Tariff = ({ Menus, UserData, UserRoles }) => {
     );
 
     if (result) {
+      setIsLoading(true)
       let url = `CenterServicessInfo/DeleteService`;
       let data = {
         CenterID: CenterID,
@@ -293,9 +280,11 @@ const Tariff = ({ Menus, UserData, UserRoles }) => {
         .delete(url, { data })
         .then(function () {
           setServices(services.filter((a) => a._id !== id));
+          setIsLoading(false)
         })
         .catch(function (error) {
           console.log(error);
+          setIsLoading(false)
         });
     }
   };
@@ -307,9 +296,15 @@ const Tariff = ({ Menus, UserData, UserRoles }) => {
     activeServiceId = id;
     activeServiceName = name;
     SetLoeingData(data);
+    setShowLoeingTableModal(true)
   };
 
   // Add Loeing
+  const openAddLoeingModal = () => {
+    setShowLoeingModal(true);
+    setModalMode("add");
+  };
+
   const addLoeing = (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -330,9 +325,6 @@ const Tariff = ({ Menus, UserData, UserRoles }) => {
       .then((response) => {
         SetLoeingData([...loeingData, response.data]);
 
-        $("#addLoeingModal").modal("hide");
-        $("#loeingModal").modal("show");
-
         //increasing the loeing count
         let count = $("#loeingCount" + activeServiceId).html();
         count = parseInt(count);
@@ -340,7 +332,10 @@ const Tariff = ({ Menus, UserData, UserRoles }) => {
         $("#loeingCount" + activeServiceId).html(count);
 
         getServices(activeDepId, activeDepName);
+
         e.target.reset();
+        setShowLoeingModal(false)
+        setShowLoeingTableModal(true)
         setIsLoading(false);
       })
       .catch((error) => {
@@ -403,8 +398,8 @@ const Tariff = ({ Menus, UserData, UserRoles }) => {
       .put(url, editData)
       .then((response) => {
         updateLoeingItem(formProps.loeingId, response.data);
-        $("#editLoeingModal").modal("hide");
-        $("#loeingModal").modal("show");
+        setShowLoeingModal(false)
+        setShowLoeingTableModal(true)
 
         getServices(activeDepId, activeDepName);
       })
@@ -430,12 +425,9 @@ const Tariff = ({ Menus, UserData, UserRoles }) => {
   };
 
   const updateLoeing = (data) => {
-    setEditedLoeing(data);
-    $("#editLoeingModal").modal("show");
-  };
-
-  const openAddLoeingModal = () => {
-    $("#addLoeingModal").modal("show");
+    setEditLoeingData(data);
+    setShowLoeingModal(true);
+    setModalMode("edit")
   };
 
   // ----------------------------------------------------------------
@@ -542,17 +534,15 @@ const Tariff = ({ Menus, UserData, UserRoles }) => {
 
           <div className="tariff-btn-container">
             <div className="media-md-w-100">
-              <Link
-                href="#"
-                data-bs-toggle="modal"
-                data-bs-target="#addTariffModal"
+              <button
+                onClick={openAddServiceModal}
                 className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
               >
                 <i className="me-1">
                   <FeatherIcon icon="plus-square" />
                 </i>{" "}
                 سرویس جدید
-              </Link>
+              </button>
             </div>
 
             <div className="media-md-w-100">
@@ -570,8 +560,7 @@ const Tariff = ({ Menus, UserData, UserRoles }) => {
             </div>
 
             <div className="media-md-w-100">
-              <Link
-                href="#"
+              <button
                 className="btn btn-primary btn-add media-md-w-100 font-14 media-font-12"
                 onClick={() => getDefaultServices(activeDepId, activeDepName)}
               >
@@ -579,7 +568,7 @@ const Tariff = ({ Menus, UserData, UserRoles }) => {
                   <FeatherIcon icon="refresh-cw" />
                 </i>{" "}
                 بازگشت به تنظیمات مرکز
-              </Link>
+              </button>
             </div>
           </div>
           {isLoading ? (
@@ -622,38 +611,41 @@ const Tariff = ({ Menus, UserData, UserRoles }) => {
 
         <TariffCalcModal
           applyKCalculations={applyKCalculations}
-          data={editedServices}
+          data={editServiceData}
           isLoading={isLoading}
-          calculationsOptions={calculationsOptions}
+          calculationsOptions={applyCalculationsDataClass}
           applyPercentCalculations={applyPercentCalculations}
           applyPriceCalculations={applyPriceCalculations}
         />
 
-        <AddTariffModal
-          addService={addService}
-          srvGroupList={srvGroupList}
-          FUSelectSrvGroupName={FUSelectSrvGroupName}
+        <TariffModal
+          isLoading={isLoading}
+          mode={modalMode}
+          onHide={handleCloseTariffModal}
+          show={showTariffModal}
+          data={editServiceData}
+          onSubmit={modalMode == "edit" ? editService : addService}
         />
 
-        <EditTariffModal
-          data={editedServices}
-          editService={editService}
-          srvGroupList={srvGroupList}
-          FUSelectSrvGroupName={FUSelectSrvGroupName}
-        />
-
-        <LoeingModal
+        <LoeingTableModal
           data={loeingData}
           Service={activeServiceId}
           ServiceName={activeServiceName}
           deleteLoeing={deleteLoeing}
           updateLoeing={updateLoeing}
           openAddLoeingModal={openAddLoeingModal}
+          show={showLoeingTableModal}
+          onHide={handleCloseLoeingTableModal}
         />
 
-        <AddLoeingModal data={loeingData} addLoeing={addLoeing} />
-
-        <EditLoeingModal data={editedLoeing} editLoeing={editLoeing} />
+        <LoeingModal
+          mode={modalMode}
+          isLoading={isLoading}
+          onHide={handleCloseLoeingModal}
+          show={showLoeingModal}
+          data={editLoeingData}
+          onSubmit={modalMode == "edit" ? editLoeing : addLoeing}
+        />
       </div>
     </>
   );

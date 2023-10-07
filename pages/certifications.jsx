@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
+import { useState, useEffect } from "react";
 import Head from "next/head";
-import Cookies from "js-cookie";
 import { axiosClient } from "class/axiosConfig.js";
 import FeatherIcon from "feather-icons-react";
-import Loading from "components/commonComponents/loading/loading";
-import CertificationsListTable from "/components/dashboard/certifications/certificationsListTable";
-import AddCertificateModal from "components/dashboard/certifications/addCertificateModal";
-import EditCertificateModal from "components/dashboard/certifications/editCertificateModal";
 import { QuestionAlert } from "class/AlertManage.js";
 import { getSession } from "lib/session";
+import Loading from "components/commonComponents/loading/loading";
+import CertificationModal from "@/components/dashboard/certifications/certificationModal";
+import CertificationsListTable from "/components/dashboard/certifications/certificationsListTable";
 
 export const getServerSideProps = async ({ req, res }) => {
   const result = await getSession(req, res);
@@ -34,8 +31,14 @@ const Certifications = ({ Menus, UserData, UserRoles }) => {
   CenterID = UserData.CenterID;
 
   const [certificationsList, setCertificationsList] = useState([]);
-  const [editedCertificate, setEditedCertificate] = useState("");
+  const [editCertificateData, setEditCertificateData] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [modalMode, setModalMode] = useState("add"); // Default mode
+  const [showModal, setShowModal] = useState(false);
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
 
   //Get certifications list
   const getCertifications = () => {
@@ -53,11 +56,12 @@ const Certifications = ({ Menus, UserData, UserRoles }) => {
       });
   };
 
-  useEffect(() => {
-    getCertifications();
-  }, []);
-
   //Add Certifications
+  const openAddModal = () => {
+    setModalMode("add");
+    setShowModal(true);
+  }
+
   const addCertificate = (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -79,7 +83,7 @@ const Certifications = ({ Menus, UserData, UserRoles }) => {
       .then((response) => {
         setCertificationsList([...certificationsList, response.data]);
 
-        $("#addCertificateModal").modal("hide");
+        setShowModal(false)
         e.target.reset();
         setIsLoading(false);
       })
@@ -109,7 +113,7 @@ const Certifications = ({ Menus, UserData, UserRoles }) => {
       .put(url, Data)
       .then((response) => {
         updateItem(formProps.EditCertificateID, response.data);
-        $("#editCertificateModal").modal("hide");
+        setShowModal(false)
       })
       .catch((error) => {
         console.log(error);
@@ -132,8 +136,9 @@ const Certifications = ({ Menus, UserData, UserRoles }) => {
   };
 
   const updateCertificate = (data) => {
-    setEditedCertificate(data);
-    $("#editCertificateModal").modal("show");
+    setEditCertificateData(data);
+    setModalMode("edit")
+    setShowModal(true)
   };
 
   //Delete Certificate
@@ -144,6 +149,7 @@ const Certifications = ({ Menus, UserData, UserRoles }) => {
     );
 
     if (result) {
+      setIsLoading(true)
       let url = "CenterProfile/DeleteCertificate";
       let data = {
         CenterID: CenterID,
@@ -154,12 +160,18 @@ const Certifications = ({ Menus, UserData, UserRoles }) => {
         .delete(url, { data })
         .then(function (response) {
           setCertificationsList(certificationsList.filter((a) => a._id !== id));
+          setIsLoading(false)
         })
         .catch(function (error) {
-          return error;
+          console.log(error);
+          setIsLoading(true)
         });
     }
   };
+
+  useEffect(() => {
+    getCertifications();
+  }, []);
 
   return (
     <>
@@ -174,17 +186,15 @@ const Certifications = ({ Menus, UserData, UserRoles }) => {
             <div className="page-header">
               <div className="row align-items-center">
                 <div className="col-md-12 d-flex justify-content-end">
-                  <Link
-                    href="#"
-                    data-bs-toggle="modal"
-                    data-bs-target="#addCertificateModal"
+                  <button
+                    onClick={openAddModal}
                     className="btn btn-primary btn-add font-14"
                   >
                     <i className="me-1">
                       <FeatherIcon icon="plus-square" />
                     </i>{" "}
                     اضافه کردن
-                  </Link>
+                  </button>
                 </div>
               </div>
             </div>
@@ -221,11 +231,13 @@ const Certifications = ({ Menus, UserData, UserRoles }) => {
         )}
       </div>
 
-      <AddCertificateModal addCertificate={addCertificate} />
-
-      <EditCertificateModal
-        data={editedCertificate}
-        editCertificate={editCertificate}
+      <CertificationModal
+        isLoading={isLoading}
+        mode={modalMode}
+        onSubmit={modalMode == "edit" ? editCertificate : addCertificate}
+        onHide={handleCloseModal}
+        show={showModal}
+        data={editCertificateData}
       />
     </>
   );

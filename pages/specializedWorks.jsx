@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Head from "next/head";
-// import Cookies from "js-cookie";
 import FeatherIcon from "feather-icons-react";
 import { axiosClient } from "class/axiosConfig.js";
 import { getSession } from "lib/session";
 import { QuestionAlert } from "class/AlertManage.js";
 import Loading from "components/commonComponents/loading/loading";
 import SpecializedWorksListTable from "components/dashboard/specializedWorks/specializedWorksListTable";
-import AddSpeWorkModal from "components/dashboard/specializedWorks/addspeWorkModal";
-import EditSpeWorkModal from "components/dashboard/specializedWorks/editSpeWorkModal";
+// import AddSpeWorkModal from "components/dashboard/specializedWorks/addspeWorkModal";
+// import EditSpeWorkModal from "components/dashboard/specializedWorks/editSpeWorkModal";
+import SpeWorksModal from "components/dashboard/specializedWorks/speWorksModal"
 
 export const getServerSideProps = async ({ req, res }) => {
   const result = await getSession(req, res);
@@ -34,7 +34,13 @@ const SpecializedWorks = ({ Menus, UserRoles, UserData }) => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [speWorks, setSpeWorks] = useState([]);
-  const [editSpeWork, setEditSpeWork] = useState({});
+  const [editSpeWorkData, setEditSpeWorkData] = useState({});
+  const [modalMode, setModalMode] = useState("add"); // Default mode
+  const [showModal, setShowModal] = useState(false);
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
 
   //get specializedWorks list
   const getSpecializedWorks = () => {
@@ -54,6 +60,11 @@ const SpecializedWorks = ({ Menus, UserRoles, UserData }) => {
   };
 
   // Add SpeWork
+  const openAddModal = () => {
+    setShowModal(true);
+    setModalMode("add")
+  };
+
   const addSpeWork = (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -73,7 +84,7 @@ const SpecializedWorks = ({ Menus, UserRoles, UserData }) => {
       .post(url, data)
       .then((response) => {
         setSpeWorks([...speWorks, response.data]);
-        $("#addSpeWorkModal").modal("hide");
+        setShowModal(false)
         e.target.reset();
         setIsLoading(false);
       })
@@ -104,7 +115,7 @@ const SpecializedWorks = ({ Menus, UserRoles, UserData }) => {
       .put(url, Data)
       .then((response) => {
         updateItem(formProps.EditSpeWorkID, response.data);
-        $("#editSpeWorkModal").modal("hide");
+        setShowModal(false)
         setIsLoading(false);
       })
       .catch((error) => {
@@ -129,8 +140,10 @@ const SpecializedWorks = ({ Menus, UserRoles, UserData }) => {
   };
 
   const updateSpeWork = (data) => {
-    setEditSpeWork(data);
-    $("#editSpeWorkModal").modal("show");
+    setEditSpeWorkData(data);
+    setModalMode("edit");
+    setShowModal(true)
+    // $("#editSpeWorkModal").modal("show");
   };
 
   // Delete SpeWork
@@ -178,17 +191,15 @@ const SpecializedWorks = ({ Menus, UserRoles, UserData }) => {
             <div className="page-header">
               <div className="row align-items-center">
                 <div className="col-md-12 d-flex justify-content-end">
-                  <Link
-                    href="#"
-                    data-bs-toggle="modal"
-                    data-bs-target="#addSpeWorkModal"
+                  <button
+                    onClick={openAddModal}
                     className="btn btn-primary btn-add font-14"
                   >
                     <i className="me-1">
                       <FeatherIcon icon="plus-square" />
                     </i>{" "}
                     اضافه کردن
-                  </Link>
+                  </button>
                 </div>
               </div>
             </div>
@@ -228,9 +239,19 @@ const SpecializedWorks = ({ Menus, UserRoles, UserData }) => {
           </div>
         )}
 
-        <AddSpeWorkModal addSpeWork={addSpeWork} />
+        {/* <AddSpeWorkModal addSpeWork={addSpeWork} />
 
-        <EditSpeWorkModal data={editSpeWork} editSpeWorks={editSpeWorks} />
+        <EditSpeWorkModal data={editSpeWorkData} editSpeWorks={editSpeWorks} /> */}
+
+        <SpeWorksModal
+          isLoading={isLoading}
+          mode={modalMode}
+          onHide={handleCloseModal}
+          show={showModal}
+          onSubmit={modalMode == "edit" ? editSpeWorks : addSpeWork}
+          data={editSpeWorkData}
+        />
+
       </div>
     </>
   );

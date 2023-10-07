@@ -1,6 +1,6 @@
 import { Modal } from 'react-bootstrap';
 
-const LoeingModal = ({
+const SpeWorksModal = ({
     mode = "add", // Default is 'add'
     onSubmit,
     data = {},
@@ -8,53 +8,67 @@ const LoeingModal = ({
     show,
     onHide
 }) => {
-    const modalTitle = mode === "edit" ? "ویرایش اطلاعات" : "لوئینگ جدید";
+    const modalTitle = mode === "edit" ? "ویرایش اطلاعات" : "اضافه کردن کار تخصصی";
     const submitText = mode === "edit" ? "ثبت تغییرات" : "ثبت";
+
     return (
+
         <Modal show={show} onHide={onHide} centered>
             <Modal.Header closeButton>
                 <Modal.Title>
                     <p className="mb-0 text-secondary font-14 fw-bold">{modalTitle}</p>
                 </Modal.Title>
             </Modal.Header>
-
             <Modal.Body>
                 <form onSubmit={onSubmit}>
                     {mode === "edit" && (
                         <input
                             type="hidden"
-                            name="loeingId"
-                            defaultValue={data._id}
-                            key={data._id}
+                            className="form-control floating"
+                            name="EditSpeWorkID"
+                            value={data._id}
                         />
                     )}
 
                     <div className="form-group">
                         <label className="lblAbs font-12">
-                            کد لوئینگ <span className="text-danger">*</span>
+                            نام <span className="text-danger">*</span>
                         </label>
                         <input
+                            className="form-control floating inputPadding rounded"
                             type="text"
-                            className="form-control floating inputPadding rounded marginb-md1"
+                            name={mode == "edit" ? "EditSpeWorkName" : "AddSpeName"}
+                            defaultValue={mode == "edit" ? data.Name : ""}
+                            key={data.Name}
                             required
-                            name="loeingCode"
-                            defaultValue={mode == "edit" ? data.LoeingCode : ""}
-                            key={data.LoeingCode}
                         />
                     </div>
 
-                    <div className="form-group ">
+                    <div className="form-group">
                         <label className="lblAbs font-12">
-                            نام خدمت لوئینگ <span className="text-danger">*</span>
+                            عنوان <span className="text-danger">*</span>
                         </label>
-                        <textarea
-                            type="text"
+                        <input
                             className="form-control floating inputPadding rounded"
+                            type="text"
+                            name={mode == "edit" ? "EditSpeWorkTitle" : "AddSpeTitle"}
+                            defaultValue={mode == "edit" ? data.Title : ""}
+                            key={data.Title}
                             required
-                            name="loeingName"
-                            defaultValue={mode == "edit" ? data.Name : ""}
-                            key={data.Name}
-                        ></textarea>
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label className="lblAbs font-12">
+                            نام انگلیسی
+                        </label>
+                        <input
+                            className="form-control floating inputPadding rounded"
+                            type="text"
+                            name={mode == "edit" ? "EditSpeWorkEngName" : "AddSpeEngName"}
+                            defaultValue={mode == "edit" ? data.EngName : ""}
+                            key={data.EngName}
+                        />
                     </div>
 
                     <div className="submit-section">
@@ -85,4 +99,4 @@ const LoeingModal = ({
     );
 };
 
-export default LoeingModal;
+export default SpeWorksModal;
