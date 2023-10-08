@@ -1,6 +1,4 @@
-import Link from "next/link";
 import { useRouter } from "next/router";
-import FeatherIcon from "feather-icons-react";
 
 const GenralUserInfoSettings = ({
   userInfo,
@@ -104,13 +102,26 @@ const GenralUserInfoSettings = ({
               </div>
 
               <div className="settings-btns d-flex gap-1 justify-center media-flex-column margin-top-3">
-                <button
-                  type="submit"
-                  className="btn btn-primary rounded profileSettingsBtn font-13"
-                  id="submitGeneralInfoBtn"
-                >
-                  ثبت
-                </button>
+                {!isLoading ? (
+                  <button
+                    type="submit"
+                    className="btn btn-primary rounded btn-save"
+                  >
+                    ثبت
+                  </button>
+                ) : (
+                  <button
+                    type="submit"
+                    className="btn btn-secondary font-13"
+                    disabled
+                  >
+                    <span
+                      className="spinner-border spinner-border-sm me-2"
+                      role="status"
+                    ></span>
+                    در حال ثبت
+                  </button>
+                )}
                 <button
                   type="submit"
                   className="btn btn-outline-dark rounded profileSettingsBtn font-13"
@@ -129,4 +140,3 @@ const GenralUserInfoSettings = ({
 };
 
 export default GenralUserInfoSettings;
-

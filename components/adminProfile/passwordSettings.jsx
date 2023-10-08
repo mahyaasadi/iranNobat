@@ -7,6 +7,7 @@ const PasswordSettings = ({
   handleNewPassword,
   editUserPassword,
   userInfo,
+  isLoading
 }) => {
   const router = useRouter();
   const [eye, setEye] = useState(true);
@@ -153,13 +154,26 @@ const PasswordSettings = ({
                 </div>
 
                 <div className="settings-btns d-flex gap-1 justify-center media-flex-column margin-top-3">
-                  <button
-                    type="submit"
-                    className="btn btn-primary rounded profileSettingsBtn font-13"
-                    id="submitNewPasswordBtn"
-                  >
-                    ثبت
-                  </button>
+                  {!isLoading ? (
+                    <button
+                      type="submit"
+                      className="btn btn-primary rounded btn-save"
+                    >
+                      ثبت
+                    </button>
+                  ) : (
+                    <button
+                      type="submit"
+                      className="btn btn-secondary font-13"
+                      disabled
+                    >
+                      <span
+                        className="spinner-border spinner-border-sm me-2"
+                        role="status"
+                      ></span>
+                      در حال ثبت
+                    </button>
+                  )}
                   <button
                     type="submit"
                     className="btn btn-outline-dark rounded profileSettingsBtn font-13"

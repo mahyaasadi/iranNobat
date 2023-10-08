@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
 import Head from "next/head";
-import FeatherIcon from "feather-icons-react";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import { getSession } from "lib/session";
@@ -191,10 +189,11 @@ const ProfileSettings = ({ Menus, UserData, UserRoles }) => {
             // reset cookies
             let resSession = await setSession(UserData);
             Cookies.set("session", resSession, { expires: 1 });
-            SuccessAlert("موفق", "تغییر آواتار با موفقیت انجام گردید!");
+
             setTimeout(() => {
               router.push("/profile");
             }, 300);
+            SuccessAlert("موفق", "تغییر آواتار با موفقیت انجام گردید!");
             setIsLoading(false);
           })
           .catch((err) => {
@@ -275,6 +274,7 @@ const ProfileSettings = ({ Menus, UserData, UserRoles }) => {
                     handleNewPassword={handleNewPassword}
                     editUserPassword={editUserPassword}
                     userInfo={userInfo}
+                    isLoading={isLoading}
                   />
                 </div>
               </div>
