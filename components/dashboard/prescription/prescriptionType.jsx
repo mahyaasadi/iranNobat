@@ -62,6 +62,7 @@ const PrescriptionType = ({ img, name, active, id, changePrescId }) => {
           <Image src={img} alt="prescTypeIcon" height="20" width="20" /> &nbsp;
           {name}{" "}
           <span
+            id="countBadge"
             className="badge badge-primary"
             id={"srvItemCountId" + id}
           ></span>

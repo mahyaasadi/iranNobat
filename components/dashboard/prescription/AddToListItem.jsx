@@ -9,13 +9,14 @@ const AddToListItem = ({
   setPrescriptionItemsData,
   handleEditPrescItem,
   selectFavEprescItem,
+  DeleteService,
 }) => {
   // console.log({ data });
 
   // Delete Service from prescItems
-  const DeleteService = (id, prescId) => {
+  const _DeleteService = (id, prescId) => {
     setPrescriptionItemsData(data.filter((a) => a.SrvCode !== id));
-
+    DeleteService(id, prescId);
     count = $("#srvItemCountId" + prescId).html();
     if (count == "") {
       count = 0;
@@ -33,7 +34,7 @@ const AddToListItem = ({
     <>
       <div dir="rtl">
         <Accordion multiple>
-          {data.map((srv, index) => (
+          {data?.map((srv, index) => (
             <AccordionTab
               key={index}
               header={
@@ -50,7 +51,7 @@ const AddToListItem = ({
                       ""
                     )}
 
-                    <div className="d-flex gap-2 font-13 align-items-center">
+                    <div className="d-flex gap-2 font-13 align-items-center prescDetails">
                       <p className="mb-0">{srv.SrvCode}</p>
                       <p className="mb-0">|</p>
                       <p>{srv.SrvName}</p>
@@ -83,7 +84,7 @@ const AddToListItem = ({
                     <button
                       type="button"
                       className="btn btn-sm btn-outline-danger removeBtn"
-                      onClick={() => DeleteService(srv.SrvCode, srv.prescId)}
+                      onClick={() => _DeleteService(srv.SrvCode, srv.prescId)}
                       data-pr-position="top"
                     >
                       <Tooltip target=".removeBtn">حذف</Tooltip>

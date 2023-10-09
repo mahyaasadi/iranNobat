@@ -26,7 +26,7 @@ let ActiveSrvCode,
   ActiveInsuranceID,
   ActiveParaCode,
   ActivePatientID,
-  count,
+  // count,
   prescriptionHeadID = null;
 
 const getDrugInstructionsList = async () => {
@@ -128,9 +128,12 @@ const Prescription = ({
   const [SelectedAmount, setSelectedAmount] = useState(null);
   const [SelectedAmountLbl, setSelectedAmountLbl] = useState(null);
 
+  const [count, setCount] = useState(0);
+
   const FUSelectInstruction = (instruction) => {
     const findInsLbl = drugInstructionList.find((x) => x.value == instruction);
     setSelectedInstructionLbl(findInsLbl ? findInsLbl.label : instruction);
+    setSelectedInstruction(instruction);
   };
 
   const FUSelectDrugAmount = (amount) => {
@@ -139,6 +142,7 @@ const Prescription = ({
 
     const findAmntLbl = drugAmountList.find((x) => x.value == amount);
     setSelectedAmountLbl(findAmntLbl ? findAmntLbl.label : amount);
+    setSelectedAmount(amount);
   };
 
   const ActiveSearch = () => {
@@ -218,7 +222,9 @@ const Prescription = ({
     ActivePrscName = name;
     prescId = id;
 
-    count = $("#srvItemCountId" + prescId).html();
+    setCount($("#srvItemCountId" + prescId).html());
+
+    // count = $("#srvItemCountId" + prescId).html();
     // console.log("count", count);
 
     $(".unsuccessfullSearch").hide();
@@ -277,7 +283,7 @@ const Prescription = ({
   const SearchTaminSrv = (e) => {
     e.preventDefault();
 
-    if (ActiveSrvCode == null) {
+    if (ActiveSrvCode == null || srvEditMode) {
       setIsLoading(true);
 
       let formData = new FormData(e.target);
@@ -307,6 +313,31 @@ const Prescription = ({
     }
   };
 
+  const updateItem = (id, newArr) => {
+    let index = PrescriptionItemsData.findIndex((x) => x.SrvCode === id);
+    let g = PrescriptionItemsData[index];
+    g = newArr;
+    if (index === -1) {
+      console.log("no match");
+    } else {
+      setTimeout(() => {
+        setPrescriptionItemsData([
+          ...PrescriptionItemsData.slice(0, index),
+          g,
+          ...PrescriptionItemsData.slice(index + 1),
+        ]);
+      }, 5);
+    }
+  };
+
+  const DeleteService = (id, prescId, prescItems) => {
+    addPrescriptionitems = addPrescriptionitems.filter(
+      (a) => a.srvId.srvCode !== id
+    );
+
+    if (prescItems) updateItem(id, prescItems);
+  };
+
   const prescItemCreator = async (
     prescId,
     Instruction,
@@ -330,6 +361,7 @@ const Prescription = ({
     } else {
       if (SrvCode == null || SrvName == null) {
         ErrorAlert("خطا", "خدمتی انتخاب نشده است");
+        return false;
       } else {
         let prescItems = {
           SrvName: SrvName,
@@ -384,32 +416,37 @@ const Prescription = ({
           };
         }
 
-        // let findSrvCode = addPrescriptionitems.find(
-        //   ({ x }) => x.srvId.srvCode === SrvCode
-        // );
-
-        if (
-          addPrescriptionitems.length > 0 &&
-          addPrescriptionitems.find(({ srvId }) => srvId.srvCode === SrvCode)
-        ) {
-          // console.log(srvId);
-          ErrorAlert("خطا", "سرویس انتخابی تکراری می باشد");
-          return false;
+        if (!srvEditMode) {
+          if (
+            addPrescriptionitems.length > 0 &&
+            addPrescriptionitems.find(({ srvId }) => srvId.srvCode === SrvCode)
+          ) {
+            ErrorAlert("خطا", "سرویس انتخابی تکراری می باشد");
+            return false;
+          }
+        } else {
+          DeleteService(SrvCode, prescId, prescItems);
+          setSrvEditMode(false);
         }
 
         // count badge
-        count = $("#srvItemCountId" + prescId).html();
-        if (count == "") {
-          count = 0;
-        }
+        setCount($("#srvItemCountId" + prescId).html());
+        // count = $("#srvItemCountId" + prescId).html();
 
-        count = parseInt(count);
-        count++;
+        if (count == "") setCount(0);
+
+        setCount(parseInt(count));
+        // count = parseInt(count);
+        // count++;
+
+        setCount((count) => ++count);
         $("#srvItemCountId" + prescId).html(count);
 
         // hide if count = 0
         if (count === 0) {
-          $("#srvItemCountId" + prescId).hide();
+          // let countBadge = document.getElementById("countBadge");
+          // countBadge.style.display = "none";
+          // $("#srvItemCountId" + prescId).hide();
         }
 
         return { prescData, prescItems };
@@ -442,9 +479,6 @@ const Prescription = ({
         Code: ActiveSrvCode,
       };
 
-      // console.log({ prescData });
-      // console.log({ prescItems });
-
       addPrescriptionitems.push(prescData);
       addPrescriptionSrvNameitems.push(onlyVisitPrescData);
       setPrescriptionItemsData([...PrescriptionItemsData, prescItems]);
@@ -463,18 +497,14 @@ const Prescription = ({
       let drugAmntId = presc.drugAmntId;
       let drugAmntLbl = drugAmountList.find((o) => o.value === drugAmntId);
 
-      if (drugAmntLbl) {
-        drugAmntLbl = drugAmntLbl.label;
-      }
+      if (drugAmntLbl) drugAmntLbl = drugAmntLbl.label;
 
       let drugInstId = presc.drugInstId;
       let InstructionLbl = drugInstructionList.find(
         (o) => o.value === drugInstId
       );
 
-      if (InstructionLbl) {
-        InstructionLbl = InstructionLbl.label;
-      }
+      if (InstructionLbl) InstructionLbl = InstructionLbl.label;
 
       let { prescData, prescItems } = await prescItemCreator(
         presc.srvId.srvType.prescTypeId,
@@ -490,9 +520,6 @@ const Prescription = ({
         presc.srvId.srvType.srvType,
         presc.srvId.parTarefGrp?.parGrpCode
       );
-
-      // console.log({ prescData });
-      // console.log({ prescItems });
 
       if (prescData) {
         addPrescriptionitems.push(prescData);
@@ -758,42 +785,45 @@ const Prescription = ({
   const handleEditPrescItem = (srvData) => {
     setEditSrvData(srvData);
     setSrvEditMode(true);
-    console.log({ SelectedInstructionLbl });
-    console.log({ SelectedAmountLbl });
+    ActiveSrvCode = srvData.SrvCode;
+    ActiveSrvName = srvData.SrvName;
   };
 
-  const editPrescItem = async (e) => {
-    e.preventDefault();
+  // const editPrescItem = async (e) => {
+  //   e.preventDefault();
 
-    // let formData = new FormData(e.target);
-    // const formProps = Object.fromEntries(formData);
+  //   const srvCode = editSrvCodeValue;
+  //   const srvName = document.getElementById("srvSearchInput").value;
+  //   const qty = document.getElementById("QtyInput").value;
+  //   const amountVal = SelectedAmount;
+  //   const amountLbl = SelectedAmountLbl;
+  //   const instructionVal = SelectedInstruction;
+  //   const instructionLbl = SelectedInstructionLbl;
 
-    // // let url = "";
-    // let data = {
-    //   srvCode: formProps.srvCode,
-    //   srvName: formProps.srvSearchInput,
-    //   qty: formProps,
-    //   instruction: formProps,
-    //   amount: formProps,
-    // };
+  //   const editData = {
+  //     SrvCode: srvCode,
+  //     SrvName: srvName,
+  //     Qty: qty,
+  //     AmountVal: amountVal,
+  //     AmountLbl: amountLbl,
+  //     InstructionVal: instructionVal,
+  //     InstructiobLbl: instructionLbl,
+  //   };
 
-    // console.log({ data });
+  //   console.log({ editData });
 
-    // let { prescData, prescItems } = await prescItemCreator(
-    //   presc.srvId.srvType.prescTypeId,
-    //   drugInstId,
-    //   drugAmntId,
-    //   presc.srvId.srvCode,
-    //   presc.srvId.srvName,
-    //   presc.srvQty,
-    //   "",
-    //   InstructionLbl,
-    //   drugAmntLbl,
-    //   presc.srvId.srvType.srvTypeDes,
-    //   presc.srvId.srvType.srvType,
-    //   presc.srvId.parTarefGrp?.parGrpCode
-    // );
-  };
+  //   const itemToEdit = addPrescriptionitems.find(
+  //     (item) => item.srvId.srvCode === srvCode
+  //   );
+
+  //   console.log({ itemToEdit });
+
+  //   if (itemToEdit) {
+  //     itemToEdit.srvQty = qty;
+  //     itemToEdit.drugInstruction = instructionVal;
+  //     itemToEdit.timesAday = amountVal;
+  //   }
+  // };
 
   const cancelEditPresc = (e) => {
     e.preventDefault();
@@ -908,7 +938,7 @@ const Prescription = ({
                 srvEditMode={srvEditMode}
                 drugInstructionList={drugInstructionList}
                 drugAmountList={drugAmountList}
-                editPrescItem={editPrescItem}
+                // editPrescItem={editPrescItem}
                 cancelEditPresc={cancelEditPresc}
                 setSrvEditMode={setSrvEditMode}
                 SelectedInstruction={SelectedInstruction}
@@ -924,6 +954,7 @@ const Prescription = ({
                   setPrescriptionItemsData={setPrescriptionItemsData}
                   handleEditPrescItem={handleEditPrescItem}
                   selectFavEprescItem={selectFavEprescItem}
+                  DeleteService={DeleteService}
                 />
               </div>
             </div>

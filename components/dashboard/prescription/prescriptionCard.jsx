@@ -37,8 +37,6 @@ const PrescriptionCard = ({
   setSelectedAmount,
   setEditSrvData,
 }) => {
-  console.log({ editSrvData });
-
   const [isLoading, setIsLoading] = useState(false);
   const instDropdownRef = useRef(null);
   const amntDropdownRef = useRef(null);
@@ -117,6 +115,9 @@ const PrescriptionCard = ({
     }
   }, [editDrugAmountData, editDrugInstructionData]);
 
+  useEffect(() => {
+    console.log({ editSrvData });
+  }, [editSrvData]);
   return (
     <>
       <div>
@@ -164,6 +165,7 @@ const PrescriptionCard = ({
                   <input
                     type="hidden"
                     name="srvCode"
+                    id="srvCode"
                     value={editSrvData?.SrvCode}
                   />
 
@@ -339,7 +341,7 @@ const PrescriptionCard = ({
                     <div className="d-flex gap-1">
                       <button
                         className="btn rounded w-100 addToListBtn font-12"
-                        onClick={editPrescItem}
+                        onClick={FuAddToListItem}
                       >
                         ثبت تغییرات
                       </button>

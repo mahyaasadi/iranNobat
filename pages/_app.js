@@ -6,9 +6,9 @@ import "public/assets/plugins/fontawesome/css/all.min.css";
 import "public/assets/css/font-awesome.min.css";
 import "public/assets/css/style.css";
 import DashboardLayout from "pages/dashboardLayout";
-import { PrimeReactProvider } from 'primereact/api';
-import 'primereact/resources/themes/lara-light-indigo/theme.css';   // theme
-import 'primereact/resources/primereact.css';                       // core css
+import { PrimeReactProvider } from "primereact/api";
+import "primereact/resources/themes/lara-light-indigo/theme.css";
+import "primereact/resources/primereact.css";
 // import {
 //   useQuery,
 //   useMutation,
