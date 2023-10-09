@@ -1,13 +1,11 @@
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import Head from "next/head";
 import FeatherIcon from "feather-icons-react";
 import { axiosClient } from "class/axiosConfig.js";
 import { QuestionAlert } from "class/AlertManage.js";
 import Loading from "components/commonComponents/loading/loading";
 import CannedMessagesListTable from "components/dashboard/cannedMessages/cannedMessagesListTable";
-import AddMessageModal from "components/dashboard/cannedMessages/addMessageModal";
-import EditMessageModal from "components/dashboard/cannedMessages/editMessageModal";
+import CannedMessageModal from "components/dashboard/cannedMessages/cannedMessageModal";
 import { getSession } from "lib/session";
 
 export const getServerSideProps = async ({ req, res }) => {
@@ -36,6 +34,10 @@ const CannedMessages = ({ Menus, UserData, UserRoles }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [messagesData, setMessagesData] = useState([]);
   const [editMessageData, setEditedMessage] = useState("");
+  const [modalMode, setModalMode] = useState("add"); // Default mode
+  const [showModal, setShowModal] = useState(false);
+
+  const handleCloseModal = () => setShowModal(false);
 
   //get CannedMessages list
   const getCannedMessages = () => {
@@ -55,6 +57,11 @@ const CannedMessages = ({ Menus, UserData, UserRoles }) => {
   };
 
   // Add Message
+  const openAddModal = () => {
+    setShowModal(true);
+    setModalMode("add")
+  }
+
   const addMessage = (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -74,7 +81,7 @@ const CannedMessages = ({ Menus, UserData, UserRoles }) => {
       .post(url, data)
       .then((response) => {
         setMessagesData([...messagesData, response.data]);
-        $("#addMessageModal").modal("hide");
+        setShowModal(false)
         e.target.reset();
         setIsLoading(false);
       })
@@ -105,7 +112,7 @@ const CannedMessages = ({ Menus, UserData, UserRoles }) => {
       .put(url, Data)
       .then((response) => {
         updateItem(formProps.EditMessageID, response.data);
-        $("#editMessageModal").modal("hide");
+        setShowModal(false)
         setIsLoading(false);
       })
       .catch((error) => {
@@ -131,7 +138,8 @@ const CannedMessages = ({ Menus, UserData, UserRoles }) => {
 
   const updateMessage = (data) => {
     setEditedMessage(data);
-    $("#editMessageModal").modal("show");
+    setModalMode("edit")
+    setShowModal(true)
   };
 
   // Delete Message
@@ -176,17 +184,15 @@ const CannedMessages = ({ Menus, UserData, UserRoles }) => {
             <div className="page-header">
               <div className="row align-items-center">
                 <div className="col-md-12 d-flex justify-content-end">
-                  <Link
-                    href="#"
-                    data-bs-toggle="modal"
-                    data-bs-target="#addMessageModal"
+                  <button
+                    onClick={openAddModal}
                     className="btn btn-primary btn-add font-14"
                   >
                     <i className="me-1">
                       <FeatherIcon icon="plus-square" />
                     </i>{" "}
                     اضافه کردن
-                  </Link>
+                  </button>
                 </div>
               </div>
             </div>
@@ -225,10 +231,16 @@ const CannedMessages = ({ Menus, UserData, UserRoles }) => {
         )}
       </div>
 
-      <AddMessageModal addMessage={addMessage} />
-
-      <EditMessageModal data={editMessageData} editMessage={editMessage} />
+      <CannedMessageModal
+        mode={modalMode}
+        onSubmit={modalMode === "add" ? addMessage : editMessage}
+        data={editMessageData}
+        isLoading={isLoading}
+        onHide={handleCloseModal}
+        show={showModal}
+      />
     </>
   );
 };
+
 export default CannedMessages;

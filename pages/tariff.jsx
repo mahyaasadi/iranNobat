@@ -11,7 +11,7 @@ import TariffListTable from "components/dashboard/tariff/tariffListTable";
 import TariffModal from "components/dashboard/tariff/tariffModal";
 import TariffCalcModal from "components/dashboard/tariff/tariffCalcModal";
 import LoeingTableModal from "components/dashboard/tariff/loeing/loeingTableModal";
-import LoeingModal from "components/dashboard/tariff/loeing/LoeingModal";
+import LoeingModal from "@/components/dashboard/tariff/loeing/loeingModal";
 import applyCalculationsDataClass from "class/applyCalculationsDataClass";
 
 let activeServiceId = null;

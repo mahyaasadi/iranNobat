@@ -6,8 +6,7 @@ import FeatherIcon from "feather-icons-react";
 import Loading from "components/commonComponents/loading/loading";
 import { QuestionAlert } from "class/AlertManage.js";
 import RolesListTable from "components/dashboard/roles/rolesListTable";
-import AddRoleModal from "components/dashboard/roles/addRoleModal";
-import EditRoleModal from "components/dashboard/roles/editRoleModal";
+import RolesModal from "components/dashboard/roles/rolesModal"
 import { getSession } from "lib/session";
 
 export const getServerSideProps = async ({ req, res }) => {
@@ -34,7 +33,11 @@ const Roles = ({ Menus, UserData, UserRoles }) => {
 
   const [rolesList, setRolesList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [editedRole, setEditedRole] = useState([]);
+  const [editRoleData, setEditRoleData] = useState([]);
+  const [modalMode, setModalMode] = useState("add"); // Default mode
+  const [showModal, setShowModal] = useState(false);
+
+  const handleCloseModal = () => setShowModal(false);
 
   // get all roles
   const getAllRoles = () => {
@@ -45,7 +48,7 @@ const Roles = ({ Menus, UserData, UserRoles }) => {
       .get(url)
       .then(function (response) {
         setIsLoading(false);
-        console.log("roles :", response.data);
+        // console.log("roles :", response.data);
         setRolesList(response.data);
       })
       .catch((error) => {
@@ -55,6 +58,11 @@ const Roles = ({ Menus, UserData, UserRoles }) => {
   };
 
   // Add New Role
+  const openAddModal = () => {
+    setModalMode("add");
+    setShowModal(true)
+  }
+
   const addRole = (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -72,7 +80,7 @@ const Roles = ({ Menus, UserData, UserRoles }) => {
       .post(url, data)
       .then((response) => {
         setRolesList([...rolesList, response.data]);
-        $("#addRoleModal").modal("hide");
+        setShowModal(false)
         e.target.reset();
         setIsLoading(false);
       })
@@ -97,14 +105,12 @@ const Roles = ({ Menus, UserData, UserRoles }) => {
       Name: formProps.editRoleName,
     };
 
-    console.log("edit data", data);
-
     axiosClient
       .put(url, data)
       .then((response) => {
         console.log("edit data", data);
         updateItem(formProps.roleID, response.data);
-        $("#editRoleModal").modal("hide");
+        setShowModal(false)
         setIsLoading(false);
       })
       .catch((error) => {
@@ -129,8 +135,9 @@ const Roles = ({ Menus, UserData, UserRoles }) => {
   };
 
   const updateRole = (data) => {
-    setEditedRole(data);
-    $("#editRoleModal").modal("show");
+    setEditRoleData(data);
+    setShowModal(true);
+    setModalMode("edit")
   };
 
   // Delete Role
@@ -177,17 +184,15 @@ const Roles = ({ Menus, UserData, UserRoles }) => {
             <div className="page-header">
               <div className="row align-items-center">
                 <div className="col-md-12 d-flex justify-content-end">
-                  <Link
-                    href="#"
-                    data-bs-toggle="modal"
-                    data-bs-target="#addRoleModal"
+                  <button
+                    onClick={openAddModal}
                     className="btn btn-primary btn-add font-14 media-font-12"
                   >
                     <i className="me-1">
                       <FeatherIcon icon="plus-square" />
                     </i>{" "}
                     اضافه کردن
-                  </Link>
+                  </button>
                 </div>
               </div>
             </div>
@@ -223,9 +228,14 @@ const Roles = ({ Menus, UserData, UserRoles }) => {
           </div>
         )}
 
-        <AddRoleModal addRole={addRole} />
-
-        <EditRoleModal data={editedRole} editRole={editRole} />
+        <RolesModal
+          mode={modalMode}
+          onSubmit={modalMode === "add" ? addRole : editRole}
+          data={editRoleData}
+          isLoading={isLoading}
+          show={showModal}
+          onHide={handleCloseModal}
+        />
       </div>
     </>
   );

@@ -43,9 +43,7 @@ const DoctorsList = ({ Menus, UserRoles, UserData }) => {
   const handleTitleInput = (e) => setTitle(e.target.value);
   const handleSpecialtyInput = (e) => setSpecialty(e.target.value);
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
+  const handleCloseModal = () => setShowModal(false);
 
   //reset form inputs
   const reset = () => {
