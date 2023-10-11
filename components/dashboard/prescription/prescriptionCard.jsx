@@ -36,10 +36,9 @@ const PrescriptionCard = ({
   SelectedAmount,
   setSelectedAmount,
   setEditSrvData,
+  openFavModal,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const instDropdownRef = useRef(null);
-  const amntDropdownRef = useRef(null);
 
   function QtyChange(ac) {
     let qty = $("#QtyInput").val();
@@ -79,9 +78,6 @@ const PrescriptionCard = ({
     (x) => x.label == editSrvData.TimesADay
   );
 
-  // const [defaultDrugAmount, setDefaultDrugAmount] = useState(null);
-  // const [defaultDrugInstruction, setDefaultDrugInstruction] = useState(null);
-
   const handleDrugAmountSelect = (e) => {
     setSelectedAmount(e.value);
     FUSelectDrugAmount(e.value);
@@ -94,9 +90,8 @@ const PrescriptionCard = ({
 
   const handleCancel = () => {
     setSrvEditMode(false);
-
-    // instDropdownRef.current.clear();
     setEditSrvData([]);
+
     setSelectedInstruction(editDrugInstructionData?.value);
     setSelectedAmount(editDrugAmountData?.value);
     $("#srvSearchInput").val(editSrvData?.SrvName);
@@ -107,17 +102,16 @@ const PrescriptionCard = ({
     if (editDrugInstructionData && editDrugAmountData) {
       FUSelectDrugAmount(editDrugAmountData.label);
       FUSelectInstruction(editDrugInstructionData.label);
-      // console.log(editDrugInstructionData.label);
-      // console.log(editDrugAmountData.label);
       handleCancel();
       $("#QtyInput").val(editSrvData.Qty);
       setSrvEditMode(true);
     }
   }, [editDrugAmountData, editDrugInstructionData]);
 
-  useEffect(() => {
-    console.log({ editSrvData });
-  }, [editSrvData]);
+  // useEffect(() => {
+  //   console.log({ editSrvData });
+  // }, [editSrvData]);
+
   return (
     <>
       <div>
@@ -126,19 +120,26 @@ const PrescriptionCard = ({
             <div className="prescript-header">
               <div className="prescript-title text-secondary">نسخه جدید</div>
               <div className="prescript-btns d-flex gap-2">
-                <div
+                <button
+                  className="btn btn-outline-primary border-radius font-13"
+                  onClick={openFavModal}
+                >
+                  نسخه های پرمصرف
+                </button>
+
+                <button
                   className="btn border-radius visitBtn font-13"
                   onClick={() => registerEpresc(1)}
                 >
                   فقط ثبت ویزیت
-                </div>
+                </button>
 
-                <div
+                <button
                   className="btn btn-primary border-radius font-13"
                   onClick={() => registerEpresc(0)}
                 >
                   ثبت نسخه نهایی
-                </div>
+                </button>
               </div>
             </div>
 
@@ -278,7 +279,6 @@ const PrescriptionCard = ({
                 <div id="drugInstruction" className="col media-mt-1">
                   <label className="lblAbs font-12">زمان مصرف</label>
                   <Dropdown
-                    ref={instDropdownRef}
                     value={SelectedInstruction}
                     onChange={handleDrugInstructionSelect}
                     options={drugInstructionList}
@@ -292,7 +292,6 @@ const PrescriptionCard = ({
                 <div id="drugAmount" className="col media-mt-1">
                   <label className="lblAbs font-12">تعداد در وعده</label>
                   <Dropdown
-                    ref={amntDropdownRef}
                     value={SelectedAmount}
                     onChange={handleDrugAmountSelect}
                     options={drugAmountList}
@@ -302,22 +301,6 @@ const PrescriptionCard = ({
                     showClear
                   />
                 </div>
-
-                {/* <div className="col media-w-100" id="drugAmount">
-                  <label className="lblDrugIns font-12">تعداد در وعده</label>
-                  <SelectField
-                    styles={selectfieldColourStyles}
-                    className="w-100 font-12 text-center prescForm"
-                    id="drugAmountSelect"
-                    options={drugAmountList}
-                    placeholder={"انتخاب نمایید"}
-                    required
-                    onChange={handleDrugAmountSelectfield}
-                    value={
-                      defaultDrugAmount ? defaultDrugAmount : editDrugAmountData
-                    }
-                  />
-                </div> */}
               </div>
 
               <div className="d-flex align-items-center gap-2 media-flex-column media-gap margin-top-1">

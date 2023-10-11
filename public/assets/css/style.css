@@ -7036,6 +7036,11 @@ a.edit-pro {
   align-items: center;
 }
 
+.favModalBody {
+  height: 60vh;
+  overflow-y: auto;
+}
+
 .fav-btn img {
   width: auto;
   margin-left: 5px;
@@ -9918,7 +9923,7 @@ ul li .active {
 }
 
 .p-accordion-header-text {
-  width: 100%;
+  width: 95%;
   padding-right: 1rem;
 }
 

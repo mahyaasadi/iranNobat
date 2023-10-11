@@ -10,6 +10,7 @@ import ArteshDoctorsListTable from "components/dashboard/prescription/arteshDoct
 import AddToListItem from "components/dashboard/prescription/addToListItem";
 import { TaminPrescType, TaminServiceType } from "class/taminprescriptionData";
 import TaminHeader from "components/dashboard/prescription/TaminVsArteshHeader";
+import FavPrescListModal from "components/dashboard/prescription/FavPrescListModal";
 import { ErrorAlert, SuccessAlert, WarningAlert } from "class/AlertManage.js";
 
 let prescId = 1;
@@ -22,11 +23,12 @@ let ActiveSrvCode,
   ActiveSrvName,
   ActivePrscImg,
   ActivePatientTel,
+  ActiveEditSrvCode,
   ActiveSrvTypePrsc,
   ActiveInsuranceID,
   ActiveParaCode,
   ActivePatientID,
-  // count,
+  count,
   prescriptionHeadID = null;
 
 const getDrugInstructionsList = async () => {
@@ -128,7 +130,8 @@ const Prescription = ({
   const [SelectedAmount, setSelectedAmount] = useState(null);
   const [SelectedAmountLbl, setSelectedAmountLbl] = useState(null);
 
-  const [count, setCount] = useState(0);
+  const [showFavModal, setShowFavModal] = useState(false);
+  const handleClosefavModal = () => setShowFavModal(false);
 
   const FUSelectInstruction = (instruction) => {
     const findInsLbl = drugInstructionList.find((x) => x.value == instruction);
@@ -217,15 +220,11 @@ const Prescription = ({
   };
 
   const changePrescId = (Sid, Img, name, id) => {
-    // console.log({ Img });
     ActiveServiceTypeID = Sid;
     ActivePrscName = name;
     prescId = id;
 
-    setCount($("#srvItemCountId" + prescId).html());
-
-    // count = $("#srvItemCountId" + prescId).html();
-    // console.log("count", count);
+    count = $("#srvItemCountId" + prescId).html();
 
     $(".unsuccessfullSearch").hide();
 
@@ -425,27 +424,23 @@ const Prescription = ({
             return false;
           }
         } else {
-          DeleteService(SrvCode, prescId, prescItems);
+          DeleteService(ActiveEditSrvCode, prescId, prescItems);
           setSrvEditMode(false);
+          ActiveSrvCode = null;
         }
 
         // count badge
-        setCount($("#srvItemCountId" + prescId).html());
-        // count = $("#srvItemCountId" + prescId).html();
+        count = $("#srvItemCountId" + prescId).html();
 
-        if (count == "") setCount(0);
+        if (count == "") count = 0;
 
-        setCount(parseInt(count));
-        // count = parseInt(count);
-        // count++;
+        count = parseInt(count);
+        count++;
 
-        setCount((count) => ++count);
         $("#srvItemCountId" + prescId).html(count);
 
         // hide if count = 0
         if (count === 0) {
-          // let countBadge = document.getElementById("countBadge");
-          // countBadge.style.display = "none";
           // $("#srvItemCountId" + prescId).hide();
         }
 
@@ -456,7 +451,9 @@ const Prescription = ({
 
   // add to list
   const FuAddToListItem = async (e) => {
-    e.preventDefault();
+    if (e && e.preventDefault) {
+      e.preventDefault();
+    }
 
     let { prescData, prescItems } = await prescItemCreator(
       prescId,
@@ -482,6 +479,9 @@ const Prescription = ({
       addPrescriptionitems.push(prescData);
       addPrescriptionSrvNameitems.push(onlyVisitPrescData);
       setPrescriptionItemsData([...PrescriptionItemsData, prescItems]);
+
+      console.log({ prescItems });
+      console.log({ prescData });
 
       ActiveSearch();
       $("#QtyInput").val("1");
@@ -782,48 +782,25 @@ const Prescription = ({
   };
 
   // edit prescItem
-  const handleEditPrescItem = (srvData) => {
+  const handleEditPrescItem = (srvData, force) => {
+    // setIsLoading(true);
     setEditSrvData(srvData);
     setSrvEditMode(true);
+    setTimeout(() => {
+      setShowFavModal(false);
+    }, 200);
+
     ActiveSrvCode = srvData.SrvCode;
     ActiveSrvName = srvData.SrvName;
+    ActiveEditSrvCode = srvData.SrvCode;
+
+    // if (force) {
+    //   setTimeout(() => {
+    //     FuAddToListItem();
+    //     setIsLoading(false);
+    //   }, 1000);
+    // }
   };
-
-  // const editPrescItem = async (e) => {
-  //   e.preventDefault();
-
-  //   const srvCode = editSrvCodeValue;
-  //   const srvName = document.getElementById("srvSearchInput").value;
-  //   const qty = document.getElementById("QtyInput").value;
-  //   const amountVal = SelectedAmount;
-  //   const amountLbl = SelectedAmountLbl;
-  //   const instructionVal = SelectedInstruction;
-  //   const instructionLbl = SelectedInstructionLbl;
-
-  //   const editData = {
-  //     SrvCode: srvCode,
-  //     SrvName: srvName,
-  //     Qty: qty,
-  //     AmountVal: amountVal,
-  //     AmountLbl: amountLbl,
-  //     InstructionVal: instructionVal,
-  //     InstructiobLbl: instructionLbl,
-  //   };
-
-  //   console.log({ editData });
-
-  //   const itemToEdit = addPrescriptionitems.find(
-  //     (item) => item.srvId.srvCode === srvCode
-  //   );
-
-  //   console.log({ itemToEdit });
-
-  //   if (itemToEdit) {
-  //     itemToEdit.srvQty = qty;
-  //     itemToEdit.drugInstruction = instructionVal;
-  //     itemToEdit.timesAday = amountVal;
-  //   }
-  // };
 
   const cancelEditPresc = (e) => {
     e.preventDefault();
@@ -834,20 +811,16 @@ const Prescription = ({
     setSelectedInstruction(null);
     FUSelectInstruction(null);
     FUSelectDrugAmount(null);
-
-    // console.log({ SelectedInstructionLbl, SelectedAmountLbl });
   };
 
-  // favourite items
+  // --------- favourite items ----------
   const getFavEprescItems = () => {
     let url = `FavEprscItem/getTamin/${CenterID}`;
 
     axiosClient
       .get(url)
       .then((response) => {
-        // console.log(response.data);
         setFavEprescItems(response.data);
-        // setTaminSrvSearchList(response.data);
       })
       .catch((err) => console.log(err));
   };
@@ -864,12 +837,46 @@ const Prescription = ({
     axiosClient
       .post(url, data)
       .then((response) => {
-        console.log(response.data);
-        console.log({ favEprescItems });
-        setFavEprescItems([...response.data, favEprescItems]);
+        setFavEprescItems([...[response.data], favEprescItems]);
         SuccessAlert("موفق", "سرویس به لیست علاقه مندی ها اضافه گردید!");
       })
       .catch((err) => console.log(err));
+  };
+
+  const openFavModal = () => setShowFavModal(true);
+
+  const handleAddFavItem = async (srv) => {
+    console.log({ srv });
+
+    const findDrugInstVal = drugInstructionList.find(
+      (x) => x.label == srv.DrugInstruction
+    );
+
+    const findDrugAmntVal = drugAmountList.find(
+      (x) => x.label == srv.TimesADay
+    );
+
+    const result = await prescItemCreator(
+      srv.prescId,
+      findDrugInstVal.value,
+      findDrugAmntVal,
+      srv.SrvCode,
+      srv.SrvName,
+      srv.Qty,
+      srv.Img,
+      srv.DrugInstruction,
+      srv.TimesADay,
+      ActivePrscName,
+      srv.PrescType,
+      ""
+    );
+
+    if (result) {
+      let { prescData, prescItems } = result;
+      console.log({ result });
+    } else {
+      console.log("prescData undefind");
+    }
   };
 
   useEffect(() => {
@@ -888,11 +895,12 @@ const Prescription = ({
     //   return 'Changes you made may not be saved';
     // }
     getFavEprescItems();
+    $(".unsuccessfullSearch").hide();
   }, []);
 
   useEffect(() => {
-    $(".unsuccessfullSearch").hide();
-  }, [PrescriptionItemsData]);
+    console.log({ favEprescItems });
+  }, [favEprescItems]);
 
   return (
     <>
@@ -922,7 +930,6 @@ const Prescription = ({
                 SelectSrvSearch={SelectSrvSearch}
                 SearchTaminSrv={SearchTaminSrv}
                 TaminSrvSearchList={TaminSrvSearchList}
-                favEprescItems={favEprescItems}
                 ServiceList={TaminServiceTypeList}
                 lists={taminHeaderList}
                 onSelect={selectPrescriptionType}
@@ -938,7 +945,6 @@ const Prescription = ({
                 srvEditMode={srvEditMode}
                 drugInstructionList={drugInstructionList}
                 drugAmountList={drugAmountList}
-                // editPrescItem={editPrescItem}
                 cancelEditPresc={cancelEditPresc}
                 setSrvEditMode={setSrvEditMode}
                 SelectedInstruction={SelectedInstruction}
@@ -946,6 +952,7 @@ const Prescription = ({
                 setEditSrvData={setEditSrvData}
                 SelectedAmount={SelectedAmount}
                 setSelectedAmount={setSelectedAmount}
+                openFavModal={openFavModal}
               />
 
               <div className="prescList">
@@ -960,6 +967,16 @@ const Prescription = ({
             </div>
           </div>
         </div>
+
+        <FavPrescListModal
+          data={favEprescItems}
+          show={showFavModal}
+          onHide={handleClosefavModal}
+          isLoading={isLoading}
+          FuAddToListItem={FuAddToListItem}
+          handleAddFavItem={handleAddFavItem}
+          handleEditPrescItem={handleEditPrescItem}
+        />
       </div>
     </>
   );

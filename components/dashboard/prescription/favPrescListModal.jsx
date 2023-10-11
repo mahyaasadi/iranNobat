@@ -1,39 +1,26 @@
 import Image from "next/image";
 import FeatherIcon from "feather-icons-react";
-import { Accordion, AccordionTab } from "primereact/accordion";
+import { Modal } from "react-bootstrap";
 import { Tooltip } from "primereact/tooltip";
+import { Accordion, AccordionTab } from "primereact/accordion";
 
-let count = null;
-const AddToListItem = ({
+const FavPrescListModal = ({
   data,
-  setPrescriptionItemsData,
+  isLoading,
+  show,
+  onHide,
   handleEditPrescItem,
-  selectFavEprescItem,
-  DeleteService,
+  handleAddFavItem,
 }) => {
-  // console.log({ data });
-
-  // Delete Service from prescItems
-  const _DeleteService = (id, prescId) => {
-    setPrescriptionItemsData(data.filter((a) => a.SrvCode !== id));
-    DeleteService(id, prescId);
-    count = $("#srvItemCountId" + prescId).html();
-    if (count == "") {
-      count = 0;
-    }
-    count = parseInt(count);
-    count--;
-    $("#srvItemCountId" + prescId).html(count);
-
-    // if (count === 0) {
-    //   $("#srvItemCountId" + prescId).hide();
-    // }
-  };
-
   return (
-    <>
-      <div dir="rtl">
-        <Accordion multiple>
+    <Modal show={show} onHide={onHide} centered size="lg">
+      <Modal.Header closeButton>
+        <Modal.Title>
+          <p className="mb-0 text-secondary font-14 fw-bold">نسخه های پرمصرف</p>
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body dir="ltr" className="favModalBody">
+        <Accordion dir="rtl" multiple>
           {data?.map((srv, index) => (
             <AccordionTab
               key={index}
@@ -61,28 +48,18 @@ const AddToListItem = ({
                   <div className="d-flex col-3 gap-1 justify-end">
                     <button
                       type="button"
-                      className="btn btn-sm btn-outline-secondary editBtn"
+                      className="btn btn-sm btn-outline-primary addBtn"
+                      onClick={() => handleEditPrescItem(srv, 1)}
                       data-pr-position="top"
-                      onClick={() => handleEditPrescItem(srv)}
                     >
-                      <Tooltip target=".editBtn">ویرایش</Tooltip>
-                      <FeatherIcon icon="edit-2" className="prescItembtns" />
-                    </button>
-
-                    <button
-                      type="button"
-                      className="btn btn-sm btn-outline-primary favItem"
-                      data-pr-position="top"
-                      onClick={() => selectFavEprescItem(srv)}
-                    >
-                      <Tooltip target=".favItem">نسخه پرمصرف</Tooltip>
-                      <FeatherIcon icon="star" className="prescItembtns" />
+                      <Tooltip target=".addBtn">اضافه به لیست</Tooltip>
+                      <FeatherIcon icon="plus" className="prescItembtns" />
                     </button>
 
                     <button
                       type="button"
                       className="btn btn-sm btn-outline-danger removeBtn"
-                      onClick={() => _DeleteService(srv.SrvCode, srv.prescId)}
+                      // onClick={() => _DeleteService(srv.SrvCode, srv.prescId)}
                       data-pr-position="top"
                     >
                       <Tooltip target=".removeBtn">حذف</Tooltip>
@@ -118,9 +95,9 @@ const AddToListItem = ({
             </AccordionTab>
           ))}
         </Accordion>
-      </div>
-    </>
+      </Modal.Body>
+    </Modal>
   );
 };
 
-export default AddToListItem;
+export default FavPrescListModal;
