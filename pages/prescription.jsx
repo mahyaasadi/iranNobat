@@ -11,7 +11,13 @@ import AddToListItem from "components/dashboard/prescription/addToListItem";
 import { TaminPrescType, TaminServiceType } from "class/taminprescriptionData";
 import TaminHeader from "components/dashboard/prescription/TaminVsArteshHeader";
 import FavPrescListModal from "components/dashboard/prescription/FavPrescListModal";
-import { ErrorAlert, SuccessAlert, WarningAlert } from "class/AlertManage.js";
+import {
+  ErrorAlert,
+  SuccessAlert,
+  WarningAlert,
+  oneInputAlert,
+  pinInputAlert,
+} from "class/AlertManage.js";
 
 let prescId = 1;
 let ActiveServiceTypeID = "01";
@@ -211,7 +217,7 @@ const Prescription = ({
   const handleOnBlur = () => {
     setTimeout(() => {
       $(".SearchDiv").hide();
-    }, 300);
+    }, 200);
   };
 
   // Change Insurance Type
@@ -230,11 +236,12 @@ const Prescription = ({
 
     if (ActiveSrvCode) {
       ActiveSearch();
-    } else {
-      if ($("#srvSearchInput").val().length > 0) {
-        $("#srvSearchInput").val("");
-      }
     }
+    // else {
+    //   if ($("#srvSearchInput").val().length > 0) {
+    //     $("#srvSearchInput").val("");
+    //   }
+    // }
     if (Img) {
       ActivePrscImg = Img;
     }
@@ -302,6 +309,8 @@ const Prescription = ({
           $(".unsuccessfullSearch").hide();
           if (response.data.length === 0) {
             $(".unsuccessfullSearch").show();
+          } else {
+            $(".unsuccessfullSearch").hide();
           }
           setIsLoading(false);
         })
@@ -440,9 +449,7 @@ const Prescription = ({
         $("#srvItemCountId" + prescId).html(count);
 
         // hide if count = 0
-        if (count === 0) {
-          // $("#srvItemCountId" + prescId).hide();
-        }
+        // if (count === 0) $("#srvItemCountId" + prescId).hide();
 
         return { prescData, prescItems };
       }
@@ -578,13 +585,25 @@ const Prescription = ({
 
       axiosClient
         .post(url, Data)
-        .then(function (response) {
+        .then(async function (response) {
           // console.log(response.data);
           if (response.data.res.trackingCode !== null) {
-            SuccessAlert(
-              "نسخه نهایی با موفقیت ثبت شد!",
-              "کد رهگیری شما : " + `${response.data.res.trackingCode}`
-            );
+            // SuccessAlert(
+            //   "نسخه نهایی با موفقیت ثبت شد!",
+            //   "کد رهگیری شما : " + `${response.data.res.trackingCode}`
+            // );
+            // let result = await oneInputAlert("text!", "text");
+
+            // if (result) {
+            //   // some action
+            // }
+
+            let result = await pinInputAlert("Please enter the pin!");
+
+            if (result) {
+              // some action using the result
+              console.log(result);
+            }
           } else if (response.data.res.error_Code !== null) {
             ErrorAlert("خطا!", response.data.res.error_Msg);
           } else if (response.data.res == null) {
@@ -786,6 +805,7 @@ const Prescription = ({
     // setIsLoading(true);
     setEditSrvData(srvData);
     setSrvEditMode(true);
+
     setTimeout(() => {
       setShowFavModal(false);
     }, 200);

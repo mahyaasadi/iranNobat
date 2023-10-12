@@ -3,6 +3,7 @@ import FeatherIcon from "feather-icons-react";
 import ChangeInsuranceTypeModal from "components/dashboard/prescription/changeInsuranceTypeModal";
 import EditPhoneNumberModal from "components/dashboard/prescription/editPhoneNumberModal";
 import { Tooltip } from "primereact/tooltip";
+// import { pinInputAlert } from "class/AlertManage.js";
 
 const PatientInfo = ({
   getPatientInfo,
@@ -24,6 +25,15 @@ const PatientInfo = ({
       return 0;
     }
   };
+
+  // const test = async () => {
+  //   let result = await pinInputAlert("Please enter the pin!");
+
+  //   if (result) {
+  //     // some action using the result
+  //     console.log(result);
+  //   }
+  // };
 
   return (
     <>
