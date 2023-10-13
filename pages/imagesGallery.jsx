@@ -3,11 +3,12 @@ import Link from "next/link";
 import Head from "next/head";
 import FeatherIcon from "feather-icons-react";
 import { axiosClient } from "class/axiosConfig.js";
-import Loading from "components/commonComponents/loading/loading";
+import { getSession } from "lib/session";
 import { WarningAlert, QuestionAlert, ErrorAlert } from "class/AlertManage.js";
+import Loading from "components/commonComponents/loading/loading";
 import ImagesListTable from "components/dashboard/imagesGallery/imagesListTable";
 import UploadImageModal from "components/dashboard/imagesGallery/uploadImageModal";
-import { getSession } from "lib/session";
+import Paginator from "components/commonComponents/paginator";
 
 export const getServerSideProps = async ({ req, res }) => {
   const result = await getSession(req, res);
@@ -33,6 +34,22 @@ const ImagesGallery = ({ Menus, UserData, UserRoles }) => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [imagesData, setImagesData] = useState([]);
+
+  // Pagination => User is currently on this page
+  const [currentPage, setCurrentPage] = useState(1);
+  // const [screenWidth, setScreenWidth] = useState(window.innerWidth)
+  // Number of items to be displayed on each page
+  const [itemsPerPage, setItemsPerPage] = useState(6);
+  // The first and last record on the current page
+  const indexOfLastRecord = currentPage * itemsPerPage;
+  const indexOfFirstRecord = indexOfLastRecord - itemsPerPage;
+  // Records to be displayed on the current page
+  const currentItems = imagesData.slice(
+    indexOfFirstRecord,
+    indexOfLastRecord
+  );
+
+  const nPages = Math.ceil(imagesData.length / itemsPerPage);
 
   //get All Images
   const getImagesGallery = () => {
@@ -199,9 +216,17 @@ const ImagesGallery = ({ Menus, UserData, UserRoles }) => {
                   </div>
 
                   <ImagesListTable
-                    data={imagesData}
+                    data={currentItems}
                     deleteImage={deleteImage}
                   />
+
+                  {currentItems.length > 0 && (
+                    <Paginator
+                      nPages={nPages}
+                      currentPage={currentPage}
+                      setCurrentPage={setCurrentPage}
+                    />
+                  )}
                 </div>
                 <div id="tablepagination" className="dataTables_wrapper"></div>
               </div>
@@ -211,6 +236,7 @@ const ImagesGallery = ({ Menus, UserData, UserRoles }) => {
       </div>
 
       <UploadImageModal uploadImage={uploadImage} isLoading={isLoading} />
+
     </>
   );
 };

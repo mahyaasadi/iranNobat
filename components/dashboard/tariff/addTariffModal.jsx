@@ -1,5 +1,4 @@
 import FeatherIcon from "feather-icons-react";
-import Link from "next/link";
 
 const AddTariffModal = ({ addService, srvGroupList, FUSelectSrvGroupName }) => {
   return (

@@ -1,5 +1,6 @@
 import FeatherIcon from "feather-icons-react";
 import SelectField from "components/commonComponents/selectfield";
+import selectfieldColourStyles from "class/selectfieldStyle";
 
 const EditServiceGroupModal = ({
   groupDetail,
@@ -7,16 +8,6 @@ const EditServiceGroupModal = ({
   srvGroupDifOptions,
   FUSelectSrvGroupDif,
 }) => {
-  const colourStyles = {
-    menu: (provided) => ({ ...provided, zIndex: 9999 }),
-    control: (styles) => ({
-      ...styles,
-      minHeight: 43,
-      borderRadius: 20,
-      border: "1px solid #E6E9F4",
-    }),
-  };
-
   return (
     <div
       className="modal fade contentmodal"
@@ -82,7 +73,7 @@ const EditServiceGroupModal = ({
                 میزان سختی<span className="text-danger">*</span>
               </label>
               <SelectField
-                styles={colourStyles}
+                styles={selectfieldColourStyles}
                 options={srvGroupDifOptions}
                 errorMessage={""}
                 error={false}

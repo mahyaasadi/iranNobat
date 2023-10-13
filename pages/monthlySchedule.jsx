@@ -2,8 +2,6 @@ import { useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import FeatherIcon from "feather-icons-react";
-import JDate from "jalali-date";
-import moment from "jalali-moment";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import { Calendar, DateObject } from "react-multi-date-picker";

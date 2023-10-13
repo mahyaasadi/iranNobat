@@ -1,11 +1,8 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
 import FeatherIcon from "feather-icons-react";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import { tableCustomStyles } from "components/commonComponents/customTableStyle/tableStyle.jsx";
-import numberWithCommas from "class/numberWithComma";
 import { Tooltip } from "primereact/tooltip";
 
 const ServiceGroupListTable = ({ data, updateGroup, deleteSrvGroup }) => {

@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-import Link from "next/link";
 import FeatherIcon from "feather-icons-react";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
@@ -13,9 +11,7 @@ const UsersListTable = ({
   activateUser,
   deActivateUser,
   chatPermissionOpenModal,
-  userPermissionOpenModal,
   assignRoleModal,
-  assignRole,
 }) => {
   const columns = [
     {
@@ -28,7 +24,7 @@ const UsersListTable = ({
       name: "نام مستعار",
       selector: (row) => row.NickName,
       sortable: true,
-      width: "350px",
+      width: "330px",
     },
     {
       name: "نام کاربری",
@@ -40,7 +36,7 @@ const UsersListTable = ({
       name: "وضعیت کاربر",
       selector: (row) => (row.Deactive == true ? "غیر فعال" : "فعال"),
       sortable: true,
-      width: "500px",
+      width: "230px",
     },
     {
       name: "عملیات ها",

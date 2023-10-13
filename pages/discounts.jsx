@@ -37,9 +37,7 @@ const Discounts = ({ Menus, UserData, UserRoles }) => {
   const [modalMode, setModalMode] = useState("add"); // Default mode
   const [showModal, setShowModal] = useState(false);
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
+  const handleCloseModal = () => setShowModal(false)
 
   let SelectDiscountPercent = "";
   const FUSelectDiscountPercent = (Percent) =>

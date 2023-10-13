@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
-import ReactDOM from "react-dom";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { resetServerContext } from "react-beautiful-dnd";
 import { axiosClient } from "class/axiosConfig.js";
 import Loading from "components/commonComponents/loading/loading";
-import { ErrorAlert, SuccessAlert, WarningAlert } from "class/AlertManage.js";
+import { ErrorAlert, SuccessAlert } from "class/AlertManage.js";
 import { getSession } from "lib/session";
 
 export const getServerSideProps = async ({ req, res }) => {
@@ -183,7 +182,6 @@ const Permissions = ({ Menus, UserData, UserRoles }) => {
   };
 
   const onDragEnd = (result) => {
-    // console.log("result", result);
     const { source, destination } = result;
     if (!destination) {
       return;
@@ -248,12 +246,6 @@ const Permissions = ({ Menus, UserData, UserRoles }) => {
       getSelectedRole();
     }
   }, [Router.isReady]);
-
-  // useEffect(() => {
-  //   window.onbeforeunload = function () {
-  //     return "Changes you made may not be saved";
-  //   };
-  // }, [items])
 
   return (
     <>
@@ -356,7 +348,6 @@ const Permissions = ({ Menus, UserData, UserRoles }) => {
                             </Droppable>
                           </div>
                         ))}
-
                         {provided.placeholder}
                       </div>
                     )}

@@ -76,13 +76,14 @@ const AssignRoleModal = ({ FUSelectUserRole, assignRole, CenterID }) => {
                   <SelectField
                     styles={selectfieldColourStyles}
                     options={selectRoleOptions}
+                    className="text-center"
                     errorMessage={""}
                     error={false}
                     label={true}
                     placeholder={"انتخاب کنید"}
-                    required
                     name="assignUserRole"
                     onChangeValue={(value) => FUSelectUserRole(value?.value)}
+                    required
                   />
                 </div>
 

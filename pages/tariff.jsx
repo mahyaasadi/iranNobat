@@ -6,12 +6,12 @@ import FeatherIcon from "feather-icons-react";
 import { QuestionAlert, ErrorAlert } from "class/AlertManage.js";
 import { getSession } from "lib/session";
 import Loading from "components/commonComponents/loading/loading";
-import TariffHeader from "components/dashboard/tariff/tariffHeader";
+import DepartmentsHeader from "components/dashboard/tariff/departments/departmentsHeader";
 import TariffListTable from "components/dashboard/tariff/tariffListTable";
 import TariffModal from "components/dashboard/tariff/tariffModal";
 import TariffCalcModal from "components/dashboard/tariff/tariffCalcModal";
 import LoeingTableModal from "components/dashboard/tariff/loeing/loeingTableModal";
-import LoeingModal from "@/components/dashboard/tariff/loeing/loeingModal";
+import LoeingModal from "components/dashboard/tariff/loeing/loeingModal";
 import applyCalculationsDataClass from "class/applyCalculationsDataClass";
 
 let activeServiceId = null;
@@ -58,7 +58,7 @@ const Tariff = ({ Menus, UserData, UserRoles }) => {
   const handleCloseLoeingModal = () => setShowLoeingModal(false)
   const handleCloseLoeingTableModal = () => setShowLoeingTableModal(false)
 
-  //get departments -> In Tariff Header
+  // get departments -> in header
   const getDepartments = () => {
     setIsLoading(true);
     let url = `Center/GetDepartments/${CenterID}`;
@@ -75,9 +75,7 @@ const Tariff = ({ Menus, UserData, UserRoles }) => {
       });
   };
 
-  useEffect(() => {
-    getDepartments();
-  }, []);
+  useEffect(() => getDepartments(), []);
 
   // get services
   const getServices = (DepID, PerFullName) => {
@@ -325,7 +323,7 @@ const Tariff = ({ Menus, UserData, UserRoles }) => {
       .then((response) => {
         SetLoeingData([...loeingData, response.data]);
 
-        //increasing the loeing count
+        // increasing the loeing count
         let count = $("#loeingCount" + activeServiceId).html();
         count = parseInt(count);
         count++;
@@ -364,7 +362,7 @@ const Tariff = ({ Menus, UserData, UserRoles }) => {
         .then(function () {
           SetLoeingData(loeingData.filter((a) => a._id !== id));
 
-          //decreasing the loeing count
+          // decreasing the loeing count
           let count = $("#loeingCount" + activeServiceId).html();
           count = parseInt(count);
           count--;
@@ -530,7 +528,7 @@ const Tariff = ({ Menus, UserData, UserRoles }) => {
 
       <div className="page-wrapper">
         <div className="content container-fluid">
-          <TariffHeader data={departmentsData} getServices={getServices} />
+          <DepartmentsHeader data={departmentsData} getServices={getServices} />
 
           <div className="tariff-btn-container">
             <div className="media-md-w-100">

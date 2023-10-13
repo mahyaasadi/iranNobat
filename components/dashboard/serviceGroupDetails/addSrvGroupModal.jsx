@@ -1,5 +1,6 @@
 import FeatherIcon from "feather-icons-react";
 import SelectField from "components/commonComponents/selectfield";
+import selectfieldColourStyles from "class/selectfieldStyle";
 
 const AddSrvGroupModal = ({
   data,
@@ -7,16 +8,6 @@ const AddSrvGroupModal = ({
   FUSelectSrvGroupDif,
   srvGroupDifOptions,
 }) => {
-  const colourStyles = {
-    menu: (provided) => ({ ...provided, zIndex: 9999 }),
-    control: (styles) => ({
-      ...styles,
-      minHeight: 43,
-      borderRadius: 20,
-      border: "1px solid #E6E9F4",
-    }),
-  };
-  console.log(data);
   return (
     <div
       className="modal fade contentmodal"
@@ -66,7 +57,7 @@ const AddSrvGroupModal = ({
 
               <label className="lblDrugIns font-12">میزان سختی</label>
               <SelectField
-                styles={colourStyles}
+                styles={selectfieldColourStyles}
                 options={srvGroupDifOptions}
                 className="text-center font-12"
                 errorMessage={""}
@@ -102,4 +93,5 @@ const AddSrvGroupModal = ({
     </div>
   );
 };
+
 export default AddSrvGroupModal;

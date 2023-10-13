@@ -11,7 +11,6 @@ const CannedMessageModal = ({
     const modalTitle = mode === "edit" ? "ویرایش اطلاعات" : "اضافه کردن پیام پیش فرض";
     const submitText = mode === "edit" ? "ثبت تغییرات" : "ثبت";
     return (
-
         <Modal show={show} onHide={onHide} centered size='lg'>
             <Modal.Header closeButton>
                 <Modal.Title>

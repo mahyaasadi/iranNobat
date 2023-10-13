@@ -1,10 +1,8 @@
-import { useState, useEffect, useRef, useId } from "react";
-import SelectField from "components/commonComponents/selectfield";
+import { useState, useEffect } from "react";
 import PrescriptionType from "components/dashboard/prescription/prescriptionType";
 import PrescriptionServiceType from "components/dashboard/prescription/prescriptionServiceType";
 import TaminSrvSearch from "components/dashboard/prescription/TaminSrvSearch";
 import ExtraSmallLoader from "components/commonComponents/loading/extraSmallLoader";
-import selectfieldColourStyles from "class/selectfieldStyle";
 import { Dropdown } from "primereact/dropdown";
 
 const PrescriptionCard = ({

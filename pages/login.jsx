@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useForm, Controller } from "react-hook-form";
+import Cookies from "js-cookie";
 import { axiosClient } from "class/axiosConfig.js";
 import { ErrorAlert } from "class/AlertManage.js";
 import { setSession } from "@/lib/SessionMange";
-import Cookies from "js-cookie";
 import { logo } from "@/components/commonComponents/imagepath";
 import Loading from "components/commonComponents/loading/loading";
 import "public/assets/css/bootstrap.min.css";
@@ -16,11 +16,15 @@ import "public/assets/css/font-awesome.min.css";
 import "public/assets/css/select2.min.css";
 import "public/assets/css/style.css";
 
+
 const Login = (req, res) => {
-  const { control } = useForm();
+  // const { control } = useForm();
   const router = useRouter();
   const [eye, setEye] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+
+  const { control, register, watch } = useForm();
+  const rememberMe = watch('rememberMe');
 
   const onEyeClick = () => setEye(!eye);
 
@@ -42,11 +46,21 @@ const Login = (req, res) => {
         const session = response.data;
         let rolesSession = await setSession(roles);
 
-        let in12Hours = 12 / 24;
-        Cookies.set("roles", rolesSession, { expires: in12Hours });
+        let oneMinuteInDays = 60 / 86400;
+        let fiveMinuteInDays = 300 / 86400;
+        // let expirationPeriod = rememberMe ? 7 * 24 * 60 * 60 : in12Hours * 24 * 60 * 60;
+        let expirationPeriod = oneMinuteInDays
+        // 7 days in seconds if "Remember me" is checked, otherwise 12 hours in seconds
+
+        // let in12Hours = 12 / 24;
+        Cookies.set("roles", rolesSession, { expires: expirationPeriod });
 
         let resSession = await setSession(session);
-        Cookies.set("session", resSession, { expires: in12Hours });
+        Cookies.set("session", resSession, { expires: expirationPeriod });
+
+        if (!resSession && !rolesSession) {
+          router.push("/")
+        }
         router.push("/dashboard");
       })
       .catch(function (error) {
@@ -115,9 +129,8 @@ const Login = (req, res) => {
                             />
                             <span
                               onClick={onEyeClick}
-                              className={`fa toggle-password" ${
-                                eye ? "fa-eye-slash" : "fa-eye"
-                              }`}
+                              className={`fa toggle-password" ${eye ? "fa-eye-slash" : "fa-eye"
+                                }`}
                             />
                           </div>
                         )}
@@ -129,7 +142,7 @@ const Login = (req, res) => {
                         <div className="col-6">
                           <label className="custom_check mr-2 mb-0 d-inline-flex">
                             مرا به خاطر داشته باش
-                            <input type="checkbox" name="radio" />
+                            <input type="checkbox" name="rememberMe" ref={register} />
                             <span className="checkmark" />
                           </label>
                         </div>

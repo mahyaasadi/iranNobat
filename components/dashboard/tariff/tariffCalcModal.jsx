@@ -1,8 +1,6 @@
 import FeatherIcon from "feather-icons-react";
-import SelectField from "components/commonComponents/selectfield";
 import Select from "react-select";
-import Link from "next/link";
-import Loading from "components/commonComponents/loading/loading";
+import selectfieldColourStyles from 'class/selectfieldStyle';
 
 const TariffCalcModal = ({
   data,
@@ -12,16 +10,6 @@ const TariffCalcModal = ({
   applyPercentCalculations,
   applyPriceCalculations,
 }) => {
-  const colourStyles = {
-    menu: (provided) => ({ ...provided, zIndex: 9999 }),
-    control: (styles) => ({
-      ...styles,
-      minHeight: 43,
-      borderRadius: 20,
-      border: "1px solid #E6E9F4",
-    }),
-  };
-
   return (
     <>
       <div
@@ -194,7 +182,7 @@ const TariffCalcModal = ({
                             روش اعمال<span className="text-danger">*</span>
                           </label>
                           <Select
-                            styles={colourStyles}
+                            styles={selectfieldColourStyles}
                             className="select mt-3"
                             options={calculationsOptions}
                             required
@@ -255,7 +243,7 @@ const TariffCalcModal = ({
                             روش اعمال<span className="text-danger">*</span>
                           </label>
                           <Select
-                            styles={colourStyles}
+                            styles={selectfieldColourStyles}
                             className="select mt-3"
                             name="applyPercentOptions"
                             options={calculationsOptions}

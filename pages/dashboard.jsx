@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import Head from "next/head";
-import Cookies from "js-cookie";
 import JDate from "jalali-date";
 import Select from "react-select";
 import { getSession } from "lib/session";

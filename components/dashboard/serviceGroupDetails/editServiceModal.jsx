@@ -1,30 +1,17 @@
-import { useState } from "react";
 import FeatherIcon from "feather-icons-react";
 import SelectField from "components/commonComponents/selectfield";
+import selectfieldColourStyles from "class/selectfieldStyle";
 
 const EditServiceModal = ({
   groupDetail,
-  services,
   editServiceGroup,
   srvGroupList,
   FUSelectSrvGroupName,
 }) => {
+
   const selectedSrvGroupName = {
     value: groupDetail.CenterGroup,
     label: groupDetail.CenterGroup,
-  };
-
-  // console.log(groupDetail.Service)
-  //   console.log(srvGroupList)
-
-  const colourStyles = {
-    menu: (provided) => ({ ...provided, zIndex: 9999 }),
-    control: (styles) => ({
-      ...styles,
-      minHeight: 43,
-      borderRadius: 20,
-      border: "1px solid #E6E9F4",
-    }),
   };
 
   return (
@@ -76,7 +63,7 @@ const EditServiceModal = ({
                   نام گروه<span className="text-danger">*</span>
                 </label>
                 <SelectField
-                  styles={colourStyles}
+                  styles={selectfieldColourStyles}
                   options={srvGroupList}
                   className="text-center font-12"
                   errorMessage={""}

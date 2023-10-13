@@ -1,5 +1,4 @@
 import FeatherIcon from "feather-icons-react";
-import Link from "next/link";
 import SelectField from "components/commonComponents/selectfield";
 import selectfieldColourStyles from "class/selectfieldStyle";
 
@@ -58,10 +57,10 @@ const AddShiftModal = ({ value }) => {
                   label={true}
                   required
                   placeholder={"انتخاب نمایید"}
-                  //   key={data.Percent}
-                  //   onChangeValue={(value) =>
-                  //     FUSelectDiscountPercent(value?.value)
-                  //   }
+                //   key={data.Percent}
+                //   onChangeValue={(value) =>
+                //     FUSelectDiscountPercent(value?.value)
+                //   }
                 />
               </div>
 

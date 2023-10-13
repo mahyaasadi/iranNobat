@@ -1,19 +1,14 @@
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import Head from "next/head";
 import FeatherIcon from "feather-icons-react";
 import { axiosClient } from "class/axiosConfig.js";
 import { QuestionAlert, SuccessAlert, ErrorAlert } from "class/AlertManage.js";
 import Loading from "components/commonComponents/loading/loading";
 import UsersListTable from "components/dashboard/centerUsers/usersListTable";
-import AddUserModal from "components/dashboard/centerUsers/addUserModal";
-import EditUserModal from "components/dashboard/centerUsers/editUserModal";
+import CenterUserModal from "components/dashboard/centerUsers/centerUserModal";
 import ChatPermissionModal from "components/dashboard/centerUsers/chatPermissionModal";
 import AssignRoleModal from "components/dashboard/centerUsers/assignRoleModal";
 import { getSession } from "lib/session";
-
-let ActiveUserID,
-  CenterID = null;
 
 export const getServerSideProps = async ({ req, res }) => {
   const result = await getSession(req, res);
@@ -33,13 +28,23 @@ export const getServerSideProps = async ({ req, res }) => {
   }
 };
 
+let ActiveUserID,
+  CenterID = null;
 const CenterUsers = ({ Menus, UserData, UserRoles }) => {
   CenterID = UserData.CenterID;
 
   const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState([]);
-  const [editedUserData, setEditedUserData] = useState([]);
+  const [editUserData, setEditUserData] = useState([]);
   const [password, setPassword] = useState("");
+  const [modalMode, setModalMode] = useState("add"); // Default mode
+  const [showModal, setShowModal] = useState(false);
+  const [showValidationText1, setShowValidationText1] = useState(false);
+  const [showValidationText2, setShowValidationText2] = useState(false);
+  const [showValidationText3, setShowValidationText3] = useState(false);
+  const [showValidationText4, setShowValidationText4] = useState(false);
+
+  const handleCloseModal = () => setShowModal(false);
 
   const [eye, setEye] = useState(true);
   const onEyeClick = () => setEye(!eye);
@@ -47,9 +52,7 @@ const CenterUsers = ({ Menus, UserData, UserRoles }) => {
   const handlePassword = (e) => setPassword(e.target.value);
 
   let userRole = "";
-  const FUSelectUserRole = (role) => {
-    userRole = role;
-  };
+  const FUSelectUserRole = (role) => userRole = role;
 
   // Get users data
   const getCenterUsers = () => {
@@ -69,6 +72,19 @@ const CenterUsers = ({ Menus, UserData, UserRoles }) => {
   };
 
   // Add new user
+  const resetAlerts = () => {
+    setShowValidationText1(false)
+    setShowValidationText2(false)
+    setShowValidationText3(false)
+    setShowValidationText4(false)
+  }
+
+  const openAddModal = () => {
+    setModalMode("add");
+    setShowModal(true)
+    resetAlerts()
+  }
+
   const addUser = (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -93,7 +109,7 @@ const CenterUsers = ({ Menus, UserData, UserRoles }) => {
         console.log(response.data);
         setUserData([...userData, response.data]);
 
-        $("#addUserModal").modal("hide");
+        setModalMode(false)
         e.target.reset();
         setIsLoading(false);
       })
@@ -178,7 +194,7 @@ const CenterUsers = ({ Menus, UserData, UserRoles }) => {
       FullName: formProps.editUserFullName,
       NickName: formProps.editUserNickName,
       NID: formProps.editUserNID,
-      Tel: formProps.editUserTel,
+      Tel: formProps.userTel,
       User: formProps.editUserName,
     };
 
@@ -188,12 +204,12 @@ const CenterUsers = ({ Menus, UserData, UserRoles }) => {
         updateItem(formProps.editUserId, {
           FullName: formProps.editUserFullName,
           NickName: formProps.editUserNickName,
-          NID: formProps.editUserNID,
-          Tel: formProps.editUserTel,
+          NID: formProps.userNID,
+          Tel: formProps.userTel,
           User: formProps.editUserName,
         });
 
-        $("#editUserModal").modal("hide");
+        setModalMode(false)
         setIsLoading(false);
       })
       .catch((error) => {
@@ -218,8 +234,10 @@ const CenterUsers = ({ Menus, UserData, UserRoles }) => {
   };
 
   const updateUserInfo = (data) => {
-    setEditedUserData(data);
-    $("#editUserModal").modal("show");
+    setModalMode("edit");
+    setEditUserData(data);
+    setShowModal(true);
+    resetAlerts()
   };
 
   const chatPermissionOpenModal = () => $("#chatPermissionModal").modal("show");
@@ -257,13 +275,7 @@ const CenterUsers = ({ Menus, UserData, UserRoles }) => {
       });
   };
 
-  useEffect(() => {
-    getCenterUsers();
-    $("#formValidationText1").hide();
-    $("#formValidationText2").hide();
-    $("#formValidationText3").hide();
-    $("#formValidationText4").hide();
-  }, []);
+  useEffect(() => getCenterUsers(), []);
 
   return (
     <>
@@ -278,17 +290,15 @@ const CenterUsers = ({ Menus, UserData, UserRoles }) => {
             <div className="page-header">
               <div className="row align-items-center">
                 <div className="col-md-12 d-flex justify-content-end">
-                  <Link
-                    href="#"
-                    data-bs-toggle="modal"
-                    data-bs-target="#addUserModal"
+                  <button
+                    onClick={openAddModal}
                     className="btn btn-primary btn-add font-14 media-font-12"
                   >
                     <i className="me-1">
                       <FeatherIcon icon="plus-square" />
                     </i>{" "}
                     اضافه کردن
-                  </Link>
+                  </button>
                 </div>
               </div>
             </div>
@@ -331,19 +341,25 @@ const CenterUsers = ({ Menus, UserData, UserRoles }) => {
           </div>
         )}
 
-        <AddUserModal
-          eye={eye}
-          onEyeClick={onEyeClick}
-          addUser={addUser}
+        <CenterUserModal
+          mode={modalMode}
+          show={showModal}
+          onHide={handleCloseModal}
+          isLoading={isLoading}
+          data={editUserData}
+          onSubmit={modalMode == "add" ? addUser : editUserInfo}
           password={password}
           handlePassword={handlePassword}
-        />
-
-        <EditUserModal
-          data={editedUserData}
-          editUserInfo={editUserInfo}
           eye={eye}
           onEyeClick={onEyeClick}
+          showValidationText1={showValidationText1}
+          showValidationText2={showValidationText2}
+          showValidationText3={showValidationText3}
+          showValidationText4={showValidationText4}
+          setShowValidationText1={setShowValidationText1}
+          setShowValidationText2={setShowValidationText2}
+          setShowValidationText3={setShowValidationText3}
+          setShowValidationText4={setShowValidationText4}
         />
 
         <ChatPermissionModal CenterID={CenterID} />
