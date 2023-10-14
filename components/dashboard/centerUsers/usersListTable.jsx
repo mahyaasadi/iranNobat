@@ -36,7 +36,7 @@ const UsersListTable = ({
       name: "وضعیت کاربر",
       selector: (row) => (row.Deactive == true ? "غیر فعال" : "فعال"),
       sortable: true,
-      width: "230px",
+      width: "450px",
     },
     {
       name: "عملیات ها",

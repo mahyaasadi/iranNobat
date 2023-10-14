@@ -37,17 +37,13 @@ const ImagesGallery = ({ Menus, UserData, UserRoles }) => {
 
   // Pagination => User is currently on this page
   const [currentPage, setCurrentPage] = useState(1);
-  // const [screenWidth, setScreenWidth] = useState(window.innerWidth)
   // Number of items to be displayed on each page
-  const [itemsPerPage, setItemsPerPage] = useState(6);
+  const [itemsPerPage, setItemsPerPage] = useState(8);
   // The first and last record on the current page
   const indexOfLastRecord = currentPage * itemsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - itemsPerPage;
   // Records to be displayed on the current page
-  const currentItems = imagesData.slice(
-    indexOfFirstRecord,
-    indexOfLastRecord
-  );
+  const currentItems = imagesData.slice(indexOfFirstRecord, indexOfLastRecord);
 
   const nPages = Math.ceil(imagesData.length / itemsPerPage);
 
@@ -236,7 +232,6 @@ const ImagesGallery = ({ Menus, UserData, UserRoles }) => {
       </div>
 
       <UploadImageModal uploadImage={uploadImage} isLoading={isLoading} />
-
     </>
   );
 };

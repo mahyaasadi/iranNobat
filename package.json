@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
     "cookie": "^0.5.0",
     "cropperjs": "^1.6.1",
@@ -22,9 +21,8 @@
     "jquery": "^3.7.0",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "8.5",
-    "next": "^13.5.2",
+    "next": "^13.5.4",
     "next-auth": "^4.22.1",
-    "postcss": "8.4.24",
     "primereact": "^10.0.2",
     "react": "18.2.0",
     "react-apexcharts": "^1.4.0",
@@ -45,7 +43,6 @@
     "react-select": "^5.7.3",
     "sweetalert2": "^11.7.11",
     "sweetalert2-react-content": "^5.0.7",
-    "tailwindcss": "3.3.2",
     "zustand": "^4.4.1"
   },
   "devDependencies": {

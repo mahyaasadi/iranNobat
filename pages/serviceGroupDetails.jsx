@@ -16,7 +16,6 @@ import ServiceGrpModal from "@/components/dashboard/serviceGroupDetails/serviceG
 import AddTariffModal from "components/dashboard/tariff/addTariffModal";
 import EditServiceModal from "components/dashboard/serviceGroupDetails/editServiceModal";
 
-
 export const getServerSideProps = async ({ req, res }) => {
   const result = await getSession(req, res);
 
@@ -35,7 +34,9 @@ export const getServerSideProps = async ({ req, res }) => {
   }
 };
 
-let activeDepId, activeDepName, CenterID = null;
+let activeDepId,
+  activeDepName,
+  CenterID = null;
 const ServiceGroupDetails = ({ Menus, UserData, UserRoles }) => {
   CenterID = UserData.CenterID;
 
@@ -91,9 +92,10 @@ const ServiceGroupDetails = ({ Menus, UserData, UserRoles }) => {
     activeDepName = PerFullName;
     let url = `CenterServicessInfo/getByDepID/${CenterID}/${DepID}`;
 
-    axiosClient.get(url)
+    axiosClient
+      .get(url)
       .then((response) => {
-        console.log("services", response.data);
+        // console.log("services", response.data);
         if (response.data.ServicesInfo.length > 0) {
           setServices(response.data.ServicesInfo);
           setGroupDetail(response.data.GroupDetail);
@@ -119,16 +121,16 @@ const ServiceGroupDetails = ({ Menus, UserData, UserRoles }) => {
       })
       .catch((err) => {
         console.log(err);
-        setIsLoading(false)
-      })
+        setIsLoading(false);
+      });
   };
 
   //Add SrvGroup
   const openAddGrpModal = () => {
     setShowGrpModal(true);
-    setModalMode("add")
-    $("#addSrvGroupModal").modal("show")
-  }
+    setModalMode("add");
+    $("#addSrvGroupModal").modal("show");
+  };
 
   const addGroup = (e) => {
     e.preventDefault();
@@ -151,10 +153,10 @@ const ServiceGroupDetails = ({ Menus, UserData, UserRoles }) => {
     axiosClient
       .post(url, data)
       .then((response) => {
-        console.log(response.data);
+        console.log("response", response.data);
         setGroupDetail([...groupDetail, response.data]);
         e.target.reset();
-        setShowGrpModal(false)
+        setShowGrpModal(false);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -293,7 +295,7 @@ const ServiceGroupDetails = ({ Menus, UserData, UserRoles }) => {
       .put(url, data)
       .then((response) => {
         updateGroupItem(formProps.editGroupId, data);
-        setShowGrpModal(false)
+        setShowGrpModal(false);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -320,8 +322,8 @@ const ServiceGroupDetails = ({ Menus, UserData, UserRoles }) => {
   const updateGroup = (data) => {
     setEditedGroupDetail(data);
     setModalMode("edit");
-    setShowGrpModal(true)
-    $("#editSrvGroupModal").modal("show")
+    setShowGrpModal(true);
+    $("#editSrvGroupModal").modal("show");
   };
 
   //delete SrvGroup
@@ -384,7 +386,7 @@ const ServiceGroupDetails = ({ Menus, UserData, UserRoles }) => {
 
   useEffect(() => {
     console.log({ groupDetail });
-  }, [groupDetail])
+  }, [groupDetail]);
 
   return (
     <>
@@ -495,13 +497,13 @@ const ServiceGroupDetails = ({ Menus, UserData, UserRoles }) => {
           onSubmit={modalMode == "add" ? addGroup : editGroup}
         />
 
-        {/* <EditServiceModal
+        <EditServiceModal
           groupDetail={editedGroupDetail}
           services={editedServices}
           editServiceGroup={editServiceGroup}
           srvGroupList={srvGroupList}
           FUSelectSrvGroupName={FUSelectSrvGroupName}
-        /> */}
+        />
       </div>
     </>
   );

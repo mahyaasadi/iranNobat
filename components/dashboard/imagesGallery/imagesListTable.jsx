@@ -6,7 +6,7 @@ const ImagesListTable = ({ data, deleteImage }) => {
     <>
       <div className="row p-4">
         {data.map((item, index) => (
-          <div className="col-sm-8 col-lg-4 col-xxl-4 articleCard" key={index}>
+          <div className="col-sm-6 col-md-4 col-lg-3 articleCard" key={index}>
             <div className="card">
               <div className="card-body">
                 <img
@@ -24,7 +24,9 @@ const ImagesListTable = ({ data, deleteImage }) => {
                     <div className="mt-2 font-12 text-secondary">
                       توضیحات : {item.Des.substr(0, 10) + " ..."}
                     </div>
-                  ) : ""}
+                  ) : (
+                    ""
+                  )}
                 </div>
 
                 <hr />

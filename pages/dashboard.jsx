@@ -32,6 +32,9 @@ const Dashboard = ({ Menus, UserData, UserRoles }) => {
   CenterID = UserRoles.CenterID;
 
   const [selectedDuration, setSelectedDuration] = useState("today");
+  const [statsPlaceholder, setStatsPlaceholder] = useState(
+    "امروز : " + jdate.format("dddd DD MMMM YYYY")
+  );
   const [stats, setStats] = useState(null);
   const [statsIsLoading, setStatsIsLoading] = useState(true);
 
@@ -50,10 +53,13 @@ const Dashboard = ({ Menus, UserData, UserRoles }) => {
 
     if (duration === "today") {
       url += "/TodayStatistics";
+      setStatsPlaceholder("امروز : " + jdate.format("dddd DD MMMM YYYY"));
     } else if (duration === "lastWeek") {
       url += "/LastWeekStatistics";
+      setStatsPlaceholder("هفته گذشته");
     } else if (duration === "lastMonth") {
       url += "/MonthStatistics";
+      setStatsPlaceholder("ماه جاری : " + jdate.format("MMMM YYY"));
     }
 
     axiosClient.post(url, { CenterID }).then((response) => {
@@ -93,9 +99,7 @@ const Dashboard = ({ Menus, UserData, UserRoles }) => {
                       className="select"
                       onChange={(e) => setSelectedDuration(e.value)}
                       options={overviewOptions}
-                      placeholder={
-                        "امروز : " + jdate.format("dddd DD MMMM YYYY")
-                      }
+                      placeholder={statsPlaceholder}
                       id="long-value-select"
                       instanceId="long-value-select"
                     />
