@@ -11,6 +11,7 @@ import AddToListItem from "components/dashboard/prescription/addToListItem";
 import { TaminPrescType, TaminServiceType } from "class/taminprescriptionData";
 import TaminHeader from "components/dashboard/prescription/TaminVsArteshHeader";
 import FavPrescListModal from "components/dashboard/prescription/FavPrescListModal";
+import PrescPinInput from "components/dashboard/prescription/prescPinInput";
 import {
   ErrorAlert,
   SuccessAlert,
@@ -138,6 +139,10 @@ const Prescription = ({
 
   const [showFavModal, setShowFavModal] = useState(false);
   const handleClosefavModal = () => setShowFavModal(false);
+
+  const [showPinModal, setShowPinModal] = useState(false);
+  const handleClosePinModal = () => setShowPinModal(false);
+  const openPinModal = () => setShowPinModal(true);
 
   const FUSelectInstruction = (instruction) => {
     const findInsLbl = drugInstructionList.find((x) => x.value == instruction);
@@ -973,6 +978,7 @@ const Prescription = ({
                 SelectedAmount={SelectedAmount}
                 setSelectedAmount={setSelectedAmount}
                 openFavModal={openFavModal}
+                openPinModal={openPinModal}
               />
 
               <div className="prescList">
@@ -997,6 +1003,8 @@ const Prescription = ({
           handleAddFavItem={handleAddFavItem}
           handleEditPrescItem={handleEditPrescItem}
         />
+
+        <PrescPinInput show={showPinModal} onHide={handleClosePinModal} />
       </div>
     </>
   );

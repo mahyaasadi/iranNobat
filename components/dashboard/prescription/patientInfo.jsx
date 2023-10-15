@@ -3,7 +3,6 @@ import FeatherIcon from "feather-icons-react";
 import ChangeInsuranceTypeModal from "components/dashboard/prescription/changeInsuranceTypeModal";
 import EditPhoneNumberModal from "components/dashboard/prescription/editPhoneNumberModal";
 import { Tooltip } from "primereact/tooltip";
-// import { pinInputAlert } from "class/AlertManage.js";
 
 const PatientInfo = ({
   getPatientInfo,
@@ -25,15 +24,6 @@ const PatientInfo = ({
       return 0;
     }
   };
-
-  // const test = async () => {
-  //   let result = await pinInputAlert("Please enter the pin!");
-
-  //   if (result) {
-  //     // some action using the result
-  //     console.log(result);
-  //   }
-  // };
 
   return (
     <>
@@ -82,7 +72,8 @@ const PatientInfo = ({
               <p className="mt-3">{data.Name}</p>
               <p className="mt-3">سن بیمار : {data.Age}</p>
               <p className="mt-3">
-                تاریخ اعتبار تا {dateFormat(`${data.accountValidto}`)}
+                تاریخ اعتبار تا
+                {data.accountValidto && dateFormat(`${data.accountValidto}`)}
               </p>
 
               <div className="d-flex gap-2">
@@ -127,4 +118,5 @@ const PatientInfo = ({
     </>
   );
 };
+
 export default PatientInfo;

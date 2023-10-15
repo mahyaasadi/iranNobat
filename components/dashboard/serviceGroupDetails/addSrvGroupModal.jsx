@@ -3,7 +3,6 @@ import SelectField from "components/commonComponents/selectfield";
 import selectfieldColourStyles from "class/selectfieldStyle";
 
 const AddSrvGroupModal = ({
-  data,
   addGroup,
   FUSelectSrvGroupDif,
   srvGroupDifOptions,
@@ -52,6 +51,7 @@ const AddSrvGroupModal = ({
                   className="form-control floating inputPadding rounded"
                   type="number"
                   name="addGroupPOT"
+                  min="1"
                 />
               </div>
 
@@ -66,7 +66,6 @@ const AddSrvGroupModal = ({
                 placeholder={"میزان سختی را انتخاب کنید"}
                 name="addGroupDif"
                 onChangeValue={(value) => FUSelectSrvGroupDif(value?.value)}
-                key={data.Dif}
               />
 
               <div className="form-group">

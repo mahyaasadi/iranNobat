@@ -19,10 +19,6 @@ const ServiceGrpModal = ({
   const selectedDif =
     mode == "edit" ? { value: groupDetail.Dif, label: groupDetail.Dif } : null;
 
-  useEffect(() => {
-    console.log({ groupDetail });
-  }, [groupDetail]);
-
   return (
     <Modal show={show} onHide={onHide} centered>
       <Modal.Header closeButton>

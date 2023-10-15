@@ -1,4 +1,6 @@
 import FeatherIcon from "feather-icons-react";
+import SelectField from "components/commonComponents/selectfield";
+import selectfieldColourStyles from "class/selectfieldStyle";
 
 const AddTariffModal = ({ addService, srvGroupList, FUSelectSrvGroupName }) => {
   return (
@@ -65,6 +67,27 @@ const AddTariffModal = ({ addService, srvGroupList, FUSelectSrvGroupName }) => {
                         name="addInternalCode"
                       />
                     </div>
+                  </div>
+
+                  <div className="col">
+                    <label className="lblDrugIns font-12">
+                      انتخاب گروه<span className="text-danger">*</span>
+                    </label>
+
+                    <SelectField
+                      styles={selectfieldColourStyles}
+                      options={srvGroupList}
+                      className="text-center font-12"
+                      errorMessage={""}
+                      error={false}
+                      label={true}
+                      placeholder={"انتخاب نمایید"}
+                      name="groupName"
+                      onChangeValue={(value) =>
+                        FUSelectSrvGroupName(value?.value)
+                      }
+                      required
+                    />
                   </div>
                 </div>
 

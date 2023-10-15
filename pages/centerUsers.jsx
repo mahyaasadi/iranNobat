@@ -43,16 +43,23 @@ const CenterUsers = ({ Menus, UserData, UserRoles }) => {
   const [showValidationText2, setShowValidationText2] = useState(false);
   const [showValidationText3, setShowValidationText3] = useState(false);
   const [showValidationText4, setShowValidationText4] = useState(false);
+  const [departmentsCheckboxStatus, setDepartmentsCheckboxStatus] = useState({
+    departmentsOptions: [],
+  });
+  const [selectedDepartments, setSelectedDepartments] = useState([]);
 
-  const handleCloseModal = () => setShowModal(false);
+  const [diseasesCheckboxStatus, setDiseasesCheckboxStatus] = useState({
+    diseasesOptions: [],
+  });
 
   const [eye, setEye] = useState(true);
   const onEyeClick = () => setEye(!eye);
 
   const handlePassword = (e) => setPassword(e.target.value);
+  const handleCloseModal = () => setShowModal(false);
 
   let userRole = "";
-  const FUSelectUserRole = (role) => userRole = role;
+  const FUSelectUserRole = (role) => (userRole = role);
 
   // Get users data
   const getCenterUsers = () => {
@@ -73,17 +80,17 @@ const CenterUsers = ({ Menus, UserData, UserRoles }) => {
 
   // Add new user
   const resetAlerts = () => {
-    setShowValidationText1(false)
-    setShowValidationText2(false)
-    setShowValidationText3(false)
-    setShowValidationText4(false)
-  }
+    setShowValidationText1(false);
+    setShowValidationText2(false);
+    setShowValidationText3(false);
+    setShowValidationText4(false);
+  };
 
   const openAddModal = () => {
     setModalMode("add");
-    setShowModal(true)
-    resetAlerts()
-  }
+    setShowModal(true);
+    resetAlerts();
+  };
 
   const addUser = (e) => {
     e.preventDefault();
@@ -109,7 +116,7 @@ const CenterUsers = ({ Menus, UserData, UserRoles }) => {
         console.log(response.data);
         setUserData([...userData, response.data]);
 
-        setModalMode(false)
+        setModalMode(false);
         e.target.reset();
         setIsLoading(false);
       })
@@ -209,7 +216,7 @@ const CenterUsers = ({ Menus, UserData, UserRoles }) => {
           User: formProps.editUserName,
         });
 
-        setModalMode(false)
+        setModalMode(false);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -237,10 +244,9 @@ const CenterUsers = ({ Menus, UserData, UserRoles }) => {
     setModalMode("edit");
     setEditUserData(data);
     setShowModal(true);
-    resetAlerts()
+    resetAlerts();
   };
 
-  const chatPermissionOpenModal = () => $("#chatPermissionModal").modal("show");
   const userPermissionOpenModal = () => $("#userPermissionModal").modal("show");
 
   const assignRoleModal = (id) => {
@@ -275,7 +281,85 @@ const CenterUsers = ({ Menus, UserData, UserRoles }) => {
       });
   };
 
-  useEffect(() => getCenterUsers(), []);
+  // ------ chatPermission ---------
+
+  const chatPermissionOpenModal = (id) => {
+    $("#chatPermissionModal").modal("show");
+    ActiveUserID = id;
+    // console.log({ ActiveUserID });
+  };
+
+  const handleCheckedDepChatPermission = (e) => {
+    const { value, checked } = e.target;
+    const { departmentsOptions } = departmentsCheckboxStatus;
+
+    console.log(`${value} is ${checked}`);
+
+    checked
+      ? setDepartmentsCheckboxStatus((prevState) => ({
+          departmentsOptions: [...prevState.departmentsOptions, value],
+        }))
+      : setDepartmentsCheckboxStatus((prevState) => ({
+          departmentsOptions: prevState.departmentsOptions.filter(
+            (e) => e !== value
+          ),
+        }));
+  };
+
+  const handleCheckedDiseaseChatPermission = (e) => {
+    const { value, checked } = e.target;
+    const { diseasesOptions } = diseasesCheckboxStatus;
+
+    console.log(`${value} is ${checked}`);
+
+    checked
+      ? setDiseasesCheckboxStatus({
+          diseasesOptions: [...diseasesOptions, value],
+        })
+      : setDiseasesCheckboxStatus({
+          diseasesOptions: diseasesOptions.filter((e) => e !== value),
+        });
+  };
+
+  const submitChatPermissions = (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    let url = "AdminUser/SetUserChatPermision";
+    let data = {
+      UserID: ActiveUserID,
+      DepIDs: departmentsCheckboxStatus.departmentsOptions,
+      SpecialDiseasesPer: diseasesCheckboxStatus.diseasesOptions,
+    };
+
+    console.log({ data });
+
+    axiosClient
+      .post(url, data)
+      .then((response) => {
+        console.log(response.data);
+        setIsLoading(false);
+        setSelectedDepartments(response.data.DepPer);
+
+        const selectedDepIds = response.data.DepPer;
+        setDepartmentsCheckboxStatus({ departmentsOptions: selectedDepIds });
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    getCenterUsers();
+    // if (selectedDepartments.length > 0) {
+    //   selectedDepartments.map((dep) => {});
+    // }
+  }, []);
+
+  useEffect(() => {
+    console.log(departmentsCheckboxStatus);
+  }, [departmentsCheckboxStatus]);
 
   return (
     <>
@@ -362,7 +446,15 @@ const CenterUsers = ({ Menus, UserData, UserRoles }) => {
           setShowValidationText4={setShowValidationText4}
         />
 
-        <ChatPermissionModal CenterID={CenterID} />
+        <ChatPermissionModal
+          CenterID={CenterID}
+          handleCheckedDepChatPermission={handleCheckedDepChatPermission}
+          handleCheckedDiseaseChatPermission={
+            handleCheckedDiseaseChatPermission
+          }
+          submitChatPermissions={submitChatPermissions}
+          checkedDepartments={departmentsCheckboxStatus.departmentsOptions}
+        />
 
         <AssignRoleModal
           FUSelectUserRole={FUSelectUserRole}

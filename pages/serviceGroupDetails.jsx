@@ -12,7 +12,7 @@ import serviceGroupDifDataClass from "class/serviceGroupDifDataClass";
 import ServiceGroupListTable from "components/dashboard/serviceGroupDetails/serviceGroupListTable";
 import EditServiceGroupModal from "components/dashboard/serviceGroupDetails/editServiceGroupModal";
 import AddSrvGroupModal from "components/dashboard/serviceGroupDetails/addSrvGroupModal";
-import ServiceGrpModal from "@/components/dashboard/serviceGroupDetails/serviceGrpModal";
+import ServiceGrpModal from "components/dashboard/serviceGroupDetails/serviceGrpModal";
 import AddTariffModal from "components/dashboard/tariff/addTariffModal";
 import EditServiceModal from "components/dashboard/serviceGroupDetails/editServiceModal";
 
@@ -55,13 +55,11 @@ const ServiceGroupDetails = ({ Menus, UserData, UserRoles }) => {
 
   let selectSrvGroupName,
     selectSrvGroupDif = "";
-  const FUSelectSrvGroupName = (srvGroupName) => {
-    selectSrvGroupName = srvGroupName;
-  };
 
-  const FUSelectSrvGroupDif = (srvGroupDif) => {
-    selectSrvGroupDif = srvGroupDif;
-  };
+  const FUSelectSrvGroupName = (srvGroupName) =>
+    (selectSrvGroupName = srvGroupName);
+  const FUSelectSrvGroupDif = (srvGroupDif) =>
+    (selectSrvGroupDif = srvGroupDif);
 
   //get departments -> In Tariff Header
   const getDepartments = () => {
@@ -142,6 +140,7 @@ const ServiceGroupDetails = ({ Menus, UserData, UserRoles }) => {
 
     let data = {
       CenterID: CenterID,
+      DepID: activeDepId,
       Name: formProps.addGroupName,
       POT: formProps.addGroupPOT,
       Color: formProps.addGroupColor,
@@ -328,17 +327,18 @@ const ServiceGroupDetails = ({ Menus, UserData, UserRoles }) => {
 
   //delete SrvGroup
   const deleteSrvGroup = async (id) => {
-    setIsLoading(true);
     let result = await QuestionAlert(
       "حذف گروه !",
       "آیا از حذف گروه خدمت مطمئن هستید؟"
     );
 
     if (result) {
+      setIsLoading(true);
       let url = "CenterServicessInfo/DeleteGroup";
       let data = {
         CenterID: CenterID,
         GroupID: id,
+        DepID: activeDepId,
       };
 
       await axiosClient
@@ -357,13 +357,13 @@ const ServiceGroupDetails = ({ Menus, UserData, UserRoles }) => {
 
   //delete Service
   const deleteService = async (id) => {
-    setIsLoading(true);
     let result = await QuestionAlert(
       "حذف سرویس!",
       "آیا از حذف سرویس مطمئن هستید"
     );
 
     if (result) {
+      setIsLoading(true);
       let url = `CenterServicessInfo/DeleteService`;
       let data = {
         CenterID: CenterID,
@@ -383,10 +383,6 @@ const ServiceGroupDetails = ({ Menus, UserData, UserRoles }) => {
         });
     }
   };
-
-  useEffect(() => {
-    console.log({ groupDetail });
-  }, [groupDetail]);
 
   return (
     <>
@@ -473,7 +469,7 @@ const ServiceGroupDetails = ({ Menus, UserData, UserRoles }) => {
         />
 
         {/* <AddSrvGroupModal
-          data={groupDetail}
+          // data={groupDetail}
           addGroup={addGroup}
           srvGroupDifOptions={serviceGroupDifDataClass}
           FUSelectSrvGroupDif={FUSelectSrvGroupDif}

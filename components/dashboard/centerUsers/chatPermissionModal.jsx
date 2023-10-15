@@ -3,7 +3,14 @@ import FeatherIcon from "feather-icons-react";
 import { axiosClient } from "class/axiosConfig.js";
 import Loading from "components/commonComponents/loading/loading";
 
-const ChatPermissionModal = ({ CenterID }) => {
+const ChatPermissionModal = ({
+  CenterID,
+  handleCheckedDepChatPermission,
+  handleCheckedDiseaseChatPermission,
+  submitChatPermissions,
+  checkedDepartments,
+}) => {
+  console.log({ checkedDepartments });
   const [departmentsData, setDepartmentsData] = useState([]);
   const [diseasesList, setDiseasesList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -62,18 +69,22 @@ const ChatPermissionModal = ({ CenterID }) => {
             <div className="modal-body">
               <p className="mb-0 text-secondary font-13 fw-bold">انتخاب بخش</p>
               <hr className="mt-1 marginb-1" />
-              <form className="text-secondary">
+              <form className="text-secondary" onSubmit={submitChatPermissions}>
                 {departmentsData?.map((departmentData, index) => (
-                  <div className="checkbox" key={index}>
+                  <div className="checkbox" key={departmentData._id}>
                     <div className="marginb-sm d-flex align-items-center">
                       <input
                         type="checkbox"
-                        id={departmentData.Modality}
-                        value={departmentData.PerFullName}
+                        id={departmentData._id}
+                        value={departmentData._id}
+                        onChange={handleCheckedDepChatPermission}
+                        checked={checkedDepartments.includes(
+                          departmentsData._id
+                        )}
                       />
                       <label
                         className="permissionLabel font-14"
-                        htmlFor={departmentData.PerFullName}
+                        htmlFor={departmentData._id}
                       >
                         {departmentData.PerFullName}
                       </label>
@@ -93,11 +104,12 @@ const ChatPermissionModal = ({ CenterID }) => {
                       <input
                         type="checkbox"
                         id={diseaseData.EngName}
-                        value={diseaseData.Name}
+                        value={diseaseData._id}
+                        onChange={handleCheckedDiseaseChatPermission}
                       />
                       <label
                         className="permissionLabel font-14"
-                        htmlFor={diseaseData.Name}
+                        htmlFor={diseaseData._id}
                       >
                         {diseaseData.Name}
                       </label>
