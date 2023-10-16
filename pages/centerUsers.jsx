@@ -9,6 +9,8 @@ import CenterUserModal from "components/dashboard/centerUsers/centerUserModal";
 import ChatPermissionModal from "components/dashboard/centerUsers/chatPermissionModal";
 import AssignRoleModal from "components/dashboard/centerUsers/assignRoleModal";
 import { getSession } from "lib/session";
+import { setSession } from "lib/SessionMange";
+import Cookies from "js-cookie";
 
 export const getServerSideProps = async ({ req, res }) => {
   const result = await getSession(req, res);
@@ -46,8 +48,6 @@ const CenterUsers = ({ Menus, UserData, UserRoles }) => {
   const [departmentsCheckboxStatus, setDepartmentsCheckboxStatus] = useState({
     departmentsOptions: [],
   });
-  const [selectedDepartments, setSelectedDepartments] = useState([]);
-
   const [diseasesCheckboxStatus, setDiseasesCheckboxStatus] = useState({
     diseasesOptions: [],
   });
@@ -283,17 +283,18 @@ const CenterUsers = ({ Menus, UserData, UserRoles }) => {
 
   // ------ chatPermission ---------
 
-  const chatPermissionOpenModal = (id) => {
+  const chatPermissionOpenModal = (id, depPer, diseasePer) => {
     $("#chatPermissionModal").modal("show");
     ActiveUserID = id;
-    // console.log({ ActiveUserID });
+    setDepartmentsCheckboxStatus({ departmentsOptions: depPer });
+    setDiseasesCheckboxStatus({ diseasesOptions: diseasePer });
   };
 
   const handleCheckedDepChatPermission = (e) => {
     const { value, checked } = e.target;
     const { departmentsOptions } = departmentsCheckboxStatus;
 
-    console.log(`${value} is ${checked}`);
+    // console.log(`${value} is ${checked}`);
 
     checked
       ? setDepartmentsCheckboxStatus((prevState) => ({
@@ -337,12 +338,14 @@ const CenterUsers = ({ Menus, UserData, UserRoles }) => {
     axiosClient
       .post(url, data)
       .then((response) => {
-        console.log(response.data);
-        setIsLoading(false);
-        setSelectedDepartments(response.data.DepPer);
-
-        const selectedDepIds = response.data.DepPer;
+        const selectedDepIds = response.data.DepIDs;
+        const selectedDiseaseIds = response.data.SpecialDiseasesPer;
         setDepartmentsCheckboxStatus({ departmentsOptions: selectedDepIds });
+        setDiseasesCheckboxStatus({ diseasesOptions: selectedDiseaseIds });
+
+        getCenterUsers();
+        $("#chatPermissionModal").modal("hide");
+        setIsLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -352,14 +355,7 @@ const CenterUsers = ({ Menus, UserData, UserRoles }) => {
 
   useEffect(() => {
     getCenterUsers();
-    // if (selectedDepartments.length > 0) {
-    //   selectedDepartments.map((dep) => {});
-    // }
   }, []);
-
-  useEffect(() => {
-    console.log(departmentsCheckboxStatus);
-  }, [departmentsCheckboxStatus]);
 
   return (
     <>
@@ -448,12 +444,13 @@ const CenterUsers = ({ Menus, UserData, UserRoles }) => {
 
         <ChatPermissionModal
           CenterID={CenterID}
+          submitChatPermissions={submitChatPermissions}
+          checkedDepartments={departmentsCheckboxStatus.departmentsOptions}
+          checkedDiseases={diseasesCheckboxStatus.diseasesOptions}
           handleCheckedDepChatPermission={handleCheckedDepChatPermission}
           handleCheckedDiseaseChatPermission={
             handleCheckedDiseaseChatPermission
           }
-          submitChatPermissions={submitChatPermissions}
-          checkedDepartments={departmentsCheckboxStatus.departmentsOptions}
         />
 
         <AssignRoleModal

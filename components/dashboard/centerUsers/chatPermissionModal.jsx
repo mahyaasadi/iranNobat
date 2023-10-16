@@ -9,21 +9,24 @@ const ChatPermissionModal = ({
   handleCheckedDiseaseChatPermission,
   submitChatPermissions,
   checkedDepartments,
+  checkedDiseases,
 }) => {
-  console.log({ checkedDepartments });
   const [departmentsData, setDepartmentsData] = useState([]);
   const [diseasesList, setDiseasesList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   //get departments
   const getDepartments = () => {
-    let UrlGetDep = `Center/GetDepartments/${CenterID}`;
-    axiosClient.get(UrlGetDep).then(function (response) {
-      if (response.data) {
-        setIsLoading(false);
+    let url = `Center/GetDepartments/${CenterID}`;
+
+    axiosClient
+      .get(url)
+      .then((response) => {
         setDepartmentsData(response.data);
-      }
-    });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   // get diseases list
@@ -78,8 +81,8 @@ const ChatPermissionModal = ({
                         id={departmentData._id}
                         value={departmentData._id}
                         onChange={handleCheckedDepChatPermission}
-                        checked={checkedDepartments.includes(
-                          departmentsData._id
+                        checked={checkedDepartments?.includes(
+                          departmentData._id
                         )}
                       />
                       <label
@@ -103,9 +106,10 @@ const ChatPermissionModal = ({
                     <div className="marginb-sm d-flex align-items-center">
                       <input
                         type="checkbox"
-                        id={diseaseData.EngName}
+                        id={diseaseData._id}
                         value={diseaseData._id}
                         onChange={handleCheckedDiseaseChatPermission}
+                        checked={checkedDiseases.includes(diseaseData._id)}
                       />
                       <label
                         className="permissionLabel font-14"

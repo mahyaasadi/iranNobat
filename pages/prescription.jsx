@@ -35,6 +35,7 @@ let ActiveSrvCode,
   ActiveInsuranceID,
   ActiveParaCode,
   ActivePatientID,
+  PrID,
   count,
   prescriptionHeadID = null;
 
@@ -137,12 +138,14 @@ const Prescription = ({
   const [SelectedAmount, setSelectedAmount] = useState(null);
   const [SelectedAmountLbl, setSelectedAmountLbl] = useState(null);
 
+  const [optCode, setOptCode] = useState(null);
+
   const [showFavModal, setShowFavModal] = useState(false);
   const handleClosefavModal = () => setShowFavModal(false);
 
   const [showPinModal, setShowPinModal] = useState(false);
   const handleClosePinModal = () => setShowPinModal(false);
-  const openPinModal = () => setShowPinModal(true);
+  // const openPinModal = () => setShowPinModal(true);
 
   const FUSelectInstruction = (instruction) => {
     const findInsLbl = drugInstructionList.find((x) => x.value == instruction);
@@ -330,6 +333,7 @@ const Prescription = ({
     let index = PrescriptionItemsData.findIndex((x) => x.SrvCode === id);
     let g = PrescriptionItemsData[index];
     g = newArr;
+
     if (index === -1) {
       console.log("no match");
     } else {
@@ -541,84 +545,111 @@ const Prescription = ({
     setPrescriptionItemsData(arr);
   };
 
+  const getPinInputValue = (code) => {
+    setOptCode(code);
+    console.log({ code });
+  };
+
   // only Visit
   const registerEpresc = (visit) => {
-    if (visit === 1) {
-      let url = "TaminEprsc/PrescriptionAdd";
-      let Data = {
-        CenterID,
-        NID: ActivePatientID,
-        PMN: $("#PatientTel").html(),
-        PTI: 3,
-        Comment: $("#eprscItemDescription").val(),
-        note: [],
-        SrvNames: [],
-        prescTypeName: "ویزیت",
-      };
+    // if (visit === 1) {
+    //   let url = "TaminEprsc/PrescriptionAdd";
+    //   let Data = {
+    //     CenterID,
+    //     NID: ActivePatientID,
+    //     PMN: $("#PatientTel").html(),
+    //     PTI: 3,
+    //     Comment: $("#eprscItemDescription").val(),
+    //     note: [],
+    //     SrvNames: [],
+    //     prescTypeName: "ویزیت",
+    //   };
 
-      axiosClient
-        .post(url, Data)
-        .then(function (response) {
-          if (response.data.res.trackingCode !== null) {
-            SuccessAlert(
-              "ویزیت با موفقیت ثبت شد!",
-              "کد رهگیری شما : " + `${response.data.res.trackingCode}`
-            );
-          } else if (response.data.res.error_Msg == "نسخه تکراری است") {
-            WarningAlert("هشدار", "نسخه ثبت شده تکراری می باشد!");
-          } else if (ActivePatientID === undefined) {
-            WarningAlert("هشدار", "کد ملی وارد شده معتبر نمی باشد");
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    } else {
-      let url = "TaminEprsc/PrescriptionAdd";
-      let Data = {
-        CenterID,
-        NID: ActivePatientID,
-        PMN: $("#PatientTel").html(),
-        PTI: prescId,
-        Comment: $("#eprscItemDescription").val(),
-        note: addPrescriptionitems,
-        SrvNames: addPrescriptionSrvNameitems,
-        prescTypeName: ActivePrscName,
-      };
+    //   axiosClient
+    //     .post(url, Data)
+    //     .then(function (response) {
+    //       if (response.data.res.trackingCode !== null) {
+    //         SuccessAlert(
+    //           "ویزیت با موفقیت ثبت شد!",
+    //           "کد رهگیری شما : " + `${response.data.res.trackingCode}`
+    //         );
+    //       } else if (response.data.res.error_Msg == "نسخه تکراری است") {
+    //         WarningAlert("هشدار", "نسخه ثبت شده تکراری می باشد!");
+    //       } else if (ActivePatientID === undefined) {
+    //         WarningAlert("هشدار", "کد ملی وارد شده معتبر نمی باشد");
+    //       }
+    //     })
+    //     .catch(function (error) {
+    //       console.log(error);
+    //     });
+    // } else {
+    setShowPinModal(true);
 
-      console.log({ Data });
+    let data = {
+      CenterID,
+      NID: ActivePatientID,
+      PMN: $("#PatientTel").html(),
+      PTI: prescId,
+      Comment: $("#eprscItemDescription").val(),
+      note: addPrescriptionitems,
+      SrvNames: addPrescriptionSrvNameitems,
+      prescTypeName: ActivePrscName,
+    };
 
-      axiosClient
-        .post(url, Data)
-        .then(async function (response) {
-          // console.log(response.data);
-          if (response.data.res.trackingCode !== null) {
-            // SuccessAlert(
-            //   "نسخه نهایی با موفقیت ثبت شد!",
-            //   "کد رهگیری شما : " + `${response.data.res.trackingCode}`
-            // );
-            // let result = await oneInputAlert("text!", "text");
+    let url = "";
+    prescriptionHeadID
+      ? ((url = "TaminEprsc/PrescriptionEdit"),
+        (data = {
+          ...data,
+          PrID: PrID,
+          headerID: prescriptionHeadID,
+          optCode: optCode,
+        }))
+      : ((url = "TaminEprsc/PrescriptionAdd"), (data = data));
 
-            // if (result) {
-            //   // some action
-            // }
+    console.log({ data });
 
-            let result = await pinInputAlert("Please enter the pin!");
+    // axiosClient
+    //   .post(url, data)
+    //   .then(async function (response) {
+    //     // console.log(response.data);
+    //     if (response.data.res.trackingCode !== null) {
+    //       SuccessAlert(
+    //         "نسخه نهایی با موفقیت ثبت شد!",
+    //         "کد رهگیری شما : " + `${response.data.res.trackingCode}`
+    //       );
+    //     } else if (response.data.res.error_Code !== null) {
+    //       ErrorAlert("خطا!", response.data.res.error_Msg);
+    //     } else if (response.data.res == null) {
+    //       ErrorAlert("خطا", "سرور در حال حاضر در دسترس نمی باشد!");
+    //     }
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
+    // }
+  };
 
-            if (result) {
-              // some action using the result
-              console.log(result);
-            }
-          } else if (response.data.res.error_Code !== null) {
-            ErrorAlert("خطا!", response.data.res.error_Msg);
-          } else if (response.data.res == null) {
-            ErrorAlert("خطا", "سرور در حال حاضر در دسترس نمی باشد!");
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    }
+  const deletePresc = (headerID, prID) => {
+    let url = "TaminEprsc/PrescriptionDelete";
+
+    let data = {
+      CenterID,
+      headerID: headerID,
+      PrID: prID,
+      // optCode: ,
+    };
+
+    // axiosClient
+    //   .delete(url, { data })
+    //   .then(function () {
+    //     setDoctorsList(doctorsList.filter((a) => a._id !== id));
+    //     setIsLoading(false);
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //     setIsLoading(false);
+    //   });
   };
 
   const responseObj = {
@@ -807,7 +838,6 @@ const Prescription = ({
 
   // edit prescItem
   const handleEditPrescItem = (srvData, force) => {
-    // setIsLoading(true);
     setEditSrvData(srvData);
     setSrvEditMode(true);
 
@@ -871,8 +901,6 @@ const Prescription = ({
   const openFavModal = () => setShowFavModal(true);
 
   const handleAddFavItem = async (srv) => {
-    console.log({ srv });
-
     const findDrugInstVal = drugInstructionList.find(
       (x) => x.label == srv.DrugInstruction
     );
@@ -905,16 +933,19 @@ const Prescription = ({
   };
 
   useEffect(() => {
-    // prescriptionHeadID = Router.query.id;
-    // ActivePatientID = Router.query.pid;
+    prescriptionHeadID = Router.query.id;
+    ActivePatientID = Router.query.pid;
+    PrID = Router.query.prId;
 
-    // if (ActivePatientID) {
-    //   $("#frmPatientInfoBtnSubmit").click();
-    // }
+    setTimeout(() => {
+      if (ActivePatientID) {
+        $("#frmPatientInfoBtnSubmit").click();
+      }
+    }, 1000);
 
-    // if (prescriptionHeadID) getEprscData();
+    if (prescriptionHeadID) getEprscData();
 
-    updatePrescriptionAddItem(responseObj);
+    // updatePrescriptionAddItem(responseObj);
 
     // window.onbeforeunload = function () {
     //   return 'Changes you made may not be saved';
@@ -978,7 +1009,7 @@ const Prescription = ({
                 SelectedAmount={SelectedAmount}
                 setSelectedAmount={setSelectedAmount}
                 openFavModal={openFavModal}
-                openPinModal={openPinModal}
+                // openPinModal={openPinModal}
               />
 
               <div className="prescList">
@@ -1004,7 +1035,11 @@ const Prescription = ({
           handleEditPrescItem={handleEditPrescItem}
         />
 
-        <PrescPinInput show={showPinModal} onHide={handleClosePinModal} />
+        <PrescPinInput
+          show={showPinModal}
+          onHide={handleClosePinModal}
+          getPinInputValue={getPinInputValue}
+        />
       </div>
     </>
   );

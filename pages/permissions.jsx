@@ -92,12 +92,12 @@ const Permissions = ({ Menus, UserData, UserRoles }) => {
 
     checked
       ? (setRolePermissionStatus({
-        roleAccessList: [...roleAccessList, value],
-      }),
+          roleAccessList: [...roleAccessList, value],
+        }),
         setCheckedState(true))
       : (setRolePermissionStatus({
-        roleAccessList: roleAccessList.filter((e) => e !== value),
-      }),
+          roleAccessList: roleAccessList.filter((e) => e !== value),
+        }),
         setCheckedState(false));
   };
 
@@ -150,7 +150,7 @@ const Permissions = ({ Menus, UserData, UserRoles }) => {
       axiosClient
         .get(url)
         .then((response) => {
-          console.log("Selected Role: ", response.data);
+          // console.log("Selected Role: ", response.data);
           getUserPermissions(response.data.PermisionsID);
 
           for (let i = 0; i < response.data.PermisionsID.length; i++) {
@@ -196,9 +196,9 @@ const Permissions = ({ Menus, UserData, UserRoles }) => {
         items.map((item) =>
           item.id === result.draggableId
             ? {
-              ...item,
-              category: parseInt(result.destination.droppableId),
-            }
+                ...item,
+                category: parseInt(result.destination.droppableId),
+              }
             : item
         )
       );

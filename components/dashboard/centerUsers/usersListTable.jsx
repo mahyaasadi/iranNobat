@@ -91,7 +91,13 @@ const UsersListTable = ({
           <button
             className="btn btn-sm btn-outline-secondary btn-border-left chatPermission"
             data-pr-position="top"
-            onClick={() => chatPermissionOpenModal(row._id)}
+            onClick={() =>
+              chatPermissionOpenModal(
+                row._id,
+                row.DepPer,
+                row.SpecialDiseasesPer
+              )
+            }
           >
             <Tooltip target=".chatPermission">دسترسی گفتگو</Tooltip>
             <FeatherIcon

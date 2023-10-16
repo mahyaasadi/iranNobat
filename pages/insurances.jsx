@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Head from "next/head";
+import { getSession } from "lib/session";
 import FeatherIcon from "feather-icons-react";
 import { axiosClient } from "class/axiosConfig.js";
-import Cookies from "js-cookie";
+import { QuestionAlert } from "class/AlertManage.js";
 import Loading from "components/commonComponents/loading/loading";
 import InsuranceListTable from "components/dashboard/insurances/insuranceListTable";
-// import AddInsuranceModal from "components/dashboard/insurances/addInsuranceModal";
-// import EditInsuranceModal from "components/dashboard/insurances/editInsuranceModal";
 import insuranceTypeDataClass from "class/insuranceTypeDataClass";
 import insuranceStatusDataClass from "class/insuranceStatusDataClass";
-import { QuestionAlert } from "class/AlertManage.js";
-import { getSession } from "lib/session";
 import InsuranceModal from "components/dashboard/insurances/insuranceModal";
 
 export const getServerSideProps = async ({ req, res }) => {
@@ -94,7 +91,7 @@ const Insurance = ({ Menus, UserData, UserRoles }) => {
       .then((response) => {
         setInsuranceList([...insuranceList, response.data]);
         // $("#addInsuranceModal").modal("hide");
-        setShowModal(false)
+        setShowModal(false);
         reset();
         setIsLoading(false);
       })
@@ -125,7 +122,7 @@ const Insurance = ({ Menus, UserData, UserRoles }) => {
       .then((response) => {
         updateItem(formProps.EditInsuranceID, response.data);
         // $("#editInsuranceModal").modal("hide");
-        setShowModal(false)
+        setShowModal(false);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -188,13 +185,13 @@ const Insurance = ({ Menus, UserData, UserRoles }) => {
   const [showModal, setShowModal] = useState(false);
 
   const openAddModal = () => {
-    setModalMode('add');
+    setModalMode("add");
     setShowModal(true);
     reset();
   };
 
   const openEditModal = (data) => {
-    setModalMode('edit');
+    setModalMode("edit");
     setEditedInsurance(data);
     setShowModal(true);
   };

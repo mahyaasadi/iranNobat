@@ -4460,6 +4460,27 @@ html.menu-opened body {
   }
 }
 
+.patientInfoCheckboxTile {
+  position: relative;
+  border-radius: 10px !important;
+  width: 13vw !important;
+  height: 8vh;
+  text-align: center;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  background-color: #fff;
+  padding: 5px;
+}
+
+.paddingR-2 {
+  padding-right: 2.5rem;
+}
+
+.paddingR-4 {
+  padding-right: 4px;
+}
+
 .checkbox-icon {
   transition: 0.375s ease;
   color: #494949;
@@ -4598,7 +4619,7 @@ html.menu-opened body {
 .loginBg {
   background-image: url("/assets/img/bg5.jpg");
   height: 100vh;
-  width: 100%;
+  /* width: 100%; */
 }
 
 .login-banner {
@@ -8902,6 +8923,10 @@ ul li .active {
   height: 40px;
 }
 
+.font-11 {
+  font-size: 11px !important;
+}
+
 .font-12 {
   font-size: 12px !important;
 }
@@ -9538,6 +9563,11 @@ ul li .active {
 
   .permissionCheckboxTile {
     width: 45vw !important;
+    height: 10vh;
+  }
+
+  .patientInfoCheckboxTile {
+    width: 25vw !important;
     height: 10vh;
   }
 

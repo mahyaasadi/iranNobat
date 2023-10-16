@@ -71,6 +71,7 @@ const PrescriptionsListTable = ({ data }) => {
             data-bs-toggle="tooltip"
             data-bs-placement="top"
             title="حذف"
+            // onClick={() => deletePresc(row.head_EPRSC_ID, row.row._id)}
           >
             <FeatherIcon
               icon="trash-2"
@@ -80,7 +81,7 @@ const PrescriptionsListTable = ({ data }) => {
           <Link
             href={{
               pathname: "/prescription",
-              query: { id: row.head_EPRSC_ID, pid: row.NID },
+              query: { id: row.head_EPRSC_ID, pid: row.NID, prId: row._id },
             }}
             className="btn btn-sm btn-outline-secondary btn-border-left editBtn"
             data-pr-position="top"

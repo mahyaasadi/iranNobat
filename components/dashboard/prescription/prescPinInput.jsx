@@ -1,7 +1,7 @@
 import { Modal } from "react-bootstrap";
 import PinInput from "react-pin-input";
 
-const PrescPinInput = ({ onSubmit, show, onHide }) => {
+const PrescPinInput = ({ onSubmit, show, onHide, getPinInputValue }) => {
   return (
     <Modal show={show} onHide={onHide} centered>
       <Modal.Header closeButton>
@@ -24,7 +24,7 @@ const PrescPinInput = ({ onSubmit, show, onHide }) => {
               inputMode="numeric"
               focus="true"
               // onChange={(value, index) => {}}
-              // onComplete={(value, index) => {}}
+              onComplete={(value, index) => getPinInputValue(value)}
               autoSelect={true}
               regexCriteria={/^[ A-Za-z0-9_@./#&+-]*$/}
               inputFocusStyle={{ borderColor: "blue" }}
@@ -35,14 +35,14 @@ const PrescPinInput = ({ onSubmit, show, onHide }) => {
               }}
             />
           </div>
-          <div className="submit-section d-flex justify-center align-items-center">
+          {/* <div className="submit-section d-flex justify-center align-items-center">
             <button
               type="submit"
               className="btn btn-sm btn-primary rounded btn-save font-13 "
             >
               ثبت
             </button>
-          </div>
+          </div> */}
         </form>
       </Modal.Body>
     </Modal>
