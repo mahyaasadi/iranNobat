@@ -551,7 +551,7 @@ const Prescription = ({
   };
 
   // only Visit
-  const registerEpresc = (visit) => {
+  const registerEpresc = async (visit) => {
     // if (visit === 1) {
     //   let url = "TaminEprsc/PrescriptionAdd";
     //   let Data = {
@@ -583,51 +583,52 @@ const Prescription = ({
     //       console.log(error);
     //     });
     // } else {
-    setShowPinModal(true);
+    // setShowPinModal(true);
 
-    let data = {
-      CenterID,
-      NID: ActivePatientID,
-      PMN: $("#PatientTel").html(),
-      PTI: prescId,
-      Comment: $("#eprscItemDescription").val(),
-      note: addPrescriptionitems,
-      SrvNames: addPrescriptionSrvNameitems,
-      prescTypeName: ActivePrscName,
-    };
+    let result = await oneInputAlert("text");
 
-    let url = "";
-    prescriptionHeadID
-      ? ((url = "TaminEprsc/PrescriptionEdit"),
-        (data = {
-          ...data,
-          PrID: PrID,
-          headerID: prescriptionHeadID,
-          optCode: optCode,
-        }))
-      : ((url = "TaminEprsc/PrescriptionAdd"), (data = data));
+    if (result) {
+      let data = {
+        CenterID,
+        NID: ActivePatientID,
+        PMN: $("#PatientTel").html(),
+        PTI: prescId,
+        Comment: $("#eprscItemDescription").val(),
+        note: addPrescriptionitems,
+        SrvNames: addPrescriptionSrvNameitems,
+        prescTypeName: ActivePrscName,
+      };
 
-    console.log({ data });
+      let url = "";
+      prescriptionHeadID
+        ? ((url = "TaminEprsc/PrescriptionEdit"),
+          (data = {
+            ...data,
+            PrID: PrID,
+            headerID: prescriptionHeadID,
+            optCode: optCode,
+          }))
+        : ((url = "TaminEprsc/PrescriptionAdd"), (data = data));
 
-    // axiosClient
-    //   .post(url, data)
-    //   .then(async function (response) {
-    //     // console.log(response.data);
-    //     if (response.data.res.trackingCode !== null) {
-    //       SuccessAlert(
-    //         "نسخه نهایی با موفقیت ثبت شد!",
-    //         "کد رهگیری شما : " + `${response.data.res.trackingCode}`
-    //       );
-    //     } else if (response.data.res.error_Code !== null) {
-    //       ErrorAlert("خطا!", response.data.res.error_Msg);
-    //     } else if (response.data.res == null) {
-    //       ErrorAlert("خطا", "سرور در حال حاضر در دسترس نمی باشد!");
-    //     }
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
-    // }
+      console.log({ data });
+
+      axiosClient.post(url, data).then(async function (response) {
+        console.log(response.data);
+        //     if (response.data.res.trackingCode !== null) {
+        //       SuccessAlert(
+        //         "نسخه نهایی با موفقیت ثبت شد!",
+        //         "کد رهگیری شما : " + `${response.data.res.trackingCode}`
+        //       );
+        //     } else if (response.data.res.error_Code !== null) {
+        //       ErrorAlert("خطا!", response.data.res.error_Msg);
+        //     } else if (response.data.res == null) {
+        //       ErrorAlert("خطا", "سرور در حال حاضر در دسترس نمی باشد!");
+        //     }
+        //   })
+        //   .catch(function (error) {
+        //     console.log(error);
+      });
+    }
   };
 
   const deletePresc = (headerID, prID) => {
