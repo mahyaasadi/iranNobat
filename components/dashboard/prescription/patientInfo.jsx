@@ -72,7 +72,7 @@ const PatientInfo = ({
               <p className="mt-3">{data.Name}</p>
               <p className="mt-3">سن بیمار : {data.Age}</p>
               <p className="mt-3">
-                تاریخ اعتبار تا
+                تاریخ اعتبار تا {""}
                 {data.accountValidto && dateFormat(`${data.accountValidto}`)}
               </p>
 

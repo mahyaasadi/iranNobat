@@ -7,7 +7,6 @@ import { tableCustomStyles } from "components/commonComponents/customTableStyle/
 import { Tooltip } from "primereact/tooltip";
 
 const PrescriptionsListTable = ({ data }) => {
-  console.log({ data });
   const dateFormat = (str) => {
     if (str !== "" || str !== null) {
       let date =

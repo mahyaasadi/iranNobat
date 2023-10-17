@@ -150,7 +150,6 @@ const Permissions = ({ Menus, UserData, UserRoles }) => {
       axiosClient
         .get(url)
         .then((response) => {
-          // console.log("Selected Role: ", response.data);
           getUserPermissions(response.data.PermisionsID);
 
           for (let i = 0; i < response.data.PermisionsID.length; i++) {

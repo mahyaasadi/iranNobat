@@ -35,6 +35,7 @@ const PrescriptionCard = ({
   setSelectedAmount,
   setEditSrvData,
   openFavModal,
+  openPinModal,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -134,7 +135,7 @@ const PrescriptionCard = ({
 
                 <button
                   className="btn btn-primary border-radius font-13"
-                  onClick={() => registerEpresc(0)}
+                  onClick={openPinModal}
                 >
                   ثبت نسخه نهایی
                 </button>

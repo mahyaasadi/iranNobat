@@ -863,6 +863,10 @@ label {
   -webkit-justify-content: center;
 }
 
+.text-align-end {
+  text-align: end;
+}
+
 .check {
   display: block;
   margin: 0;
@@ -4463,7 +4467,7 @@ html.menu-opened body {
 .patientInfoCheckboxTile {
   position: relative;
   border-radius: 10px !important;
-  width: 13vw !important;
+  width: 100% !important;
   height: 8vh;
   text-align: center;
   display: flex;
@@ -9566,13 +9570,21 @@ ul li .active {
     height: 10vh;
   }
 
+  .media-mt-1 {
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 1400px) {
   .patientInfoCheckboxTile {
-    width: 25vw !important;
+    /* width: 25vw !important; */
     height: 10vh;
   }
 
-  .media-mt-1 {
-    margin-top: 1rem;
+  .patientListContainer {
+    height: 50vh !important;
+    overflow-y: auto !important;
+    direction: ltr !important;
   }
 }
 
@@ -9742,6 +9754,13 @@ ul li .active {
 
 .permissionListContainer {
   height: 80vh;
+  overflow-y: auto;
+  direction: ltr;
+}
+
+.patientListContainer {
+  padding: 10px;
+  height: 75vh;
   overflow-y: auto;
   direction: ltr;
 }

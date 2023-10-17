@@ -145,7 +145,6 @@ const Prescription = ({
 
   const [showPinModal, setShowPinModal] = useState(false);
   const handleClosePinModal = () => setShowPinModal(false);
-  // const openPinModal = () => setShowPinModal(true);
 
   const FUSelectInstruction = (instruction) => {
     const findInsLbl = drugInstructionList.find((x) => x.value == instruction);
@@ -496,9 +495,6 @@ const Prescription = ({
       addPrescriptionSrvNameitems.push(onlyVisitPrescData);
       setPrescriptionItemsData([...PrescriptionItemsData, prescItems]);
 
-      console.log({ prescItems });
-      console.log({ prescData });
-
       ActiveSearch();
       $("#QtyInput").val("1");
       setSelectedAmount(null);
@@ -545,49 +541,68 @@ const Prescription = ({
     setPrescriptionItemsData(arr);
   };
 
+  const openPinModal = () => setShowPinModal(true);
+
   const getPinInputValue = (code) => {
-    setOptCode(code);
-    console.log({ code });
+    // setOptCode(code);
+
+    if (prescriptionHeadID) {
+      setShowPinModal(true);
+    }
+
+    registerEpresc(0, code);
   };
 
   // only Visit
-  const registerEpresc = async (visit) => {
-    // if (visit === 1) {
-    //   let url = "TaminEprsc/PrescriptionAdd";
-    //   let Data = {
-    //     CenterID,
-    //     NID: ActivePatientID,
-    //     PMN: $("#PatientTel").html(),
-    //     PTI: 3,
-    //     Comment: $("#eprscItemDescription").val(),
-    //     note: [],
-    //     SrvNames: [],
-    //     prescTypeName: "ویزیت",
-    //   };
+  const registerEpresc = async (visit, code) => {
+    if (visit === 1) {
+      let url = "TaminEprsc/PrescriptionAdd";
+      let Data = {
+        CenterID,
+        NID: ActivePatientID,
+        PMN: $("#PatientTel").html(),
+        PTI: 3,
+        Comment: $("#eprscItemDescription").val(),
+        note: [],
+        SrvNames: [],
+        prescTypeName: "ویزیت",
+      };
 
-    //   axiosClient
-    //     .post(url, Data)
-    //     .then(function (response) {
-    //       if (response.data.res.trackingCode !== null) {
-    //         SuccessAlert(
-    //           "ویزیت با موفقیت ثبت شد!",
-    //           "کد رهگیری شما : " + `${response.data.res.trackingCode}`
-    //         );
-    //       } else if (response.data.res.error_Msg == "نسخه تکراری است") {
-    //         WarningAlert("هشدار", "نسخه ثبت شده تکراری می باشد!");
-    //       } else if (ActivePatientID === undefined) {
-    //         WarningAlert("هشدار", "کد ملی وارد شده معتبر نمی باشد");
-    //       }
-    //     })
-    //     .catch(function (error) {
-    //       console.log(error);
-    //     });
-    // } else {
-    // setShowPinModal(true);
+      axiosClient
+        .post(url, Data)
+        .then(function (response) {
+          if (response.data.res.trackingCode !== null) {
+            SuccessAlert(
+              "ویزیت با موفقیت ثبت شد!",
+              "کد رهگیری شما : " + `${response.data.res.trackingCode}`
+            );
+          } else if (response.data.res.error_Msg == "نسخه تکراری است") {
+            WarningAlert("هشدار", "نسخه ثبت شده تکراری می باشد!");
+          } else if (ActivePatientID === undefined) {
+            WarningAlert("هشدار", "کد ملی وارد شده معتبر نمی باشد");
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } else {
+      //   axiosClient.post(url, data).then(async function (response) {
+      //     console.log(response.data);
+      //     if (response.data.res.trackingCode !== null) {
+      //       SuccessAlert(
+      //         "نسخه نهایی با موفقیت ثبت شد!",
+      //         "کد رهگیری شما : " + `${response.data.res.trackingCode}`
+      //       );
+      //     } else if (response.data.res.error_Code !== null) {
+      //       ErrorAlert("خطا!", response.data.res.error_Msg);
+      //     } else if (response.data.res == null) {
+      //       ErrorAlert("خطا", "سرور در حال حاضر در دسترس نمی باشد!");
+      //     }
+      //   })
+      //   .catch(function (error) {
+      //     console.log(error);
+      // });
 
-    let result = await oneInputAlert("text");
-
-    if (result) {
       let data = {
         CenterID,
         NID: ActivePatientID,
@@ -599,59 +614,53 @@ const Prescription = ({
         prescTypeName: ActivePrscName,
       };
 
-      let url = "";
-      prescriptionHeadID
-        ? ((url = "TaminEprsc/PrescriptionEdit"),
-          (data = {
-            ...data,
-            PrID: PrID,
-            headerID: prescriptionHeadID,
-            optCode: optCode,
-          }))
-        : ((url = "TaminEprsc/PrescriptionAdd"), (data = data));
+      let url = prescriptionHeadID
+        ? "TaminEprsc/PrescriptionEdit"
+        : "TaminEprsc/PrescriptionAdd";
 
-      console.log({ data });
+      let dataToSend = { ...data, otpCode: code };
 
-      axiosClient.post(url, data).then(async function (response) {
+      if (prescriptionHeadID) {
+        dataToSend = {
+          ...dataToSend,
+          PrID: PrID,
+          headerID: prescriptionHeadID,
+        };
+      }
+
+      console.log({ dataToSend, url });
+
+      try {
+        const response = await axiosClient.post(url, dataToSend);
         console.log(response.data);
-        //     if (response.data.res.trackingCode !== null) {
-        //       SuccessAlert(
-        //         "نسخه نهایی با موفقیت ثبت شد!",
-        //         "کد رهگیری شما : " + `${response.data.res.trackingCode}`
-        //       );
-        //     } else if (response.data.res.error_Code !== null) {
-        //       ErrorAlert("خطا!", response.data.res.error_Msg);
-        //     } else if (response.data.res == null) {
-        //       ErrorAlert("خطا", "سرور در حال حاضر در دسترس نمی باشد!");
-        //     }
-        //   })
-        //   .catch(function (error) {
-        //     console.log(error);
-      });
+        // handle the response...
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
-  const deletePresc = (headerID, prID) => {
-    let url = "TaminEprsc/PrescriptionDelete";
+  // const deletePresc = (headerID, prID) => {
+  //   let url = "TaminEprsc/PrescriptionDelete";
 
-    let data = {
-      CenterID,
-      headerID: headerID,
-      PrID: prID,
-      // optCode: ,
-    };
+  //   let data = {
+  //     CenterID,
+  //     headerID: headerID,
+  //     PrID: prID,
+  //     // optCode: ,
+  //   };
 
-    // axiosClient
-    //   .delete(url, { data })
-    //   .then(function () {
-    //     setDoctorsList(doctorsList.filter((a) => a._id !== id));
-    //     setIsLoading(false);
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //     setIsLoading(false);
-    //   });
-  };
+  // axiosClient
+  //   .delete(url, { data })
+  //   .then(function () {
+  //     setDoctorsList(doctorsList.filter((a) => a._id !== id));
+  //     setIsLoading(false);
+  //   })
+  //   .catch(function (error) {
+  //     console.log(error);
+  //     setIsLoading(false);
+  //   });
+  // };
 
   const responseObj = {
     status: 200,
@@ -830,7 +839,7 @@ const Prescription = ({
       axiosClient
         .post(url, data)
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           updatePrescriptionAddItem(response.data);
         })
         .catch((error) => console.log(error));
@@ -955,10 +964,6 @@ const Prescription = ({
     $(".unsuccessfullSearch").hide();
   }, []);
 
-  useEffect(() => {
-    console.log({ favEprescItems });
-  }, [favEprescItems]);
-
   return (
     <>
       <Head>
@@ -1010,7 +1015,7 @@ const Prescription = ({
                 SelectedAmount={SelectedAmount}
                 setSelectedAmount={setSelectedAmount}
                 openFavModal={openFavModal}
-                // openPinModal={openPinModal}
+                openPinModal={openPinModal}
               />
 
               <div className="prescList">
@@ -1036,11 +1041,13 @@ const Prescription = ({
           handleEditPrescItem={handleEditPrescItem}
         />
 
-        <PrescPinInput
-          show={showPinModal}
-          onHide={handleClosePinModal}
-          getPinInputValue={getPinInputValue}
-        />
+        {prescriptionHeadID && showPinModal && (
+          <PrescPinInput
+            show={showPinModal}
+            onHide={handleClosePinModal}
+            getPinInputValue={getPinInputValue}
+          />
+        )}
       </div>
     </>
   );
