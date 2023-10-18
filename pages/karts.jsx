@@ -39,14 +39,13 @@ const CashDeskKarts = ({ UserData, UserRoles, Menus }) => {
   const handleCloseModal = () => setShowModal(false);
 
   // get all kartsData
-  const getCashDeskData = () => {
+  const getKartsData = () => {
     setIsLoading(true);
     let url = `CashDeskKart/getAll/${CenterID}`;
 
     axiosClient
       .get(url)
       .then((response) => {
-        console.log(response.data);
         setKartData(response.data);
         setIsLoading(false);
       })
@@ -171,7 +170,7 @@ const CashDeskKarts = ({ UserData, UserRoles, Menus }) => {
     }
   };
 
-  useEffect(() => getCashDeskData(), []);
+  useEffect(() => getKartsData(), []);
 
   return (
     <>

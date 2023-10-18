@@ -2,8 +2,13 @@ import { useState } from "react";
 import Image from "next/image";
 import { resetServerContext } from "react-beautiful-dnd";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { numberWithComma } from "class/numberWithComma";
 
-const PatientCategories = ({ patientsInfo, setPatientsInfo }) => {
+const PatientCategories = ({
+  patientsInfo,
+  setPatientsInfo,
+  openActionModal,
+}) => {
   resetServerContext();
 
   const [categories, setCategories] = useState([
@@ -29,6 +34,10 @@ const PatientCategories = ({ patientsInfo, setPatientsInfo }) => {
     if (destination.droppableId === "Categories") {
       setCategories(rearangeArr(categories, source.index, destination.index));
     } else if (destination.droppableId !== source.droppableId) {
+      patientsInfo.map((x) => {
+        openActionModal(x.id, x.item);
+      });
+
       setPatientsInfo((patientsInfo) =>
         patientsInfo.map((item) =>
           item.id === result.draggableId
@@ -84,7 +93,12 @@ const PatientCategories = ({ patientsInfo, setPatientsInfo }) => {
                                   >
                                     <div className="checkbox permissionCheckbox">
                                       <div className="checkbox-wrapper checkbox-wrapper-per w-100">
-                                        <div className="patientInfoCheckboxTile permissionItem">
+                                        <div
+                                          className="patientInfoCheckboxTile permissionItem"
+                                          onDoubleClick={() =>
+                                            openActionModal(item.id, item.item)
+                                          }
+                                        >
                                           <div
                                             className="d-flex align-items-center flex-col"
                                             key={index}
@@ -94,8 +108,12 @@ const PatientCategories = ({ patientsInfo, setPatientsInfo }) => {
                                                 <p className="text-align-end mb-2 font-13">
                                                   {item.name}
                                                 </p>
-                                                <p className="text-align-end font-12">
+                                                <p className="text-align-end font-12 mb-2">
                                                   کد ملی : {item.nationalID}
+                                                </p>
+                                                <p className="font-12">
+                                                  سهم بیمار :
+                                                  {item.totalPatientCost.toLocaleString()}
                                                 </p>
                                               </div>
 

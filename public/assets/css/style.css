@@ -287,6 +287,14 @@ input:-webkit-autofill:focus {
   color: #1e2022;
 }
 
+.cashDeskPatientInfo {
+  border: 1px solid #e6e9f4;
+  box-shadow: none;
+  height: calc(1.6em + 1.21875rem);
+  padding: 0.54688rem 0.875rem;
+  font-weight: 400;
+}
+
 textarea.form-control {
   height: auto;
 }
@@ -455,6 +463,10 @@ p:last-child {
 
 .margint-5 {
   margin-top: 5rem;
+}
+
+.margint-3 {
+  margin-top: 3rem;
 }
 
 .padding-2 {
@@ -4468,7 +4480,7 @@ html.menu-opened body {
   position: relative;
   border-radius: 10px !important;
   width: 100% !important;
-  height: 8vh;
+  /* height: 8vh; */
   text-align: center;
   display: flex;
   align-items: flex-start;
@@ -9999,6 +10011,10 @@ ul li .active {
 .p-dropdown-clear-icon {
   right: 1rem !important;
   width: 0.75rem !important;
+}
+
+.p-dropdown-panel {
+  z-index: 2000 !important;
 }
 
 .p-accordion-header-link {

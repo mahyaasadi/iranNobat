@@ -107,10 +107,6 @@ const PrescriptionCard = ({
     }
   }, [editDrugAmountData, editDrugInstructionData]);
 
-  // useEffect(() => {
-  //   console.log({ editSrvData });
-  // }, [editSrvData]);
-
   return (
     <>
       <div>
