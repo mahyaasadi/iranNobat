@@ -37,6 +37,14 @@ const CashDesk = ({ UserData, UserRoles, Menus }) => {
   const [selectedKart, setSelectedKart] = useState(null);
   const [actionModalData, setActionModalData] = useState([]);
 
+  const [debt, setDebt] = useState("");
+
+  const handleDebtInput = (e) => {
+    let value = event.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+    value = Number(value).toLocaleString(); // Convert to formatted string
+    setDebt(value);
+  };
+
   const handleCloseActionsModal = () => setShowActionsModal(false);
 
   const openActionModal = (receptionID, data) => {
@@ -52,7 +60,7 @@ const CashDesk = ({ UserData, UserRoles, Menus }) => {
     axiosClient
       .get(url)
       .then((response) => {
-        console.log("reception info", response.data);
+        // console.log("reception info", response.data);
 
         let patientItems = [];
         for (let i = 0; i < response.data.length; i++) {
@@ -74,7 +82,6 @@ const CashDesk = ({ UserData, UserRoles, Menus }) => {
           };
           patientItems.push(obj);
         }
-
         setPatientsInfo(patientItems);
         setIsLoading(false);
       })
@@ -84,8 +91,6 @@ const CashDesk = ({ UserData, UserRoles, Menus }) => {
       });
   };
 
-  console.log({ patientsInfo });
-
   // get all kartsData
   const getKartsData = () => {
     setIsLoading(true);
@@ -94,7 +99,7 @@ const CashDesk = ({ UserData, UserRoles, Menus }) => {
     axiosClient
       .get(url)
       .then((response) => {
-        console.log("karts", response.data);
+        // console.log("karts", response.data);
         setKartData(response.data);
 
         let kartOptions = [];
@@ -175,6 +180,8 @@ const CashDesk = ({ UserData, UserRoles, Menus }) => {
           setSelectedKart={setSelectedKart}
           applyCashDeskActions={applyCashDeskActions}
           data={actionModalData}
+          debt={debt}
+          handleDebtInput={handleDebtInput}
         />
       </div>
     </>

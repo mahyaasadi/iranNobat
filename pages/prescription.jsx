@@ -241,9 +241,9 @@ const Prescription = ({
 
     $(".unsuccessfullSearch").hide();
 
-    if (ActiveSrvCode) {
-      ActiveSearch();
-    }
+    // if (ActiveSrvCode) {
+    //   ActiveSearch();
+    // }
     // else {
     //   if ($("#srvSearchInput").val().length > 0) {
     //     $("#srvSearchInput").val("");
@@ -496,10 +496,12 @@ const Prescription = ({
       setPrescriptionItemsData([...PrescriptionItemsData, prescItems]);
 
       ActiveSearch();
-      $("#QtyInput").val("1");
-      setSelectedAmount(null);
-      setSelectedInstruction(null);
     }
+    $("#QtyInput").val("1");
+    setSelectedAmount(null);
+    setSelectedAmountLbl(null);
+    setSelectedInstruction(null);
+    setSelectedInstructionLbl(null);
   };
 
   const updatePrescriptionAddItem = async (obj) => {

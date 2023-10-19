@@ -7,15 +7,17 @@ import { useRouter } from "next/navigation";
 import FeatherIcon from "feather-icons-react";
 import { setSession } from "@/lib/SessionMange";
 import { ErrorAlert } from "class/AlertManage.js";
-import { avatar01, headerLogo, logoSmall } from "@/components/commonComponents/imagepath";
+import {
+  avatar01,
+  headerLogo,
+  logoSmall,
+} from "components/commonComponents/imagepath";
 
 const Header = ({ UserData }) => {
   let router = useRouter();
 
   const [task, settask] = useState(true);
   const [task1, settask1] = useState(true);
-  // const [dropdown, setdropdown] = useState(false);
-  // const [dropdown1, setdropdown1] = useState(false);
 
   const handletheme = () => {
     document.body.classList.toggle("darkmode");
@@ -65,9 +67,6 @@ const Header = ({ UserData }) => {
               priority={true}
             />
           </Link>
-          <Link href="/dashboard" className="logo logo-small">
-            <Image src={logoSmall} alt="Logo" width={30} height={30} />
-          </Link>
           <Link href="#" id="toggle_btn" onClick={handlesidebar}>
             <FeatherIcon icon="chevrons-left" />
           </Link>
@@ -104,7 +103,7 @@ const Header = ({ UserData }) => {
             </Link>
           </li>
 
-          {/* <!-- User Menu --> */}
+          {/* User Menu */}
           <li className="nav-item dropdown has-arrow">
             <a
               href="#"

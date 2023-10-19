@@ -9,8 +9,10 @@ const CashDeskActions = ({
   setSelectedKart,
   applyCashDeskActions,
   data,
+  debt,
+  handleDebtInput,
 }) => {
-  console.log({ data });
+  // console.log({ data });
 
   let totalQty = 0;
   let totalPrice = 0;
@@ -44,7 +46,7 @@ const CashDeskActions = ({
             </div>
 
             <div className="table-responsive">
-              <table class="table mt-4 font-13 text-secondary">
+              <table className="table mt-4 font-13 text-secondary">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
@@ -144,6 +146,8 @@ const CashDeskActions = ({
                   dir="ltr"
                   className="form-control floating inputPadding rounded text-secondary"
                   name="debt"
+                  value={debt}
+                  onChange={handleDebtInput}
                 />
               </div>
 

@@ -2,7 +2,6 @@ import { useState } from "react";
 import Image from "next/image";
 import { resetServerContext } from "react-beautiful-dnd";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { numberWithComma } from "class/numberWithComma";
 
 const PatientCategories = ({
   patientsInfo,
@@ -34,9 +33,13 @@ const PatientCategories = ({
     if (destination.droppableId === "Categories") {
       setCategories(rearangeArr(categories, source.index, destination.index));
     } else if (destination.droppableId !== source.droppableId) {
-      patientsInfo.map((x) => {
-        openActionModal(x.id, x.item);
-      });
+      const draggedPatient = patientsInfo.find(
+        (patient) => patient.id.toString() === result.draggableId
+      );
+
+      if (draggedPatient) {
+        openActionModal(draggedPatient.id, draggedPatient.item);
+      }
 
       setPatientsInfo((patientsInfo) =>
         patientsInfo.map((item) =>
