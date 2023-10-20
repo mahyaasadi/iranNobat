@@ -37,13 +37,13 @@ const CashDesk = ({ UserData, UserRoles, Menus }) => {
   const [selectedKart, setSelectedKart] = useState(null);
   const [actionModalData, setActionModalData] = useState([]);
 
-  const [debt, setDebt] = useState("");
+  // const [debt, setDebt] = useState("");
 
-  const handleDebtInput = (e) => {
-    let value = event.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
-    value = Number(value).toLocaleString(); // Convert to formatted string
-    setDebt(value);
-  };
+  // const handleDebtInput = (e) => {
+  //   let value = event.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+  //   value = Number(value).toLocaleString(); // Convert to formatted string
+  //   setDebt(value);
+  // };
 
   const handleCloseActionsModal = () => setShowActionsModal(false);
 
@@ -164,13 +164,15 @@ const CashDesk = ({ UserData, UserRoles, Menus }) => {
         <title>صندوق</title>
       </Head>
       <div className="page-wrapper">
-        <div className="content container-fluid">
-          <PatientsCategories
-            patientsInfo={patientsInfo}
-            setPatientsInfo={setPatientsInfo}
-            openActionModal={openActionModal}
-          />
-        </div>
+        {isLoading ? <Loading /> : (
+          <div className="content container-fluid">
+            <PatientsCategories
+              patientsInfo={patientsInfo}
+              setPatientsInfo={setPatientsInfo}
+              openActionModal={openActionModal}
+            />
+          </div>
+        )}
 
         <CashDeskActions
           show={showActionsModal}
@@ -180,8 +182,8 @@ const CashDesk = ({ UserData, UserRoles, Menus }) => {
           setSelectedKart={setSelectedKart}
           applyCashDeskActions={applyCashDeskActions}
           data={actionModalData}
-          debt={debt}
-          handleDebtInput={handleDebtInput}
+        // debt={debt}
+        // handleDebtInput={handleDebtInput}
         />
       </div>
     </>

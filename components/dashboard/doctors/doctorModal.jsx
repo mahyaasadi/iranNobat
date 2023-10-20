@@ -86,7 +86,6 @@ const DoctorModal = ({
                         </div>
                     </div>
 
-
                     <div className="submit-section">
                         {!isLoading ? (
                             <button

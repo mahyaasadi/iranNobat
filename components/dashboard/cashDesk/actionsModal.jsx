@@ -12,8 +12,6 @@ const CashDeskActions = ({
   debt,
   handleDebtInput,
 }) => {
-  // console.log({ data });
-
   let totalQty = 0;
   let totalPrice = 0;
   let totalPatientCost = 0;
@@ -146,8 +144,8 @@ const CashDeskActions = ({
                   dir="ltr"
                   className="form-control floating inputPadding rounded text-secondary"
                   name="debt"
-                  value={debt}
-                  onChange={handleDebtInput}
+                // value={debt}
+                // onChange={handleDebtInput}
                 />
               </div>
 
