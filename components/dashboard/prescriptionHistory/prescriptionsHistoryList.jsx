@@ -6,7 +6,8 @@ import "react-data-table-component-extensions/dist/index.css";
 import { tableCustomStyles } from "components/commonComponents/customTableStyle/tableStyle.jsx";
 import { Tooltip } from "primereact/tooltip";
 
-const PrescriptionsListTable = ({ data }) => {
+const PrescriptionsListTable = ({ data, prepareDelete }) => {
+  console.log({ data });
   const dateFormat = (str) => {
     if (str !== "" || str !== null) {
       let date =
@@ -70,7 +71,7 @@ const PrescriptionsListTable = ({ data }) => {
             data-bs-toggle="tooltip"
             data-bs-placement="top"
             title="حذف"
-            // onClick={() => deletePresc(row.head_EPRSC_ID, row.row._id)}
+            onClick={() => prepareDelete(row.head_EPRSC_ID, row._id, row.CenterID)}
           >
             <FeatherIcon
               icon="trash-2"

@@ -6,6 +6,7 @@ import { getSession } from "lib/session";
 import Loading from "components/commonComponents/loading/loading";
 import SearchPrescHistory from "components/dashboard/prescriptionHistory/SearchPrescHistory";
 import PrescriptionsListTable from "components/dashboard/prescriptionHistory/prescriptionsHistoryList";
+import PrescPinInput from "components/dashboard/prescription/prescPinInput";
 
 export const getServerSideProps = async ({ req, res }) => {
   const result = await getSession(req, res);
@@ -31,6 +32,10 @@ const PrescriptionHistory = ({ Menus, UserData, UserRoles }) => {
 
   const [prescriptionsList, setPrescriptionsList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [showPinModal, setShowPinModal] = useState(false);
+  const [deleteData, setDeleteData] = useState(null);
+
+  const handleClosePinModal = () => setShowPinModal(false);
 
   //get prescriptions list
   const getPrescriptionsList = () => {
@@ -52,6 +57,32 @@ const PrescriptionHistory = ({ Menus, UserData, UserRoles }) => {
       });
   };
 
+  const getPinInputValue = (code) => {
+    if (deleteData) {
+      deletePresc(deleteData.headerID, deleteData.prID, deleteData.centerID, code);
+    }
+    setShowPinModal(false);  // Close the modal after sending request
+  };
+
+  const prepareDelete = (headerID, prID, centerID) => {
+    setDeleteData({ headerID, prID, centerID });
+    setShowPinModal(true);
+  }
+
+  const deletePresc = (headerID, prID, centerID, otpCode) => {
+    let url = "TaminEprsc/PrescriptionDelete";
+    let data = { headerID, prID, centerID, otpCode };
+    console.log({ data });
+
+    axiosClient.delete(url, { data })
+      .then((response) => {
+        setPrescriptionsList((prescriptionsList.filter((a) => a._id !== prID)))
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+
   useEffect(() => {
     getPrescriptionsList();
   }, []);
@@ -69,13 +100,18 @@ const PrescriptionHistory = ({ Menus, UserData, UserRoles }) => {
             <div className="card">
               <div className="col-sm-12">
                 <SearchPrescHistory />
-                <PrescriptionsListTable data={prescriptionsList} />
+                <PrescriptionsListTable data={prescriptionsList} prepareDelete={prepareDelete} />
               </div>
 
               <div id="tablepagination" className="dataTables_wrapper"></div>
             </div>
           )}
         </div>
+        <PrescPinInput
+          show={showPinModal}
+          // onHide={handleClosePinModal}
+          getPinInputValue={getPinInputValue}
+        />
       </div>
     </>
   );
