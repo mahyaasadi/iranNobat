@@ -36,6 +36,7 @@ const PrescriptionCard = ({
   setEditSrvData,
   openFavModal,
   openPinModal,
+  deletePresc,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -134,6 +135,12 @@ const PrescriptionCard = ({
                   onClick={openPinModal}
                 >
                   ثبت نسخه نهایی
+                </button>
+                <button
+                  className="btn btn-outline-danger border-radius font-13"
+                  onClick={openPinModal}
+                >
+                  حذف نسخه
                 </button>
               </div>
             </div>

@@ -67,11 +67,22 @@ const PrescriptionsListTable = ({ data, prepareDelete }) => {
         <div className="actions d-flex gap-1">
           <Link
             className="btn btn-sm btn-outline-danger"
-            href="#"
+            // href="#"
             data-bs-toggle="tooltip"
             data-bs-placement="top"
             title="حذف"
-            onClick={() => prepareDelete(row.head_EPRSC_ID, row._id, row.CenterID)}
+            // onClick={() =>
+            //   prepareDelete(row.head_EPRSC_ID, row._id, row.CenterID)
+            // }
+            href={{
+              pathname: "/prescription",
+              query: {
+                id: row.head_EPRSC_ID,
+                pid: row.NID,
+                prId: row._id,
+                centerID: row.CenterID,
+              },
+            }}
           >
             <FeatherIcon
               icon="trash-2"

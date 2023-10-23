@@ -133,6 +133,7 @@ const CenterUsers = ({ Menus, UserData, UserRoles }) => {
     let findIndex = userData.findIndex((x) => x._id === id);
     userData[findIndex] = findUser;
     setUserData(userData);
+    getCenterUsers();
   };
 
   // Activate user
@@ -208,6 +209,7 @@ const CenterUsers = ({ Menus, UserData, UserRoles }) => {
     axiosClient
       .put(url, data)
       .then((response) => {
+        console.log(response.data);
         updateItem(formProps.editUserId, {
           FullName: formProps.editUserFullName,
           NickName: formProps.editUserNickName,

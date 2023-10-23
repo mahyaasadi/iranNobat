@@ -16,10 +16,10 @@ const PrescPinInput = ({ onSubmit, show, onHide, getPinInputValue }) => {
         <form>
           <div dir="ltr" className="">
             <PinInput
-              length={4}
+              length={6}
               initialValue=""
               secret
-              secretDelay={300}
+              secretDelay={800}
               type="numeric"
               inputMode="numeric"
               focus="true"

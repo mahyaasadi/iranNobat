@@ -59,29 +59,37 @@ const PrescriptionHistory = ({ Menus, UserData, UserRoles }) => {
 
   const getPinInputValue = (code) => {
     if (deleteData) {
-      deletePresc(deleteData.headerID, deleteData.prID, deleteData.centerID, code);
+      deletePresc(
+        deleteData.headerID,
+        deleteData.prID,
+        deleteData.centerID,
+        code
+      );
     }
-    setShowPinModal(false);  // Close the modal after sending request
+    setShowPinModal(false); // Close the modal after sending request
   };
 
   const prepareDelete = (headerID, prID, centerID) => {
     setDeleteData({ headerID, prID, centerID });
     setShowPinModal(true);
-  }
+  };
 
   const deletePresc = (headerID, prID, centerID, otpCode) => {
     let url = "TaminEprsc/PrescriptionDelete";
+
     let data = { headerID, prID, centerID, otpCode };
     console.log({ data });
 
-    axiosClient.delete(url, { data })
+    axiosClient
+      .delete(url, { data })
       .then((response) => {
-        setPrescriptionsList((prescriptionsList.filter((a) => a._id !== prID)))
+        console.log(response.data);
+        setPrescriptionsList(prescriptionsList.filter((a) => a._id !== prID));
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
       });
-  }
+  };
 
   useEffect(() => {
     getPrescriptionsList();
@@ -100,7 +108,10 @@ const PrescriptionHistory = ({ Menus, UserData, UserRoles }) => {
             <div className="card">
               <div className="col-sm-12">
                 <SearchPrescHistory />
-                <PrescriptionsListTable data={prescriptionsList} prepareDelete={prepareDelete} />
+                <PrescriptionsListTable
+                  data={prescriptionsList}
+                  prepareDelete={prepareDelete}
+                />
               </div>
 
               <div id="tablepagination" className="dataTables_wrapper"></div>

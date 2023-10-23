@@ -37,7 +37,8 @@ let ActiveSrvCode,
   ActivePatientID,
   PrID,
   count,
-  prescriptionHeadID = null;
+  prescriptionHeadID,
+  ActiveCenterID = null;
 
 const getDrugInstructionsList = async () => {
   let url = "TaminEprsc/DrugInstruction";
@@ -153,9 +154,6 @@ const Prescription = ({
   };
 
   const FUSelectDrugAmount = (amount) => {
-    // SelectedAmount = amount?.value;
-    // SelectedAmountLbl = amount ? amount.label : "";
-
     const findAmntLbl = drugAmountList.find((x) => x.value == amount);
     setSelectedAmountLbl(findAmntLbl ? findAmntLbl.label : amount);
     setSelectedAmount(amount);
@@ -552,7 +550,32 @@ const Prescription = ({
       setShowPinModal(true);
     }
 
-    registerEpresc(0, code);
+    // registerEpresc(0, code);
+    deletePresc(code);
+  };
+
+  // delete prescription
+  const deletePresc = (code) => {
+    let url = "TaminEprsc/PrescriptionDelete";
+
+    let data = {
+      headerID: prescriptionHeadID,
+      prID: PrID,
+      CenterID: CenterID,
+      otpCode: code,
+    };
+
+    console.log({ data });
+
+    axiosClient
+      .post(url, data)
+      .then((response) => {
+        console.log(response.data);
+        setPrescriptionsList(prescriptionsList.filter((a) => a._id !== prID));
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   // only Visit
@@ -641,28 +664,6 @@ const Prescription = ({
       }
     }
   };
-
-  // const deletePresc = (headerID, prID) => {
-  //   let url = "TaminEprsc/PrescriptionDelete";
-
-  //   let data = {
-  //     CenterID,
-  //     headerID: headerID,
-  //     PrID: prID,
-  //     // optCode: ,
-  //   };
-
-  // axiosClient
-  //   .delete(url, { data })
-  //   .then(function () {
-  //     setDoctorsList(doctorsList.filter((a) => a._id !== id));
-  //     setIsLoading(false);
-  //   })
-  //   .catch(function (error) {
-  //     console.log(error);
-  //     setIsLoading(false);
-  //   });
-  // };
 
   const responseObj = {
     status: 200,
@@ -838,6 +839,7 @@ const Prescription = ({
     };
 
     if (prescriptionHeadID) {
+      // console.log(data);
       axiosClient
         .post(url, data)
         .then((response) => {
@@ -948,6 +950,7 @@ const Prescription = ({
     prescriptionHeadID = Router.query.id;
     ActivePatientID = Router.query.pid;
     PrID = Router.query.prId;
+    ActiveCenterID = Router.query.centerID;
 
     setTimeout(() => {
       if (ActivePatientID) {
@@ -964,7 +967,7 @@ const Prescription = ({
     // }
     getFavEprescItems();
     $(".unsuccessfullSearch").hide();
-  }, []);
+  }, [Router.query.id]);
 
   return (
     <>
@@ -1018,6 +1021,7 @@ const Prescription = ({
                 setSelectedAmount={setSelectedAmount}
                 openFavModal={openFavModal}
                 openPinModal={openPinModal}
+                deletePresc={deletePresc}
               />
 
               <div className="prescList">
