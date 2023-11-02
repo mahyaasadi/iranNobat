@@ -5,7 +5,6 @@ import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 
 const arteshDoctorsListTable = ({ data, SelectDoctor }) => {
-
   const columns = [
     {
       name: "نام",
@@ -25,7 +24,11 @@ const arteshDoctorsListTable = ({ data, SelectDoctor }) => {
       sortable: true,
       cell: (row) => (
         <div className="actions">
-          <button type="button" className="btn btn-primary" onClick={() => SelectDoctor(row)}>
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={() => SelectDoctor(row)}
+          >
             انتخاب{" "}
             <i className="me-1">
               <FeatherIcon icon="check" />
@@ -59,3 +62,4 @@ const arteshDoctorsListTable = ({ data, SelectDoctor }) => {
 };
 
 export default arteshDoctorsListTable;
+

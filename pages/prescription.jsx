@@ -132,18 +132,15 @@ const Prescription = ({
   const [srvEditMode, setSrvEditMode] = useState(false);
   const [favEprescItems, setFavEprescItems] = useState([]);
 
-  let insuranceType = null;
-
   const [SelectedInstruction, setSelectedInstruction] = useState(null);
   const [SelectedInstructionLbl, setSelectedInstructionLbl] = useState(null);
   const [SelectedAmount, setSelectedAmount] = useState(null);
   const [SelectedAmountLbl, setSelectedAmountLbl] = useState(null);
 
-  const [optCode, setOptCode] = useState(null);
-
   const [showFavModal, setShowFavModal] = useState(false);
   const handleClosefavModal = () => setShowFavModal(false);
 
+  const [optCode, setOptCode] = useState(null);
   const [showPinModal, setShowPinModal] = useState(false);
   const handleClosePinModal = () => setShowPinModal(false);
 
@@ -226,6 +223,7 @@ const Prescription = ({
   };
 
   // Change Insurance Type
+  let insuranceType = null;
   const selectInsuranceType = (type) => {
     insuranceType = type;
   };
@@ -571,7 +569,7 @@ const Prescription = ({
       .post(url, data)
       .then((response) => {
         console.log(response.data);
-        setPrescriptionsList(prescriptionsList.filter((a) => a._id !== prID));
+        // setPrescriptionsList(prescriptionsList.filter((a) => a._id !== prID));
       })
       .catch((error) => {
         console.error(error);
@@ -839,11 +837,9 @@ const Prescription = ({
     };
 
     if (prescriptionHeadID) {
-      // console.log(data);
       axiosClient
         .post(url, data)
         .then((response) => {
-          // console.log(response.data);
           updatePrescriptionAddItem(response.data);
         })
         .catch((error) => console.log(error));
@@ -862,13 +858,6 @@ const Prescription = ({
     ActiveSrvCode = srvData.SrvCode;
     ActiveSrvName = srvData.SrvName;
     ActiveEditSrvCode = srvData.SrvCode;
-
-    // if (force) {
-    //   setTimeout(() => {
-    //     FuAddToListItem();
-    //     setIsLoading(false);
-    //   }, 1000);
-    // }
   };
 
   const cancelEditPresc = (e) => {
@@ -965,6 +954,7 @@ const Prescription = ({
     // window.onbeforeunload = function () {
     //   return 'Changes you made may not be saved';
     // }
+
     getFavEprescItems();
     $(".unsuccessfullSearch").hide();
   }, [Router.query.id]);

@@ -108,6 +108,7 @@ const PrescriptionCard = ({
     }
   }, [editDrugAmountData, editDrugInstructionData]);
 
+  console.log({ lists });
   return (
     <>
       <div>
@@ -115,7 +116,7 @@ const PrescriptionCard = ({
           <div className="card-body">
             <div className="prescript-header">
               <div className="prescript-title text-secondary">نسخه جدید</div>
-              <div className="prescript-btns d-flex gap-2">
+              <div className="d-flex gap-2">
                 <button
                   className="btn btn-outline-primary border-radius font-13"
                   onClick={openFavModal}
@@ -156,7 +157,6 @@ const PrescriptionCard = ({
                       active={item.Active}
                       id={item.id}
                       changePrescId={changePrescId}
-                      ChangeActiveServiceTypeID={ChangeActiveServiceTypeID}
                     />
                   );
                 })}
@@ -305,8 +305,8 @@ const PrescriptionCard = ({
                 </div>
               </div>
 
-              <div className="d-flex align-items-center gap-2 media-flex-column media-gap margin-top-1">
-                <div className="col-md-8 media-w-100">
+              <div className="d-flex align-items-center media-flex-column media-gap margin-top-1 justify-between">
+                <div className="w-73 media-w-100">
                   <label className="lblAbs font-12">توضیحات</label>
                   <input
                     type="text"
@@ -314,7 +314,7 @@ const PrescriptionCard = ({
                     id="eprscItemDescription"
                   />
                 </div>
-                <div className="col-md-4 media-w-100">
+                <div className="col-md-3 media-w-100">
                   {!srvEditMode ? (
                     <button
                       className="btn rounded w-100 addToListBtn font-12"

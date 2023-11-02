@@ -10,8 +10,8 @@ import TariffHeader from "@/components/dashboard/tariff/departments/departmentsH
 import TariffListTable from "components/dashboard/tariff/tariffListTable";
 import serviceGroupDifDataClass from "class/serviceGroupDifDataClass";
 import ServiceGroupListTable from "components/dashboard/serviceGroupDetails/serviceGroupListTable";
-import EditServiceGroupModal from "components/dashboard/serviceGroupDetails/editServiceGroupModal";
-import AddSrvGroupModal from "components/dashboard/serviceGroupDetails/addSrvGroupModal";
+// import EditServiceGroupModal from "components/dashboard/serviceGroupDetails/editServiceGroupModal";
+// import AddSrvGroupModal from "components/dashboard/serviceGroupDetails/addSrvGroupModal";
 import ServiceGrpModal from "components/dashboard/serviceGroupDetails/serviceGrpModal";
 import AddTariffModal from "components/dashboard/tariff/addTariffModal";
 import EditServiceModal from "components/dashboard/serviceGroupDetails/editServiceModal";

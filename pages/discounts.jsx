@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import FeatherIcon from "feather-icons-react";
-import { axiosClient } from "class/axiosConfig.js";
-import { QuestionAlert } from "class/AlertManage.js";
+import { axiosClient } from "class/axiosConfig";
+import { QuestionAlert } from "class/AlertManage";
 import { getSession } from "lib/session";
 import Loading from "components/commonComponents/loading/loading";
 import discountPercentDataClass from "class/discountPercentDataClass";
@@ -37,7 +37,7 @@ const Discounts = ({ Menus, UserData, UserRoles }) => {
   const [modalMode, setModalMode] = useState("add"); // Default mode
   const [showModal, setShowModal] = useState(false);
 
-  const handleCloseModal = () => setShowModal(false)
+  const handleCloseModal = () => setShowModal(false);
 
   let SelectDiscountPercent = "";
   const FUSelectDiscountPercent = (Percent) =>
@@ -61,8 +61,8 @@ const Discounts = ({ Menus, UserData, UserRoles }) => {
 
   // Add Discount
   const openAddModal = () => {
-    setModalMode("add")
-    setShowModal(true)
+    setModalMode("add");
+    setShowModal(true);
   };
 
   const addDiscount = (e) => {
@@ -85,7 +85,7 @@ const Discounts = ({ Menus, UserData, UserRoles }) => {
       .post(url, data)
       .then((response) => {
         setDiscountsList([...discountsList, response.data]);
-        setShowModal(false)
+        setShowModal(false);
         e.target.reset();
         setIsLoading(false);
       })
@@ -95,36 +95,11 @@ const Discounts = ({ Menus, UserData, UserRoles }) => {
       });
   };
 
-  // Delete Discount
-  const deleteDiscount = async (id) => {
-    let result = await QuestionAlert("حذف تخفیف!", "آیا از حذف اطمینان دارید؟");
-
-    if (result) {
-      setIsLoading(true)
-      let url = `CenterDiscount/delete/${id}`;
-      let data = {
-        CenterID: CenterID,
-        DiscountID: id,
-      };
-
-      await axiosClient
-        .delete(url, { data })
-        .then(function () {
-          setDiscountsList(discountsList.filter((a) => a._id !== id));
-          setIsLoading(false)
-        })
-        .catch(function (error) {
-          console.log(error);
-          setIsLoading(false)
-        });
-    }
-  };
-
   // Edit Discount
   const updateDiscount = (data) => {
     setEditDiscountData(data);
-    setModalMode("edit")
-    setShowModal(true)
+    setModalMode("edit");
+    setShowModal(true);
   };
 
   const editDiscount = (e) => {
@@ -147,7 +122,7 @@ const Discounts = ({ Menus, UserData, UserRoles }) => {
       .put(url, Data)
       .then((response) => {
         updateItem(formProps.EditDiscountID, response.data);
-        setShowModal(false)
+        setShowModal(false);
       })
       .catch((error) => {
         console.log(error);
@@ -169,9 +144,32 @@ const Discounts = ({ Menus, UserData, UserRoles }) => {
       ]);
   };
 
-  useEffect(() => {
-    getDiscountsData();
-  }, []);
+  // Delete Discount
+  const deleteDiscount = async (id) => {
+    let result = await QuestionAlert("حذف تخفیف!", "آیا از حذف اطمینان دارید؟");
+
+    if (result) {
+      setIsLoading(true);
+      let url = `CenterDiscount/delete/${id}`;
+      let data = {
+        CenterID: CenterID,
+        DiscountID: id,
+      };
+
+      await axiosClient
+        .delete(url, { data })
+        .then(function () {
+          setDiscountsList(discountsList.filter((a) => a._id !== id));
+          setIsLoading(false);
+        })
+        .catch(function (error) {
+          console.log(error);
+          setIsLoading(false);
+        });
+    }
+  };
+
+  useEffect(() => getDiscountsData(), []);
 
   return (
     <>
@@ -205,7 +203,7 @@ const Discounts = ({ Menus, UserData, UserRoles }) => {
                   <div className="card-header border-bottom-0">
                     <div className="row align-items-center">
                       <div className="col">
-                        <h5 className="card-title font-16">
+                        <h5 className="card-title font-14">
                           لیست تخفیفات پذیرش
                         </h5>
                       </div>

@@ -9159,6 +9159,10 @@ ul li .active {
   min-width: 10% !important;
 }
 
+.w-73 {
+  width: 73%;
+}
+
 .disNone {
   display: none;
 }
@@ -9196,7 +9200,7 @@ ul li .active {
   background-color: #1b5a90;
   color: #d3e9f2;
   opacity: 0.9;
-  height: calc(1.6em + 1.21875rem);
+  height: 40px;
   line-height: 1.6;
 }
 

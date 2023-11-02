@@ -67,7 +67,6 @@ const PrescriptionsListTable = ({ data, prepareDelete }) => {
         <div className="actions d-flex gap-1">
           <Link
             className="btn btn-sm btn-outline-danger"
-            // href="#"
             data-bs-toggle="tooltip"
             data-bs-placement="top"
             title="حذف"
