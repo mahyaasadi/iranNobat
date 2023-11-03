@@ -36,9 +36,7 @@ const SpecialDiseases = ({ Menus, UserData, UserRoles }) => {
   const [modalMode, setModalMode] = useState("add"); // Default mode
   const [showModal, setShowModal] = useState(false);
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
+  const handleCloseModal = () => setShowModal(false);
 
   // get diseases list
   const getDiseasesData = () => {
@@ -170,9 +168,7 @@ const SpecialDiseases = ({ Menus, UserData, UserRoles }) => {
     }
   };
 
-  useEffect(() => {
-    getDiseasesData();
-  }, []);
+  useEffect(() => getDiseasesData(), []);
 
   return (
     <>

@@ -47,7 +47,6 @@ const PrescriptionHistory = ({ Menus, UserData, UserRoles }) => {
     axiosClient
       .post(url, data)
       .then((response) => {
-        // console.log(response.data);
         setPrescriptionsList(response.data.result);
         setIsLoading(false);
       })
@@ -120,7 +119,7 @@ const PrescriptionHistory = ({ Menus, UserData, UserRoles }) => {
         </div>
         <PrescPinInput
           show={showPinModal}
-          // onHide={handleClosePinModal}
+          onHide={handleClosePinModal}
           getPinInputValue={getPinInputValue}
         />
       </div>

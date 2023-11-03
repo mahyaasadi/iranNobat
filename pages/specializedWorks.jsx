@@ -55,7 +55,7 @@ const SpecializedWorks = ({ Menus, UserRoles, UserData }) => {
       })
       .catch((err) => {
         console.log(err);
-        setisLoading(false);
+        setIsLoading(false);
       });
   };
 
@@ -143,7 +143,6 @@ const SpecializedWorks = ({ Menus, UserRoles, UserData }) => {
     setEditSpeWorkData(data);
     setModalMode("edit");
     setShowModal(true)
-    // $("#editSpeWorkModal").modal("show");
   };
 
   // Delete SpeWork
@@ -174,9 +173,7 @@ const SpecializedWorks = ({ Menus, UserRoles, UserData }) => {
     }
   };
 
-  useEffect(() => {
-    getSpecializedWorks();
-  }, []);
+  useEffect(() => getSpecializedWorks(), []);
 
   return (
     <>
@@ -238,10 +235,6 @@ const SpecializedWorks = ({ Menus, UserRoles, UserData }) => {
             </div>
           </div>
         )}
-
-        {/* <AddSpeWorkModal addSpeWork={addSpeWork} />
-
-        <EditSpeWorkModal data={editSpeWorkData} editSpeWorks={editSpeWorks} /> */}
 
         <SpeWorksModal
           isLoading={isLoading}
