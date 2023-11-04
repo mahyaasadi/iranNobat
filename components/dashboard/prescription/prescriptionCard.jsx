@@ -227,15 +227,15 @@ const PrescriptionCard = ({
                       <i className="fe fe-search"></i>
                     )}
                   </button>
+                  <div className="col-12 SearchDiv" id="searchDiv">
+                    <TaminSrvSearch
+                      data={TaminSrvSearchList}
+                      favEprescItems={favEprescItems}
+                      SelectSrvSearch={SelectSrvSearch}
+                    />
+                  </div>
                 </div>
 
-                <div className="col-12 SearchDiv" id="searchDiv">
-                  <TaminSrvSearch
-                    data={TaminSrvSearchList}
-                    favEprescItems={favEprescItems}
-                    SelectSrvSearch={SelectSrvSearch}
-                  />
-                </div>
 
                 <div className="unsuccessfullSearch">
                   <p>موردی یافت نشد!</p>

@@ -9329,14 +9329,16 @@ ul li .active {
 }
 
 .SearchDiv {
-  margin-bottom: 0.5rem;
   max-height: 350px;
   overflow: auto;
   direction: ltr;
   position: absolute;
-  width: 97%;
+  top: 45px;
   z-index: 999;
-  background-color: white;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  width: 100%;
 }
 
 .unsuccessfullSearch {
@@ -9353,6 +9355,19 @@ ul li .active {
 
 .inputServiceContainer {
   position: relative;
+}
+
+.inputServiceContainer input[type="text"],
+.inputServiceContainer button {
+  width: 50%;
+}
+.inputServiceContainer button {
+  width: 10%;
+}
+
+.selectSearchBtn:hover {
+  color: white;
+  background-color: #0db1ca !important;
 }
 
 .prescItembtns {
