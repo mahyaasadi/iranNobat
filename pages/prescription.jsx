@@ -6,10 +6,8 @@ import { axiosClient } from "class/axiosConfig.js";
 import Loading from "components/commonComponents/loading/loading";
 import PatientInfo from "components/dashboard/prescription/patientInfo/patientInfoCard";
 import PrescriptionCard from "components/dashboard/prescription/prescriptionCard";
-import ArteshDoctorsListTable from "components/dashboard/prescription/arteshDoctorsListTable";
 import AddToListItem from "components/dashboard/prescription/addToListItem";
 import { TaminPrescType, TaminServiceType } from "class/taminprescriptionData";
-import TaminHeader from "components/dashboard/prescription/TaminVsArteshHeader";
 import FavPrescListModal from "components/dashboard/prescription/FavPrescListModal";
 import PrescPinInput from "components/dashboard/prescription/prescPinInput";
 import AddNewPatient from "components/dashboard/prescription/patientInfo/addNewPatient";
@@ -17,8 +15,6 @@ import {
   ErrorAlert,
   SuccessAlert,
   WarningAlert,
-  oneInputAlert,
-  pinInputAlert,
 } from "class/AlertManage.js";
 
 let prescId = 1;
@@ -30,7 +26,6 @@ let addPrescriptionSrvNameitems = [];
 let ActiveSrvCode,
   ActiveSrvName,
   ActivePrscImg,
-  ActivePatientTel,
   ActiveEditSrvCode,
   ActiveSrvTypePrsc,
   ActiveInsuranceID,
@@ -141,8 +136,8 @@ const Prescription = ({
   const [showFavModal, setShowFavModal] = useState(false);
   const handleClosefavModal = () => setShowFavModal(false);
 
-  const [optCode, setOptCode] = useState(null);
   const [showPinModal, setShowPinModal] = useState(false);
+  const openPinModal = () => setShowPinModal(true);
   const handleClosePinModal = () => setShowPinModal(false);
 
   const FUSelectInstruction = (instruction) => {
@@ -157,33 +152,7 @@ const Prescription = ({
     setSelectedAmount(amount);
   };
 
-  const ActiveSearch = () => {
-    ActiveSrvCode = null;
-    $("#srvSearchInput").val("");
-    $("#BtnActiveSearch").hide();
-    $("#srvSearchInput").prop("readonly", false);
-    $("#BtnServiceSearch").show();
-    $("#srvSearchInput").focus();
-  };
-
-  // search in selected services
-  const SelectSrvSearch = (name, code, TaminCode, type, paraTarefCode) => {
-    ActiveSrvName = name;
-    ActiveSrvTypePrsc = type;
-    ActiveParaCode = paraTarefCode;
-
-    ActiveInsuranceID == "2"
-      ? (ActiveSrvCode = TaminCode)
-      : (ActiveSrvCode = code);
-
-    $("#srvSearchInput").val(name);
-    $("#BtnServiceSearch").hide();
-    $("#BtnActiveSearch").show();
-    $(".SearchDiv").hide();
-    $("#srvSearchInput").prop("readonly", true);
-  };
-
-  // get patient info
+  // Patients Info
   const getPatientInfo = (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -216,41 +185,31 @@ const Prescription = ({
       });
   };
 
-  const handleOnFocus = () => {
-    if (ActiveSrvCode === null && $("#srvSearchInput").val().length > 2) {
-      $(".SearchDiv").show();
-    }
+  const addNewPatient = (props) => {
+    let url = "Patient/addPatient";
+    let data = props;
+    data.CenterID = CenterID;
+
+    console.log({ data });
+
+    axiosClient
+      .post(url, data)
+      .then((response) => {
+        console.log(response.data);
+        setPatientsInfo(response.data);
+        $("#newPatientModal").modal("hide");
+        SuccessAlert("موفق", "اطلاعات بیمار با موفقیت ثبت گردید!");
+        if (response.data.errors) {
+          ErrorAlert("خطا", "ثبت اطلاعات بیمار با خطا مواجه گردید!");
+        }
+        // e.target.reset();
+      })
+      .catch((err) => {
+        console.log(err);
+        ErrorAlert("خطا", "ثبت اطلاعات بیمار با خطا مواجه گردید!");
+      });
   };
 
-  const handleOnBlur = () => {
-    setTimeout(() => {
-      $(".SearchDiv").hide();
-    }, 200);
-  };
-
-  const changePrescId = (Sid, Img, name, id) => {
-    ActiveServiceTypeID = Sid;
-    ActivePrscName = name;
-    prescId = id;
-
-    count = $("#srvItemCountId" + prescId).html();
-
-    $(".unsuccessfullSearch").hide();
-
-    // if (ActiveSrvCode) {
-    //   ActiveSearch();
-    // }
-    // else {
-    //   if ($("#srvSearchInput").val().length > 0) {
-    //     $("#srvSearchInput").val("");
-    //   }
-    // }
-    if (Img) {
-      ActivePrscImg = Img;
-    }
-  };
-
-  // change insurance type
   const changeInsuranceType = (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -301,7 +260,19 @@ const Prescription = ({
       });
   };
 
-  //search services
+  // Search Services
+  const handleOnFocus = () => {
+    if (ActiveSrvCode === null && $("#srvSearchInput").val().length > 2) {
+      $(".SearchDiv").show();
+    }
+  };
+
+  const handleOnBlur = () => {
+    setTimeout(() => {
+      $(".SearchDiv").hide();
+    }, 200);
+  };
+
   const SearchTaminSrv = (e) => {
     e.preventDefault();
 
@@ -337,6 +308,56 @@ const Prescription = ({
     }
   };
 
+  const ActiveSearch = () => {
+    ActiveSrvCode = null;
+    $("#srvSearchInput").val("");
+    $("#BtnActiveSearch").hide();
+    $("#srvSearchInput").prop("readonly", false);
+    $("#BtnServiceSearch").show();
+    $("#srvSearchInput").focus();
+  };
+
+  // search in selected services
+  const SelectSrvSearch = (name, code, TaminCode, type, paraTarefCode) => {
+    ActiveSrvName = name;
+    ActiveSrvTypePrsc = type;
+    ActiveParaCode = paraTarefCode;
+
+    ActiveInsuranceID == "2"
+      ? (ActiveSrvCode = TaminCode)
+      : (ActiveSrvCode = code);
+
+    $("#srvSearchInput").val(name);
+    $("#BtnServiceSearch").hide();
+    $("#BtnActiveSearch").show();
+    $(".SearchDiv").hide();
+    $("#srvSearchInput").prop("readonly", true);
+  };
+
+  // Tab Change
+  const changePrescId = (Sid, Img, name, id) => {
+    ActiveServiceTypeID = Sid;
+    ActivePrscName = name;
+    prescId = id;
+
+    count = $("#srvItemCountId" + prescId).html();
+
+    $(".unsuccessfullSearch").hide();
+
+    // if (ActiveSrvCode) {
+    //   ActiveSearch();
+    // }
+    // else {
+    //   if ($("#srvSearchInput").val().length > 0) {
+    //     $("#srvSearchInput").val("");
+    //   }
+    // }
+    if (Img) {
+      ActivePrscImg = Img;
+    }
+  };
+
+  // Edit Service
   const updateItem = (id, newArr) => {
     let index = PrescriptionItemsData.findIndex((x) => x.SrvCode === id);
     let g = PrescriptionItemsData[index];
@@ -359,10 +380,10 @@ const Prescription = ({
     addPrescriptionitems = addPrescriptionitems.filter(
       (a) => a.srvId.srvCode !== id
     );
-
     if (prescItems) updateItem(id, prescItems);
   };
 
+  // Presc Item Creator
   const prescItemCreator = async (
     prescId,
     Instruction,
@@ -473,7 +494,7 @@ const Prescription = ({
     }
   };
 
-  // add to list
+  // Add to list
   const FuAddToListItem = async (e) => {
     if (e && e.preventDefault) {
       e.preventDefault();
@@ -552,11 +573,8 @@ const Prescription = ({
     setPrescriptionItemsData(arr);
   };
 
-  const openPinModal = () => setShowPinModal(true);
 
   const getPinInputValue = (code) => {
-    // setOptCode(code);
-
     if (prescriptionHeadID) {
       setShowPinModal(true);
     }
@@ -841,7 +859,7 @@ const Prescription = ({
     ],
   };
 
-  //get prescription data by headId to edit
+  // get prescription data by headId to edit
   const getEprscData = () => {
     let url = "TaminEprsc/GetEpresc";
     let data = {
@@ -873,7 +891,9 @@ const Prescription = ({
     ActiveEditSrvCode = srvData.SrvCode;
   };
 
-  // --------- favourite items ----------
+  //------ favourite items -------//
+  const openFavModal = () => setShowFavModal(true);
+
   const getFavEprescItems = () => {
     let url = `FavEprscItem/getTamin/${CenterID}`;
 
@@ -902,8 +922,6 @@ const Prescription = ({
       })
       .catch((err) => console.log(err));
   };
-
-  const openFavModal = () => setShowFavModal(true);
 
   const handleAddFavItem = async (srv) => {
     const findDrugInstVal = drugInstructionList.find(
@@ -1046,7 +1064,7 @@ const Prescription = ({
         )}
 
         <AddNewPatient
-          // addNewPatient={addNewPatient}
+          addNewPatient={addNewPatient}
           UserData={UserData}
           ActivePatientID={ActivePatientID}
         />

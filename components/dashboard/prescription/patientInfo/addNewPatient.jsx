@@ -6,7 +6,7 @@ import { ErrorAlert } from "class/AlertManage.js";
 import selectfieldColourStyles from "class/selectfieldStyle";
 
 let CenterID = null;
-const AddNewPatient = ({ UserData, AddPatient, CenterID, ActivePatientID }) => {
+const AddNewPatient = ({ UserData, addNewPatient, CenterID, ActivePatientID }) => {
   CenterID = UserData.CenterID;
 
   const [insuranceOptionsList, setInsuranceOptionsList] = useState([]);
@@ -36,7 +36,7 @@ const AddNewPatient = ({ UserData, AddPatient, CenterID, ActivePatientID }) => {
     } else if (formProps.PatientTel.length != 11) {
       ErrorAlert("خطا", "شماره همراه باید حداقل دارای 11 رقم باشد");
     } else {
-      AddPatient(formProps);
+      addNewPatient(formProps);
     }
   };
 
@@ -122,6 +122,8 @@ const AddNewPatient = ({ UserData, AddPatient, CenterID, ActivePatientID }) => {
                       id="addPatientID"
                       name="PatientID"
                       required
+                      dir="ltr"
+                      defaultValue={ActivePatientID}
                     />
                   </div>
 
@@ -130,7 +132,7 @@ const AddNewPatient = ({ UserData, AddPatient, CenterID, ActivePatientID }) => {
                       شماره موبایل <span className="text-danger">*</span>
                     </label>
                     <input
-                      type="text"
+                      type="tel"
                       className="form-control rounded padding-right-2"
                       id="addPatientTel"
                       name="PatientTel"
@@ -143,17 +145,13 @@ const AddNewPatient = ({ UserData, AddPatient, CenterID, ActivePatientID }) => {
                     </label>
                     <Select
                       styles={selectfieldColourStyles}
-                      className="w-100 font-12 text-center prescForm mt-3"
                       options={insuranceOptionsList}
+                      onChange={handleOnChange}
+                      className="w-100 font-12 text-center prescForm mt-3"
                       required
                       name="insuranceTypeOptions"
                       placeholder="نوع بیمه مورد نظر را انتخاب نمایید"
                       id="addInsuranceType"
-                      instanceId="addInsuranceType"
-                      onChangeValue={(value) =>
-                        selectInsuranceType(value?.value)
-                      }
-                      onChange={handleOnChange}
                     />
                   </div>
 
@@ -183,9 +181,6 @@ const AddNewPatient = ({ UserData, AddPatient, CenterID, ActivePatientID }) => {
                         placeholder="جنسیت بیمار را مشخص کنید"
                         id="addGenderType"
                         instanceId="addGenderType"
-                        onChangeValue={(value) =>
-                          selectInsuranceType(value?.value)
-                        }
                         required
                       />
                     </div>

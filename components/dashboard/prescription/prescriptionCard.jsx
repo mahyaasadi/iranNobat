@@ -7,7 +7,6 @@ import { Dropdown } from "primereact/dropdown";
 
 const PrescriptionCard = ({
   lists,
-  onSelect,
   changePrescId,
   ChangeActiveServiceTypeID,
   ServiceList,
@@ -26,7 +25,6 @@ const PrescriptionCard = ({
   drugInstructionList,
   drugAmountList,
   favEprescItems,
-  editPrescItem,
   setSrvEditMode,
   SelectedInstruction,
   setSelectedInstruction,
@@ -107,7 +105,6 @@ const PrescriptionCard = ({
     }
   }, [editDrugAmountData, editDrugInstructionData]);
 
-  console.log({ lists });
   return (
     <>
       <div>

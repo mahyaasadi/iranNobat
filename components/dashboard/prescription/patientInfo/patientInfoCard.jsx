@@ -5,7 +5,7 @@ import { axiosClient } from "class/axiosConfig";
 import { Tooltip } from "primereact/tooltip";
 import FeatherIcon from "feather-icons-react";
 import { ErrorAlert, SuccessAlert } from "class/AlertManage";
-import { gender } from "components/commonComponents/imagepath";
+import { gender, insurance } from "components/commonComponents/imagepath";
 import EditPatientInfoModal from "./editPatientInfo";
 import ChangeInsuranceTypeModal from "components/dashboard/prescription/changeInsuranceTypeModal";
 
@@ -21,7 +21,7 @@ const PatientInfo = ({
   isLoading,
 }) => {
   CenterID = UserData.CenterID;
-  console.log({ data });
+  console.log({ data, ActivePatientID });
 
   const [showModal, setShowModal] = useState(false);
   // const [isLoading, setIsLoading] = useState(false);
@@ -125,10 +125,10 @@ const PatientInfo = ({
             </div>
 
             <div className="margin-right-1 font-12 mt-3">
-              <div className="d-flex gap-2">
-                <FeatherIcon icon="user" />
-                <p className="">{data.Name}</p>
-                {data.Age ? <p className="">- {data.Age} ساله</p> : ""}
+              <div className="d-flex gap-2 mb-2">
+                <FeatherIcon icon="user" className="mb-0" />
+                {data.Name}
+                {data.Age ? <p className="m-0">- {data.Age} ساله</p> : ""}
               </div>
 
               <div className="d-flex gap-1 align-items-center">
@@ -136,13 +136,12 @@ const PatientInfo = ({
                 {data.Gender ? data.Gender : "-"}
               </div>
 
-              <p className="mt-3">
-                تاریخ اعتبار تا {""}
-                {data.accountValidto && dateFormat(`${data.accountValidto}`)}
-              </p>
+              <div className="d-flex gap-2 mt-2">
+                <div className="d-flex gap-1 align-items-center">
+                  <Image src={insurance} alt="insuranceIcon" width="20" />
+                  {data.InsuranceName}
+                </div>
 
-              <div className="d-flex gap-2 ">
-                <p>بیمه : {data.InsuranceName}</p>
                 <Link
                   href="#"
                   data-bs-toggle="modal"
@@ -152,11 +151,17 @@ const PatientInfo = ({
                 >
                   <Tooltip target=".changeInsuranceBtn">تغییر نوع بیمه</Tooltip>
                   <i className="margin-right-2 themecolor">
-                    <FeatherIcon icon="refresh-cw" />
+                    <FeatherIcon icon="refresh-cw" style={{ width: "15px" }} />
                   </i>
                 </Link>
               </div>
-              <p>نوع بیمه : {data.InsuranceTypeName}</p>
+
+              {/* <p>نوع بیمه : {data.InsuranceTypeName}</p> */}
+
+              <p className="mt-2 margin-right-sm">
+                تاریخ اعتبار تا {""}
+                {data.accountValidto && dateFormat(`${data.accountValidto}`)}
+              </p>
             </div>
 
             <div className="appointmentBtn">
