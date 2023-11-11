@@ -1,20 +1,33 @@
+import { useState } from "react";
 import Link from "next/link";
-import FeatherIcon from "feather-icons-react";
-import ChangeInsuranceTypeModal from "components/dashboard/prescription/changeInsuranceTypeModal";
-import EditPhoneNumberModal from "components/dashboard/prescription/editPhoneNumberModal";
+import Image from "next/image";
+import { axiosClient } from "class/axiosConfig";
 import { Tooltip } from "primereact/tooltip";
+import FeatherIcon from "feather-icons-react";
+import { ErrorAlert, SuccessAlert } from "class/AlertManage";
+import { gender } from "components/commonComponents/imagepath";
+import EditPatientInfoModal from "./editPatientInfo";
+import ChangeInsuranceTypeModal from "components/dashboard/prescription/changeInsuranceTypeModal";
 
+let CenterID = null;
 const PatientInfo = ({
-  getPatientInfo,
-  ActivePatientID,
   data,
+  getPatientInfo,
+  setPatientsInfo,
+  ActivePatientID,
   changeInsuranceType,
-  insuranceType,
-  selectInsuranceType,
   getAppointment,
   UserData,
   isLoading,
 }) => {
+  CenterID = UserData.CenterID;
+  console.log({ data });
+
+  const [showModal, setShowModal] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
+
   const dateFormat = (str) => {
     if (str !== " " || str !== null) {
       let date =
@@ -23,6 +36,50 @@ const PatientInfo = ({
     } else {
       return 0;
     }
+  };
+
+  const handleChangePatientInfo = (type, value) => {
+    console.log(`Changing ${type} to ${value}`);
+    // setIsLoading(true);
+
+    let url = "reception/ChangeProfileData";
+    let updatedInfo = {
+      CenterID,
+      NID: ActivePatientID,
+      col: type,
+      val: value,
+    };
+
+    console.log({ updatedInfo });
+
+    axiosClient
+      .post(url, updatedInfo)
+      .then((response) => {
+        // console.log(response.data);
+        if (type === "Age") {
+          data.Age = value;
+        } else if (type === "Name") {
+          data.Name = value;
+        } else if (type === "Gender") {
+          data.Gender = value;
+        } else if (type === "Tel") {
+          data.Tel = value;
+        } else if (type === "NationalID") {
+          data.NationalID = value;
+        }
+
+        setPatientsInfo([]);
+        setTimeout(() => {
+          setPatientsInfo(data);
+        }, 100);
+
+        handleCloseModal();
+        // setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        // setIsLoading(false);
+      });
   };
 
   return (
@@ -57,8 +114,7 @@ const PatientInfo = ({
                 <p id="PatientTel">{data.Tel}</p>
                 <Link
                   href="#"
-                  data-bs-toggle="modal"
-                  data-bs-target="#editPhoneNumberModal"
+                  onClick={handleShowModal}
                   className="editPhone-icon"
                   data-pr-position="top"
                 >
@@ -68,15 +124,24 @@ const PatientInfo = ({
               </div>
             </div>
 
-            <div className="margin-right-1">
-              <p className="mt-3">{data.Name}</p>
-              <p className="mt-3">سن بیمار : {data.Age}</p>
+            <div className="margin-right-1 font-12 mt-3">
+              <div className="d-flex gap-2">
+                <FeatherIcon icon="user" />
+                <p className="">{data.Name}</p>
+                {data.Age ? <p className="">- {data.Age} ساله</p> : ""}
+              </div>
+
+              <div className="d-flex gap-1 align-items-center">
+                <Image src={gender} alt="genderIcon" width="20" />
+                {data.Gender ? data.Gender : "-"}
+              </div>
+
               <p className="mt-3">
                 تاریخ اعتبار تا {""}
                 {data.accountValidto && dateFormat(`${data.accountValidto}`)}
               </p>
 
-              <div className="d-flex gap-2">
+              <div className="d-flex gap-2 ">
                 <p>بیمه : {data.InsuranceName}</p>
                 <Link
                   href="#"
@@ -102,19 +167,25 @@ const PatientInfo = ({
                 دریافت نوبت
               </button>
             </div>
-
-            <ChangeInsuranceTypeModal
-              changeInsuranceType={changeInsuranceType}
-              selectInsuranceType={selectInsuranceType}
-              data={data}
-              UserData={UserData}
-              isLoading={isLoading}
-            />
-
-            <EditPhoneNumberModal />
           </div>
         </div>
       </div>
+
+      <ChangeInsuranceTypeModal
+        data={data}
+        changeInsuranceType={changeInsuranceType}
+        UserData={UserData}
+        isLoading={isLoading}
+      />
+
+      <EditPatientInfoModal
+        data={data}
+        UserData={UserData}
+        showModal={showModal}
+        handleClose={handleCloseModal}
+        isLoading={isLoading}
+        handleChangePatientInfo={handleChangePatientInfo}
+      />
     </>
   );
 };

@@ -8,7 +8,7 @@ let CenterID = null;
 
 const ChangeInsuranceTypeModal = ({
   changeInsuranceType,
-  selectInsuranceType,
+  // selectInsuranceType,
   data,
   UserData,
   isLoading,
@@ -38,9 +38,7 @@ const ChangeInsuranceTypeModal = ({
       .catch((error) => console.log(error));
   };
 
-  useEffect(() => {
-    getInsuranceList();
-  }, []);
+  useEffect(() => getInsuranceList(), []);
 
   return (
     <>
@@ -85,7 +83,7 @@ const ChangeInsuranceTypeModal = ({
                     placeholder="نوع بیمه مورد نظر را انتخاب نمایید"
                     id="long-value-select"
                     instanceId="long-value-select"
-                    onChangeValue={(value) => selectInsuranceType(value?.value)}
+                    // onChangeValue={(value) => selectInsuranceType(value?.value)}
                   />
                 </div>
 

@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { getSession } from "lib/session";
 import { axiosClient } from "class/axiosConfig.js";
 import Loading from "components/commonComponents/loading/loading";
-import PatientInfo from "components/dashboard/prescription/patientInfo";
+import PatientInfo from "components/dashboard/prescription/patientInfo/patientInfoCard";
 import PrescriptionCard from "components/dashboard/prescription/prescriptionCard";
 import ArteshDoctorsListTable from "components/dashboard/prescription/arteshDoctorsListTable";
 import AddToListItem from "components/dashboard/prescription/addToListItem";
@@ -12,6 +12,7 @@ import { TaminPrescType, TaminServiceType } from "class/taminprescriptionData";
 import TaminHeader from "components/dashboard/prescription/TaminVsArteshHeader";
 import FavPrescListModal from "components/dashboard/prescription/FavPrescListModal";
 import PrescPinInput from "components/dashboard/prescription/prescPinInput";
+import AddNewPatient from "components/dashboard/prescription/patientInfo/addNewPatient";
 import {
   ErrorAlert,
   SuccessAlert,
@@ -182,7 +183,7 @@ const Prescription = ({
     $("#srvSearchInput").prop("readonly", true);
   };
 
-  //get patient info
+  // get patient info
   const getPatientInfo = (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -200,13 +201,18 @@ const Prescription = ({
     axiosClient
       .post(url, data)
       .then((response) => {
+        if (response.data.error == "1") {
+          $("#newPatientModal").modal("show");
+        } else {
+          ActiveInsuranceID = response.data.user.Insurance;
+          setPatientsInfo(response.data.user);
+          $("#patientInfoSection").show("");
+        }
         setIsLoading(false);
-        ActiveInsuranceID = response.data.user.Insurance;
-        setPatientsInfo(response.data.user);
-        $("#patientInfoSection").show("");
       })
       .catch((error) => {
         console.log(error);
+        setIsLoading(false);
       });
   };
 
@@ -220,12 +226,6 @@ const Prescription = ({
     setTimeout(() => {
       $(".SearchDiv").hide();
     }, 200);
-  };
-
-  // Change Insurance Type
-  let insuranceType = null;
-  const selectInsuranceType = (type) => {
-    insuranceType = type;
   };
 
   const changePrescId = (Sid, Img, name, id) => {
@@ -259,21 +259,34 @@ const Prescription = ({
     const formProps = Object.fromEntries(formData);
 
     let url = "Patient/ChangeInsurance";
-    let data = {
+    let editData = {
       CenterID: CenterID,
       IID: formProps.insuranceTypeOptions,
       NID: formProps.patientNID,
     };
 
-    console.log({ data });
+    console.log({ editData });
 
     axiosClient
-      .post(url, data)
+      .post(url, editData)
       .then((response) => {
         console.log("changeInsurance", response.data);
         if (response.data.isCovered) {
+          if (editData.IID === "1") {
+            patientsInfo.InsuranceName = "سلامت ایرانیان";
+            patientsInfo.Insurance = "1";
+          } else if (editData.IID === "2") {
+            patientsInfo.InsuranceName = "تامین اجتماعی";
+            patientsInfo.Insurance = "2";
+          } else if (editData.IID === "3") {
+            patientsInfo.InsuranceName = "ارتش";
+            patientsInfo.Insurance = "3";
+          } else {
+            patientsInfo.InsuranceName = "آزاد";
+            patientsInfo.Insurance = "4";
+          }
           SuccessAlert("موفق", "!تغییر نوع بیمه با موفقیت انجام شد");
-        } else if (response.data.isCovered !== "true") {
+        } else {
           ErrorAlert(
             "خطا",
             "تغییر بیمه بیمار ، به دلیل عدم پوشش بیمه امکان پذیر نیست"
@@ -860,17 +873,6 @@ const Prescription = ({
     ActiveEditSrvCode = srvData.SrvCode;
   };
 
-  const cancelEditPresc = (e) => {
-    e.preventDefault();
-
-    $("#srvSearchInput").val("");
-    $("#QtyInput").val("1");
-    setSelectedAmount(null);
-    setSelectedInstruction(null);
-    FUSelectInstruction(null);
-    FUSelectDrugAmount(null);
-  };
-
   // --------- favourite items ----------
   const getFavEprescItems = () => {
     let url = `FavEprscItem/getTamin/${CenterID}`;
@@ -971,9 +973,8 @@ const Prescription = ({
               <PatientInfo
                 getPatientInfo={getPatientInfo}
                 data={patientsInfo}
-                insuranceType={insuranceType}
+                setPatientsInfo={setPatientsInfo}
                 changeInsuranceType={changeInsuranceType}
-                selectInsuranceType={selectInsuranceType}
                 ActivePatientID={ActivePatientID}
                 UserData={UserData}
                 isLoading={isLoading}
@@ -1002,7 +1003,6 @@ const Prescription = ({
                 srvEditMode={srvEditMode}
                 drugInstructionList={drugInstructionList}
                 drugAmountList={drugAmountList}
-                cancelEditPresc={cancelEditPresc}
                 setSrvEditMode={setSrvEditMode}
                 SelectedInstruction={SelectedInstruction}
                 setSelectedInstruction={setSelectedInstruction}
@@ -1044,6 +1044,12 @@ const Prescription = ({
             getPinInputValue={getPinInputValue}
           />
         )}
+
+        <AddNewPatient
+          // addNewPatient={addNewPatient}
+          UserData={UserData}
+          ActivePatientID={ActivePatientID}
+        />
       </div>
     </>
   );

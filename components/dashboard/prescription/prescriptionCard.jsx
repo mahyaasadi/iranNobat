@@ -27,7 +27,6 @@ const PrescriptionCard = ({
   drugAmountList,
   favEprescItems,
   editPrescItem,
-  cancelEditPresc,
   setSrvEditMode,
   SelectedInstruction,
   setSelectedInstruction,
@@ -236,7 +235,6 @@ const PrescriptionCard = ({
                   </div>
                 </div>
 
-
                 <div className="unsuccessfullSearch">
                   <p>موردی یافت نشد!</p>
                 </div>
@@ -314,6 +312,7 @@ const PrescriptionCard = ({
                     id="eprscItemDescription"
                   />
                 </div>
+
                 <div className="col-md-3 media-w-100">
                   {!srvEditMode ? (
                     <button
