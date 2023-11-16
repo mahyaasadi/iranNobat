@@ -11,17 +11,17 @@ const PrescriptionType = ({ img, name, active, id, changePrescId }) => {
       case 1:
         $("#ServiceSearchSelect").val("01");
         $("#ServiceSearchSelect").hide();
-
         $("#drugInstruction").show();
         $("#drugAmount").show();
+
         changePrescId("01", img, name, 1);
         break;
       case 2:
         $("#ServiceSearchSelect").show();
         $("#ServiceSearchSelect").val("02");
-
         $("#drugInstruction").hide();
         $("#drugAmount").hide();
+
         changePrescId("02", img, name, 2);
         break;
       case 3:
@@ -45,9 +45,11 @@ const PrescriptionType = ({ img, name, active, id, changePrescId }) => {
     }
   };
 
-  // useEffect(() => {
-  //   changePrescId("01", img, name, 1);
-  // }, []);
+  useEffect(() => {
+    if (active === "active" && id === 1) {
+      changePrescId("01", img, name, 1);
+    }
+  }, []);
 
   return (
     <>

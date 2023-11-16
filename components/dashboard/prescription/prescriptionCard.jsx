@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
+import { Dropdown } from "primereact/dropdown";
 import PrescriptionType from "components/dashboard/prescription/prescriptionType";
 import PrescriptionServiceType from "components/dashboard/prescription/prescriptionServiceType";
 import TaminSrvSearch from "components/dashboard/prescription/TaminSrvSearch";
-import ExtraSmallLoader from "components/commonComponents/loading/extraSmallLoader";
-import { Dropdown } from "primereact/dropdown";
 
 const PrescriptionCard = ({
   lists,
@@ -34,6 +33,7 @@ const PrescriptionCard = ({
   openFavModal,
   openPinModal,
   deletePresc,
+  searchIsLoading,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -213,16 +213,27 @@ const PrescriptionCard = ({
                   >
                     <i className="fe fe-close"></i>
                   </button>
-                  <button
-                    className="btn btn-primary rounded-left w-10"
-                    id="BtnServiceSearch"
-                  >
-                    {isLoading ? (
-                      <ExtraSmallLoader />
-                    ) : (
+
+                  {!searchIsLoading ? (
+                    <button
+                      className="btn btn-primary rounded-left w-10"
+                      id="BtnServiceSearch"
+                    >
                       <i className="fe fe-search"></i>
-                    )}
-                  </button>
+                    </button>
+                  ) : (
+                    <button
+                      type="submit"
+                      className="btn btn-primary rounded-left"
+                      disabled
+                    >
+                      <span
+                        className="spinner-border spinner-border-sm me-2"
+                        role="status"
+                      ></span>
+                    </button>
+                  )}
+
                   <div className="col-12 SearchDiv" id="searchDiv">
                     <TaminSrvSearch
                       data={TaminSrvSearchList}
@@ -300,7 +311,7 @@ const PrescriptionCard = ({
                 </div>
               </div>
 
-              <div className="d-flex align-items-center media-flex-column media-gap margin-top-1 justify-between">
+              <div className="d-flex align-items-center media-flex-column media-gap mt-3 justify-between">
                 <div className="w-73 media-w-100">
                   <label className="lblAbs font-12">توضیحات</label>
                   <input

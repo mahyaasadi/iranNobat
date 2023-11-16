@@ -11,11 +11,7 @@ import { TaminPrescType, TaminServiceType } from "class/taminprescriptionData";
 import FavPrescListModal from "components/dashboard/prescription/FavPrescListModal";
 import PrescPinInput from "components/dashboard/prescription/prescPinInput";
 import AddNewPatient from "components/dashboard/prescription/patientInfo/addNewPatient";
-import {
-  ErrorAlert,
-  SuccessAlert,
-  WarningAlert,
-} from "class/AlertManage.js";
+import { ErrorAlert, SuccessAlert, WarningAlert } from "class/AlertManage.js";
 
 let prescId = 1;
 let ActiveServiceTypeID = "01";
@@ -117,7 +113,10 @@ const Prescription = ({
   selectInstructionData = null;
 
   const [isLoading, setIsLoading] = useState(true);
+  const [searchIsLoading, setSearchIsLoading] = useState(false);
+  const [patientStatIsLoading, setPatientStatIsLoading] = useState(false);
   const [patientsInfo, setPatientsInfo] = useState([]);
+
   const [TaminSrvSearchList, setTaminSrvSearchList] = useState([]);
   const [PrescriptionItemsData, setPrescriptionItemsData] = useState([]);
   const [taminHeaderList, settaminHeaderList] = useState(TaminPrescType);
@@ -155,7 +154,7 @@ const Prescription = ({
   // Patients Info
   const getPatientInfo = (e) => {
     e.preventDefault();
-    setIsLoading(true);
+    setPatientStatIsLoading(true);
 
     let formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
@@ -177,11 +176,11 @@ const Prescription = ({
           setPatientsInfo(response.data.user);
           $("#patientInfoSection").show("");
         }
-        setIsLoading(false);
+        setPatientStatIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
-        setIsLoading(false);
+        setPatientStatIsLoading(false);
       });
   };
 
@@ -277,7 +276,7 @@ const Prescription = ({
     e.preventDefault();
 
     if (ActiveSrvCode == null || srvEditMode) {
-      setIsLoading(true);
+      setSearchIsLoading(true);
 
       let formData = new FormData(e.target);
       const formProps = Object.fromEntries(formData);
@@ -291,19 +290,19 @@ const Prescription = ({
         .post("TaminServices/SearchSrv", data)
         .then((response) => {
           setTaminSrvSearchList(response.data);
-
           $(".SearchDiv").show();
           $(".unsuccessfullSearch").hide();
+
           if (response.data.length === 0) {
             $(".unsuccessfullSearch").show();
           } else {
             $(".unsuccessfullSearch").hide();
           }
-          setIsLoading(false);
+          setSearchIsLoading(false);
         })
         .catch((err) => {
           console.log(err);
-          setIsLoading(false);
+          setSearchIsLoading(false);
         });
     }
   };
@@ -340,9 +339,9 @@ const Prescription = ({
     ActivePrscName = name;
     prescId = id;
 
-    count = $("#srvItemCountId" + prescId).html();
+    // count = $("#srvItemCountId" + prescId).html();
 
-    $(".unsuccessfullSearch").hide();
+    // $(".unsuccessfullSearch").hide();
 
     // if (ActiveSrvCode) {
     //   ActiveSearch();
@@ -516,13 +515,13 @@ const Prescription = ({
     );
 
     if (prescData) {
-      let onlyVisitPrescData = {
+      let visitPrescData = {
         Name: ActiveSrvName,
         Code: ActiveSrvCode,
       };
 
       addPrescriptionitems.push(prescData);
-      addPrescriptionSrvNameitems.push(onlyVisitPrescData);
+      addPrescriptionSrvNameitems.push(visitPrescData);
       setPrescriptionItemsData([...PrescriptionItemsData, prescItems]);
 
       ActiveSearch();
@@ -572,7 +571,6 @@ const Prescription = ({
     }
     setPrescriptionItemsData(arr);
   };
-
 
   const getPinInputValue = (code) => {
     if (prescriptionHeadID) {
@@ -996,6 +994,7 @@ const Prescription = ({
                 ActivePatientID={ActivePatientID}
                 UserData={UserData}
                 isLoading={isLoading}
+                patientStatIsLoading={patientStatIsLoading}
               />
             </div>
 
@@ -1030,6 +1029,7 @@ const Prescription = ({
                 openFavModal={openFavModal}
                 openPinModal={openPinModal}
                 deletePresc={deletePresc}
+                searchIsLoading={searchIsLoading}
               />
 
               <div className="prescList">

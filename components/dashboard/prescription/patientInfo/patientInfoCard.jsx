@@ -19,12 +19,10 @@ const PatientInfo = ({
   getAppointment,
   UserData,
   isLoading,
+  patientStatIsLoading,
 }) => {
   CenterID = UserData.CenterID;
-  console.log({ data, ActivePatientID });
-
   const [showModal, setShowModal] = useState(false);
-  // const [isLoading, setIsLoading] = useState(false);
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
 
@@ -96,12 +94,25 @@ const PatientInfo = ({
                 className="form-control rounded-right GetPatientInput w-50"
                 defaultValue={ActivePatientID}
               />
-              <button
-                className="btn btn-primary rounded-left w-10 font-12"
-                id="frmPatientInfoBtnSubmit"
-              >
-                استعلام
-              </button>
+              {!patientStatIsLoading ? (
+                <button
+                  className="btn btn-primary rounded-left w-10 font-12"
+                  id="frmPatientInfoBtnSubmit"
+                >
+                  استعلام
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  className="btn btn-primary w-10 rounded-left"
+                  disabled
+                >
+                  <span
+                    className="spinner-border spinner-border-sm me-2"
+                    role="status"
+                  ></span>
+                </button>
+              )}
             </div>
           </form>
 

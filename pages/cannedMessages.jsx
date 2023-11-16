@@ -59,8 +59,8 @@ const CannedMessages = ({ Menus, UserData, UserRoles }) => {
   // Add Message
   const openAddModal = () => {
     setShowModal(true);
-    setModalMode("add")
-  }
+    setModalMode("add");
+  };
 
   const addMessage = (e) => {
     e.preventDefault();
@@ -81,7 +81,7 @@ const CannedMessages = ({ Menus, UserData, UserRoles }) => {
       .post(url, data)
       .then((response) => {
         setMessagesData([...messagesData, response.data]);
-        setShowModal(false)
+        setShowModal(false);
         e.target.reset();
         setIsLoading(false);
       })
@@ -112,7 +112,7 @@ const CannedMessages = ({ Menus, UserData, UserRoles }) => {
       .put(url, Data)
       .then((response) => {
         updateItem(formProps.EditMessageID, response.data);
-        setShowModal(false)
+        setShowModal(false);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -138,8 +138,8 @@ const CannedMessages = ({ Menus, UserData, UserRoles }) => {
 
   const updateMessage = (data) => {
     setEditedMessage(data);
-    setModalMode("edit")
-    setShowModal(true)
+    setModalMode("edit");
+    setShowModal(true);
   };
 
   // Delete Message
@@ -167,9 +167,7 @@ const CannedMessages = ({ Menus, UserData, UserRoles }) => {
     }
   };
 
-  useEffect(() => {
-    getCannedMessages();
-  }, []);
+  useEffect(() => getCannedMessages(), []);
 
   return (
     <>
