@@ -112,7 +112,7 @@ const Prescription = ({
   drugAmountList = selectInstructionData;
   selectInstructionData = null;
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [searchIsLoading, setSearchIsLoading] = useState(false);
   const [patientStatIsLoading, setPatientStatIsLoading] = useState(false);
   const [patientsInfo, setPatientsInfo] = useState([]);
