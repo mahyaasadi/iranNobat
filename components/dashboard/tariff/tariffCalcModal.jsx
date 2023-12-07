@@ -1,6 +1,6 @@
 import FeatherIcon from "feather-icons-react";
 import Select from "react-select";
-import selectfieldColourStyles from 'class/selectfieldStyle';
+import selectfieldColourStyles from "class/selectfieldStyle";
 
 const TariffCalcModal = ({
   data,

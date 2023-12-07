@@ -92,7 +92,7 @@ const GenralUserInfoSettings = ({
                 <div className="col p-0">
                   <input
                     className="form-control floating inputPadding rounded"
-                    type="number"
+                    type="tel"
                     name="editUserTel"
                     defaultValue={userInfo.Tel}
                     key={userInfo.Tel}
@@ -140,3 +140,4 @@ const GenralUserInfoSettings = ({
 };
 
 export default GenralUserInfoSettings;
+
