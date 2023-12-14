@@ -2876,7 +2876,7 @@ button.bg-danger:hover {
 .content-header .header-left {
   float: right;
   height: 60px;
-  padding: 0 15px;
+  /* padding: 0 15px; */
   position: relative;
   text-align: right;
   width: 200px;
@@ -2896,7 +2896,8 @@ button.bg-danger:hover {
 
 .content-header .header-left .logo img {
   max-height: 45px;
-  width: auto;
+  /* width: auto; */
+  max-width: 200px;
 }
 
 .header-left .logo.logo-small {
