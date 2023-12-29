@@ -258,7 +258,6 @@ const Insurance = ({ Menus, UserData, UserRoles }) => {
                     openEditModal={openEditModal}
                   />
                 </div>
-                <div id="tablepagination" className="dataTables_wrapper"></div>
               </div>
             </div>
           </div>

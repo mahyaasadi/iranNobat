@@ -70,7 +70,7 @@ const ServiceGroupListTable = ({ data, updateGroup, deleteSrvGroup }) => {
           </button>
         </div>
       ),
-      width: "200px",
+      width: "auto",
     },
   ];
 

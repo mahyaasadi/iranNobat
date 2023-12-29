@@ -132,19 +132,19 @@ const TariffListTable = ({
         name: "کد خدمت",
         selector: (row) => row._id,
         sortable: true,
-        width: "300px",
+        width: "auto",
       },
       {
         name: "نام خدمت",
         selector: (row) => row.Service.substr(0, 60) + " ...",
         sortable: true,
-        width: "520px",
+        width: "auto",
       },
       {
         name: "نام گروه",
         selector: (row) => row.CenterGroup,
         sortable: true,
-        width: "580px",
+        width: "auto",
       },
       {
         name: "عملیات ها",
@@ -176,7 +176,7 @@ const TariffListTable = ({
             </button>
           </div>
         ),
-        width: "150px",
+        width: "auto",
       },
     ];
   }

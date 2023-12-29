@@ -58,7 +58,7 @@ const InsuranceListTable = ({ data, deleteInsurance, openEditModal }) => {
           </Link>
         </div>
       ),
-      width: "200px",
+      width: "auto",
     },
   ];
 

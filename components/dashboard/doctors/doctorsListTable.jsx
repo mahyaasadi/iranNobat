@@ -13,19 +13,19 @@ const DoctorsListTable = ({ data, deletePhysician, updatePhysician }) => {
       name: "نام پزشک",
       selector: (row) => row.Name,
       sortable: true,
-      width: "350px",
+      width: "auto",
     },
     {
       name: "عنوان",
       selector: (row) => row.Title,
       sortable: true,
-      width: "300px",
+      width: "auto",
     },
     {
       name: "تخصص",
       selector: (row) => row.Spe,
       sortable: true,
-      width: "600px",
+      width: "auto",
     },
     {
       name: "عملیات ها",
@@ -59,7 +59,7 @@ const DoctorsListTable = ({ data, deletePhysician, updatePhysician }) => {
           </button>
         </div>
       ),
-      width: "200px",
+      width: "auto",
     },
   ];
 

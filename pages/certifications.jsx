@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import Head from "next/head";
-import { axiosClient } from "class/axiosConfig.js";
-import FeatherIcon from "feather-icons-react";
-import { QuestionAlert } from "class/AlertManage.js";
 import { getSession } from "lib/session";
+import FeatherIcon from "feather-icons-react";
+import { axiosClient } from "class/axiosConfig.js";
+import { QuestionAlert } from "class/AlertManage.js";
 import Loading from "components/commonComponents/loading/loading";
 import CertificationModal from "@/components/dashboard/certifications/certificationModal";
 import CertificationsListTable from "/components/dashboard/certifications/certificationsListTable";
@@ -141,7 +141,7 @@ const Certifications = ({ Menus, UserData, UserRoles }) => {
     setShowModal(true)
   };
 
-  //Delete Certificate
+  // Delete Certificate
   const deleteCertificate = async (id) => {
     let result = await QuestionAlert(
       "حذف مجوز !",
@@ -169,9 +169,7 @@ const Certifications = ({ Menus, UserData, UserRoles }) => {
     }
   };
 
-  useEffect(() => {
-    getCertifications();
-  }, []);
+  useEffect(() => getCertifications(), []);
 
   return (
     <>
@@ -224,7 +222,6 @@ const Certifications = ({ Menus, UserData, UserRoles }) => {
                     updateCertificate={updateCertificate}
                   />
                 </div>
-                <div id="tablepagination" className="dataTables_wrapper"></div>
               </div>
             </div>
           </div>

@@ -61,7 +61,7 @@ const RolesListTable = ({ data, updateRole, deleteRole }) => {
           </Link>
         </div>
       ),
-      width: "150px",
+      width: "auto",
     },
   ];
 

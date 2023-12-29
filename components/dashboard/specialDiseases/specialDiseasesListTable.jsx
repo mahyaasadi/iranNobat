@@ -49,7 +49,7 @@ const SpecialDiseasesListTable = ({ data, updateDisease, deleteDisease }) => {
           </button>
         </div>
       ),
-      width: "200px",
+      width: "auto",
     },
   ];
 

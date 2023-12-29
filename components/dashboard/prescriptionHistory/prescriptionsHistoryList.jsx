@@ -24,7 +24,7 @@ const PrescriptionsListTable = ({ data, prepareDelete }) => {
       selector: (row) => row.Type,
       sortable: true,
       width: "auto",
-      height: "400px",
+      height: "auto",
     },
     {
       name: "کد ملی",

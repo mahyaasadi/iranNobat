@@ -7,8 +7,6 @@ import { axiosClient } from "class/axiosConfig.js";
 import Loading from "components/commonComponents/loading/loading";
 import OverviewStats from "components/dashboard/overview/overviewStats";
 
-const jdate = new JDate();
-
 export const getServerSideProps = async ({ req, res }) => {
   const result = await getSession(req, res);
 
@@ -27,7 +25,9 @@ export const getServerSideProps = async ({ req, res }) => {
   }
 };
 
+const jdate = new JDate();
 let CenterID = null;
+
 const Dashboard = ({ Menus, UserData, UserRoles }) => {
   CenterID = UserRoles.CenterID;
 

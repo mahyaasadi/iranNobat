@@ -10,25 +10,25 @@ const SendMessagesListTable = ({ data, checkMessageDelivery }) => {
       name: "شماره همراه",
       selector: (row) => row.Tel,
       sortable: true,
-      width: "200px",
+      width: "auto",
     },
     {
       name: "تاریخ ارسال",
       selector: (row) => row.Date,
       sortable: true,
-      width: "190px",
+      width: "auto",
     },
     {
       name: "زمان ارسال",
       selector: (row) => row.Time,
       sortable: true,
-      width: "140px",
+      width: "auto",
     },
     {
       name: "متن پیام",
       selector: (row) => row.Message.substr(0, 100) + " ...",
       sortable: true,
-      width: "900px",
+      width: "auto",
     },
     {
       name: "عملیات ها",
@@ -45,7 +45,7 @@ const SendMessagesListTable = ({ data, checkMessageDelivery }) => {
           </div>
         </div>
       ),
-      width: "150px",
+      width: "auto",
     },
   ];
 

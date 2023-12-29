@@ -1,10 +1,10 @@
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Head from "next/head";
-import { useState, useEffect } from "react";
-import { axiosClient } from "class/axiosConfig.js";
-import FeatherIcon from "feather-icons-react";
-import { QuestionAlert, ErrorAlert } from "class/AlertManage.js";
 import { getSession } from "lib/session";
+import FeatherIcon from "feather-icons-react";
+import { axiosClient } from "class/axiosConfig.js";
+import { QuestionAlert, ErrorAlert } from "class/AlertManage.js";
 import Loading from "components/commonComponents/loading/loading";
 import DepartmentsHeader from "components/dashboard/tariff/departments/departmentsHeader";
 import TariffListTable from "components/dashboard/tariff/tariffListTable";
@@ -600,8 +600,6 @@ const Tariff = ({ Menus, UserData, UserRoles }) => {
                     />
                   </div>
                 </div>
-
-                <div id="tablepagination" className="dataTables_wrapper"></div>
               </div>
             </div>
           )}

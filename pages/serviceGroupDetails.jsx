@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import { axiosClient } from "class/axiosConfig.js";
 import Link from "next/link";
 import Head from "next/head";
-import FeatherIcon from "feather-icons-react";
-import { QuestionAlert } from "class/AlertManage.js";
 import { getSession } from "lib/session";
+import FeatherIcon from "feather-icons-react";
+import { axiosClient } from "class/axiosConfig.js";
+import { QuestionAlert } from "class/AlertManage.js";
 import Loading from "components/commonComponents/loading/loading";
-import TariffHeader from "@/components/dashboard/tariff/departments/departmentsHeader";
+import TariffHeader from "components/dashboard/tariff/departments/departmentsHeader";
 import TariffListTable from "components/dashboard/tariff/tariffListTable";
 import serviceGroupDifDataClass from "class/serviceGroupDifDataClass";
 import ServiceGroupListTable from "components/dashboard/serviceGroupDetails/serviceGroupListTable";
@@ -455,8 +455,6 @@ const ServiceGroupDetails = ({ Menus, UserData, UserRoles }) => {
                     </div>
                   </div>
                 </div>
-
-                <div id="tablepagination" className="dataTables_wrapper"></div>
               </div>
             </div>
           )}

@@ -167,9 +167,7 @@ const Roles = ({ Menus, UserData, UserRoles }) => {
     }
   };
 
-  useEffect(() => {
-    getAllRoles();
-  }, []);
+  useEffect(() => getAllRoles(), []);
 
   return (
     <>
@@ -215,14 +213,13 @@ const Roles = ({ Menus, UserData, UserRoles }) => {
                       </div>
                     </div>
                   </div>
+
                   <RolesListTable
                     data={rolesList}
                     deleteRole={deleteRole}
                     updateRole={updateRole}
                   />
                 </div>
-
-                <div id="tablepagination" className="dataTables_wrapper"></div>
               </div>
             </div>
           </div>

@@ -68,7 +68,7 @@ const CertificationsListTable = ({
           </Link>
         </div>
       ),
-      width: "200px",
+      width: "auto",
     },
   ];
 

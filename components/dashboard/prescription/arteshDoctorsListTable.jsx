@@ -36,7 +36,7 @@ const arteshDoctorsListTable = ({ data, SelectDoctor }) => {
           </button>
         </div>
       ),
-      width: "130px",
+      width: "auto",
     },
   ];
 

@@ -1,13 +1,11 @@
 import { useState, useEffect } from "react";
-import { axiosClient } from "class/axiosConfig.js";
-import Link from "next/link";
 import Head from "next/head";
-import FeatherIcon from "feather-icons-react";
-import Loading from "components/commonComponents/loading/loading";
-import ExtraSmallLoader from "@/components/commonComponents/loading/extraSmallLoader";
-import { ErrorAlert, SuccessAlert } from "class/AlertManage.js";
-import SendMessagesListTable from "components/dashboard/receptionSms/sendMessagesListTable";
 import { getSession } from "lib/session";
+import { SuccessAlert } from "class/AlertManage.js";
+import { axiosClient } from "class/axiosConfig.js";
+import Loading from "components/commonComponents/loading/loading";
+import ExtraSmallLoader from "components/commonComponents/loading/extraSmallLoader";
+import SendMessagesListTable from "components/dashboard/receptionSms/sendMessagesListTable";
 
 export const getServerSideProps = async ({ req, res }) => {
   const result = await getSession(req, res);
@@ -135,8 +133,6 @@ const ReceptionSms = ({ Menus, UserData, UserRoles }) => {
                   />
                 )}
               </div>
-
-              <div id="tablepagination" className="dataTables_wrapper"></div>
             </div>
           </div>
         </div>
@@ -144,4 +140,5 @@ const ReceptionSms = ({ Menus, UserData, UserRoles }) => {
     </>
   );
 };
+
 export default ReceptionSms;

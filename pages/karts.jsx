@@ -223,8 +223,6 @@ const CashDeskKarts = ({ UserData, UserRoles, Menus }) => {
                     deleteKart={deleteKart}
                   />
                 </div>
-
-                <div id="tablepagination" className="dataTables_wrapper"></div>
               </div>
             </div>
           </div>

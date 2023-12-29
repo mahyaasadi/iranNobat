@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
 import Head from "next/head";
+import { getSession } from "lib/session";
 import FeatherIcon from "feather-icons-react";
 import { axiosClient } from "class/axiosConfig.js";
-import { getSession } from "lib/session";
 import { QuestionAlert } from "class/AlertManage.js";
 import Loading from "components/commonComponents/loading/loading";
 import SpecializedWorksListTable from "components/dashboard/specializedWorks/specializedWorksListTable";
@@ -229,8 +228,6 @@ const SpecializedWorks = ({ Menus, UserRoles, UserData }) => {
                     updateSpeWork={updateSpeWork}
                   />
                 </div>
-
-                <div id="tablepagination" className="dataTables_wrapper"></div>
               </div>
             </div>
           </div>
@@ -249,4 +246,5 @@ const SpecializedWorks = ({ Menus, UserRoles, UserData }) => {
     </>
   );
 };
+
 export default SpecializedWorks;

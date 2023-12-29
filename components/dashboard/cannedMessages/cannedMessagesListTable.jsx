@@ -52,7 +52,7 @@ const CannedMessagesListTable = ({ data, updateMessage, deleteMessage }) => {
           </Link>
         </div>
       ),
-      width: "200px",
+      width: "auto",
     },
   ];
 

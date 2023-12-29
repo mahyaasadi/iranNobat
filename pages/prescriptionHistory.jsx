@@ -112,8 +112,6 @@ const PrescriptionHistory = ({ Menus, UserData, UserRoles }) => {
                   prepareDelete={prepareDelete}
                 />
               </div>
-
-              <div id="tablepagination" className="dataTables_wrapper"></div>
             </div>
           )}
         </div>

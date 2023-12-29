@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import Head from "next/head";
+import { getSession } from "lib/session";
 import FeatherIcon from "feather-icons-react";
 import { axiosClient } from "class/axiosConfig.js";
 import { QuestionAlert } from "class/AlertManage.js";
-import { getSession } from "lib/session";
 import Loading from "components/commonComponents/loading/loading";
 import SpecialDiseasesListTable from "components/dashboard/specialDiseases/specialDiseasesListTable";
 import SpecialDiseasesModal from "@/components/dashboard/specialDiseases/specialDiseasesModal";
@@ -215,14 +215,13 @@ const SpecialDiseases = ({ Menus, UserData, UserRoles }) => {
                       </div>
                     </div>
                   </div>
+
                   <SpecialDiseasesListTable
                     data={diseasesList}
                     updateDisease={updateDisease}
                     deleteDisease={deleteDisease}
                   />
                 </div>
-
-                <div id="tablepagination" className="dataTables_wrapper"></div>
               </div>
             </div>
           </div>

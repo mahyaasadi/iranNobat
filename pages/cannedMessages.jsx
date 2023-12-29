@@ -222,7 +222,6 @@ const CannedMessages = ({ Menus, UserData, UserRoles }) => {
                     deleteMessage={deleteMessage}
                   />
                 </div>
-                <div id="tablepagination" className="dataTables_wrapper"></div>
               </div>
             </div>
           </div>

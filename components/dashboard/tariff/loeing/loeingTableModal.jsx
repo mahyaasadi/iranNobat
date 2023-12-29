@@ -21,7 +21,7 @@ const LoeingTableModal = ({
       name: "شناسه",
       selector: (row) => row.LoeingCode,
       sortable: true,
-      width: "150px",
+      width: "auto",
     },
     {
       name: "نام",
@@ -59,7 +59,7 @@ const LoeingTableModal = ({
           </button>
         </div>
       ),
-      width: "120px",
+      width: "auto",
     },
   ];
 

@@ -237,7 +237,6 @@ const DoctorsList = ({ Menus, UserRoles, UserData }) => {
                     updatePhysician={updatePhysician}
                   />
                 </div>
-                <div id="tablepagination" className="dataTables_wrapper"></div>
               </div>
             </div>
           </div>

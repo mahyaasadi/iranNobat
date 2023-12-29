@@ -18,25 +18,25 @@ const UsersListTable = ({
       name: "نام و نام خانوادگی",
       selector: (row) => row.FullName,
       sortable: true,
-      width: "220px",
+      width: "auto",
     },
     {
       name: "نام مستعار",
       selector: (row) => row.NickName,
       sortable: true,
-      width: "330px",
+      width: "auto",
     },
     {
       name: "نام کاربری",
       selector: (row) => row.User,
       sortable: true,
-      width: "250px",
+      width: "auto",
     },
     {
       name: "وضعیت کاربر",
       selector: (row) => (row.Deactive == true ? "غیر فعال" : "فعال"),
       sortable: true,
-      width: "450px",
+      width: "auto",
     },
     {
       name: "عملیات ها",
@@ -118,7 +118,7 @@ const UsersListTable = ({
           </button>
         </div>
       ),
-      width: "150px",
+      width: "auto",
     },
   ];
 

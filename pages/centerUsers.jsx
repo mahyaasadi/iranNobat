@@ -300,13 +300,13 @@ const CenterUsers = ({ Menus, UserData, UserRoles }) => {
 
     checked
       ? setDepartmentsCheckboxStatus((prevState) => ({
-          departmentsOptions: [...prevState.departmentsOptions, value],
-        }))
+        departmentsOptions: [...prevState.departmentsOptions, value],
+      }))
       : setDepartmentsCheckboxStatus((prevState) => ({
-          departmentsOptions: prevState.departmentsOptions.filter(
-            (e) => e !== value
-          ),
-        }));
+        departmentsOptions: prevState.departmentsOptions.filter(
+          (e) => e !== value
+        ),
+      }));
   };
 
   const handleCheckedDiseaseChatPermission = (e) => {
@@ -317,11 +317,11 @@ const CenterUsers = ({ Menus, UserData, UserRoles }) => {
 
     checked
       ? setDiseasesCheckboxStatus({
-          diseasesOptions: [...diseasesOptions, value],
-        })
+        diseasesOptions: [...diseasesOptions, value],
+      })
       : setDiseasesCheckboxStatus({
-          diseasesOptions: diseasesOptions.filter((e) => e !== value),
-        });
+        diseasesOptions: diseasesOptions.filter((e) => e !== value),
+      });
   };
 
   const submitChatPermissions = (e) => {
@@ -416,8 +416,6 @@ const CenterUsers = ({ Menus, UserData, UserRoles }) => {
                     assignRole={assignRole}
                   />
                 </div>
-
-                <div id="tablepagination" className="dataTables_wrapper"></div>
               </div>
             </div>
           </div>

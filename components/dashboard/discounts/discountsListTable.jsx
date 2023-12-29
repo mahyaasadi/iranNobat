@@ -11,19 +11,19 @@ const DiscountsListTable = ({ data, updateDiscount, deleteDiscount }) => {
       name: "نام",
       selector: (row) => row.Name,
       sortable: true,
-      width: "300px",
+      width: "auto",
     },
     {
       name: "مشخصات",
       selector: (row) => row.Des,
       sortable: true,
-      width: "400px",
+      width: "auto",
     },
     {
       name: "درصد تخفیف",
       selector: (row) => row.Value,
       sortable: true,
-      width: "200px",
+      width: "auto",
     },
     {
       name: "روش محاسبه ",
@@ -38,7 +38,7 @@ const DiscountsListTable = ({ data, updateDiscount, deleteDiscount }) => {
           )}
         </div>
       ),
-      width: "420px",
+      width: "auto",
     },
     {
       name: "عملیات ها",
@@ -70,7 +70,7 @@ const DiscountsListTable = ({ data, updateDiscount, deleteDiscount }) => {
           </button>
         </div>
       ),
-      width: "150px",
+      width: "auto",
     },
   ];
 
