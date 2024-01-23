@@ -129,7 +129,7 @@ const PrescriptionCard = ({
 
                 <button
                   className="btn btn-primary border-radius font-13"
-                  onClick={openPinModal}
+                  onClick={() => registerEpresc(0)}
                 >
                   ثبت نسخه نهایی
                 </button>

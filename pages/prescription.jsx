@@ -322,6 +322,8 @@ const Prescription = ({
     ActiveSrvTypePrsc = type;
     ActiveParaCode = paraTarefCode;
 
+    console.log({ ActiveSrvTypePrsc });
+
     ActiveInsuranceID == "2"
       ? (ActiveSrvCode = TaminCode)
       : (ActiveSrvCode = code);
@@ -638,22 +640,7 @@ const Prescription = ({
           console.log(error);
         });
     } else {
-      //   axiosClient.post(url, data).then(async function (response) {
-      //     console.log(response.data);
-      //     if (response.data.res.trackingCode !== null) {
-      //       SuccessAlert(
-      //         "نسخه نهایی با موفقیت ثبت شد!",
-      //         "کد رهگیری شما : " + `${response.data.res.trackingCode}`
-      //       );
-      //     } else if (response.data.res.error_Code !== null) {
-      //       ErrorAlert("خطا!", response.data.res.error_Msg);
-      //     } else if (response.data.res == null) {
-      //       ErrorAlert("خطا", "سرور در حال حاضر در دسترس نمی باشد!");
-      //     }
-      //   })
-      //   .catch(function (error) {
-      //     console.log(error);
-      // });
+      let url = "TaminEprsc/PrescriptionAdd";
 
       let data = {
         CenterID,
@@ -666,29 +653,50 @@ const Prescription = ({
         prescTypeName: ActivePrscName,
       };
 
-      let url = prescriptionHeadID
-        ? "TaminEprsc/PrescriptionEdit"
-        : "TaminEprsc/PrescriptionAdd";
+      console.log({ data });
 
-      let dataToSend = { ...data, otpCode: code };
+      axiosClient
+        .post(url, data)
+        .then(async function (response) {
+          console.log(response.data);
+          if (response.data.res.trackingCode !== null) {
+            SuccessAlert(
+              "نسخه نهایی با موفقیت ثبت شد!",
+              "کد رهگیری شما : " + `${response.data.res.trackingCode}`
+            );
+          } else if (response.data.res.error_Code !== null) {
+            ErrorAlert("خطا!", response.data.res.error_Msg);
+          } else if (response.data.res == null) {
+            ErrorAlert("خطا", "سرور در حال حاضر در دسترس نمی باشد!");
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
 
-      if (prescriptionHeadID) {
-        dataToSend = {
-          ...dataToSend,
-          PrID: PrID,
-          headerID: prescriptionHeadID,
-        };
-      }
+      // let url = prescriptionHeadID
+      //   ? "TaminEprsc/PrescriptionEdit"
+      //   : "TaminEprsc/PrescriptionAdd";
 
-      console.log({ dataToSend, url });
+      // let dataToSend = { ...data, otpCode: code };
 
-      try {
-        const response = await axiosClient.post(url, dataToSend);
-        console.log(response.data);
-        // handle the response...
-      } catch (error) {
-        console.error(error);
-      }
+      // if (prescriptionHeadID) {
+      //   dataToSend = {
+      //     ...dataToSend,
+      //     PrID: PrID,
+      //     headerID: prescriptionHeadID,
+      //   };
+      // }
+
+      // console.log({ dataToSend, url });
+
+      // try {
+      //   const response = await axiosClient.post(url, dataToSend);
+      //   console.log(response.data);
+      //   // handle the response...
+      // } catch (error) {
+      //   console.error(error);
+      // }
     }
   };
 
